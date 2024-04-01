@@ -55,9 +55,9 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
           </div>
         </Tabs>
 
-        <Suspense fallback={<ProductListLoading />}>
+        {/* <Suspense fallback={<ProductListLoading />}>
           <RelatedProducts categories={categories} />
-        </Suspense>
+        </Suspense> */}
       </section>
     </>
   );
