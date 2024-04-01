@@ -17,6 +17,20 @@ export class AppwriteOrderService {
       throw error;
     }
   }
+
+  async getOrderDetails(orderId: string) {
+    try {
+      const response = await databases.getDocument(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId.order,
+        orderId
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 const appwriteOrderService = new AppwriteOrderService();

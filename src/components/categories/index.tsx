@@ -55,7 +55,7 @@ const Categories = async ({
                 </li>
 
                 {/* Child Categories */}
-                {p_active && (
+                {
                   <ul className="w-full pl-5">
                     {category &&
                       category?.childCategories?.map((childCategory: any) => {
@@ -81,7 +81,7 @@ const Categories = async ({
                             </li>
 
                             {/* Nested Child Categories */}
-                            {c_active && (
+                            {
                               <ul className="w-full pl-5">
                                 {childCategory &&
                                   childCategory?.nestedChildCategories?.map(
@@ -122,12 +122,12 @@ const Categories = async ({
                                     }
                                   )}
                               </ul>
-                            )}
+                            }
                           </div>
                         );
                       })}
                   </ul>
-                )}
+                }
               </div>
             );
           })}
