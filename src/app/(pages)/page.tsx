@@ -1,0 +1,38 @@
+import dynamic from "next/dynamic";
+
+// Components
+import HomeSlider from "@/components/Home/HomeSlider/index";
+import ShipmentToDelivery from "@/components/Home/ShipmentToDelivery";
+import ShopByCategory from "@/components/Home/ShopByCategory.tsx";
+import Offer from "@/components/Home/Offer";
+import FeaturedProducts from "@/components/Home/FeaturedProducts";
+import LoisChloeMagazine from "@/components/Home/LoisChloeMagazine/index";
+import CustomerFeedback from "@/components/Home/CustomerFeedback";
+import WhyChooseUs from "@/components/Home/WhyChooseUs";
+import Faq from "@/components/Home/Faq";
+const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
+  ssr: false,
+});
+
+const Reels = dynamic(() => import("@/components/Home/Reels"), {
+  ssr: false,
+});
+
+export default function Home() {
+  return (
+    <div>
+      <HomeSlider />
+      <ShipmentToDelivery />
+      <ShopByCategory />
+      {/* <BestSelling /> */}
+      <Offer />
+      {/* <FeaturedProducts /> */}
+      <LoisChloeMagazine />
+      <CustomerFeedback />
+      <WhyChooseUs />
+      <BeautyAdvice />
+      <Faq />
+      <Reels />
+    </div>
+  );
+}

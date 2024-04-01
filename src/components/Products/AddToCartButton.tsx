@@ -1,0 +1,21 @@
+"use client";
+import React from "react";
+import { Button } from "../ui/button";
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/redux/features/cart/cartSlice";
+
+const AddToCartButton = ({ product }: { product: any }) => {
+  const dispatch = useDispatch();
+
+  const handleClick = () => {
+    dispatch(addToCart({ product, price: product.sale_price, quantity: 1 }));
+  };
+
+  return (
+    <Button className="w-full" onClick={handleClick}>
+      Add To Cart
+    </Button>
+  );
+};
+
+export default AddToCartButton;

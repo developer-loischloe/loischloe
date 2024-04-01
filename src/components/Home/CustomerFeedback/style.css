@@ -1,0 +1,35 @@
+.CustomerFeedbackSwiper {
+  height: 100%;
+  width: 100%;
+  max-width: 800px;
+  cursor: grab;
+}
+
+.CustomerFeedbackSwiper .swiper-button-prev,
+.CustomerFeedbackSwiper .swiper-button-next {
+  color: #727272 !important;
+  background-color: inherit !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 5px;
+}
+
+.CustomerFeedbackSwiper .swiper-button-prev:after,
+.CustomerFeedbackSwiper .swiper-button-next:after {
+  font-size: 22px !important;
+  font-weight: 700;
+}
+
+.CustomerFeedbackSwiper .swiper-button-prev,
+.CustomerFeedbackSwiper .swiper-rtl .swiper-button-next {
+  left: var(--swiper-navigation-sides-offset, -12px) !important;
+  right: auto;
+  top: 50%;
+}
+
+.CustomerFeedbackSwiper .swiper-button-next,
+.CustomerFeedbackSwiper .swiper-rtl .swiper-button-prev {
+  right: var(--swiper-navigation-sides-offset, -12px);
+  left: auto;
+  top: 50%;
+}

@@ -1,0 +1,64 @@
+.ProductImageSliderSwiper {
+  height: 100%;
+  width: 100%;
+  cursor: grab;
+}
+
+.ProductImageSliderSwiper .swiper-button-prev,
+.ProductImageSliderSwiper .swiper-button-next {
+  color: #727272 !important;
+  background-color: inherit !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 5px;
+}
+
+.ProductImageSliderSwiper .swiper-button-prev:after,
+.ProductImageSliderSwiper .swiper-button-next:after {
+  font-size: 22px !important;
+  font-weight: 700;
+}
+
+.ProductImageSliderSwiper .swiper-button-prev,
+.ProductImageSliderSwiper .swiper-rtl .swiper-button-next {
+  left: var(--swiper-navigation-sides-offset, 12px) !important;
+  right: auto;
+  top: 50%;
+}
+
+.ProductImageSliderSwiper .swiper-button-next,
+.ProductImageSliderSwiper .swiper-rtl .swiper-button-prev {
+  right: var(--swiper-navigation-sides-offset, 12px);
+  left: auto;
+  top: 50%;
+}
+
+/* Thumb */
+.ProductImageSliderSwiperThumb {
+  height: 100%;
+  width: 100%;
+  max-width: 500px;
+  max-height: 480px;
+  box-sizing: border-box;
+  @apply py-[10px] md:py-0;
+}
+
+.ProductImageSliderSwiperThumb .swiper-slide {
+  width: 100px !important;
+  height: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
+  scale: 0.9;
+  transition: all 0.2s ease-in;
+  height: auto !important;
+}
+
+.ProductImageSliderSwiperThumb .swiper-slide-thumb-active {
+  scale: 1;
+  border: 1px solid red;
+}
+
+.ProductImageSliderSwiperThumb > .swiper-wrapper {
+  @apply flex lg:flex-col;
+}

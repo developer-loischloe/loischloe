@@ -1,0 +1,92 @@
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Rating as ReactRating, Star } from "@smastrom/react-rating";
+import { cn, generateParams } from "@/lib/utils";
+import AddToCartButton from "./AddToCartButton";
+
+// Declare it outside your component so it doesn't get re-created
+const myStyles = {
+  itemShapes: Star,
+  activeFillColor: "#ffb700",
+  inactiveFillColor: "#727272",
+};
+
+const ProductCard = ({ product }: { product: any }) => {
+  return (
+    <div className="shadow-2xl rounded-sm flex flex-col justify-between group">
+      <div className="w-full overflow-hidden">
+        <Link href={`/products/${product?.slug}`}>
+          <Image
+            src={product?.images[0]?.image_url}
+            alt="img1"
+            width={200}
+            height={200}
+            className="w-full group-hover:scale-105 transition-all duration-300"
+          />
+        </Link>
+      </div>
+      <div className="space-y-3 p-5">
+        <div>
+          <Link href={`/products/${product?.slug}`}>
+            <h3 className="text-xl hover:underline transition-all">
+              {product?.name}
+            </h3>
+          </Link>
+          <div className="text-brand_gray">
+            {product?.categories?.map((category: any, index: number) => {
+              return (
+                <Link
+                  href={`/products?${generateParams({
+                    category: category?.slug,
+                  })}`}
+                  key={category?.$id}
+                >
+                  <span className="text-sm hover:underline">
+                    {category?.name}
+                  </span>
+                  {product?.categories.length > index + 1 && ", "}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between gap-5 relative">
+          <div className="space-y-3">
+            <div className="flex items-center gap-5">
+              <ReactRating
+                style={{ maxWidth: 100 }}
+                value={3}
+                itemStyles={myStyles}
+                readOnly
+              />
+              {product?.reviews.length > 0 && (
+                <span className="text-sm">
+                  {product?.reviews.length} Reviews
+                </span>
+              )}
+            </div>
+
+            <div className="space-x-2">
+              <span className="">৳ {product?.sale_price}</span>
+              <span
+                className={cn(
+                  "text-brand_gray line-through",
+                  product?.price === product?.sale_price && "hidden"
+                )}
+              >
+                ৳ {product?.price}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="w-full">
+        <AddToCartButton product={product} />
+      </div>
+    </div>
+  );
+};
+
+export default ProductCard;

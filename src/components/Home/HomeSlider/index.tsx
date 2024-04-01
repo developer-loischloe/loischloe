@@ -1,0 +1,126 @@
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { useRef } from "react";
+
+import { MotionDiv } from "@/framer-motion/motion";
+import { zoomVariants } from "@/framer-motion/variants";
+import { AnimatePresence } from "framer-motion";
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// import required modules
+import { Autoplay } from "swiper/modules";
+
+// Import Swiper styles
+import "./styles.css";
+
+import Main_banner_1 from "../../../../public/home_slider/main_banner_1.jpg";
+import Mobile_banner_1 from "../../../../public/home_slider/mobile_banner_1.jpg";
+import Main_banner_2 from "../../../../public/home_slider/main_banner_2.jpg";
+import Mobile_banner_2 from "../../../../public/home_slider/mobile_banner_2.jpg";
+import Main_banner_3 from "../../../../public/home_slider/main_banner_3.jpg";
+import Mobile_banner_3 from "../../../../public/home_slider/mobile_banner_3.jpg";
+
+const sliderConstant = [
+  {
+    id: 1,
+    banner: {
+      main: Main_banner_1,
+      mobile: Mobile_banner_1,
+    },
+    alt: "banner 1",
+    link: "#",
+  },
+  {
+    id: 2,
+    banner: {
+      main: Main_banner_2,
+      mobile: Mobile_banner_2,
+    },
+    alt: "banner 2",
+    link: "#",
+  },
+  {
+    id: 3,
+    banner: {
+      main: Main_banner_3,
+      mobile: Mobile_banner_3,
+    },
+    alt: "banner 3",
+    link: "#",
+  },
+];
+
+export default function App() {
+  const progressCircle = useRef<SVGSVGElement | null>(null);
+  const progressContent = useRef<HTMLSpanElement | null>(null);
+
+  const onAutoplayTimeLeft = (s: any, time: number, progress: number) => {
+    if (progressCircle.current) {
+      progressCircle.current.style.setProperty(
+        "--progress",
+        (1 - progress).toString()
+      );
+    }
+    if (progressContent.current) {
+      progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
+    }
+  };
+
+  return (
+    <Swiper
+      speed={1000}
+      modules={[Autoplay]}
+      autoplay={{
+        delay: 2000,
+        pauseOnMouseEnter: true,
+      }}
+      loop={true}
+      onAutoplayTimeLeft={onAutoplayTimeLeft}
+      className="homeSliderSwiper relative overflow-hidden"
+    >
+      <AnimatePresence>
+        {sliderConstant.map((slider) => (
+          <SwiperSlide
+            key={slider.id}
+            className="overflow-hidden w-full h-full"
+          >
+            {({ isActive }) => {
+              return (
+                <MotionDiv
+                  variants={zoomVariants}
+                  initial={"scaleup"}
+                  whileInView={isActive ? "scaledown" : ""}
+                  exit={"scaleup"}
+                >
+                  <Link href={slider.link}>
+                    <Image
+                      src={slider.banner.main}
+                      alt={slider.alt}
+                      className="hidden md:flex"
+                    />
+                    <Image
+                      src={slider.banner.mobile}
+                      alt={slider.alt}
+                      className="md:hidden"
+                    />
+                  </Link>
+                </MotionDiv>
+              );
+            }}
+          </SwiperSlide>
+        ))}
+      </AnimatePresence>
+
+      {/* Auto Progress */}
+      <div className="autoplay-progress" slot="container-end">
+        <svg viewBox="0 0 48 48" ref={progressCircle}>
+          <circle cx="24" cy="24" r="20"></circle>
+        </svg>
+        <span ref={progressContent} className="text-brand_secondary"></span>
+      </div>
+    </Swiper>
+  );
+}
