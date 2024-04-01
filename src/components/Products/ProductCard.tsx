@@ -57,7 +57,7 @@ const ProductCard = ({ product }: { product: any }) => {
             <div className="flex items-center gap-5">
               <ReactRating
                 style={{ maxWidth: 100 }}
-                value={3}
+                value={product?.avg_rating}
                 itemStyles={myStyles}
                 readOnly
               />

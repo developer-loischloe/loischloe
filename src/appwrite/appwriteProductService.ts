@@ -88,12 +88,26 @@ export class AppwriteProductService {
     }
   }
 
+  async getFeaturedProducts() {
+    try {
+      const response = await databases.listDocuments(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId.product,
+        [Query.equal("featured", [true]), Query.limit(10)]
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getRelatedProductsByCategory(categories: string[]) {
     try {
       const response = await databases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId.category.child_category,
-        [Query.equal("slug", categories), Query.limit(5)]
+        [Query.equal("slug", categories), Query.limit(10)]
       );
       const productIDS: string[] = [];
       return response.documents

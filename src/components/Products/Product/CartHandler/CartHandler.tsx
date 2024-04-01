@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { addToCart, selectCartList } from "@/redux/features/cart/cartSlice";
 import { Minus, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,6 +10,8 @@ const CartHandler = ({ product }: { product: any }) => {
   const [quantity, setQuantity] = useState(1);
 
   const cartList = useSelector(selectCartList);
+
+  const router = useRouter();
 
   console.log(cartList);
 
@@ -44,7 +47,17 @@ const CartHandler = ({ product }: { product: any }) => {
         />
       </div>
       <div className="flex gap-5">
-        <Button>Buy Now</Button>
+        <Button
+          onClick={() => {
+            dispatch(
+              addToCart({ product, price: product.sale_price, quantity })
+            );
+
+            router.push("/checkout");
+          }}
+        >
+          Buy Now
+        </Button>
         <Button
           variant="outline"
           className="text-brand_primary border-brand_primary"

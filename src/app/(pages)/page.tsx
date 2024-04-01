@@ -10,6 +10,8 @@ import LoisChloeMagazine from "@/components/Home/LoisChloeMagazine/index";
 import CustomerFeedback from "@/components/Home/CustomerFeedback";
 import WhyChooseUs from "@/components/Home/WhyChooseUs";
 import Faq from "@/components/Home/Faq";
+import { Suspense } from "react";
+import FeaturedProductListLoading from "@/components/Shared/loading/FeaturedProductListLoading";
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
   ssr: false,
 });
@@ -24,9 +26,10 @@ export default function Home() {
       <HomeSlider />
       <ShipmentToDelivery />
       <ShopByCategory />
-      {/* <BestSelling /> */}
       <Offer />
-      {/* <FeaturedProducts /> */}
+      <Suspense fallback={<FeaturedProductListLoading />}>
+        <FeaturedProducts />
+      </Suspense>
       <LoisChloeMagazine />
       <CustomerFeedback />
       <WhyChooseUs />

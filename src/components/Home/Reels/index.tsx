@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useRef, useState } from "react";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -44,8 +45,23 @@ const constants = [
 ];
 
 export default function Reels() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const reelsRef = useRef(null);
+
+  useEffect(() => {
+    if (reelsRef.current) {
+      const observerFn = (entries: any, observer: any) => {
+        setIsVisible(entries[0]?.isIntersecting);
+      };
+
+      let observer = new IntersectionObserver(observerFn);
+      observer.observe(reelsRef.current);
+    }
+  }, [reelsRef]);
+
   return (
-    <section>
+    <section ref={reelsRef}>
       <h4 className="heading-1">Beauty Reels</h4>
       <Swiper
         effect={"coverflow"}
@@ -84,48 +100,11 @@ export default function Reels() {
         {constants.map((reels) => (
           <SwiperSlide key={reels.id}>
             {({ isActive }) => {
-              return <VideoCard item={reels} isActive={isActive} />;
+              return <VideoCard item={reels} play={isVisible && isActive} />;
             }}
           </SwiperSlide>
         ))}
       </Swiper>
-
-      {/* <blockquote
-        className="tiktok-embed"
-        cite="https://www.tiktok.com/@loischloe.bangladesh/video/7330688921493343490"
-        data-video-id="7330688921493343490"
-        // style="max-width: 605px;min-width: 325px;"
-      >
-        {" "}
-        <section>
-          {" "}
-          <a
-            target="_blank"
-            title="@loischloe.bangladesh"
-            href="https://www.tiktok.com/@loischloe.bangladesh?refer=embed"
-          >
-            @loischloe.bangladesh
-          </a>{" "}
-          <p>
-            📣📣BACK IN STOCK📣📣 ALL IN ONE CUSHION FOUNDATION WITH SPF50++
-            (with refill unit) Designed for hydration and buildable coverage,
-            this lightweight portable foundation ensures a luminous complexion
-            that stays fresh &#38; radiant from morning to night✨🥂 It
-            nourishes, perfects, and gives your skin a natural, dewy glow🥰❤️
-            Purchase now:
-            https:&#47;&#47;loischloe.com.bd&#47;product&#47;uv-waterful-cushion-foundation-spf50-pa&#47;
-            Made in Australia 🇦🇺 | 100% vegan | Chemical free
-          </p>{" "}
-          <a
-            target="_blank"
-            title="♬ original sound - Lois Chloe Bangladesh"
-            href="https://www.tiktok.com/music/original-sound-7330689016557964034?refer=embed"
-          >
-            ♬ original sound - Lois Chloe Bangladesh
-          </a>{" "}
-        </section>{" "}
-      </blockquote>{" "}
-      <script async src="https://www.tiktok.com/embed.js"></script> */}
     </section>
   );
 }

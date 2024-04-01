@@ -34,7 +34,7 @@ const ProductPagination = ({
 
   return (
     <Pagination>
-      <PaginationContent>
+      <PaginationContent className="flex flex-wrap">
         <PaginationItem className={cn(Number(page) <= 1 && "hidden")}>
           <Link
             href={`/products?${generateParams({

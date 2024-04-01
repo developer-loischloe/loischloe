@@ -6,11 +6,11 @@ const BreadCrumb = ({
   pageTitle,
   pathList,
 }: {
-  pageTitle: string;
+  pageTitle?: string;
   pathList: string[];
 }) => {
   return (
-    <div className="py-5 md:p-7 bg-[#FFF4E7] flex flex-col justify-center items-center">
+    <div className="px-5 py-5 md:p-7 bg-[#FFF4E7] flex flex-col justify-center items-center">
       {pageTitle && (
         <div>
           <span className="text-2xl">{pageTitle}</span>
@@ -25,11 +25,14 @@ const BreadCrumb = ({
           <div key={path} className="flex items-center">
             <ChevronsRight size={16} />
             {pathList[pathList?.length - 1] === path ? (
-              <span className="mt-1 text-brand_gray">
+              <span className="mt-1 text-brand_gray line-clamp-1">
                 {path?.toUpperCase()}
               </span>
             ) : (
-              <Link href={`/${path}`} className="flex items-center gap-1">
+              <Link
+                href={`/${path}`}
+                className="flex items-center gap-1 line-clamp-1"
+              >
                 <span className="mt-1">{path.toUpperCase()}</span>
               </Link>
             )}

@@ -88,15 +88,17 @@ export default function CustomerFeedback() {
         {feedBacks.map((review) => (
           <SwiperSlide
             key={review.id}
-            className="flex flex-col items-center justify-center gap-5"
+            className="flex flex-col !items-center justify-center gap-5"
           >
-            <Link href={review.link}>
-              <Image
-                src={review.image}
-                alt={"Customer review"}
-                className="rounded-lg"
-              />
-            </Link>
+            <div className="max-w-max mx-auto">
+              <Link href={review.link}>
+                <Image
+                  src={review.image}
+                  alt={"Customer review"}
+                  className="rounded-lg"
+                />
+              </Link>
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>

@@ -30,10 +30,7 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
 
   return (
     <>
-      <BreadCrumb
-        pageTitle={products?.documents[0]?.name}
-        pathList={["products", products?.documents[0]?.slug]}
-      />
+      <BreadCrumb pathList={["products", products?.documents[0]?.name]} />
       <section className="space-y-10 py-5 md:py-10">
         <div className="flex flex-col md:flex-row gap-10">
           <ProductImageSlider images={products?.documents[0]?.images} />

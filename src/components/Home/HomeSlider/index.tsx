@@ -100,11 +100,13 @@ export default function App() {
                       src={slider.banner.main}
                       alt={slider.alt}
                       className="hidden md:flex"
+                      priority
                     />
                     <Image
                       src={slider.banner.mobile}
                       alt={slider.alt}
                       className="md:hidden"
+                      priority
                     />
                   </Link>
                 </MotionDiv>

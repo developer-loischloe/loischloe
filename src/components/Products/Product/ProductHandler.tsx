@@ -1,10 +1,7 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
 import { Rating as ReactRating, Star } from "@smastrom/react-rating";
-import { Minus, Plus } from "lucide-react";
 import dynamic from "next/dynamic";
-import React from "react";
 const CartHandler = dynamic(() => import("./CartHandler/CartHandler"));
 
 const myStyles = {
