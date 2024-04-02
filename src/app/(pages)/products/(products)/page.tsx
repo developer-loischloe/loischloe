@@ -12,12 +12,20 @@ import {
 } from "@/components/ui/popover";
 
 export interface SearchParams {
-  category: string;
+  p_category: string;
+  c_category: string;
+  n_category: string;
   keyword: string;
   page: string;
 }
 const page = ({
-  searchParams: { category = "", keyword = "", page = "1" },
+  searchParams: {
+    p_category = "",
+    c_category = "",
+    n_category = "",
+    keyword = "",
+    page = "1",
+  },
 }: {
   searchParams: SearchParams;
 }) => {
@@ -32,7 +40,15 @@ const page = ({
           </PopoverTrigger>
           <PopoverContent className="bg-brand_secondary">
             <Suspense fallback={<CategoryListLoading />}>
-              <Categories {...{ category, keyword, page }} />
+              <Categories
+                {...{
+                  p_category,
+                  c_category,
+                  n_category,
+                  keyword,
+                  page,
+                }}
+              />
             </Suspense>
           </PopoverContent>
         </Popover>
@@ -42,13 +58,20 @@ const page = ({
         {/* Categories For Desktop */}
         <div className="hidden md:flex">
           <Suspense fallback={<CategoryListLoading />}>
-            <Categories {...{ category, keyword, page }} />
+            <Categories
+              {...{ p_category, c_category, n_category, keyword, page }}
+            />
           </Suspense>
         </div>
 
         {/* ProductList */}
-        <Suspense key={Math.random()} fallback={<ProductListLoading />}>
-          <ProductList {...{ category, keyword, page }} />
+        <Suspense
+          key={(Math.random() * 1000).toString()}
+          fallback={<ProductListLoading />}
+        >
+          <ProductList
+            {...{ p_category, c_category, n_category, keyword, page }}
+          />
         </Suspense>
       </div>
     </section>

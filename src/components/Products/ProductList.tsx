@@ -5,9 +5,17 @@ import appwriteProductService from "@/appwrite/appwriteProductService";
 
 export const productPerPage = 8;
 
-const ProductList = async ({ category, keyword, page }: SearchParams) => {
+const ProductList = async ({
+  p_category,
+  c_category,
+  n_category,
+  keyword,
+  page,
+}: SearchParams) => {
   const products = await appwriteProductService.getProductList({
-    category,
+    p_category,
+    c_category,
+    n_category,
     keyword,
     page,
     productPerPage,
@@ -24,7 +32,14 @@ const ProductList = async ({ category, keyword, page }: SearchParams) => {
           </div>
           <ProductPagination
             total={products?.total}
-            {...{ category, keyword, page, productPerPage }}
+            {...{
+              p_category,
+              c_category,
+              n_category,
+              keyword,
+              page,
+              productPerPage,
+            }}
           />
         </div>
       ) : (

@@ -16,13 +16,7 @@ const ProductImageSlider = dynamic(
 const page = async ({ params: { slug } }: { params: { slug: string } }) => {
   const products = await appwriteProductService.getProductDetails(slug);
 
-  const p_cat = products?.documents[0]?.categories;
-
-  let categories = [];
-  if (p_cat.length) {
-    categories = p_cat?.map((category: any) => category.slug);
-  }
-  console.log(categories);
+  console.log(products);
 
   return (
     <>
@@ -51,9 +45,11 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
           </div>
         </Tabs>
 
-        {/* <Suspense fallback={<ProductListLoading />}>
-          <RelatedProducts categories={categories} />
-        </Suspense> */}
+        <Suspense fallback={<ProductListLoading />}>
+          <RelatedProducts
+            parent_category={products?.documents[0]?.parent_category}
+          />
+        </Suspense>
       </section>
     </>
   );

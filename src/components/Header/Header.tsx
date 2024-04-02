@@ -27,7 +27,7 @@ export default function Header() {
   const [showSearchbar, setShowSearchbar] = useState(false);
 
   return (
-    <div className="w-full bg-brand_secondary text-[#fff] px-5 py-4 overflow-hidden">
+    <div className="w-full bg-brand_secondary text-[#fff] px-5 py-4 overflow-hidden !sticky top-0 z-[500]">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-10 xl:gap-20">
         <div className="inline-flex items-center">
           <Link href={"/"} className="">

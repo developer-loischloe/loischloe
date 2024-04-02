@@ -16,7 +16,9 @@ interface Pagination extends SearchParams {
 
 const ProductPagination = ({
   total,
-  category,
+  p_category,
+  c_category,
+  n_category,
   keyword,
   page,
   productPerPage,
@@ -34,7 +36,9 @@ const ProductPagination = ({
         <PaginationItem className={cn(Number(page) <= 1 && "hidden")}>
           <Link
             href={`/products?${generateParams({
-              category,
+              p_category,
+              c_category,
+              n_category,
               keyword,
               page: Number(page) - 1,
             })}`}
@@ -48,7 +52,9 @@ const ProductPagination = ({
           <PaginationItem key={pageNumber}>
             <Link
               href={`/products?${generateParams({
-                category,
+                p_category,
+                c_category,
+                n_category,
                 keyword,
                 page: pageNumber,
               })}`}
@@ -68,7 +74,9 @@ const ProductPagination = ({
         <PaginationItem className={cn(Number(page) >= total_page && "hidden")}>
           <Link
             href={`/products?${generateParams({
-              category,
+              p_category,
+              c_category,
+              n_category,
               keyword,
               page: Number(page) + 1,
             })}`}

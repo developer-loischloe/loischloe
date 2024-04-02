@@ -9,28 +9,35 @@ interface ProductSearchParams extends SearchParams {
 
 export class AppwriteProductService {
   async getProductList({
-    category,
+    p_category,
+    c_category,
+    n_category,
     keyword,
     page,
     productPerPage,
   }: ProductSearchParams) {
     try {
       let QueryArray = [];
-      if (category) {
-        QueryArray.push(Query.search("categories", category));
+
+      if (n_category) {
+        QueryArray.push(Query.search("nested_child_category", n_category));
+      } else if (c_category) {
+        QueryArray.push(Query.search("child_category", c_category));
+      } else if (p_category) {
+        QueryArray.push(Query.search("parent_category", p_category));
       }
+
       if (keyword) {
         QueryArray.push(Query.search("name", keyword));
       }
 
       if (productPerPage) {
-        QueryArray.push(Query.limit(productPerPage));
-      }
+        QueryArray.push(Query.limit(Number(productPerPage)));
 
-      if (page) {
-        const skip = (Number(page) - 1) * productPerPage;
-
-        QueryArray.push(Query.offset(skip));
+        const skip = (Number(page) - 1) * Number(productPerPage);
+        if (skip) {
+          QueryArray.push(Query.offset(skip));
+        }
       }
 
       const response = await databases.listDocuments(
@@ -73,32 +80,15 @@ export class AppwriteProductService {
     }
   }
 
-  async getRelatedProductsByCategory(categories: string[]) {
+  async getRelatedProductsByCategory(parent_category: string) {
     try {
       const response = await databases.listDocuments(
         config.appwriteDatabaseId,
-        config.appwriteCollectionId.category.child_category,
-        [Query.equal("slug", categories), Query.limit(10)]
+        config.appwriteCollectionId.product,
+        [Query.search("parent_category", parent_category), Query.limit(10)]
       );
-      const productIDS: string[] = [];
-      return response.documents
-        .map((categories) => {
-          return categories.products;
-        })
-        .reduce((acc, products) => {
-          return [...acc, ...products];
-        }, [])
-        .filter((product: any) => {
-          const productExist = productIDS.find((id) => id === product.$id);
 
-          if (productExist) {
-            return false;
-          } else {
-            productIDS.push(product.$id);
-            return true;
-          }
-        })
-        .slice(0, 5);
+      return response;
     } catch (error) {
       throw error;
     }

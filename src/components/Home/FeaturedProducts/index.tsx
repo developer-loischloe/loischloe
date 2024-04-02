@@ -3,7 +3,6 @@ import FeaturedProductsSlider from "./FeaturedProductsSlider";
 
 const FeaturedProducts = async () => {
   const products = await appwriteProductService.getFeaturedProducts();
-  console.log(products);
 
   if (!products.documents.length) return null;
 

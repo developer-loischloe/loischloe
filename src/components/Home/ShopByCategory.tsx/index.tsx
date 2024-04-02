@@ -14,27 +14,27 @@ const ShopByCategory = () => {
     {
       icon: lipstick,
       name: "Lipstick",
-      link: "products?p_cat=makeup&c_cat=lips",
+      link: "products?c_category=lips",
     },
     {
       icon: powder,
       name: "Powder",
-      link: "products?p_cat=makeup&c_cat=face&n_cat=loose-powder",
+      link: "products?n_category=loose-powder",
     },
     {
       icon: brush,
       name: "Brush",
-      link: "products?p_cat=makeup&c_cat=tools-%26-brushes",
+      link: "products?c_category=tools-%26-brushes",
     },
     {
       icon: mascara,
       name: "Mascara",
-      link: "products?p_cat=makeup&c_cat=eyes&n_cat=mascara",
+      link: "products?n_category=mascara",
     },
     {
       icon: eyeliner,
       name: "Eyeliner",
-      link: "products?p_cat=makeup&c_cat=eyes&n_cat=eyeliner",
+      link: "products?n_category=eyeliner",
     },
   ];
 

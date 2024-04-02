@@ -3,10 +3,12 @@ import appwriteCategoryService from "@/appwrite/appwriteCategoryService";
 import { cn, generateParams } from "@/lib/utils";
 import Link from "next/link";
 
-const Categories = async ({ category, keyword, page }: SearchParams) => {
+const Categories = async ({
+  p_category,
+  c_category,
+  n_category,
+}: SearchParams) => {
   const categories = await appwriteCategoryService.getCategoryList();
-
-  console.log(categories);
 
   return (
     <div className="min-w-[250px] bg-brand_secondary px-5 py-10">
@@ -16,7 +18,7 @@ const Categories = async ({ category, keyword, page }: SearchParams) => {
             href={`/products`}
             className={cn(
               "text-white px-2 py-1 rounded-full text-sm flex items-center justify-between gap-10 hover:text-brand_primary transition-all cursor-pointer ",
-              category === "" && "text-brand_primary"
+              !n_category && !c_category && !p_category && "text-brand_primary"
             )}
           >
             <span>All Items</span>
@@ -25,92 +27,94 @@ const Categories = async ({ category, keyword, page }: SearchParams) => {
 
         {/* Parent Categories */}
         {categories &&
-          categories?.documents?.map((P_category: any) => {
-            const p_active = category === P_category.slug;
+          categories?.documents?.map((parentCategory: any) => {
+            const p_active = parentCategory.slug === p_category;
 
             return (
-              <div key={P_category.$id}>
+              <div key={parentCategory.$id}>
                 <li>
                   <Link
                     href={`/products?${generateParams({
-                      category: P_category.slug,
+                      p_category: parentCategory.slug,
                     })}`}
                     className={cn(
                       "text-white px-2 py-1 rounded-full text-sm flex items-center justify-between gap-10 hover:text-brand_primary transition-all cursor-pointer ",
                       p_active && "text-brand_primary"
                     )}
                   >
-                    <span>{P_category.name}</span>
-                    {/* <span>{category?.products?.length}</span> */}
+                    <span>{parentCategory.name}</span>
                   </Link>
                 </li>
 
                 {/* Child Categories */}
                 {
                   <ul className="w-full pl-5">
-                    {P_category &&
-                      P_category?.childCategories?.map((childCategory: any) => {
-                        const c_active = category === childCategory.slug;
+                    {parentCategory &&
+                      parentCategory?.childCategories?.map(
+                        (childCategory: any) => {
+                          const c_active = childCategory.slug === c_category;
 
-                        return (
-                          <div key={childCategory.$id}>
-                            <li>
-                              <Link
-                                href={`/products?${generateParams({
-                                  category: childCategory.slug,
-                                })}`}
-                                className={cn(
-                                  "text-white px-2 py-1 rounded-full text-sm flex items-center justify-between gap-10 hover:text-brand_primary transition-all cursor-pointer ",
-                                  c_active && "text-brand_primary"
-                                )}
-                              >
-                                <span>{childCategory.name}</span>
-                                {/* <span>{childCategory?.products?.length}</span> */}
-                              </Link>
-                            </li>
-
-                            {/* Nested Child Categories */}
-                            {
-                              <ul className="w-full pl-5">
-                                {childCategory &&
-                                  childCategory?.nestedChildCategories?.map(
-                                    (nestedChildCategory: any) => {
-                                      const n_active = category;
-                                      return (
-                                        <div key={nestedChildCategory.$id}>
-                                          <li>
-                                            <Link
-                                              href={`/products?${generateParams(
-                                                {
-                                                  category:
-                                                    nestedChildCategory.slug,
-                                                }
-                                              )}`}
-                                              className={cn(
-                                                "text-white px-2 py-1 rounded-full text-sm flex items-center justify-between gap-3 hover:text-brand_primary transition-all cursor-pointer ",
-                                                n_active && "text-brand_primary"
-                                              )}
-                                            >
-                                              <span>
-                                                {nestedChildCategory.name}
-                                              </span>
-                                              {/* <span>
-                                                {
-                                                  nestedChildCategory?.products
-                                                    ?.length
-                                                }
-                                              </span> */}
-                                            </Link>
-                                          </li>
-                                        </div>
-                                      );
-                                    }
+                          return (
+                            <div key={childCategory.$id}>
+                              <li>
+                                <Link
+                                  href={`/products?${generateParams({
+                                    p_category: parentCategory.slug,
+                                    c_category: childCategory.slug,
+                                  })}`}
+                                  className={cn(
+                                    "text-white px-2 py-1 rounded-full text-sm flex items-center justify-between gap-10 hover:text-brand_primary transition-all cursor-pointer ",
+                                    c_active && "text-brand_primary"
                                   )}
-                              </ul>
-                            }
-                          </div>
-                        );
-                      })}
+                                >
+                                  <span>{childCategory.name}</span>
+                                </Link>
+                              </li>
+
+                              {/* Nested Child Categories */}
+                              {
+                                <ul className="w-full pl-5">
+                                  {childCategory &&
+                                    childCategory?.nestedChildCategories?.map(
+                                      (nestedChildCategory: any) => {
+                                        const n_active =
+                                          nestedChildCategory.slug ===
+                                          n_category;
+                                        return (
+                                          <div key={nestedChildCategory.$id}>
+                                            <li>
+                                              <Link
+                                                href={`/products?${generateParams(
+                                                  {
+                                                    p_category:
+                                                      parentCategory.slug,
+                                                    c_category:
+                                                      childCategory.slug,
+                                                    n_category:
+                                                      nestedChildCategory.slug,
+                                                  }
+                                                )}`}
+                                                className={cn(
+                                                  "text-white px-2 py-1 rounded-full text-sm flex items-center justify-between gap-3 hover:text-brand_primary transition-all cursor-pointer ",
+                                                  n_active &&
+                                                    "text-brand_primary"
+                                                )}
+                                              >
+                                                <span>
+                                                  {nestedChildCategory.name}
+                                                </span>
+                                              </Link>
+                                            </li>
+                                          </div>
+                                        );
+                                      }
+                                    )}
+                                </ul>
+                              }
+                            </div>
+                          );
+                        }
+                      )}
                   </ul>
                 }
               </div>
