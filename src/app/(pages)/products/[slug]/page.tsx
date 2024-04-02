@@ -16,16 +16,12 @@ const ProductImageSlider = dynamic(
 const page = async ({ params: { slug } }: { params: { slug: string } }) => {
   const products = await appwriteProductService.getProductDetails(slug);
 
-  const c_cat = products?.documents[0]?.childCategories;
   const p_cat = products?.documents[0]?.categories;
 
   let categories = [];
-  if (c_cat.length) {
-    categories = c_cat?.map((category: any) => category.slug);
-  } else {
+  if (p_cat.length) {
     categories = p_cat?.map((category: any) => category.slug);
   }
-
   console.log(categories);
 
   return (
@@ -64,3 +60,16 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
 };
 
 export default page;
+
+// export async function generateStaticParams() {
+//   const products = await appwriteProductService.getProductList({
+//     category: "",
+//     keyword: "",
+//     page: "",
+//     productPerPage: 100,
+//   });
+
+//   return products.documents.map((product) => {
+//     return { slug: product.slug };
+//   });
+// }

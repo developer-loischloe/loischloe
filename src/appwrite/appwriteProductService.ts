@@ -9,66 +9,37 @@ interface ProductSearchParams extends SearchParams {
 
 export class AppwriteProductService {
   async getProductList({
-    p_cat,
-    c_cat,
-    n_cat,
+    category,
     keyword,
     page,
     productPerPage,
   }: ProductSearchParams) {
     try {
-      if (p_cat) {
-        let collectionId = "";
-        let current_category = "";
-
-        if (n_cat) {
-          collectionId =
-            config.appwriteCollectionId.category.nested_child_category;
-          current_category = n_cat;
-        } else if (c_cat) {
-          collectionId = config.appwriteCollectionId.category.child_category;
-          current_category = c_cat;
-        } else {
-          collectionId = config.appwriteCollectionId.category.parent_category;
-          current_category = p_cat;
-        }
-
-        const response = await databases.listDocuments(
-          config.appwriteDatabaseId,
-          collectionId
-        );
-
-        let products = response.documents.find(
-          (currCategory) => currCategory.slug === current_category
-        )?.products;
-
-        // console.log(response);
-
-        return { total: products.length, documents: products };
-      } else {
-        let QueryArray = [];
-        if (keyword) {
-          QueryArray.push(Query.search("name", keyword));
-        }
-
-        if (productPerPage) {
-          QueryArray.push(Query.limit(productPerPage));
-        }
-
-        if (page) {
-          const skip = (Number(page) - 1) * productPerPage;
-
-          QueryArray.push(Query.offset(skip));
-        }
-
-        const response = await databases.listDocuments(
-          config.appwriteDatabaseId,
-          config.appwriteCollectionId.product,
-          QueryArray
-        );
-
-        return response;
+      let QueryArray = [];
+      if (category) {
+        QueryArray.push(Query.search("categories", category));
       }
+      if (keyword) {
+        QueryArray.push(Query.search("name", keyword));
+      }
+
+      if (productPerPage) {
+        QueryArray.push(Query.limit(productPerPage));
+      }
+
+      if (page) {
+        const skip = (Number(page) - 1) * productPerPage;
+
+        QueryArray.push(Query.offset(skip));
+      }
+
+      const response = await databases.listDocuments(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId.product,
+        QueryArray
+      );
+
+      return response;
     } catch (error) {
       throw error;
     }

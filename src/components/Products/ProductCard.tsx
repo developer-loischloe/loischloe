@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Rating as ReactRating, Star } from "@smastrom/react-rating";
-import { cn, generateParams } from "@/lib/utils";
+import { cn, formatCurrency, generateParams } from "@/lib/utils";
 import AddToCartButton from "./AddToCartButton";
 
 // Declare it outside your component so it doesn't get re-created
@@ -14,14 +14,14 @@ const myStyles = {
 
 const ProductCard = ({ product }: { product: any }) => {
   return (
-    <div className="shadow-2xl rounded-sm flex flex-col justify-between group">
+    <div className="shadow-2xl rounded-sm flex flex-col items-center justify-between group">
       <div className="w-full overflow-hidden">
         <Link href={`/products/${product?.slug}`}>
           <Image
             src={product?.images[0]?.image_url}
             alt="img1"
-            width={200}
-            height={200}
+            width={300}
+            height={300}
             className="w-full group-hover:scale-105 transition-all duration-300"
           />
         </Link>
@@ -29,7 +29,7 @@ const ProductCard = ({ product }: { product: any }) => {
       <div className="space-y-3 p-5">
         <div>
           <Link href={`/products/${product?.slug}`}>
-            <h3 className="text-xl hover:underline transition-all">
+            <h3 className="text-xl hover:underline transition-all line-clamp-2">
               {product?.name}
             </h3>
           </Link>
@@ -69,14 +69,14 @@ const ProductCard = ({ product }: { product: any }) => {
             </div>
 
             <div className="space-x-2">
-              <span className="">৳ {product?.sale_price}</span>
+              <span className=""> {formatCurrency(product?.price)}</span>
               <span
                 className={cn(
                   "text-brand_gray line-through",
                   product?.price === product?.sale_price && "hidden"
                 )}
               >
-                ৳ {product?.price}
+                {formatCurrency(product?.price)}
               </span>
             </div>
           </div>

@@ -1,3 +1,4 @@
+import { SearchParams } from "@/app/(pages)/products/(products)/page";
 import { Button } from "@/components/ui/button";
 import {
   Pagination,
@@ -8,23 +9,18 @@ import { cn, generateParams } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
-const ProductPagination = ({
-  total,
-  productPerPage,
-  p_cat,
-  c_cat,
-  n_cat,
-  keyword,
-  page,
-}: {
+interface Pagination extends SearchParams {
   total: number;
   productPerPage: number;
-  p_cat: string;
-  c_cat: string;
-  n_cat: string;
-  keyword: string;
-  page: string;
-}) => {
+}
+
+const ProductPagination = ({
+  total,
+  category,
+  keyword,
+  page,
+  productPerPage,
+}: Pagination) => {
   // Client side pagination
   let total_page = Math.ceil(total / productPerPage);
   let pagination = [];
@@ -38,9 +34,7 @@ const ProductPagination = ({
         <PaginationItem className={cn(Number(page) <= 1 && "hidden")}>
           <Link
             href={`/products?${generateParams({
-              p_cat,
-              c_cat,
-              n_cat,
+              category,
               keyword,
               page: Number(page) - 1,
             })}`}
@@ -54,9 +48,7 @@ const ProductPagination = ({
           <PaginationItem key={pageNumber}>
             <Link
               href={`/products?${generateParams({
-                p_cat,
-                c_cat,
-                n_cat,
+                category,
                 keyword,
                 page: pageNumber,
               })}`}
@@ -76,9 +68,7 @@ const ProductPagination = ({
         <PaginationItem className={cn(Number(page) >= total_page && "hidden")}>
           <Link
             href={`/products?${generateParams({
-              p_cat,
-              c_cat,
-              n_cat,
+              category,
               keyword,
               page: Number(page) + 1,
             })}`}

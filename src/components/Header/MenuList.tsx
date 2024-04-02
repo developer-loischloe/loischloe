@@ -31,6 +31,7 @@ const MenuList = () => {
         <li key={item.name}>
           <Link
             href={item.href}
+            prefetch
             className={cn(
               "flex-1 text-center text-sm font-semibold  hover:text-brand_primary",
               pathname === item.href && "text-brand_primary"
