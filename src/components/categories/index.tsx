@@ -1,4 +1,3 @@
-"use client";
 import { SearchParams } from "@/app/(pages)/products/(products)/page";
 import appwriteCategoryService from "@/appwrite/appwriteCategoryService";
 import { cn, generateParams } from "@/lib/utils";
