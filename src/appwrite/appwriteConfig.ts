@@ -1,5 +1,5 @@
 import config from "@/config";
-import { Client, Account, Databases } from "appwrite";
+import { Client, Account, Databases, Storage } from "appwrite";
 
 const appwriteClient = new Client();
 
@@ -10,3 +10,5 @@ appwriteClient
 export const account = new Account(appwriteClient);
 
 export const databases = new Databases(appwriteClient);
+
+export const storage = new Storage(appwriteClient);

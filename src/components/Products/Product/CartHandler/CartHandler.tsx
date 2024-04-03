@@ -13,8 +13,6 @@ const CartHandler = ({ product }: { product: any }) => {
 
   const router = useRouter();
 
-  console.log(cartList);
-
   useEffect(() => {
     if (cartList.length) {
       const items = cartList.find((item) => item.product.$id === product.$id);

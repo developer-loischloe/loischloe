@@ -22,22 +22,24 @@ import Main_banner_2 from "../../../../public/home_slider/main_banner_2.jpg";
 import Mobile_banner_2 from "../../../../public/home_slider/mobile_banner_2.jpg";
 import Main_banner_3 from "../../../../public/home_slider/main_banner_3.jpg";
 import Mobile_banner_3 from "../../../../public/home_slider/mobile_banner_3.jpg";
+import Main_banner_4 from "../../../../public/home_slider/main_banner_4.jpeg";
+import Mobile_banner_4 from "../../../../public/home_slider/mobile_banner_4.jpeg";
 
 const sliderConstant = [
   {
     id: 1,
     banner: {
-      main: Main_banner_1,
-      mobile: Mobile_banner_1,
+      main: Main_banner_4,
+      mobile: Mobile_banner_4,
     },
     alt: "banner 1",
-    link: "#",
+    link: "/products",
   },
   {
     id: 2,
     banner: {
-      main: Main_banner_2,
-      mobile: Mobile_banner_2,
+      main: Main_banner_4,
+      mobile: Mobile_banner_4,
     },
     alt: "banner 2",
     link: "#",
@@ -45,10 +47,19 @@ const sliderConstant = [
   {
     id: 3,
     banner: {
-      main: Main_banner_3,
-      mobile: Mobile_banner_3,
+      main: Main_banner_4,
+      mobile: Mobile_banner_4,
     },
     alt: "banner 3",
+    link: "#",
+  },
+  {
+    id: 4,
+    banner: {
+      main: Main_banner_4,
+      mobile: Mobile_banner_4,
+    },
+    alt: "banner 4",
     link: "#",
   },
 ];
@@ -99,13 +110,13 @@ export default function App() {
                     <Image
                       src={slider.banner.main}
                       alt={slider.alt}
-                      className="hidden md:flex"
+                      className="hidden md:flex w-full"
                       priority
                     />
                     <Image
                       src={slider.banner.mobile}
                       alt={slider.alt}
-                      className="md:hidden"
+                      className="md:hidden w-full"
                       priority
                     />
                   </Link>

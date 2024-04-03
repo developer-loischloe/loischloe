@@ -13,34 +13,29 @@ const ShopByCategory = () => {
   const categoriesConstant = [
     {
       icon: lipstick,
-      name: "Lipstick",
+      name: "Lipsticks",
       link: "products?c_category=lips",
     },
     {
       icon: powder,
-      name: "Powder",
+      name: "Face palette",
       link: "products?n_category=loose-powder",
     },
     {
       icon: brush,
-      name: "Brush",
+      name: "Eye makeup",
       link: "products?c_category=tools-%26-brushes",
     },
     {
       icon: mascara,
-      name: "Mascara",
+      name: "Combo deals",
       link: "products?n_category=mascara",
-    },
-    {
-      icon: eyeliner,
-      name: "Eyeliner",
-      link: "products?n_category=eyeliner",
     },
   ];
 
   return (
     <section>
-      <h2 className="heading-1 text-center">Shop By Category</h2>
+      <h2 className="heading-1 text-center">Trending Categories</h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10">
         {categoriesConstant.map((category) => (

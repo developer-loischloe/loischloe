@@ -106,6 +106,6 @@
 
 @layer components {
   section {
-    @apply max-w-7xl mx-auto px-5 py-16;
+    @apply max-w-7xl mx-auto px-5 py-10 md:py-16;
   }
 }

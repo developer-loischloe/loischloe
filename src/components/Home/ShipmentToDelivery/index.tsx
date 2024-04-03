@@ -11,26 +11,27 @@ const constant = [
   {
     id: 1,
     icon: <BadgeCheck size={25} color="#002d34" />,
-    title: "100% Authentic",
-    subTitle: "All Products Sourced Directly",
+    title: "100% Vegan",
   },
   {
     id: 2,
     icon: <Headset size={25} color="#002d34" />,
-    title: "Free Support",
-    subTitle: "+880 99999999",
+    title: "BSTI approved",
   },
   {
     id: 3,
     icon: <Truck size={25} color="#002d34" />,
-    title: "Fast Shipping",
-    subTitle: "2 Days Delivery",
+    title: "Australian made",
   },
   {
     id: 4,
     icon: <CornerDownLeft size={25} color="#002d34" />,
-    title: "Easy Returns",
-    subTitle: "Hassle-Free Pick-ups & Returns",
+    title: "Cruelty free",
+  },
+  {
+    id: 5,
+    icon: <CornerDownLeft size={25} color="#002d34" />,
+    title: "100% Chemical free",
   },
 ];
 
@@ -61,15 +62,12 @@ const ShipmentToDelivery = () => {
         className="mySwiper"
       >
         {constant.map((item) => (
-          <SwiperSlide key={item.subTitle}>
+          <SwiperSlide key={item.title}>
             <div className="flex items-center gap-5">
               <div>{item.icon}</div>
               <div className="flex flex-col space-y-2 ">
                 <span className="text-xl md:text-2xl text-brand_secondary">
                   {item.title}
-                </span>
-                <span className="text-brand_gray text-xs md:text-sm">
-                  {item.subTitle}
                 </span>
               </div>
             </div>
