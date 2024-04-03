@@ -16,8 +16,6 @@ const ProductImageSlider = dynamic(
 const page = async ({ params: { slug } }: { params: { slug: string } }) => {
   const products = await appwriteProductService.getProductDetails(slug);
 
-  console.log(products);
-
   return (
     <>
       <BreadCrumb pathList={["products", products?.documents[0]?.name]} />

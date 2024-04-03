@@ -22,13 +22,22 @@ const menuItems = [
   // },
 ];
 
-const MenuList = () => {
+const MenuList = ({
+  setShowSidebar,
+}: {
+  setShowSidebar?: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const pathname = usePathname();
 
   return (
     <ul className="flex flex-col lg:flex-row  items-center justify-center px-10 min-w-[200px] gap-5 lg:text-white">
       {menuItems.map((item) => (
-        <li key={item.name}>
+        <li
+          key={item.name}
+          onClick={() => {
+            setShowSidebar && setShowSidebar(false);
+          }}
+        >
           <Link
             href={item.href}
             prefetch

@@ -9,27 +9,27 @@ import brush from "@/assets/category/brush.svg";
 import mascara from "@/assets/category/mascara.svg";
 import eyeliner from "@/assets/category/eyeliner.svg";
 
-const ShopByCategory = () => {
+const TrendingCategories = () => {
   const categoriesConstant = [
     {
       icon: lipstick,
       name: "Lipsticks",
-      link: "products?c_category=lips",
+      link: "products?p_category=makeup&c_category=lips",
     },
     {
       icon: powder,
       name: "Face palette",
-      link: "products?n_category=loose-powder",
+      link: "products?p_category=makeup&c_category=face&n_category=face-pallete",
     },
     {
       icon: brush,
       name: "Eye makeup",
-      link: "products?c_category=tools-%26-brushes",
+      link: "products?p_category=makeup&c_category=eyes",
     },
     {
       icon: mascara,
       name: "Combo deals",
-      link: "products?n_category=mascara",
+      link: "/offer",
     },
   ];
 
@@ -37,7 +37,7 @@ const ShopByCategory = () => {
     <section>
       <h2 className="heading-1 text-center">Trending Categories</h2>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
         {categoriesConstant.map((category) => (
           <div key={category.name} className="max-w-max mx-auto space-y-3">
             <Link href={category.link}>
@@ -66,4 +66,4 @@ const ShopByCategory = () => {
   );
 };
 
-export default ShopByCategory;
+export default TrendingCategories;

@@ -15,8 +15,12 @@ const config = {
         process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_NESTED_CHILD_CATEGORY
       ),
     },
-
     order: String(process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_ORDER),
+  },
+  appwriteBucketId: {
+    review_image: String(
+      process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_REVIEW_IMAGE
+    ),
   },
 };
 

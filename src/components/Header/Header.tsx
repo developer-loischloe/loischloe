@@ -21,13 +21,25 @@ import SearchBar from "./SearchBar";
 import MenuList from "./MenuList";
 import WishListBtn from "./WishListBtn";
 import UserBtn from "./UserBtn";
+import useScrollHandler from "@/lib/hooks/useScrollHandler";
 const CartBtn = dynamic(() => import("./CartBtn"), { ssr: false });
 
 export default function Header() {
   const [showSearchbar, setShowSearchbar] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
+
+  // Track scrollbar
+  const { lastScrollY, scrolling } = useScrollHandler();
 
   return (
-    <div className="w-full bg-brand_secondary text-[#fff] px-5 py-4 overflow-hidden !sticky top-0 z-[500]">
+    <div
+      className={cn(
+        "w-full bg-brand_secondary text-[#fff] px-5 py-4 overflow-hidden z-[500]",
+        scrolling === "top" &&
+          lastScrollY > 300 &&
+          "sticky top-0 transition-all"
+      )}
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-10 xl:gap-20">
         <div className="inline-flex items-center">
           <Link href={"/"} className="">
@@ -69,13 +81,13 @@ export default function Header() {
             />
           </div>
           <div className="lg:hidden">
-            <Sheet>
+            <Sheet open={showSidebar} onOpenChange={setShowSidebar}>
               <SheetTrigger>
                 <AlignRight className="hover:text-brand_primary transition-all" />
               </SheetTrigger>
               <SheetContent className="w-full !max-w-[300px] !pt-20">
                 <SheetHeader></SheetHeader>
-                <MenuList />
+                <MenuList setShowSidebar={setShowSidebar} />
               </SheetContent>
             </Sheet>
           </div>

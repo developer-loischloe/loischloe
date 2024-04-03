@@ -1,34 +1,32 @@
 import { storage } from "@/appwrite/appwriteConfig";
 import { ID } from "appwrite";
 
-export const uploadFiles = (files: any) => {
-  let uploadedFiles: { id: string; url: string }[] = [];
+export const uploadFiles = (files: any, bucketId: string) => {
+  let filePromises: any[] = [];
 
   return new Promise((resolve, reject) => {
     // Loop through files
     for (let i = 0; i < files.length; i++) {
       let file = files.item(i);
 
-      storage
-        .createFile("660cec200cdb937df8a6", ID.unique(), file)
-        .then((res) => {
-          const fileUrl = storage.getFilePreview(
-            "660cec200cdb937df8a6",
-            res.$id
-          );
+      const filePromise = storage.createFile(bucketId, ID.unique(), file);
 
-          uploadedFiles.push({
-            id: res.$id,
-            url: fileUrl.href,
-          });
-          console.log(fileUrl);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          resolve(uploadedFiles);
-        });
+      filePromises.push(filePromise);
     }
+
+    Promise.all(filePromises).then((files) => {
+      let uploadedFiles: { id: string; url: string }[] = [];
+
+      files.map((file) => {
+        const fileUrl = storage.getFileView(bucketId, file.$id);
+
+        uploadedFiles.push({
+          id: file.$id,
+          url: fileUrl.href,
+        });
+      });
+
+      resolve(uploadedFiles);
+    });
   });
 };

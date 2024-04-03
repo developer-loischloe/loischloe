@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 // Components
 import HomeSlider from "@/components/Home/HomeSlider/index";
 import ShipmentToDelivery from "@/components/Home/ShipmentToDelivery";
-import ShopByCategory from "@/components/Home/ShopByCategory.tsx";
+import TrendingCategories from "@/components/Home/TrendingCategories.tsx";
 import Offer from "@/components/Home/Offer";
 import FeaturedProducts from "@/components/Home/FeaturedProducts";
 import LoisChloeMagazine from "@/components/Home/LoisChloeMagazine/index";
@@ -25,7 +25,7 @@ export default function Home() {
     <div>
       <HomeSlider />
       <ShipmentToDelivery />
-      <ShopByCategory />
+      <TrendingCategories />
       <Offer />
       <Suspense fallback={<FeaturedProductListLoading />}>
         <FeaturedProducts />

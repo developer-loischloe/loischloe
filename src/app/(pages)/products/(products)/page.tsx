@@ -32,13 +32,13 @@ const page = ({
   return (
     <section className="p-5 md:py-10">
       {/* Categories For Mobile */}
-      <div className="md:hidden mb-5">
+      <div className="md:hidden mb-5 z-50">
         <Popover>
           <PopoverTrigger className="flex gap-5">
             <AlignLeft />
             <span>Categories</span>
           </PopoverTrigger>
-          <PopoverContent className="bg-brand_secondary">
+          <PopoverContent className="bg-brand_secondary !sticky ">
             <Suspense fallback={<CategoryListLoading />}>
               <Categories
                 {...{

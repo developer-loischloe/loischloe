@@ -60,8 +60,6 @@ const formSchema = z.object({
 export function AddReview({ product }: { product: any }) {
   const [reviewImages, setReviewImages] = useState<FileList | null>(null);
 
-  console.log(product);
-
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -74,30 +72,32 @@ export function AddReview({ product }: { product: any }) {
     },
   });
 
+  const { isDirty, isSubmitting } = form.formState;
+
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log({ values });
-
     if (reviewImages) {
-      uploadFiles(reviewImages).then((uploadedimages) => {
-        databases
-          .updateDocument(
-            config.appwriteDatabaseId,
-            config.appwriteCollectionId.product,
-            product.$id,
-            {
-              reviews: [
-                ...product.reviews,
-                { ...values, images: uploadedimages },
-              ],
-            }
-          )
-          .then((response) => {
-            if (response) {
-              window.location.reload();
-            }
-          });
-      });
+      uploadFiles(reviewImages, config.appwriteBucketId.review_image).then(
+        (uploadedimages) => {
+          databases
+            .updateDocument(
+              config.appwriteDatabaseId,
+              config.appwriteCollectionId.product,
+              product.$id,
+              {
+                reviews: [
+                  ...product.reviews,
+                  { ...values, images: uploadedimages },
+                ],
+              }
+            )
+            .then((response) => {
+              if (response) {
+                window.location.reload();
+              }
+            });
+        }
+      );
     } else {
       databases
         .updateDocument(
@@ -178,7 +178,6 @@ export function AddReview({ product }: { product: any }) {
                   style={{ maxWidth: 100 }}
                   value={field.value}
                   onChange={(val: number) => {
-                    console.log(val);
                     field.onChange(val);
                   }}
                   itemStyles={myStyles}
@@ -207,7 +206,9 @@ export function AddReview({ product }: { product: any }) {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={!isDirty || isSubmitting}>
+          Submit
+        </Button>
       </form>
     </Form>
   );

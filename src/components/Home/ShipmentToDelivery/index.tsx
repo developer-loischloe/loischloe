@@ -50,7 +50,7 @@ const ShipmentToDelivery = () => {
             spaceBetween: 30,
           },
         }}
-        spaceBetween={30}
+        spaceBetween={10}
         autoplay={{
           delay: 2500,
           pauseOnMouseEnter: true,
@@ -65,7 +65,7 @@ const ShipmentToDelivery = () => {
           <SwiperSlide key={item.title}>
             <div className="flex items-center gap-5">
               <div>{item.icon}</div>
-              <div className="flex flex-col space-y-2 ">
+              <div className="">
                 <span className="text-xl md:text-2xl text-brand_secondary">
                   {item.title}
                 </span>

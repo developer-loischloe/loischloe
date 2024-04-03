@@ -4,7 +4,7 @@ import { AddReview } from "./AddReview";
 
 const index = ({ product }: any) => {
   return (
-    <div className="space-y-5">
+    <div className="space-y-10">
       <ReviewsList product={product} />
       <AddReview product={product} />
     </div>
