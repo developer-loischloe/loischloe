@@ -32,7 +32,8 @@ const BeautyAdvice = () => {
   return (
     <section>
       <div className="">
-        <h4 className="heading-1 text-center">Beauty advice</h4>
+        <h5 className="text-center">Explore</h5>
+        <h4 className="heading-1 text-center">The Power Of Green Cosmetics</h4>
 
         <div className="grid grid-cols-1 gap-y-10 md:grid-cols-4 md:gap-5">
           {constant.map((item) => (

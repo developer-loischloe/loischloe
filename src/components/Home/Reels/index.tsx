@@ -12,35 +12,23 @@ import VideoCard from "./VideoCard";
 const constants = [
   {
     id: 1,
-    link: "https://cloud.appwrite.io/v1/storage/buckets/65f44a5392dad52d3c99/files/65f4761a2a5e6de82556/view?project=65ed75e73895ca457661",
+    link: "https://cloud.appwrite.io/v1/storage/buckets/65f44a5392dad52d3c99/files/660e8220f02e73a09e21/view?project=65ed75e73895ca457661&mode=admin",
   },
   {
     id: 2,
-    link: "https://cloud.appwrite.io/v1/storage/buckets/65f44a5392dad52d3c99/files/65f4761a2a5e6de82556/view?project=65ed75e73895ca457661",
+    link: "https://cloud.appwrite.io/v1/storage/buckets/65f44a5392dad52d3c99/files/660e82857a904d16610f/view?project=65ed75e73895ca457661&mode=admin",
   },
   {
     id: 3,
-    link: "https://cloud.appwrite.io/v1/storage/buckets/65f44a5392dad52d3c99/files/65f4761a2a5e6de82556/view?project=65ed75e73895ca457661",
+    link: "https://cloud.appwrite.io/v1/storage/buckets/65f44a5392dad52d3c99/files/660e82a6d2c4cc1199b0/view?project=65ed75e73895ca457661&mode=admin",
   },
   {
     id: 4,
-    link: "https://cloud.appwrite.io/v1/storage/buckets/65f44a5392dad52d3c99/files/65f4761a2a5e6de82556/view?project=65ed75e73895ca457661",
+    link: "https://cloud.appwrite.io/v1/storage/buckets/65f44a5392dad52d3c99/files/660e82bfc810e3a9c424/view?project=65ed75e73895ca457661&mode=admin",
   },
   {
     id: 5,
-    link: "https://cloud.appwrite.io/v1/storage/buckets/65f44a5392dad52d3c99/files/65f4761a2a5e6de82556/view?project=65ed75e73895ca457661",
-  },
-  {
-    id: 6,
-    link: "https://cloud.appwrite.io/v1/storage/buckets/65f44a5392dad52d3c99/files/65f4761a2a5e6de82556/view?project=65ed75e73895ca457661",
-  },
-  {
-    id: 7,
-    link: "https://cloud.appwrite.io/v1/storage/buckets/65f44a5392dad52d3c99/files/65f4761a2a5e6de82556/view?project=65ed75e73895ca457661",
-  },
-  {
-    id: 8,
-    link: "https://cloud.appwrite.io/v1/storage/buckets/65f44a5392dad52d3c99/files/65f4761a2a5e6de82556/view?project=65ed75e73895ca457661",
+    link: "https://cloud.appwrite.io/v1/storage/buckets/65f44a5392dad52d3c99/files/660e82ecd096f2dba9c6/view?project=65ed75e73895ca457661&mode=admin",
   },
 ];
 
@@ -62,7 +50,8 @@ export default function Reels() {
 
   return (
     <section ref={reelsRef}>
-      <h4 className="heading-1">Beauty Reels</h4>
+      <h5 className="text-center">Find Out</h5>
+      <h4 className="heading-1 text-center">What's Trendings On Instagram</h4>
       <Swiper
         effect={"coverflow"}
         grabCursor={true}

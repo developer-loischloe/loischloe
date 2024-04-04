@@ -31,6 +31,28 @@ const page = async () => {
   return (
     <section>
       <Button onClick={handleClick}>update</Button>
+      <h1>FIND OUT MORE ABOUT LOIS CHLOE</h1>
+      <p>
+        LOIS CHLOE, the cruelty-free luxury beauty brand. We presents a complete
+        range of highly advanced beauty products with clinically-proven efficacy
+        and safety: in two categories: makeup and skincare. We believe that the
+        beauty is not luxurious imagination. The journey to true beauty starts
+        from a place deep within. So for that LOISCHLOE combines the highest
+        standard of pure, natural, active ingredients with leading Australia’s
+        clinical research for proven and sustainable results in skin. We care
+        deeply about the health of people’s skin. We’re inspired by nature and
+        the powerful ingredients it produces.
+      </p>
+
+      <Button>SEE JOURNAL TO KNOW MORE</Button>
+
+      <p>
+        LOIS CHLOE has set itself the mission of offering all women and men
+        worldwide a wide range of luxuries quality of products with colors,
+        textures, efficacy and safety based on their expectations that will
+        allow them to represent their style in the best manner. We will be
+        responsible for giving them the confidence to express themselves.
+      </p>
     </section>
   );
 };

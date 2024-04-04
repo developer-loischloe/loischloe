@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight, Copyright } from "lucide-react";
+import { ChevronRight, Copyright, Facebook, Youtube } from "lucide-react";
 
 import NewsLetterForm from "../Shared/NewsLetterForm";
 
@@ -84,16 +84,19 @@ const Footer = () => {
                   href="https://www.facebook.com/Loischloe.asia"
                   target="_blank"
                 >
-                  <Image src={facebook} alt="facebook" className="w-[35px]" />
+                  <Facebook />
+                  {/* <Image src={facebook} alt="facebook" className="w-[35px]" /> */}
                 </Link>
                 <Link href="https://www.youtube.com/@loischloe" target="_blank">
-                  <Image src={youtube} alt="youtube" className="w-[35px]" />
+                  {/* <Image src={youtube} alt="youtube" className="w-[35px]" /> */}
+                  <Youtube />
                 </Link>
                 <Link
                   href="https://www.tiktok.com/@loischloe.bangladesh"
                   target="_blank"
                 >
-                  <Image src={tiktok} alt="tiktok" className="w-[35px]" />
+                  {/* <Image src={tiktok} alt="tiktok" className="w-[35px]" /> */}
+                  <Youtube />
                 </Link>
               </div>
             </div>

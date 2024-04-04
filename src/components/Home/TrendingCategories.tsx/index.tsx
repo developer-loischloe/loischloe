@@ -3,10 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-import Lipstick from "@/assets/category/lipstick.webp";
-import FacePallette from "@/assets/category/Face-Pallette.png";
-import Mascara from "@/assets/category/Mascara.webp";
-import mascara from "@/assets/category/mascara.svg";
+import Lipstick from "@/assets/category/lipstick.jpeg";
+import FacePallette from "@/assets/category/Face-Pallete.jpeg";
+import Mascara from "@/assets/category/Mascara.jpeg";
+import mascara from "@/assets/category/Combo.jpeg";
 
 const TrendingCategories = () => {
   const categoriesConstant = [
@@ -34,6 +34,7 @@ const TrendingCategories = () => {
 
   return (
     <section>
+      <h5 className="text-center">Explore</h5>
       <h2 className="heading-1 text-center">Trending Categories</h2>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
@@ -42,7 +43,7 @@ const TrendingCategories = () => {
             <Link href={category.link}>
               <div
                 className={cn(
-                  "w-[90px] h-[90px] md:w-[130px] md:h-[130px] rounded-full flex items-center justify-center p-3 md:p-4",
+                  "w-[90px] h-[90px] md:w-[130px] md:h-[130px] rounded-full flex items-center justify-center p-2",
                   `bg-[#ffb662b2]`
                 )}
               >
@@ -50,7 +51,7 @@ const TrendingCategories = () => {
                   <Image
                     src={category.icon}
                     alt="Lipstick"
-                    className="w-full max-w-[60px] md:max-w-[80px]"
+                    className="w-full h-full rounded-full"
                   />
                 </div>
               </div>
