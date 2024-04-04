@@ -20,8 +20,6 @@ interface Image {
 export default function ProductImageSlider({ images }: { images: Image[] }) {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperRef | null>(null);
 
-  console.log(images);
-
   return (
     <div className="flex-1 overflow-hidden">
       <div className="flex flex-col lg:flex-row-reverse gap-5">
@@ -52,8 +50,6 @@ export default function ProductImageSlider({ images }: { images: Image[] }) {
                     height={500}
                     priority
                   />
-
-                  <h5>{image.alt}</h5>
                 </SwiperSlide>
               ))}
           </Swiper>

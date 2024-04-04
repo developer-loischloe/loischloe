@@ -1,13 +1,13 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -76,13 +76,15 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       fontFamily: {
-        parisienne: "var(--font-parisienne)",
-        josefin_Sans: "var(--font-josefin_Sans)",
-      },    },
+        ooh_baby: "var(--font-ooh_baby)",
+        belleza: "var(--font-belleza)",
+      },
+    },
   },
   plugins: [
     require("tailwindcss-animate"),
-    require('@tailwindcss/aspect-ratio'),],
-} satisfies Config
+    require("@tailwindcss/aspect-ratio"),
+  ],
+} satisfies Config;
 
-export default config
+export default config;

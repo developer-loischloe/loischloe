@@ -14,7 +14,7 @@ const myStyles = {
 
 const ProductCard = ({ product }: { product: any }) => {
   return (
-    <div className="shadow-2xl rounded-sm flex flex-col items-center justify-between group">
+    <div className=" shadow-2xl rounded-sm flex flex-col items-center justify-between group">
       <div className="w-full overflow-hidden">
         <Link href={`/products/${product?.slug}`}>
           <Image

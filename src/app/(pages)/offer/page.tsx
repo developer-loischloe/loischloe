@@ -1,22 +1,45 @@
+import React from "react";
+import dynamic from "next/dynamic";
+
 import OfferBanner from "@/components/Offer/OfferBanner";
 import appwriteProductService from "@/appwrite/appwriteProductService";
-import React from "react";
-import Marquee from "react-fast-marquee";
 import ProductCard from "@/components/Products/ProductCard";
+import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
+const CountDown = dynamic(() => import("@/components/Shared/countDown"), {
+  ssr: false,
+});
 
 const page = () => {
+  const timeInSideDhaka = new Date("4/7/2024 16:00:00");
+  const timeOutSideDhaka = new Date("4/6/2024 16:00:00");
+
+  timeInSideDhaka.setSeconds(timeInSideDhaka.getSeconds());
+  timeOutSideDhaka.setSeconds(timeOutSideDhaka.getSeconds());
+
   return (
     <>
       <OfferBanner />
-      <div className="bg-brand_primary py-3">
-        <Marquee>
-          <div className="flex gap-20">
-            <div>Order Now! To Get Delivery Before Eid!</div>
-            <div>Order Now! To Get Delivery Before Eid!</div>
-            <div>Order Now! To Get Delivery Before Eid!</div>
+      <LoisChloeMarquee />
+      <section>
+        <h3 className="text-2xl md:text-4xl font-bold text-center mb-2">
+          Last minute delivery before Eid!
+        </h3>
+        <div className="flex flex-row justify-between items-center gap-1">
+          <div>
+            <h4 className="text-md md:text-2xl font-bold text-center">
+              Inside Dhaka
+            </h4>
+            <CountDown expiryTimestamp={timeInSideDhaka} />
           </div>
-        </Marquee>
-      </div>
+
+          <div>
+            <h4 className="text-md md:text-2xl  font-bold text-center">
+              OutSide Dhaka
+            </h4>
+            <CountDown expiryTimestamp={timeOutSideDhaka} />
+          </div>
+        </div>
+      </section>
       <section>
         <OfferProducts parent_category="offer" />
       </section>

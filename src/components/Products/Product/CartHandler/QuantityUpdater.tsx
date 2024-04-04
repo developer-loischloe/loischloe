@@ -14,7 +14,7 @@ const QuantityUpdater = ({
   const dispatch = useDispatch();
 
   return (
-    <div className="flex items-center gap-5 border max-w-max max-h-[50px] px-2 py-2 rounded-sm select-none">
+    <div className="flex items-center gap-3 border max-w-max max-h-[50px] px-2 py-2 rounded-sm select-none">
       <Minus
         size={20}
         onClick={() => {

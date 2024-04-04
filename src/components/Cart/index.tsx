@@ -25,7 +25,7 @@ const Cart = () => {
     );
   }
   return (
-    <div className="flex flex-col items-center md:flex-row md:items-start gap-10">
+    <div className="flex flex-col items-center lg:flex-row lg:items-start gap-10">
       <CartList cartList={cartList} />
       <CartSummary title="Cart Summary" showBtn />
     </div>

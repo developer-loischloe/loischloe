@@ -29,7 +29,7 @@ const CartItem = ({
   return (
     <div
       key={product.$id}
-      className="flex flex-col md:flex-row md:items-center gap-8 border p-5 overflow-hidden rounded-sm"
+      className="flex flex-col md:flex-row md:items-center gap-8 border overflow-hidden rounded-sm"
     >
       <Image
         src={product?.images[0]?.image_url}
@@ -40,49 +40,52 @@ const CartItem = ({
       />
       <div className="flex-1 flex flex-col lg:flex-row lg:justify-between gap-5">
         <div>
-          <h5 className="text-lg">{product.name}</h5>
+          <h5 className="text-lg px-4">{product.name}</h5>
 
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Price</TableHead>
+                <TableHead className="">Price</TableHead>
                 <TableHead className="text-center">Quantity</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead className="text-right">Action</TableHead>
+                <TableHead className="">Total</TableHead>
+                <TableHead className="">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               <TableRow>
-                <TableCell className="font-medium">
+                <TableCell className="font-medium ">
                   <ins className="no-underline text-brand_gray">
                     <span className="">
                       {formatCurrency(product?.sale_price)}
                     </span>
                   </ins>
                 </TableCell>
-                <TableCell>
+                <TableCell className="">
                   <QuantityUpdater
                     quantity={quantity}
                     setQuantity={setQuantity}
                     product={product}
                   />
+                  {/* <span>5</span> */}
                 </TableCell>
-                <TableCell>
+                <TableCell className="">
                   <ins className="no-underline text-brand_gray">
                     <span className="">
                       {formatCurrency(product?.sale_price * quantity)}
                     </span>
                   </ins>
                 </TableCell>
-                <TableCell className="text-right">
-                  <Trash2
-                    size={18}
-                    color="red"
-                    className="cursor-pointer"
-                    onClick={() => {
-                      dispatch(removeFromCart({ productId: product.$id }));
-                    }}
-                  />
+                <TableCell className="">
+                  <div className="w-full flex items-center justify-center">
+                    <Trash2
+                      size={18}
+                      color="red"
+                      className="cursor-pointer"
+                      onClick={() => {
+                        dispatch(removeFromCart({ productId: product.$id }));
+                      }}
+                    />
+                  </div>
                 </TableCell>
               </TableRow>
             </TableBody>

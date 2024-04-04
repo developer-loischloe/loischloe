@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
+import { Belleza, Oooh_Baby } from "next/font/google";
 
 // Import Swiper CSS
 import "swiper/css";
@@ -15,18 +17,26 @@ import "@smastrom/react-rating/style.css";
 import "./swipper.css";
 import "./globals.css";
 
-import { Parisienne, Josefin_Sans } from "next/font/google";
+// const creation_demo = localFont({
+//   src: [
+//     {
+//       path: "./Creattion-Demo.otf",
+//       weight: "400",
+//       style: "normal",
+//     },
+//   ],
+// });
 
-export const josefin_Sans = Josefin_Sans({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-josefin_Sans",
-});
-
-export const parisienne = Parisienne({
+export const belleza = Belleza({
   subsets: ["latin"],
   weight: ["400"],
-  variable: "--font-parisienne",
+  variable: "--font-belleza",
+});
+
+export const ooh_baby = Oooh_Baby({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-ooh_baby",
 });
 
 export const metadata: Metadata = {
@@ -43,7 +53,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${josefin_Sans.variable} ${parisienne.variable}`}>
+      <body className={`${belleza.variable} ${ooh_baby.variable}`}>
         {children}
       </body>
     </html>

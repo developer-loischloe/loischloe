@@ -50,7 +50,7 @@ export default function Reels() {
 
   return (
     <section ref={reelsRef}>
-      <h5 className="text-center">Find Out</h5>
+      <h5 className="text-center subHeading">Find Out</h5>
       <h4 className="heading-1 text-center">What's Trendings On Instagram</h4>
       <Swiper
         effect={"coverflow"}

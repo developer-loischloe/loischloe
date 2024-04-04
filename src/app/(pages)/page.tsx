@@ -12,6 +12,7 @@ import WhyChooseUs from "@/components/Home/WhyChooseUs";
 import Faq from "@/components/Home/Faq";
 import { Suspense } from "react";
 import FeaturedProductListLoading from "@/components/Shared/loading/FeaturedProductListLoading";
+import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
   ssr: false,
 });
@@ -24,6 +25,8 @@ export default function Home() {
   return (
     <div>
       <HomeSlider />
+      <LoisChloeMarquee />
+
       <ShipmentToDelivery />
       <TrendingCategories />
       <Offer />

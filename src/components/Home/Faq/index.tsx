@@ -57,7 +57,7 @@ const Faq = () => {
             />
           </div>
           <div className="flex-1">
-            <h5>#askanything</h5>
+            <h5 className="subHeading">#askanything</h5>
             <h4 className="heading-1">Frequently asked questions</h4>
             <div>
               <Accordion type="single" collapsible className="space-y-5">

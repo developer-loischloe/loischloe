@@ -20,7 +20,9 @@ const offerConstant = [
 const Offer = () => {
   return (
     <section>
-      <h2 className="text-center mb-5">Embrace Cruelty Free Chic Makeup</h2>
+      <h2 className="text-center mb-5 text-2xl">
+        Embrace Cruelty Free Chic Makeup
+      </h2>
       <div className="flex flex-col md:flex-row justify-between gap-10">
         {offerConstant.map((offer) => (
           <OfferCard key={offer.title} offer={offer} />

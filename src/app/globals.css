@@ -76,7 +76,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-josefin_Sans;
+    @apply bg-background text-foreground font-belleza;
     color: var(--default-color);
     background: #fff;
   }
@@ -85,6 +85,10 @@
 @layer utilities {
   .heading-1 {
     @apply text-3xl md:text-4xl lg:text-5xl font-bold mb-10 md:mb-16;
+  }
+
+  .subHeading {
+    @apply font-ooh_baby text-2xl text-brand_gray -mb-1;
   }
 
   .notfound {

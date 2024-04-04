@@ -18,7 +18,7 @@ const TrendingCategories = () => {
     {
       icon: FacePallette,
       name: "Face palette",
-      link: "products?p_category=makeup&c_category=face&n_category=face-pallete",
+      link: "products?p_category=makeup&c_category=face",
     },
     {
       icon: Mascara,
@@ -34,7 +34,7 @@ const TrendingCategories = () => {
 
   return (
     <section>
-      <h5 className="text-center">Explore</h5>
+      <h5 className="text-center subHeading">Explore</h5>
       <h2 className="heading-1 text-center">Trending Categories</h2>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-10">

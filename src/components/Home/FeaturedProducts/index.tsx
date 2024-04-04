@@ -10,7 +10,7 @@ const FeaturedProducts = async () => {
 
   return (
     <section>
-      <h5 className="text-center">Perfect For You</h5>
+      <h5 className="text-center subHeading">Perfect For You</h5>
       <h4 className="heading-1 text-center">Featured Products</h4>
 
       <div className="flex flex-col items-center gap-10">
