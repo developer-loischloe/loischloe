@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getDistrict, getDivision, getUpozila } from "divisionbd";
+import { getDistrict, getDivision } from "divisionbd";
 import { shippingCostProvider, validateEmail } from "@/lib/utils";
 import { Textarea } from "../ui/textarea";
 import dynamic from "next/dynamic";
@@ -35,7 +35,6 @@ import {
   updateCartCost,
 } from "@/redux/features/cart/cartSlice";
 import appwriteOrderService from "@/appwrite/appwriteOrderService";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 const CartSummary = dynamic(() => import("../Cart/CartSummary"), {
   ssr: false,
@@ -57,9 +56,6 @@ const formSchema = z.object({
   district: z.string().min(3, {
     message: "Please choose a district.",
   }),
-  upozila: z.string().min(3, {
-    message: "Please choose a upozila.",
-  }),
   address: z.string().min(10, {
     message: "Enter your detailed address.",
   }),
@@ -80,23 +76,12 @@ export default function ShippingInformation() {
       phone: "",
       email: "",
       district: "",
-      upozila: "",
       address: "",
       order_notes: "",
     },
   });
 
   const { isDirty, isSubmitting } = form.formState;
-
-  const getCurrentDivision = (currentDistrict: string) => {
-    const currrentDivision = getDivision().find((division) => {
-      return getDistrict(division.name).find(
-        (district) => district.name === currentDistrict
-      );
-    });
-
-    return currrentDivision?.name ? currrentDivision.name : "";
-  };
 
   const getOrderItems = (cartList: Item[]) => {
     return cartList.map((item) => {
@@ -112,9 +97,9 @@ export default function ShippingInformation() {
       shippingInformation: shippingInfo,
       orderItems: getOrderItems(cartList),
       paymentInformation: {
-        payment_method: "online-payment",
-        payment_id: "dsfdgdfdfgf54664654gfhghgf",
-        payment_status: "paid",
+        payment_method: "cash-on-delivery",
+        payment_id: "",
+        payment_status: "pending",
         // paidAt: Date.now(),
         product_price: cartCost.product_price,
         shipping_cost: cartCost.shipping_cost,
@@ -187,7 +172,8 @@ export default function ShippingInformation() {
                 </FormItem>
               )}
             />
-
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <FormField
               control={form.control}
               name="district"
@@ -226,41 +212,12 @@ export default function ShippingInformation() {
 
             <FormField
               control={form.control}
-              name="upozila"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Upozila</FormLabel>
-                  <Select onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger className="">
-                        <SelectValue placeholder="Select your upozila" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {form.watch().district &&
-                        getUpozila(
-                          getCurrentDivision(form.getValues().district),
-                          form.getValues().district
-                        ).map((upozila: { name: string }) => (
-                          <SelectItem key={upozila.name} value={upozila.name}>
-                            {upozila.name}
-                          </SelectItem>
-                        ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="address"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="col-span-2">
                   <FormLabel>Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your detailed address" {...field} />
+                    <Textarea placeholder="Your detailed address" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

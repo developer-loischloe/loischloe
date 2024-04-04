@@ -1,3 +1,4 @@
+"use client";
 import appwriteOrderService from "@/appwrite/appwriteOrderService";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";

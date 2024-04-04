@@ -84,7 +84,7 @@
 
 @layer utilities {
   .heading-1 {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold mb-16;
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold mb-10 md:mb-16;
   }
 
   .notfound {
@@ -102,10 +102,18 @@
   .product_description_container ul {
     @apply list-disc list-inside;
   }
+
+  .product_description_container ol {
+    @apply list-decimal list-inside;
+  }
+
+  .product_description_container h5 {
+    @apply text-brand_secondary text-xl;
+  }
 }
 
 @layer components {
   section {
-    @apply max-w-7xl mx-auto px-5 py-10 md:py-16;
+    @apply max-w-7xl mx-auto px-5 py-7 md:py-16;
   }
 }

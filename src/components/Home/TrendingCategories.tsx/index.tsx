@@ -3,26 +3,25 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-import lipstick from "@/assets/category/lipstick.svg";
-import powder from "@/assets/category/powder.svg";
-import brush from "@/assets/category/brush.svg";
+import Lipstick from "@/assets/category/lipstick.webp";
+import FacePallette from "@/assets/category/Face-Pallette.png";
+import Mascara from "@/assets/category/Mascara.webp";
 import mascara from "@/assets/category/mascara.svg";
-import eyeliner from "@/assets/category/eyeliner.svg";
 
 const TrendingCategories = () => {
   const categoriesConstant = [
     {
-      icon: lipstick,
+      icon: Lipstick,
       name: "Lipsticks",
       link: "products?p_category=makeup&c_category=lips",
     },
     {
-      icon: powder,
+      icon: FacePallette,
       name: "Face palette",
       link: "products?p_category=makeup&c_category=face&n_category=face-pallete",
     },
     {
-      icon: brush,
+      icon: Mascara,
       name: "Eye makeup",
       link: "products?p_category=makeup&c_category=eyes",
     },
@@ -51,7 +50,7 @@ const TrendingCategories = () => {
                   <Image
                     src={category.icon}
                     alt="Lipstick"
-                    className="w-full max-w-[40px] md:max-w-[60px]"
+                    className="w-full max-w-[60px] md:max-w-[80px]"
                   />
                 </div>
               </div>

@@ -6,7 +6,7 @@ const LoisChloeMagazine = () => {
   return (
     <section className="bg-brand_secondary">
       <div className="flex flex-col md:flex-row gap-10 items-center justify-around">
-        <h4 className="text-brand_primary text-2xl">Lois Chloe Magazine</h4>
+        <h4 className="text-brand_primary text-2xl">LOIS CHLOE Magazine</h4>
 
         <Link
           href={
@@ -17,7 +17,7 @@ const LoisChloeMagazine = () => {
             variant="outline"
             className="text-brand_primary bg-inherit border-brand_primary hover:bg-inherit hover:text-white"
           >
-            Download Now
+            Learn more in details
           </Button>
         </Link>
       </div>

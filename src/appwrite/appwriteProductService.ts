@@ -71,7 +71,11 @@ export class AppwriteProductService {
       const response = await databases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId.product,
-        [Query.equal("featured", [true]), Query.limit(10)]
+        [
+          Query.equal("featured", [true]),
+          Query.orderDesc("$createdAt"),
+          Query.limit(10),
+        ]
       );
 
       return response;

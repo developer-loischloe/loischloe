@@ -12,81 +12,6 @@ import "./style.css";
 // import required modules
 import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
 
-const feedBacks = [
-  {
-    id: 1,
-    author: "John Doe",
-    avatar: "/review/review.jpg",
-    rating: 4,
-    review:
-      "“OHSOGO is my go-to for exclusive brands and 100% original products that never disappoint”",
-  },
-  {
-    id: 2,
-    author: "John Doe",
-    avatar: "/review/review.jpg",
-    rating: 4,
-    review:
-      "“OHSOGO is my go-to for exclusive brands and 100% original products that never disappoint”",
-  },
-  {
-    id: 3,
-    author: "John Doe",
-    avatar: "/review/review.jpg",
-    rating: 4,
-    review:
-      "“OHSOGO is my go-to for exclusive brands and 100% original products that never disappoint”",
-  },
-  {
-    id: 4,
-    author: "John Doe",
-    avatar: "/review/review.jpg",
-    rating: 4,
-    review:
-      "“OHSOGO is my go-to for exclusive brands and 100% original products that never disappoint”",
-  },
-  {
-    id: 5,
-    author: "John Doe",
-    avatar: "/review/review.jpg",
-    rating: 4,
-    review:
-      "“OHSOGO is my go-to for exclusive brands and 100% original products that never disappoint”",
-  },
-  {
-    id: 6,
-    author: "John Doe",
-    avatar: "/review/review.jpg",
-    rating: 4,
-    review:
-      "“OHSOGO is my go-to for exclusive brands and 100% original products that never disappoint”",
-  },
-  {
-    id: 7,
-    author: "John Doe",
-    avatar: "/review/review.jpg",
-    rating: 4,
-    review:
-      "“OHSOGO is my go-to for exclusive brands and 100% original products that never disappoint”",
-  },
-  {
-    id: 8,
-    author: "John Doe",
-    avatar: "/review/review.jpg",
-    rating: 4,
-    review:
-      "“OHSOGO is my go-to for exclusive brands and 100% original products that never disappoint”",
-  },
-  {
-    id: 9,
-    author: "John Doe",
-    avatar: "/review/review.jpg",
-    rating: 4,
-    review:
-      "“OHSOGO is my go-to for exclusive brands and 100% original products that never disappoint”",
-  },
-];
-
 interface Image {
   image_id: string;
   image_url: string;
@@ -94,6 +19,8 @@ interface Image {
 }
 export default function ProductImageSlider({ images }: { images: Image[] }) {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperRef | null>(null);
+
+  console.log(images);
 
   return (
     <div className="flex-1 overflow-hidden">
@@ -125,6 +52,8 @@ export default function ProductImageSlider({ images }: { images: Image[] }) {
                     height={500}
                     priority
                   />
+
+                  <h5>{image.alt}</h5>
                 </SwiperSlide>
               ))}
           </Swiper>

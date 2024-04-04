@@ -16,21 +16,17 @@ import { Autoplay } from "swiper/modules";
 // Import Swiper styles
 import "./styles.css";
 
-import Main_banner_1 from "../../../../public/home_slider/main_banner_1.jpg";
-import Mobile_banner_1 from "../../../../public/home_slider/mobile_banner_1.jpg";
+import Main_banner_1 from "../../../../public/home_slider/main_banner_1.png";
+import Mobile_banner_1 from "../../../../public/home_slider/mobile_banner_1.png";
 import Main_banner_2 from "../../../../public/home_slider/main_banner_2.jpg";
 import Mobile_banner_2 from "../../../../public/home_slider/mobile_banner_2.jpg";
-import Main_banner_3 from "../../../../public/home_slider/main_banner_3.jpg";
-import Mobile_banner_3 from "../../../../public/home_slider/mobile_banner_3.jpg";
-import Main_banner_4 from "../../../../public/home_slider/main_banner_4.jpeg";
-import Mobile_banner_4 from "../../../../public/home_slider/mobile_banner_4.jpeg";
 
 const sliderConstant = [
   {
     id: 1,
     banner: {
-      main: Main_banner_4,
-      mobile: Mobile_banner_4,
+      main: Main_banner_1,
+      mobile: Mobile_banner_1,
     },
     alt: "banner 1",
     link: "/products",
@@ -38,29 +34,11 @@ const sliderConstant = [
   {
     id: 2,
     banner: {
-      main: Main_banner_4,
-      mobile: Mobile_banner_4,
+      main: Main_banner_2,
+      mobile: Mobile_banner_2,
     },
     alt: "banner 2",
-    link: "#",
-  },
-  {
-    id: 3,
-    banner: {
-      main: Main_banner_4,
-      mobile: Mobile_banner_4,
-    },
-    alt: "banner 3",
-    link: "#",
-  },
-  {
-    id: 4,
-    banner: {
-      main: Main_banner_4,
-      mobile: Mobile_banner_4,
-    },
-    alt: "banner 4",
-    link: "#",
+    link: "/offer",
   },
 ];
 

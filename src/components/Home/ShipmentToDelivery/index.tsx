@@ -1,37 +1,35 @@
 "use client";
-import { BadgeCheck, CornerDownLeft, Headset, Truck } from "lucide-react";
-
+import { Vegan, Check, PackageSearch, Rabbit, MilkOff } from "lucide-react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
 // import required modules
 import { Autoplay, Scrollbar } from "swiper/modules";
 
 const constant = [
   {
     id: 1,
-    icon: <BadgeCheck size={25} color="#002d34" />,
+    icon: <Vegan size={20} color="#002d34" />,
     title: "100% Vegan",
   },
   {
     id: 2,
-    icon: <Headset size={25} color="#002d34" />,
+    icon: <Check size={20} color="#002d34" />,
     title: "BSTI approved",
   },
   {
     id: 3,
-    icon: <Truck size={25} color="#002d34" />,
+    icon: <PackageSearch size={20} color="#002d34" />,
     title: "Australian made",
   },
   {
     id: 4,
-    icon: <CornerDownLeft size={25} color="#002d34" />,
+    icon: <Rabbit size={20} color="#002d34" />,
     title: "Cruelty free",
   },
   {
     id: 5,
-    icon: <CornerDownLeft size={25} color="#002d34" />,
-    title: "100% Chemical free",
+    icon: <MilkOff size={20} color="#002d34" />,
+    title: "Chemical free",
   },
 ];
 
@@ -66,7 +64,7 @@ const ShipmentToDelivery = () => {
             <div className="flex items-center gap-5">
               <div>{item.icon}</div>
               <div className="">
-                <span className="text-xl md:text-2xl text-brand_secondary">
+                <span className=" md:text-2xl text-brand_secondary">
                   {item.title}
                 </span>
               </div>

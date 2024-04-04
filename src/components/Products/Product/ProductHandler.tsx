@@ -31,7 +31,10 @@ const ProductHandler = ({ product }: any) => {
       </div>
 
       <div>
-        <p>{product?.short_description}</p>
+        <div
+          dangerouslySetInnerHTML={{ __html: product?.short_description }}
+          className="product_description_container"
+        />
       </div>
 
       <hr />
