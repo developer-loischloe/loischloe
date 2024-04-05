@@ -122,8 +122,8 @@ export default function ShippingInformation() {
     try {
       const response = await appwriteOrderService.createOrder(orderInfo);
       if (response) {
-        dispatch(resetCart());
         router.push(`/checkout/order-received/${response.$id}`);
+        dispatch(resetCart());
       }
     } catch (error) {
       console.log(error);
