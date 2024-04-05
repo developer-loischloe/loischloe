@@ -1,3 +1,8 @@
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import appwriteProductService from "@/appwrite/appwriteProductService";
 import Description from "@/components/Products/Product/Description";
 import ProductHandler from "@/components/Products/Product/ProductHandler";
@@ -5,9 +10,6 @@ import RelatedProducts from "@/components/Products/Product/RelatedProducts";
 import Reviews from "@/components/Products/Product/Reviews";
 import BreadCrumb from "@/components/Shared/BreadCrumb";
 import ProductListLoading from "@/components/Shared/loading/ProductListLoading";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
 const ProductImageSlider = dynamic(
   () => import("@/components/Products/Product/ProductImageSlider"),
   { ssr: false }
@@ -54,16 +56,3 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
 };
 
 export default page;
-
-// export async function generateStaticParams() {
-//   const products = await appwriteProductService.getProductList({
-//     category: "",
-//     keyword: "",
-//     page: "",
-//     productPerPage: 100,
-//   });
-
-//   return products.documents.map((product) => {
-//     return { slug: product.slug };
-//   });
-// }

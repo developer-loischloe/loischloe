@@ -74,45 +74,73 @@ export function AddReview({ product }: { product: any }) {
 
   const { isDirty, isSubmitting } = form.formState;
 
+  const getAvarageRating = (reviews: any[]) => {
+    return (
+      reviews?.reduce((acc, review) => acc + review.rating, 0) / reviews.length
+    );
+  };
+
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    if (reviewImages) {
-      uploadFiles(reviewImages, config.appwriteBucketId.review_image).then(
-        (uploadedimages) => {
-          databases
-            .updateDocument(
-              config.appwriteDatabaseId,
-              config.appwriteCollectionId.product,
-              product.$id,
-              {
-                reviews: [
-                  ...product.reviews,
-                  { ...values, images: uploadedimages },
-                ],
-              }
-            )
-            .then((response) => {
-              if (response) {
-                window.location.reload();
-              }
-            });
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      if (reviewImages) {
+        const uploadedimages = await uploadFiles(
+          reviewImages,
+          config.appwriteBucketId.review_image
+        );
+
+        const reviews = [
+          ...product.reviews,
+          {
+            ...(values.name && { name: values.name }),
+            ...(values.email && { email: values.email }),
+            ...(values.comment && { comment: values.comment }),
+            ...(values.rating && { rating: values.rating }),
+            images: uploadedimages,
+          },
+        ];
+
+        const response = await databases.updateDocument(
+          config.appwriteDatabaseId,
+          config.appwriteCollectionId.product,
+          product?.$id,
+          {
+            avg_rating: getAvarageRating(reviews),
+            reviews,
+          }
+        );
+
+        if (response) {
+          window.location.reload();
         }
-      );
-    } else {
-      databases
-        .updateDocument(
+      } else {
+        const reviews = [
+          ...product.reviews,
+          {
+            ...(values.name && { name: values.name }),
+            ...(values.email && { email: values.email }),
+            ...(values.comment && { comment: values.comment }),
+            ...(values.rating && { rating: values.rating }),
+            ...(values.images && { images: values.images }),
+          },
+        ];
+
+        const response = await databases.updateDocument(
           config.appwriteDatabaseId,
           config.appwriteCollectionId.product,
           product.$id,
           {
-            reviews: [...product.reviews, { ...values }],
+            avg_rating: getAvarageRating(reviews),
+            reviews,
           }
-        )
-        .then((response) => {
-          if (response) {
-            window.location.reload();
-          }
-        });
+        );
+
+        if (response) {
+          window.location.reload();
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -207,7 +235,7 @@ export function AddReview({ product }: { product: any }) {
           )}
         />
         <Button type="submit" disabled={!isDirty || isSubmitting}>
-          Submit
+          {isSubmitting ? "Submitting..." : "Submit"}
         </Button>
       </form>
     </Form>

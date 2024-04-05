@@ -3,7 +3,7 @@ import ProductPagination from "./Product/ProductPagination";
 import ProductCard from "./ProductCard";
 import appwriteProductService from "@/appwrite/appwriteProductService";
 
-export const productPerPage = 8;
+export const productPerPage = 12;
 
 const ProductList = async ({
   p_category,

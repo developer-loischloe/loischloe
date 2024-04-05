@@ -55,15 +55,15 @@ const ReviewsList = ({ product }: { product: any }) => {
               >
                 <div className="mt-5 flex flex-wrap gap-8">
                   {review?.images?.map((image: { id: string; url: string }) => (
-                    <div key={image.id}>
+                    <div key={image?.id}>
                       <a
-                        key={image.id}
+                        key={image?.id}
                         data-fancybox="gallery"
-                        href={image.url}
+                        href={image?.url}
                       >
                         <Image
                           alt={"review"}
-                          src={image.url}
+                          src={image?.url}
                           width={200}
                           height={200}
                           className="w-full h-full rounded  hover:scale-105 transition-all duration-300"

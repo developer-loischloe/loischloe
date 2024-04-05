@@ -1,13 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight, Copyright, Facebook, Youtube } from "lucide-react";
+import { ChevronRight, Copyright } from "lucide-react";
 
 import NewsLetterForm from "../Shared/NewsLetterForm";
-
-import facebook from "@/assets/social-media/facebook.png";
-import tiktok from "@/assets/social-media/tik-tok.png";
-import youtube from "@/assets/social-media/youtube.png";
 
 import Logo from "@/assets/Logo-Gold.png";
 // import SSLCommerzePaymentBanner from "@/assets/sslCommerze/sslcommerze-payment-method.webp";
