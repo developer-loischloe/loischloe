@@ -30,6 +30,7 @@ import PaymentInformation from "./PaymentInformation";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Item,
+  resetCart,
   selectCartCost,
   selectCartList,
   updateCartCost,
@@ -93,8 +94,19 @@ export default function ShippingInformation() {
   };
 
   async function onSubmit(shippingInfo: z.infer<typeof formSchema>) {
+    const shippingInformation = {
+      ...(shippingInfo.name && { name: shippingInfo.name }),
+      ...(shippingInfo.phone && { phone: shippingInfo.phone }),
+      ...(shippingInfo.email && { email: shippingInfo.email }),
+      ...(shippingInfo.district && { district: shippingInfo.district }),
+      ...(shippingInfo.address && { address: shippingInfo.address }),
+      ...(shippingInfo.order_notes && {
+        order_notes: shippingInfo.order_notes,
+      }),
+    };
+
     const orderInfo = {
-      shippingInformation: shippingInfo,
+      shippingInformation,
       orderItems: getOrderItems(cartList),
       paymentInformation: {
         payment_method: "cash-on-delivery",
@@ -107,10 +119,14 @@ export default function ShippingInformation() {
       },
     };
 
-    const response = await appwriteOrderService.createOrder(orderInfo);
-    console.log({ OrderResponse: response });
-    if (response) {
-      router.push(`/checkout/order-received/${response.$id}`);
+    try {
+      const response = await appwriteOrderService.createOrder(orderInfo);
+      if (response) {
+        dispatch(resetCart());
+        router.push(`/checkout/order-received/${response.$id}`);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 

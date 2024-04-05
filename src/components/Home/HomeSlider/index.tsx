@@ -40,6 +40,24 @@ const sliderConstant = [
     alt: "banner 2",
     link: "/offer",
   },
+  {
+    id: 3,
+    banner: {
+      main: Main_banner_1,
+      mobile: Mobile_banner_1,
+    },
+    alt: "banner 1",
+    link: "/products",
+  },
+  {
+    id: 4,
+    banner: {
+      main: Main_banner_2,
+      mobile: Mobile_banner_2,
+    },
+    alt: "banner 2",
+    link: "/offer",
+  },
 ];
 
 export default function App() {

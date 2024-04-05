@@ -96,6 +96,10 @@ export const cartSlice = createSlice({
         toast("Item remove from cart.");
       }
     },
+    resetCart: (state) => {
+      state.cartList = [];
+      setLocalCartItems([]);
+    },
     updateCartCost: (
       state,
       action: PayloadAction<{
@@ -117,7 +121,8 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, updateCartCost } = cartSlice.actions;
+export const { addToCart, removeFromCart, resetCart, updateCartCost } =
+  cartSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCartList = (state: RootState) => state.cart.cartList;

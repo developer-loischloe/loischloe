@@ -7,7 +7,7 @@ import Banner from "@/assets/about/About_Cover-1.webp";
 const page = () => {
   return (
     <section className="space-y-10">
-      <Image src={Banner} alt="Banner" />
+      <Image src={Banner} alt="Banner" priority />
       <h1 className="heading-1 text-center">FIND OUT MORE ABOUT LOIS CHLOE</h1>
       <p className="text-brand_gray">
         LOIS CHLOE, the cruelty-free luxury beauty brand. We presents a complete
