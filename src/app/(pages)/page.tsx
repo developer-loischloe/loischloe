@@ -14,7 +14,8 @@ import { Suspense } from "react";
 import FeaturedProductListLoading from "@/components/Shared/loading/FeaturedProductListLoading";
 import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
 const OfferCountDown = dynamic(
-  () => import("@/components/Shared/countDown/OfferCountDown")
+  () => import("@/components/Shared/countDown/OfferCountDown"),
+  { ssr: false }
 );
 
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
