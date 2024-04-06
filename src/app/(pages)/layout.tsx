@@ -5,6 +5,7 @@ import ReduxProvider from "./ReduxProvider";
 
 import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
+import FacebookMessanger from "./FacebookMessanger";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -16,6 +17,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       <Footer />
       <ReactScrollToTop />
       <Toaster />
+      <FacebookMessanger />
     </ReduxProvider>
   );
 };
