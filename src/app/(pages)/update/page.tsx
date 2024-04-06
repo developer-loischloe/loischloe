@@ -3,9 +3,9 @@ import UpdateProductImage from "./UpdateProductImage";
 
 const page = () => {
   return (
-    <div>
+    <section>
       <UpdateProductImage />
-    </div>
+    </section>
   );
 };
 
