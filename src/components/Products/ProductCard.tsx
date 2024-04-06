@@ -69,7 +69,7 @@ const ProductCard = ({ product }: { product: any }) => {
             </div>
 
             <div className="space-x-2">
-              <span className=""> {formatCurrency(product?.price)}</span>
+              <span className=""> {formatCurrency(product?.sale_price)}</span>
               <span
                 className={cn(
                   "text-brand_gray line-through",

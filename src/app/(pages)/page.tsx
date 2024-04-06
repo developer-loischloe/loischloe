@@ -13,6 +13,7 @@ import Faq from "@/components/Home/Faq";
 import { Suspense } from "react";
 import FeaturedProductListLoading from "@/components/Shared/loading/FeaturedProductListLoading";
 import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
+import OfferCountDown from "@/components/Shared/countDown/OfferCountDown";
 
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
   ssr: false,
@@ -29,6 +30,8 @@ export default function Home() {
 
       <ShipmentToDelivery />
       <TrendingCategories />
+      <OfferCountDown />
+
       <Offer />
       <Suspense fallback={<FeaturedProductListLoading />}>
         <FeaturedProducts />

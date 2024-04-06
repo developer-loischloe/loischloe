@@ -54,7 +54,7 @@ const page = () => {
 
   return (
     <section>
-      <div className="max-w-lg">
+      <div className="max-w-lg mx-auto">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
