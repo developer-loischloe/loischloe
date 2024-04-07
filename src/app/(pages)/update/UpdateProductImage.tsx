@@ -9,19 +9,9 @@ const UpdateProductImage = () => {
     const response = await databases.updateDocument(
       config.appwriteDatabaseId,
       config.appwriteCollectionId.product,
-      "66110b62534c53ca959f",
+      "66112320c3ea5b1014ba",
       {
-        images: [
-          "66110bee40494439a503",
-          "66110c0dbff5279bc5dc",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-        ],
+        images: ["661124faa7f7dc3279fc", "", "", "", "", "", "", "", ""],
       }
     );
 

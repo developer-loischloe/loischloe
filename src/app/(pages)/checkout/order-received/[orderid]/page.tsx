@@ -1,7 +1,10 @@
-import appwriteOrderService from "@/appwrite/appwriteOrderService";
-import { Button } from "@/components/ui/button";
+import { format as dateFormat } from "date-fns";
 import Link from "next/link";
-import React from "react";
+
+import appwriteOrderService from "@/appwrite/appwriteOrderService";
+import ShippingInformation from "@/components/Order_received/ShippingInformation";
+import OrderDetails from "@/components/Order_received/OrderDetails";
+import { Button } from "@/components/ui/button";
 
 const OrderReceived = async ({
   params: { orderid },
@@ -9,16 +12,28 @@ const OrderReceived = async ({
   params: { orderid: string };
 }) => {
   const order = await appwriteOrderService.getOrderDetails(orderid);
-  console.log(order);
 
   return (
     <section>
       <div className="space-y-3">
-        <div className="bg-green-100 p-3">
+        <div className="text-lg bg-green-100 p-3">
           Thank you. Your order has been received.
         </div>
-        <h1 className="text-2xl">Order Id: {orderid}</h1>
+        <h1 className="text-2xl">Order Id: {order.$id}</h1>
 
+        <time>
+          <span>Date</span>: <span></span>
+          {order?.$createdAt && (
+            <time className="text-brand_primary">
+              {dateFormat(order?.$createdAt, "MM-dd-yyyy")}
+            </time>
+          )}
+        </time>
+
+        <div className="space-y-5">
+          <ShippingInformation order={order} />
+          <OrderDetails order={order} />
+        </div>
         <div>
           <Link href={"/"}>
             <Button>Back to home</Button>
