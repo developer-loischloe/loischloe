@@ -97,6 +97,20 @@ export class AppwriteProductService {
       throw error;
     }
   }
+
+  async getMustEssentialsProductsByIds(productIDS: string[]) {
+    try {
+      const response = await databases.listDocuments(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId.product,
+        [Query.search("parent_category", parent_category), Query.limit(10)]
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 const appwriteProductService = new AppwriteProductService();

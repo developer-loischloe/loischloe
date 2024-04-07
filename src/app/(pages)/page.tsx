@@ -13,6 +13,7 @@ import Faq from "@/components/Home/Faq";
 import { Suspense } from "react";
 import FeaturedProductListLoading from "@/components/Shared/loading/FeaturedProductListLoading";
 import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
+import Xyz from "@/components/Home/Xyz";
 const OfferCountDown = dynamic(
   () => import("@/components/Shared/countDown/OfferCountDown"),
   { ssr: false }
@@ -40,6 +41,7 @@ export default function Home() {
         <FeaturedProducts />
       </Suspense>
       <LoisChloeMagazine />
+      {/* <Xyz /> */}
       <CustomerFeedback />
       <WhyChooseUs />
       <BeautyAdvice />
