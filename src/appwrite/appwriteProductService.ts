@@ -103,7 +103,7 @@ export class AppwriteProductService {
       const response = await databases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId.product,
-        [Query.search("parent_category", parent_category), Query.limit(10)]
+        []
       );
 
       return response;
