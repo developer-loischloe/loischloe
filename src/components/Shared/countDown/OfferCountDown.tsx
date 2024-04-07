@@ -1,8 +1,4 @@
-import dynamic from "next/dynamic";
-
-const CountDown = dynamic(() => import("@/components/Shared/countDown"), {
-  ssr: false,
-});
+import CountDown from "./CountDown";
 
 const OfferCountDown = () => {
   const timeInSideDhaka = new Date("4/7/2024 16:00:00");

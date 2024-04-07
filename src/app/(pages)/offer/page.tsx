@@ -1,9 +1,13 @@
 import React from "react";
+import dynamic from "next/dynamic";
 import OfferBanner from "@/components/Offer/OfferBanner";
 import appwriteProductService from "@/appwrite/appwriteProductService";
 import ProductCard from "@/components/Products/ProductCard";
 import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
-import OfferCountDown from "@/components/Shared/countDown/OfferCountDown";
+const OfferCountDown = dynamic(
+  () => import("@/components/Shared/countDown/OfferCountDown"),
+  { ssr: false }
+);
 
 const page = () => {
   return (
