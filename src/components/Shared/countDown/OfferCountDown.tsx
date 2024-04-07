@@ -1,11 +1,19 @@
+"use client";
+import { useEffect, useState } from "react";
 import CountDown from "./CountDown";
 
 const OfferCountDown = () => {
-  const timeInSideDhaka = new Date("4/7/2024 16:00:00");
-  const timeOutSideDhaka = new Date("4/6/2024 16:00:00");
+  const [timeInSideDhaka, setTimeInSideDhaka] = useState<null | Date>(
+    new Date("4/7/2024 16:00:00")
+  );
+  const [timeOutSideDhaka, setTimeOutSideDhaka] = useState<null | Date>(
+    new Date("4/6/2024 16:00:00")
+  );
 
-  timeInSideDhaka.setSeconds(timeInSideDhaka.getSeconds());
-  timeOutSideDhaka.setSeconds(timeOutSideDhaka.getSeconds());
+  useEffect(() => {
+    setTimeInSideDhaka(new Date("4/7/2024 16:00:00"));
+    setTimeOutSideDhaka(new Date("4/6/2024 16:00:00"));
+  }, []);
 
   return (
     <section>
