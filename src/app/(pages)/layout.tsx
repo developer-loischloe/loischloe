@@ -1,11 +1,15 @@
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
+
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
+import { Toaster } from "@/components/ui/sonner";
 import ReactScrollToTop from "./ReactScrollToTop";
 import ReduxProvider from "./ReduxProvider";
 
-import { Toaster } from "@/components/ui/sonner";
-import { Suspense } from "react";
-import FacebookMessanger from "./FacebookMessanger";
+const FacebookMessanger = dynamic(() => import("./FacebookMessanger"), {
+  ssr: false,
+});
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (

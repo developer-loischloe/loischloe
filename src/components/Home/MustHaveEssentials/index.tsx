@@ -1,8 +1,7 @@
 import React from "react";
 
 import appwriteProductService from "@/appwrite/appwriteProductService";
-import ProductsContainer from "./ProductsContainer";
-import ImageContainer from "./ImageContainer";
+import ClientWrapper from "./ClientWrapper";
 
 const MustHaveEssentials = async () => {
   const products = await appwriteProductService.getMustEssentialsProductsByIds([
@@ -14,14 +13,7 @@ const MustHaveEssentials = async () => {
   return (
     <section>
       <h1 className="heading-1 text-center">Absolute Must-Have Essentials</h1>
-      <div className="flex gap-10">
-        <div className="flex-1">
-          <ImageContainer products={products} />
-        </div>
-        <div className="flex-1">
-          <ProductsContainer products={products} />
-        </div>
-      </div>
+      <ClientWrapper products={products} />
     </section>
   );
 };

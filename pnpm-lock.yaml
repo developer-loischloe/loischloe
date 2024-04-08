@@ -101,9 +101,6 @@ dependencies:
   react-hotspots:
     specifier: ^1.3.2
     version: 1.3.2(react-dom@18.2.0)(react@18.2.0)
-  react-image-hotspots:
-    specifier: ^2.2.5
-    version: 2.2.5(react@18.2.0)
   react-player:
     specifier: ^2.15.1
     version: 2.15.1(react@18.2.0)
@@ -3617,14 +3614,6 @@ packages:
     resolution: {integrity: sha512-IBaDuHiShdZqmfc/TwHu6+d6k2ltNCf3AszxNmjJc1KUfXdEeRJOKyNvLmAHaarhzGmTSVygNdyu8/opXv2gaw==}
     peerDependencies:
       react: '*'
-    dependencies:
-      react: 18.2.0
-    dev: false
-
-  /react-image-hotspots@2.2.5(react@18.2.0):
-    resolution: {integrity: sha512-mQKaX3ZCsdd3g4apSSsPFTg8nE+n4xJXha+k156h/Wktk9wcblVkqzTYCw7WwCVGVRpxOv3mjcXWVPonbdsqcg==}
-    peerDependencies:
-      react: ^18.2.0
     dependencies:
       react: 18.2.0
     dev: false

@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
 
 // Components
 import HomeSlider from "@/components/Home/HomeSlider/index";
@@ -10,15 +11,14 @@ import LoisChloeMagazine from "@/components/Home/LoisChloeMagazine/index";
 import CustomerFeedback from "@/components/Home/CustomerFeedback";
 import WhyChooseUs from "@/components/Home/WhyChooseUs";
 import Faq from "@/components/Home/Faq";
-import { Suspense } from "react";
 import FeaturedProductListLoading from "@/components/Shared/loading/FeaturedProductListLoading";
 import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
 import MustHaveEssentials from "@/components/Home/MustHaveEssentials";
+
 const OfferCountDown = dynamic(
   () => import("@/components/Shared/countDown/OfferCountDown"),
   { ssr: false }
 );
-
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
   ssr: false,
 });
@@ -31,20 +31,17 @@ export default function Home() {
     <div>
       <HomeSlider />
       <LoisChloeMarquee />
-
       <ShipmentToDelivery />
       <TrendingCategories />
       <OfferCountDown />
-
       <Offer />
       <Suspense fallback={<FeaturedProductListLoading />}>
         <FeaturedProducts />
       </Suspense>
       <LoisChloeMagazine />
-      {/* <Suspense fallback={"Loading..."}>
+      <Suspense>
         <MustHaveEssentials />
-      </Suspense> */}
-
+      </Suspense>
       <CustomerFeedback />
       <WhyChooseUs />
       <BeautyAdvice />
