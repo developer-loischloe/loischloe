@@ -278,8 +278,10 @@
   }
 }
 
+
+
 .react-hotspots__hotspots__hotspot__content__container {
-  @apply rounded-md overflow-hidden;
+  @apply rounded-md overflow-hidden -ml-16 !z-[500];
 }
 .react-hotspots__image img {
   @apply rounded-2xl;

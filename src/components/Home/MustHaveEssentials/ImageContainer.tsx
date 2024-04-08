@@ -25,20 +25,21 @@ const ImageContainer = ({
           left: 0,
         };
         if (product?.$id === "660906177ffa1cc98562") {
-          position.top = 20;
-          position.left = 24;
-        } else if (product?.$id === "66110b62534c53ca959f") {
-          position.top = 20;
-          position.left = 50;
-        } else if (product?.$id === "66090035745143268a80") {
           position.top = 10;
-          position.left = 70;
+          position.left = 48;
+        } else if (product?.$id === "66110b62534c53ca959f") {
+          position.top = 16;
+          position.left = 22;
+        } else if (product?.$id === "66090035745143268a80") {
+          position.top = 5;
+          position.left = 67;
         }
         return {
           top: `${position.top}%`,
           left: `${position.left}%`,
           triggerIcon: (
             <div
+              className="max-w-max"
               onMouseEnter={() => {
                 setHoveredProduct(product?.$id);
               }}
@@ -51,7 +52,7 @@ const ImageContainer = ({
           ),
           className: "",
           content: (
-            <div className="w-full max-w-[150px] rounded-md -z-10">
+            <div className="w-full max-w-[150px] rounded-md">
               <h4>{product?.name}</h4>
               <p className="text-brand_primary">
                 {formatCurrency(product?.sale_price)}
