@@ -277,3 +277,10 @@
     box-shadow: inset 160px -160px 0px 5px rgba(0, 0, 0, 0.4);
   }
 }
+
+.react-hotspots__hotspots__hotspot__content__container {
+  @apply rounded-md overflow-hidden;
+}
+.react-hotspots__image img {
+  @apply rounded-2xl;
+}

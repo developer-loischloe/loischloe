@@ -100,13 +100,17 @@ export class AppwriteProductService {
 
   async getMustEssentialsProductsByIds(productIDS: string[]) {
     try {
-      const response = await databases.listDocuments(
-        config.appwriteDatabaseId,
-        config.appwriteCollectionId.product,
-        []
-      );
+      const productsPromise = productIDS.map((id) => {
+        return databases.getDocument(
+          config.appwriteDatabaseId,
+          config.appwriteCollectionId.product,
+          id
+        );
+      });
 
-      return response;
+      const products = await Promise.all(productsPromise);
+
+      return products;
     } catch (error) {
       throw error;
     }
