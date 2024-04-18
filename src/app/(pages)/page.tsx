@@ -12,28 +12,24 @@ import CustomerFeedback from "@/components/Home/CustomerFeedback";
 import WhyChooseUs from "@/components/Home/WhyChooseUs";
 import Faq from "@/components/Home/Faq";
 import FeaturedProductListLoading from "@/components/Shared/loading/FeaturedProductListLoading";
-import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
 import MustHaveEssentials from "@/components/Home/MustHaveEssentials";
 
-const OfferCountDown = dynamic(
-  () => import("@/components/Shared/countDown/OfferCountDown"),
-  { ssr: false }
-);
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
   ssr: false,
 });
-const Reels = dynamic(() => import("@/components/Home/Reels"), {
-  ssr: false,
-});
+const InstagramReels = dynamic(
+  () => import("@/components/Home/InstagramReels"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Home() {
   return (
     <div>
       <HomeSlider />
-      <LoisChloeMarquee />
       <ShipmentToDelivery />
       <TrendingCategories />
-      <OfferCountDown />
       <Offer />
       <Suspense fallback={<FeaturedProductListLoading />}>
         <FeaturedProducts />
@@ -46,7 +42,8 @@ export default function Home() {
       <WhyChooseUs />
       <BeautyAdvice />
       <Faq />
-      <Reels />
+      {/* <Reels /> */}
+      <InstagramReels />
     </div>
   );
 }

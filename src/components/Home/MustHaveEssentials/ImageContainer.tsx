@@ -25,14 +25,14 @@ const ImageContainer = ({
           left: 0,
         };
         if (product?.$id === "660906177ffa1cc98562") {
-          position.top = 10;
-          position.left = 48;
+          position.top = 45;
+          position.left = 50;
         } else if (product?.$id === "66110b62534c53ca959f") {
-          position.top = 16;
-          position.left = 22;
+          position.top = 55;
+          position.left = 24;
         } else if (product?.$id === "66090035745143268a80") {
-          position.top = 5;
-          position.left = 67;
+          position.top = 35;
+          position.left = 69;
         }
         return {
           top: `${position.top}%`,

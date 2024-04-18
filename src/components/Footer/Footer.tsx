@@ -22,7 +22,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-brand_secondary pb-10 md:pb-0">
-      <div className="text-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-20 justify-between max-w-7xl mx-auto px-5 py-16">
+      <div className="text-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 md:gap-20 justify-between max-w-7xl mx-auto px-5 py-16">
         <div className="lg:col-span-2">
           <div className="mb-5">
             <Link href={"/"}>

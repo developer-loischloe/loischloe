@@ -12,7 +12,8 @@ const MustHaveEssentials = async () => {
 
   return (
     <section>
-      <h1 className="heading-1 text-center">Absolute Must-Have Essentials</h1>
+      <h5 className="text-center subHeading">Absolute</h5>
+      <h4 className="heading-1 text-center">Must-Have Essentials</h4>
       <ClientWrapper products={products} />
     </section>
   );

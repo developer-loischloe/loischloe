@@ -20,16 +20,16 @@ const ReviewsList = ({ product }: { product: any }) => {
       <div className="space-y-7">
         {product?.reviews?.map((review: any) => (
           <div className="flex gap-5" key={review.$id}>
-            <div>
+            <div className="w-[60px]">
               <Image
                 src={review?.avatar}
                 alt={review?.name}
-                width={60}
-                height={60}
-                className="rounded-sm"
+                width={100}
+                height={100}
+                className="rounded-sm w-full"
               />
             </div>
-            <div>
+            <div className="flex-1">
               <div className="flex gap-2">
                 <address className="font-bold">{review?.name}</address>
                 {review?.reviewedAt && (
