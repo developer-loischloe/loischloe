@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Belleza, Oooh_Baby } from "next/font/google";
+import Script from "next/script";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 // Import Swiper CSS
 import "swiper/css";
@@ -15,7 +17,6 @@ import "@smastrom/react-rating/style.css";
 // Custom CSS
 import "./swipper.css";
 import "./globals.css";
-import Script from "next/script";
 
 export const belleza = Belleza({
   subsets: ["latin"],
@@ -43,7 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Script
+      {/* <Script
         id="fb-pixel"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
@@ -60,7 +61,9 @@ fbq('init', '389129047333116');
 fbq('track', 'PageView');
 `,
         }}
-      />
+      /> */}
+
+      <GoogleTagManager gtmId={String(process.env.NEXT_PUBLIC_GTM_ID)} />
 
       <body className={`${belleza.variable} ${ooh_baby.variable}`}>
         {children}
