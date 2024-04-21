@@ -18,13 +18,13 @@ import "@smastrom/react-rating/style.css";
 import "./swipper.css";
 import "./globals.css";
 
-export const belleza = Belleza({
+const belleza = Belleza({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-belleza",
 });
 
-export const ooh_baby = Oooh_Baby({
+const ooh_baby = Oooh_Baby({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-ooh_baby",
