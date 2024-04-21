@@ -2,13 +2,16 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import currencyFormatter from "currency-formatter";
 
+// =>>
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// =>>>>>>>>>>>>>>>>>>>
 export const formatCurrency = (price: number) => {
   return currencyFormatter.format(price, { code: "BDT" });
 };
+
 export const formatCategory = (category: string) => {
   return category.split(" ").join("-");
 };

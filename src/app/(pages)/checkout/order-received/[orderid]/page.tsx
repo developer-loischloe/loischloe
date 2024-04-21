@@ -1,4 +1,9 @@
-import { format as dateFormat } from "date-fns";
+import {
+  compareAsc,
+  format as dateFormat,
+  formatDistance,
+  subDays,
+} from "date-fns";
 import Link from "next/link";
 
 import appwriteOrderService from "@/appwrite/appwriteOrderService";
@@ -13,6 +18,9 @@ const OrderReceived = async ({
 }) => {
   const order = await appwriteOrderService.getOrderDetails(orderid);
 
+  const dates = subDays(new Date(), 2);
+
+  console.log(dates);
   return (
     <section>
       <div className="space-y-3">
@@ -21,14 +29,20 @@ const OrderReceived = async ({
         </div>
         <h1 className="text-2xl">Order Id: {order.$id}</h1>
 
-        <time>
+        <>
           <span>Date</span>: <span></span>
           {order?.$createdAt && (
-            <time className="text-brand_primary">
-              {dateFormat(order?.$createdAt, "MM-dd-yyyy")}
-            </time>
+            <span className="space-x-10">
+              <time className="text-brand_primary">
+                {dateFormat(order?.$createdAt, "MM-dd-yyyy")}
+              </time>
+
+              <time className="text-brand_primary">
+                {dateFormat(order?.$createdAt, "h:mm:ss a")}
+              </time>
+            </span>
           )}
-        </time>
+        </>
 
         <div className="space-y-5">
           <ShippingInformation order={order} />
