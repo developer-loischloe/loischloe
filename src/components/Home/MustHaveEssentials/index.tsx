@@ -4,7 +4,7 @@ import appwriteProductService from "@/appwrite/appwriteProductService";
 import ClientWrapper from "./ClientWrapper";
 
 const MustHaveEssentials = async () => {
-  const products = await appwriteProductService.getMustEssentialsProductsByIds([
+  const products = await appwriteProductService.getProductsByIds([
     "660906177ffa1cc98562",
     "66110b62534c53ca959f",
     "66090035745143268a80",

@@ -84,12 +84,12 @@ export class AppwriteProductService {
     }
   }
 
-  async getRelatedProductsByCategory(parent_category: string) {
+  async getRelatedProductsByCategory(child_category: string) {
     try {
       const response = await databases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId.product,
-        [Query.search("parent_category", parent_category), Query.limit(10)]
+        [Query.search("child_category", child_category), Query.limit(10)]
       );
 
       return response;
@@ -98,7 +98,7 @@ export class AppwriteProductService {
     }
   }
 
-  async getMustEssentialsProductsByIds(productIDS: string[]) {
+  async getProductsByIds(productIDS: string[]) {
     try {
       const productsPromise = productIDS.map((id) => {
         return databases.getDocument(
