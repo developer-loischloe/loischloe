@@ -51,6 +51,7 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
         <Suspense fallback={<ProductListLoading />}>
           <RelatedProducts
             child_category={products?.documents[0]?.child_category}
+            currentProductId={products?.documents[0]?.$id}
           />
         </Suspense>
         <RecentlyViewed currentProductId={products?.documents[0]?.$id} />
