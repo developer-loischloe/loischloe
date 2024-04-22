@@ -31,6 +31,12 @@ export class AppwriteProductService {
         QueryArray.push(Query.search("name", keyword));
       }
 
+      // order when searchparams is empty
+      if (!QueryArray.length) {
+        QueryArray.push(Query.orderDesc("nested_child_category"));
+      }
+
+      // pagination
       if (productPerPage) {
         QueryArray.push(Query.limit(Number(productPerPage)));
 
