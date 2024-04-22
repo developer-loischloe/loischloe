@@ -44,7 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* <Script
+      <Script
         id="fb-pixel"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
@@ -57,11 +57,11 @@ n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];
 s.parentNode.insertBefore(t,s)}(window, document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '389129047333116');
+fbq('init', '1842837406189813');
 fbq('track', 'PageView');
 `,
         }}
-      /> */}
+      />
 
       <GoogleTagManager gtmId={String(process.env.NEXT_PUBLIC_GTM_ID)} />
 
