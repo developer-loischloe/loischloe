@@ -44,7 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Script
+      {/* <Script
         id="fb-pixel"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
@@ -61,7 +61,7 @@ fbq('init', '1842837406189813');
 fbq('track', 'PageView');
 `,
         }}
-      />
+      /> */}
 
       <GoogleTagManager gtmId={String(process.env.NEXT_PUBLIC_GTM_ID)} />
 
