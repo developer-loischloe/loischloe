@@ -16,7 +16,7 @@ const page = () => {
       {/* <LoisChloeMarquee />
       <OfferCountDown /> */}
       <section>
-        <OfferProducts parent_category="offer" />
+        <OfferProducts />
       </section>
     </>
   );
@@ -24,18 +24,13 @@ const page = () => {
 
 export default page;
 
-const OfferProducts = async ({
-  parent_category,
-}: {
-  parent_category: string;
-}) => {
-  const relatedProducts =
-    await appwriteProductService.getRelatedProductsByCategory(parent_category);
+const OfferProducts = async () => {
+  const products = await appwriteProductService.getOfferProducts();
 
   return (
     <div className="w-full max-w-[700px] mx-auto">
       <div className="flex-1 grid grid-cols-1 sm:grid-cols-2  gap-5">
-        {relatedProducts.documents?.map((product: any) => (
+        {products.documents?.map((product: any) => (
           <ProductCard product={product} key={product.$id} />
         ))}
       </div>

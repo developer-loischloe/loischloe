@@ -121,6 +121,20 @@ export class AppwriteProductService {
       throw error;
     }
   }
+
+  async getOfferProducts() {
+    try {
+      const response = await databases.listDocuments(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId.product,
+        [Query.search("parent_category", "offer")]
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 const appwriteProductService = new AppwriteProductService();
