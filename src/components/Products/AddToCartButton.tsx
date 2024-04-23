@@ -3,12 +3,14 @@ import React from "react";
 import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/redux/features/cart/cartSlice";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 const AddToCartButton = ({ product }: { product: any }) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
     dispatch(addToCart({ product, price: product?.sale_price, quantity: 1 }));
+    sendGTMEvent({ event: "addToCart", value: product?.sale_price });
   };
 
   return (
