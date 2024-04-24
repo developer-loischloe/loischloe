@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
 import { formatCurrency } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
+
+import { useDispatch } from "react-redux";
 
 import {
   Table,
@@ -12,7 +13,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import QuantityUpdater from "../Products/Product/CartHandler/QuantityUpdater";
-import { useDispatch } from "react-redux";
 import { removeFromCart } from "@/redux/features/cart/cartSlice";
 
 const CartItem = ({
@@ -22,8 +22,6 @@ const CartItem = ({
   product: any;
   quantity: number;
 }) => {
-  const [quantity, setQuantity] = useState(prevQuantity);
-
   const dispatch = useDispatch();
 
   return (
@@ -61,17 +59,12 @@ const CartItem = ({
                   </ins>
                 </TableCell>
                 <TableCell className="">
-                  <QuantityUpdater
-                    quantity={quantity}
-                    setQuantity={setQuantity}
-                    product={product}
-                  />
-                  {/* <span>5</span> */}
+                  <QuantityUpdater quantity={prevQuantity} product={product} />
                 </TableCell>
                 <TableCell className="">
                   <ins className="no-underline text-brand_gray">
                     <span className="">
-                      {formatCurrency(product?.sale_price * quantity)}
+                      {formatCurrency(product?.sale_price * prevQuantity)}
                     </span>
                   </ins>
                 </TableCell>

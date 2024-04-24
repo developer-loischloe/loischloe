@@ -1,34 +1,39 @@
 "use client";
-import React, { useState } from "react";
 import Link from "next/link";
 
 import { ShoppingBag } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
+import CartList from "./CartList";
+import {
+  selectShowCartSidebar,
+  setShowCartSidebar,
+} from "@/redux/features/cart/cartSlice";
 
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import CartList from "./CartList";
-import { selectCartCost } from "@/redux/features/cart/cartSlice";
 import { Button } from "@/components/ui/button";
 import CartSummary from "@/components/Cart/CartSummary";
 
 const CartBtn = () => {
-  const [showCartSidebar, setShowCartSidebar] = useState(false);
+  const showCartSidebar = useSelector(selectShowCartSidebar);
+  const dispatch = useDispatch();
 
   const { cartList } = useSelector((state: RootState) => state.cart);
-  const cartCost = useSelector(selectCartCost);
 
   return (
-    <Sheet open={showCartSidebar} onOpenChange={setShowCartSidebar}>
+    <Sheet
+      open={showCartSidebar}
+      onOpenChange={(value: boolean) => {
+        dispatch(setShowCartSidebar({ show: value }));
+      }}
+    >
       <SheetTrigger>
         <div className="relative">
           <ShoppingBag />
@@ -37,13 +42,18 @@ const CartBtn = () => {
           </span>
         </div>
       </SheetTrigger>
-      <SheetContent className="flex flex-col justify-between md:min-w-[500px] z-[1000]">
+      <SheetContent className="flex flex-col justify-between w-full sm:min-w-[500px] z-[1000]">
         <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </SheetDescription>
+          <div className="flex justify-start">
+            <Link href={"/cart"}>
+              <Button
+                variant={"link"}
+                onClick={() => dispatch(setShowCartSidebar({ show: false }))}
+              >
+                View Cart
+              </Button>
+            </Link>
+          </div>
         </SheetHeader>
 
         {!cartList.length ? (
@@ -52,14 +62,20 @@ const CartBtn = () => {
               <h5 className="notfound">Opps! Your cart is Empty.</h5>
               <div>
                 <Link href={"/products"}>
-                  <Button>Add product to your cart</Button>
+                  <Button
+                    onClick={() => {
+                      dispatch(setShowCartSidebar({ show: false }));
+                    }}
+                  >
+                    Add product to your cart
+                  </Button>
                 </Link>
               </div>
             </div>
           </div>
         ) : (
           <>
-            <div className="overflow-y-auto ">
+            <div className="overflow-y-auto">
               <CartList />
             </div>
 
@@ -68,22 +84,10 @@ const CartBtn = () => {
                 <div className="flex justify-center">
                   <CartSummary
                     showBtn
-                    hideSideBar={() => setShowCartSidebar(false)}
+                    hideSideBar={() =>
+                      dispatch(setShowCartSidebar({ show: false }))
+                    }
                   />
-                </div>
-
-                <div className="flex justify-between">
-                  <div></div>
-                  <div>
-                    <Link href={"/cart"}>
-                      <Button
-                        variant={"link"}
-                        onClick={() => setShowCartSidebar(false)}
-                      >
-                        View Cart
-                      </Button>
-                    </Link>
-                  </div>
                 </div>
               </div>
             </SheetFooter>

@@ -4,17 +4,9 @@ import Image from "next/image";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
-// Import Swiper styles
-// import "./style.css";
-
 // import required modules
 import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
 
-interface Image {
-  image_id: string;
-  image_url: string;
-  alt: string;
-}
 export default function OfferProductImageSlider({
   products,
   activeProduct,
@@ -54,6 +46,7 @@ export default function OfferProductImageSlider({
                     alt={product?.images[0].alt}
                     width={500}
                     height={500}
+                    className="w-full h-full max-h-[400px]"
                     priority
                   />
                 </SwiperSlide>

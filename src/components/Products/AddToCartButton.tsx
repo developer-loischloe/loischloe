@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "../ui/button";
 import { useDispatch } from "react-redux";
-import { addToCart } from "@/redux/features/cart/cartSlice";
+import { addToCart, setShowCartSidebar } from "@/redux/features/cart/cartSlice";
 import { sendGTMEvent } from "@next/third-parties/google";
 
 const AddToCartButton = ({ product }: { product: any }) => {
@@ -10,6 +10,8 @@ const AddToCartButton = ({ product }: { product: any }) => {
 
   const handleClick = () => {
     dispatch(addToCart({ product, price: product?.sale_price, quantity: 1 }));
+    dispatch(setShowCartSidebar({ show: true }));
+
     sendGTMEvent({ event: "AddToCart", value: product?.sale_price });
   };
 

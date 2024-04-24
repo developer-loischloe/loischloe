@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux";
 
 const QuantityUpdater = ({
   quantity,
-  setQuantity,
+  // setQuantity,
   product,
 }: {
   quantity: number;
-  setQuantity: React.Dispatch<React.SetStateAction<number>>;
+  // setQuantity: React.Dispatch<React.SetStateAction<number>>;
   product: any;
 }) => {
   const dispatch = useDispatch();
@@ -18,13 +18,10 @@ const QuantityUpdater = ({
       <Minus
         size={20}
         onClick={() => {
-          setQuantity((prev) => {
-            const qty = prev >= 2 ? prev - 1 : prev;
-            dispatch(
-              addToCart({ product, quantity: qty, price: product.sale_price })
-            );
-            return qty;
-          });
+          const qty = quantity >= 2 ? quantity - 1 : quantity;
+          dispatch(
+            addToCart({ product, quantity: qty, price: product.sale_price })
+          );
         }}
         className="cursor-pointer"
       />
@@ -32,13 +29,10 @@ const QuantityUpdater = ({
       <Plus
         size={20}
         onClick={() => {
-          setQuantity((prev) => {
-            const qty = prev + 1;
-            dispatch(
-              addToCart({ product, quantity: qty, price: product.sale_price })
-            );
-            return qty;
-          });
+          const qty = quantity + 1;
+          dispatch(
+            addToCart({ product, quantity: qty, price: product.sale_price })
+          );
         }}
         className="cursor-pointer"
       />

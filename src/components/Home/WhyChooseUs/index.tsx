@@ -41,7 +41,7 @@ const WhyChooseUs = () => {
   return (
     <div className="bg-brand_secondary relative">
       <section className="flex">
-        <div className="flex-1 space-y-14 z-30">
+        <div className="flex-1 space-y-14 z-20">
           <h2 className="heading-1 text-white">Why Choose Us?</h2>
           {whyChooseConstant.map((constant) => (
             <div key={constant.title} className="flex items-center gap-5">
@@ -57,13 +57,13 @@ const WhyChooseUs = () => {
         </div>
 
         <div className="flex-1 hidden lg:block">
-          <div className="absolute bottom-0 right-0 z-20">
+          <div className="absolute bottom-0 right-0 z-10">
             <Image src={Women} alt="Women used lipstick" />
           </div>
         </div>
       </section>
       {/* right bg */}
-      <div className="z-10 absolute top-0 right-0 hidden lg:block">
+      <div className="absolute top-0 right-0 hidden lg:block">
         <Image src={rightBg} alt="image" className="w-full h-full" />
       </div>
     </div>

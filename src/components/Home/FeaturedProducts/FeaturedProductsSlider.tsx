@@ -1,7 +1,7 @@
 "use client";
 import ProductCard from "@/components/Products/ProductCard";
 import React from "react";
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const FeaturedProductsSlider = ({ products }: { products: any[] }) => {
@@ -32,7 +32,7 @@ const FeaturedProductsSlider = ({ products }: { products: any[] }) => {
         disableOnInteraction: true,
         pauseOnMouseEnter: true,
       }}
-      modules={[Pagination, Navigation, Autoplay]}
+      modules={[Navigation, Autoplay]}
       className="FeaturedProductSwiper"
     >
       {products?.map((product: any) => (

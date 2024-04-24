@@ -2,8 +2,8 @@ import React from "react";
 import Image from "next/image";
 
 import { Accordion } from "@/components/ui/accordion";
-
 import FaqCard from "./FaqCard";
+
 import womenThinking from "@/assets/faq/women_thinking.png";
 
 const faqConstant = [

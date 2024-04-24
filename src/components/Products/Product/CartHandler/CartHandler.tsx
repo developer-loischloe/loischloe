@@ -1,6 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { addToCart, selectCartList } from "@/redux/features/cart/cartSlice";
+import {
+  addToCart,
+  selectCartList,
+  setShowCartSidebar,
+} from "@/redux/features/cart/cartSlice";
 import { Minus, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -63,6 +67,8 @@ const CartHandler = ({ product }: { product: any }) => {
             dispatch(
               addToCart({ product, price: product.sale_price, quantity })
             );
+
+            dispatch(setShowCartSidebar({ show: true }));
           }}
         >
           Add to Cart

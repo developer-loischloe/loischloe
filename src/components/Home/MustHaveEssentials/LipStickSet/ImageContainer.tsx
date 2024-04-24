@@ -1,8 +1,11 @@
 "use client";
-import ReactHotspots from "react-hotspots";
+
 import "react-hotspots/dist/style.css";
+
+import ReactHotspots from "react-hotspots";
 import GrowUpDown from "./GrowUpDown";
 import { formatCurrency } from "@/lib/utils";
+
 const ImageContainer = ({
   products,
   hoveredProduct,

@@ -5,7 +5,11 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import { cn, formatCurrency } from "@/lib/utils";
-import { addToCart, resetCart } from "@/redux/features/cart/cartSlice";
+import {
+  addToCart,
+  resetCart,
+  setShowCartSidebar,
+} from "@/redux/features/cart/cartSlice";
 import { ShoppingCart } from "lucide-react";
 import { useDispatch } from "react-redux";
 
@@ -61,6 +65,8 @@ const ProductsContainer = ({
                           quantity: 1,
                         })
                       );
+
+                      dispatch(setShowCartSidebar({ show: true }));
                     }}
                   >
                     <ShoppingCart size={13} />
@@ -87,6 +93,8 @@ const ProductsContainer = ({
               addToCart({ product, price: product?.sale_price, quantity: 1 })
             );
           });
+
+          dispatch(setShowCartSidebar({ show: true }));
         }}
       >
         ADD SET TO CART

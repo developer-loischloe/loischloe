@@ -5,7 +5,11 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import { cn, formatCurrency } from "@/lib/utils";
-import { addToCart, resetCart } from "@/redux/features/cart/cartSlice";
+import {
+  addToCart,
+  resetCart,
+  setShowCartSidebar,
+} from "@/redux/features/cart/cartSlice";
 import { useDispatch } from "react-redux";
 
 const OfferProductsContainer = ({
@@ -71,7 +75,6 @@ const OfferProductsContainer = ({
           const filteredProducts = products?.filter(
             (product) => product.$id === "66275729770e9b297af5"
           )[0];
-          console.log(filteredProducts);
 
           dispatch(
             addToCart({
@@ -80,6 +83,8 @@ const OfferProductsContainer = ({
               quantity: 1,
             })
           );
+
+          dispatch(setShowCartSidebar({ show: true }));
         }}
       >
         ADD SET TO CART

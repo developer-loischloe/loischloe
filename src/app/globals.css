@@ -100,6 +100,7 @@
     grid-column: span 1.5 / span 1.5;
   }
 
+  /* Style for product description */
   .product_description_container {
     @apply text-brand_gray;
   }
@@ -124,7 +125,6 @@
 }
 
 /* style for 404 page  */
-
 .error-container {
   text-align: center;
   font-size: 106px;
@@ -279,7 +279,7 @@
 }
 
 
-
+/* React Hotspot */
 .react-hotspots__hotspots__hotspot__content__container {
   @apply rounded-md overflow-hidden -ml-16 !z-[500];
 }

@@ -8,7 +8,7 @@ const OfferSetClientWrapper = ({ products }: { products: any[] }) => {
   const [activeProduct, setActiveProduct] = useState("");
 
   return (
-    <div className="flex flex-col sm:flex-row  gap-10">
+    <div className="flex flex-col sm:flex-row sm:items-center  gap-10">
       <div className="flex-1 overflow-hidden">
         <OfferProductImageSlider
           products={products}

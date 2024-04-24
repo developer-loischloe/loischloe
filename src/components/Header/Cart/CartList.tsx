@@ -1,6 +1,4 @@
-import { Button } from "@/components/ui/button";
 import { selectCartList } from "@/redux/features/cart/cartSlice";
-import Link from "next/link";
 import React from "react";
 import { useSelector } from "react-redux";
 import CartItem from "./CartItem";

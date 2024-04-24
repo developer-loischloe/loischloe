@@ -13,7 +13,6 @@ import WhyChooseUs from "@/components/Home/WhyChooseUs";
 import Faq from "@/components/Home/Faq";
 import FeaturedProductListLoading from "@/components/Shared/loading/FeaturedProductListLoading";
 import MustHaveEssentials from "@/components/Home/MustHaveEssentials";
-import OfferSet from "@/components/Home/MustHaveEssentials/OfferSet";
 
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
   ssr: false,

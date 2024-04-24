@@ -1,4 +1,4 @@
-import { ID, Query } from "appwrite";
+import { ID } from "appwrite";
 import { databases } from "./appwriteConfig";
 import config from "@/config";
 

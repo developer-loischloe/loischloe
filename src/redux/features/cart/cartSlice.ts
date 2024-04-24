@@ -40,6 +40,7 @@ export interface CartState {
     shipping_cost: number;
     total_cost: number;
   };
+  showCartSidebar: boolean;
 }
 
 // Define the initial state using that type
@@ -50,6 +51,7 @@ const initialState: CartState = {
     shipping_cost: 0,
     total_cost: 0,
   },
+  showCartSidebar: false,
 };
 
 export const cartSlice = createSlice({
@@ -70,10 +72,10 @@ export const cartSlice = createSlice({
           }
           return item;
         });
-        toast("Item quantity updated.");
+        // toast("Item quantity updated.");
       } else {
         cartList = [...state.cartList, action.payload];
-        toast("Item added to your cart.");
+        // toast("Item added to your cart.");
       }
 
       state.cartList = cartList;
@@ -93,7 +95,7 @@ export const cartSlice = createSlice({
 
         state.cartList = cartList;
         setLocalCartItems(cartList);
-        toast("Item remove from cart.");
+        toast(`${itemExist?.product?.name} is removed from your cart.`);
       }
     },
     resetCart: (state) => {
@@ -118,14 +120,29 @@ export const cartSlice = createSlice({
       state.cartCost.total_cost =
         state.cartCost.product_price + state.cartCost.shipping_cost;
     },
+    setShowCartSidebar: (
+      state,
+      action: PayloadAction<{
+        show: boolean;
+      }>
+    ) => {
+      state.showCartSidebar = action.payload.show;
+    },
   },
 });
 
-export const { addToCart, removeFromCart, resetCart, updateCartCost } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  resetCart,
+  updateCartCost,
+  setShowCartSidebar,
+} = cartSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCartList = (state: RootState) => state.cart.cartList;
 export const selectCartCost = (state: RootState) => state.cart.cartCost;
+export const selectShowCartSidebar = (state: RootState) =>
+  state.cart.showCartSidebar;
 
 export default cartSlice.reducer;

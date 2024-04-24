@@ -31,7 +31,7 @@ export class AppwriteProductService {
         QueryArray.push(Query.search("name", keyword));
       }
 
-      // order when searchparams is empty
+      // apply order when searchparams is empty
       if (!QueryArray.length) {
         QueryArray.push(Query.orderDesc("nested_child_category"));
       }

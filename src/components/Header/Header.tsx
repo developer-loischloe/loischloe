@@ -34,10 +34,10 @@ export default function Header() {
   return (
     <div
       className={cn(
-        "w-full bg-brand_secondary text-[#fff] px-5 py-4 overflow-hidden z-[500]",
-        scrolling === "top" &&
-          lastScrollY > 300 &&
-          "sticky top-0 transition-all"
+        "w-full bg-brand_secondary text-[#fff] px-5 py-4 overflow-hidden z-50",
+        lastScrollY > 300 &&
+          "sticky top-[-200px] transition-all duration-300 invisible",
+        scrolling === "top" && "visible top-0"
       )}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-10 xl:gap-20">
