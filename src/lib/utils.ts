@@ -51,6 +51,15 @@ export const calculateProductPrice = (
   return product_price;
 };
 
+export const calculateDiscountPercentage = (
+  regularPrice: number,
+  offerPrice: number
+) => {
+  const priceDifference = regularPrice - offerPrice;
+  const discountPercentage = (priceDifference / regularPrice) * 100;
+  return Math.ceil(discountPercentage);
+};
+
 export const shippingCostProvider = {
   inside_dhaka: 60,
   outside_dhaka: 100,

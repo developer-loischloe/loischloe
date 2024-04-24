@@ -22,7 +22,7 @@ import MenuList from "./MenuList";
 import WishListBtn from "./WishListBtn";
 import UserBtn from "./UserBtn";
 import useScrollHandler from "@/lib/hooks/useScrollHandler";
-const CartBtn = dynamic(() => import("./CartBtn"), { ssr: false });
+const CartBtn = dynamic(() => import("./Cart/CartBtn"), { ssr: false });
 
 export default function Header() {
   const [showSearchbar, setShowSearchbar] = useState(false);
@@ -85,7 +85,7 @@ export default function Header() {
               <SheetTrigger>
                 <AlignRight className="hover:text-brand_primary transition-all" />
               </SheetTrigger>
-              <SheetContent className="w-full !max-w-[300px] !pt-20">
+              <SheetContent className="w-full !max-w-[300px] !pt-20 z-[1000]">
                 <SheetHeader></SheetHeader>
                 <MenuList setShowSidebar={setShowSidebar} />
               </SheetContent>

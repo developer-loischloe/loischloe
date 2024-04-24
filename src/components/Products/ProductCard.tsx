@@ -2,7 +2,12 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Rating as ReactRating, Star } from "@smastrom/react-rating";
-import { cn, formatCurrency, generateParams } from "@/lib/utils";
+import {
+  calculateDiscountPercentage,
+  cn,
+  formatCurrency,
+  generateParams,
+} from "@/lib/utils";
 import AddToCartButton from "./AddToCartButton";
 
 // Declare it outside your component so it doesn't get re-created
@@ -13,9 +18,19 @@ const myStyles = {
 };
 
 const ProductCard = ({ product }: { product: any }) => {
+  const discount = calculateDiscountPercentage(
+    product?.price,
+    product?.sale_price
+  );
+
   return (
     <div className=" shadow-2xl rounded-sm flex flex-col items-center justify-between group">
-      <div className="w-full overflow-hidden">
+      <div className="w-full overflow-hidden relative">
+        {discount > 0 && (
+          <div className="absolute top-2 left-5 bg-brand_primary max-w-max px-5 py-1 rounded-sm z-10">
+            <span className="text-sm text-brand_secondary">-{discount}%</span>
+          </div>
+        )}
         <Link href={`/products/${product?.slug}`}>
           <Image
             src={product?.images[0]?.image_url}

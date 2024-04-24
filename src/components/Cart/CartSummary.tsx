@@ -11,9 +11,11 @@ import useShippingCost from "@/lib/hooks/useShippingCost";
 const CartSummary = ({
   title,
   showBtn,
+  hideSideBar,
 }: {
   title?: string;
   showBtn?: boolean;
+  hideSideBar?: () => void;
 }) => {
   const cartCost = useSelector(selectCartCost);
 
@@ -48,7 +50,14 @@ const CartSummary = ({
       {showBtn && (
         <div>
           <Link href={"/checkout"}>
-            <Button className="w-full">PROCEED TO CHECKOUT</Button>
+            <Button
+              className="w-full"
+              onClick={() => {
+                hideSideBar && hideSideBar();
+              }}
+            >
+              PROCEED TO CHECKOUT
+            </Button>
           </Link>
         </div>
       )}
