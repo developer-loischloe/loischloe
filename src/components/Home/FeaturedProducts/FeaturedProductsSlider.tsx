@@ -29,9 +29,9 @@ const FeaturedProductsSlider = ({ products }: { products: any[] }) => {
       }}
       autoplay={{
         delay: 2500,
-        disableOnInteraction: true,
         pauseOnMouseEnter: true,
       }}
+      loop={true}
       modules={[Navigation, Autoplay]}
       className="FeaturedProductSwiper"
     >

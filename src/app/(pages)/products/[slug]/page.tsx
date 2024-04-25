@@ -1,9 +1,10 @@
-import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import dynamic from "next/dynamic";
+
+import appwriteProductService from "@/appwrite/appwriteProductService";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import appwriteProductService from "@/appwrite/appwriteProductService";
 import Description from "@/components/Products/Product/Description";
 import ProductHandler from "@/components/Products/Product/ProductHandler";
 import RelatedProducts from "@/components/Products/Product/RelatedProducts";
@@ -13,7 +14,7 @@ import ProductListLoading from "@/components/Shared/loading/ProductListLoading";
 import RecentlyViewed from "@/components/Products/Product/RecentlyViewed";
 import SavedViewedProduct from "@/components/Products/Product/SavedViewedProduct";
 const ProductImageSlider = dynamic(
-  () => import("@/components/Products/Product/ProductImageSlider"),
+  () => import("@/components/Products/Product/ProductSlider"),
   { ssr: false }
 );
 
@@ -26,7 +27,9 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
       <SavedViewedProduct productId={products?.documents[0]?.$id} />
       <section className="space-y-10 py-5 md:py-10">
         <div className="flex flex-col md:flex-row gap-10">
-          <ProductImageSlider images={products?.documents[0]?.images} />
+          <div className="w-full md:max-w-[350px] lg:max-w-[500px]">
+            <ProductImageSlider images={products?.documents[0]?.images} />
+          </div>
           <ProductHandler product={products?.documents[0]} />
         </div>
 

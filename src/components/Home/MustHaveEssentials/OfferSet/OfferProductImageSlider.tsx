@@ -29,7 +29,6 @@ export default function OfferProductImageSlider({
             navigation={true}
             autoplay={{
               delay: 2500,
-              disableOnInteraction: true,
               pauseOnMouseEnter: true,
             }}
             modules={[FreeMode, Navigation, Thumbs, Autoplay]}
@@ -46,7 +45,7 @@ export default function OfferProductImageSlider({
                     alt={product?.images[0].alt}
                     width={500}
                     height={500}
-                    className="w-full h-full max-h-[400px]"
+                    className="w-full h-full max-h-[450px] md:max-h-[550px]"
                     priority
                   />
                 </SwiperSlide>

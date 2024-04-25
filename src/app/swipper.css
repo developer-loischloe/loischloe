@@ -6,7 +6,7 @@
 .swiper-button-prev,
 .swiper-button-next {
   color: #727272 !important;
-  background-color: #fff;
+  background-color: #fff !important;
   width: 40px !important;
   height: 40px !important;
   border-radius: 5px;
@@ -30,7 +30,6 @@
   left: auto;
 }
 
-
 /* Pagination */
 
 .swiper-pagination {
@@ -38,8 +37,6 @@
   margin-top: 30px;
 }
 
-
 .swiper-pagination-bullet-active {
   @apply !bg-brand_secondary;
 }
-
