@@ -1,0 +1,24 @@
+.productSlider {
+  height: 80%;
+  width: 100%;
+}
+
+.productSliderThumb {
+  height: 20%;
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+
+.productSliderThumb .swiper-slide {
+  width: 25%;
+  height: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+  scale: 0.9;
+  transition: all 0.25s ease-in;
+}
+
+.productSliderThumb .swiper-slide-thumb-active {
+  scale: 1;
+  border: 1px solid red;
+}

@@ -30,7 +30,7 @@ const CartHandler = ({ product }: { product: any }) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="flex flex-col md:flex-row gap-10 select-none">
+    <div className="flex flex-col lg:flex-row gap-10 select-none">
       <div className="flex items-center gap-10 border max-w-max px-2 py-2 rounded-sm">
         <Minus
           size={20}
