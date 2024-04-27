@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -15,11 +15,6 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
 import Logo from "@/assets/Logo-Gold.png";
 
@@ -41,11 +36,18 @@ export default function Header() {
   // Track scrollbar
   const { lastScrollY, scrolling } = useScrollHandler();
 
+  useEffect(() => {
+    if (scrolling && lastScrollY > 500) {
+      setShowPopOver(false);
+      setShowSearchbar(false);
+    }
+  }, [scrolling]);
+
   return (
     <>
       <div
         className={cn(
-          "w-full bg-brand_secondary text-[#fff] px-5 py-4 overflow-hidden z-50",
+          "w-full bg-brand_secondary text-[#fff] px-5 py-4 overflow-hidden !z-50 ",
           lastScrollY > 300 &&
             "sticky top-[-200px] transition-all duration-300 invisible",
           scrolling === "top" && "visible top-0"
@@ -128,7 +130,10 @@ export default function Header() {
                 />
               </div>
               <div
-                onClick={() => setShowSearchbar(false)}
+                onClick={() => {
+                  setShowSearchbar(false);
+                  setShowPopOver(false);
+                }}
                 className="flex-1 h-full bg-[#00000062] !z-[10000]"
               />
             </MotionDiv>
@@ -142,17 +147,20 @@ export default function Header() {
         </div> */}
           {/* Mobile menu end */}
         </div>
-      </div>
 
-      <div className="w-full max-w-7xl mx-auto">
-        <div className="flex justify-center">
-          <Popover open={showPopOver} onOpenChange={setShowPopOver}>
-            <PopoverTrigger className="mx-10" />
-
-            <PopoverContent className="w-[90vw] md:w-[750px] ">
-              <SearchSuggestion searchTearm={searchTearm} />
-            </PopoverContent>
-          </Popover>
+        {/* Suggestion */}
+        <div className="w-full flex justify-center">
+          <div
+            className={cn(
+              "absolute top-[-900px] z-[50] bg-white w-[95vw] md:w-[750px] p-5 rounded-b-md transition-all duration-300",
+              showPopOver && "top-[82px]"
+            )}
+          >
+            <SearchSuggestion
+              searchTearm={searchTearm}
+              setShowPopOver={setShowPopOver}
+            />
+          </div>
         </div>
       </div>
     </>

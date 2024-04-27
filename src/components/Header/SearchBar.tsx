@@ -1,5 +1,6 @@
 import { Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 const SearchBar = ({
   setShowPopOver,
@@ -15,6 +16,12 @@ const SearchBar = ({
   const router = useRouter();
 
   const category = searcParams.get("category");
+
+  const pathArr = pathname.slice(1).split("/");
+
+  useEffect(() => {
+    setShowPopOver(false);
+  }, [pathname]);
 
   const handleChange = (e: { target: { value: any } }) => {
     const keyword = e.target.value;
@@ -38,8 +45,8 @@ const SearchBar = ({
   };
 
   return (
-    <>
-      <div className="flex-1 flex gap-2 items-center  bg-[#fff] px-3 py-7 sm:py-3 rounded-md">
+    <div className="flex-1">
+      <div className="flex-1 flex gap-2 items-center  bg-[#fff] px-3 py-7 sm:py-3 rounded-b sm:rounded-md ">
         <Search color="#002D34CC" />
         <form onSubmit={handleSubmit} className="w-full">
           <input
@@ -49,7 +56,6 @@ const SearchBar = ({
             value={searchTearm}
             onChange={handleChange}
             onFocus={() => {
-              const pathArr = pathname.slice(1).split("/");
               setShowPopOver(
                 !(pathArr[0] === "products" && pathArr.length === 1)
               );
@@ -57,7 +63,7 @@ const SearchBar = ({
           />
         </form>
       </div>
-    </>
+    </div>
   );
 };
 
