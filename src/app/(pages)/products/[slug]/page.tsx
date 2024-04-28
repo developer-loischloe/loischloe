@@ -13,6 +13,7 @@ import BreadCrumb from "@/components/Shared/BreadCrumb";
 import ProductListLoading from "@/components/Shared/loading/ProductListLoading";
 import RecentlyViewed from "@/components/Products/Product/RecentlyViewed";
 import SavedViewedProduct from "@/components/Products/Product/SavedViewedProduct";
+import SendGTMEvent from "@/components/GTM/SendGTMEvent";
 const ProductImageSlider = dynamic(
   () => import("@/components/Products/Product/ProductSlider"),
   { ssr: false }
@@ -23,6 +24,9 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
 
   return (
     <>
+      <SendGTMEvent
+        params={{ event: "VIEW_CONTENT", product: products.documents[0] }}
+      />
       <BreadCrumb pathList={["products", products?.documents[0]?.name]} />
       <SavedViewedProduct productId={products?.documents[0]?.$id} />
       <section className="space-y-10 py-5 md:py-10">
