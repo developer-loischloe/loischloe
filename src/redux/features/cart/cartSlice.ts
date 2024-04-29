@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
 import { toast } from "sonner";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 export interface Item {
   product: any;
@@ -76,6 +77,7 @@ export const cartSlice = createSlice({
       } else {
         cartList = [...state.cartList, action.payload];
         // toast("Item added to your cart.");
+        sendGTMEvent({ event: "AddToCart", product: action.payload.product });
       }
 
       state.cartList = cartList;
