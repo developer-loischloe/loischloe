@@ -25,7 +25,7 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
   return (
     <>
       <SendGTMEvent
-        params={{ event: "VIEW_CONTENT", product: products.documents[0] }}
+        params={{ event: "ViewContent", product: products.documents[0] }}
       />
       <BreadCrumb pathList={["products", products?.documents[0]?.name]} />
       <SavedViewedProduct productId={products?.documents[0]?.$id} />

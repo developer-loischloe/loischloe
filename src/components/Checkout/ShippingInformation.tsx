@@ -37,6 +37,7 @@ import {
 } from "@/redux/features/cart/cartSlice";
 import appwriteOrderService from "@/appwrite/appwriteOrderService";
 import { useRouter } from "next/navigation";
+import { sendGTMEvent } from "@next/third-parties/google";
 const CartSummary = dynamic(() => import("../Cart/CartSummary"), {
   ssr: false,
 });
@@ -123,6 +124,13 @@ export default function ShippingInformation() {
       const response = await appwriteOrderService.createOrder(orderInfo);
       if (response) {
         router.push(`/checkout/order-received/${response.$id}`);
+        sendGTMEvent({
+          event: "Purchase",
+          cartList,
+          cartCost,
+          shippingInformation,
+        });
+
         dispatch(resetCart());
       }
     } catch (error) {

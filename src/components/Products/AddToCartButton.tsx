@@ -12,7 +12,7 @@ const AddToCartButton = ({ product }: { product: any }) => {
     dispatch(addToCart({ product, price: product?.sale_price, quantity: 1 }));
     dispatch(setShowCartSidebar({ show: true }));
 
-    sendGTMEvent({ event: "	AddToCart", product });
+    sendGTMEvent({ event: "AddToCart", product });
   };
 
   return (

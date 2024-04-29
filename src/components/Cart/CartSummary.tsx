@@ -3,10 +3,14 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { formatCurrency } from "@/lib/utils";
 import { useSelector } from "react-redux";
-import { selectCartCost } from "@/redux/features/cart/cartSlice";
+import {
+  selectCartCost,
+  selectCartList,
+} from "@/redux/features/cart/cartSlice";
 import ShippingCost from "./ShippingCost";
 import useProductPrice from "@/lib/hooks/useProductPrice";
 import useShippingCost from "@/lib/hooks/useShippingCost";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 const CartSummary = ({
   title,
@@ -18,6 +22,8 @@ const CartSummary = ({
   hideSideBar?: () => void;
 }) => {
   const cartCost = useSelector(selectCartCost);
+  const cartList = useSelector(selectCartList);
+  // console.log(cartList);
 
   // calculate product price and shipping cost
   useProductPrice();
@@ -53,6 +59,8 @@ const CartSummary = ({
             <Button
               className="w-full"
               onClick={() => {
+                sendGTMEvent({ event: "InitiateCheckout", cartList, cartCost });
+
                 hideSideBar && hideSideBar();
               }}
             >
