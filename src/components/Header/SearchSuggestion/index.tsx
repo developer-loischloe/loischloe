@@ -1,5 +1,6 @@
 import appwriteProductService from "@/appwrite/appwriteProductService";
 import { formatCurrency } from "@/lib/utils";
+import { sendGTMEvent } from "@next/third-parties/google";
 import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -40,7 +41,6 @@ const SearchSuggestion = ({
   setShowPopOver: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [searchProducts, setSearchProducts] = useState<null | any[]>(null);
-  console.log(searchProducts);
 
   // Debounce callback
   const debounced = useDebouncedCallback((keyword) => {
@@ -57,8 +57,11 @@ const SearchSuggestion = ({
         .then((products) => {
           setSearchProducts(products.documents);
         });
+
+      // Send GTM Event
+      sendGTMEvent({ event: "Search", search_string: keyword });
     }
-  }, 100);
+  }, 500);
 
   useEffect(() => {
     if (searchTearm) {
