@@ -3,82 +3,70 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { appwriteAuthService } from "@/appwrite/appwriteAuthService";
 
-const formSchema = z
-  .object({
-    name: z.string().min(3, { message: "Name must be at least 3 characters" }),
-    email: z
-      .string()
-      .min(1, { message: "Email is required" })
-      .email("Invalid email address"),
-    password: z
-      .string()
-      .min(6, { message: "Password must be at least 6 characters" }),
-    confirmPassword: z
-      .string()
-      .min(6, { message: "Password must be at least 6 characters" }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "Passwords does not match",
-  });
+const FormSchema = z.object({
+  email: z.string().email({ message: "Enter a valid email address" }),
+  password: z.string().min(8, {
+    message: "Password must be at least 8 characters.",
+  }),
+});
 
-const page = () => {
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+export default function Login() {
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
-      confirmPassword: "",
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const { email, password } = data;
+    toast("Event has been created.");
+
+    try {
+      const response = await appwriteAuthService.login({
+        email,
+        password,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
     <section>
-      <div className="max-w-lg mx-auto">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+      <div className="mx-auto max-w-md space-y-6">
+        <div className="space-y-2 text-center">
+          <h1 className="text-3xl font-bold">Login</h1>
+          <p className="text-lg text-gray-500 dark:text-gray-400">
+            Enter your information to login your account
+          </p>
+        </div>
 
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="font-bold">Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your email" {...field} />
+                    <Input placeholder="example@email.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -90,21 +78,7 @@ const page = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
+                  <FormLabel className="font-bold">Password</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -113,12 +87,12 @@ const page = () => {
               )}
             />
 
-            <Button type="submit">Submit</Button>
+            <Button className="w-full" type="submit">
+              Sign Up
+            </Button>
           </form>
         </Form>
       </div>
     </section>
   );
-};
-
-export default page;
+}
