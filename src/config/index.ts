@@ -1,4 +1,5 @@
 const config = {
+  appwrite_API_key: String(process.env.NEXT_APPWRITE_API_KEY),
   appwriteUrl: String(process.env.NEXT_PUBLIC_APPWRITE_URL),
   appwriteProjectId: String(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID),
   appwriteDatabaseId: String(process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID),

@@ -1,7 +1,13 @@
+import { getLoggedInUser } from "@/appwrite/serverSDK/appwrite";
 import DashboardSidebar from "@/components/dashboard/Sidebar";
+import { redirect } from "next/navigation";
 import React from "react";
 
-const layout = ({ children }: { children: React.ReactNode }) => {
+const layout = async ({ children }: { children: React.ReactNode }) => {
+  const user = await getLoggedInUser();
+
+  if (!user) redirect("/signup");
+
   return (
     <main>
       <div className="flex gap-5">
