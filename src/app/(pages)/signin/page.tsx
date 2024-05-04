@@ -14,7 +14,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { appwriteAuthService } from "@/appwrite/appwriteAuthService";
+import config from "@/config";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Enter a valid email address" }),
@@ -24,6 +25,8 @@ const FormSchema = z.object({
 });
 
 export default function Login() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -34,14 +37,23 @@ export default function Login() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const { email, password } = data;
-    toast("Event has been created.");
 
     try {
-      const response = await appwriteAuthService.login({
-        email,
-        password,
+      const response = await fetch(`${config.next_app_base_url}/api/signin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
       });
-      console.log(response);
+      const data = await response.json();
+      console.log(data);
+      if (data.success) {
+        toast(data?.msg || "Login successful");
+        router.replace("/dashboard");
+      } else {
+        toast(data?.msg || "Login failed");
+      }
     } catch (error) {
       console.log(error);
     }

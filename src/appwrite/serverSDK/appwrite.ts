@@ -1,28 +1,8 @@
-"use server";
-
+import { NextRequest } from "next/server";
 import { Client, Account } from "node-appwrite";
-import { cookies } from "next/headers";
 
 import config from "@/config";
-
-export async function createSessionClient() {
-  const client = new Client()
-    .setEndpoint(config.appwriteUrl)
-    .setProject(config.appwriteProjectId);
-
-  const session = cookies().get("my-custom-session");
-  if (!session || !session.value) {
-    throw new Error("No session");
-  }
-
-  client.setSession(session.value);
-
-  return {
-    get account() {
-      return new Account(client);
-    },
-  };
-}
+import { cookies } from "next/headers";
 
 export async function createAdminClient() {
   const client = new Client()
@@ -37,9 +17,30 @@ export async function createAdminClient() {
   };
 }
 
-export async function getLoggedInUser() {
+export async function createSessionClient(request: NextRequest) {
+  const client = new Client()
+    .setEndpoint(config.appwriteUrl)
+    .setProject(config.appwriteProjectId);
+
+  const session = cookies().get("session");
+  console.log(session);
+
+  if (!session || !session.value) {
+    throw new Error("No session");
+  }
+
+  client.setSession(session.value);
+
+  return {
+    get account() {
+      return new Account(client);
+    },
+  };
+}
+
+export async function getLoggedInUser(request: NextRequest) {
   try {
-    const { account } = await createSessionClient();
+    const { account } = await createSessionClient(request);
     return await account.get();
   } catch (error) {
     return null;

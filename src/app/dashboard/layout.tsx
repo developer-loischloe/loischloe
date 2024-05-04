@@ -1,12 +1,20 @@
-import { getLoggedInUser } from "@/appwrite/serverSDK/appwrite";
+import React from "react";
 import DashboardSidebar from "@/components/dashboard/Sidebar";
 import { redirect } from "next/navigation";
-import React from "react";
+import config from "@/config";
+import { cookies } from "next/headers";
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
-  const user = await getLoggedInUser();
+  const userPromise = await fetch(`${config.next_app_base_url}/api/user`, {
+    method: "GET",
+    credentials: "same-origin",
+  });
+  const user = await userPromise.json();
+  console.log(user);
 
-  if (!user) redirect("/signup");
+  console.log(cookies().get("session"));
+
+  if (!user.success) redirect("/signin");
 
   return (
     <main>
