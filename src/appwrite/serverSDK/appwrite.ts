@@ -1,6 +1,6 @@
-import { NextRequest } from "next/server";
-import { Client, Account } from "node-appwrite";
+"use server";
 
+import { Client, Account } from "node-appwrite";
 import config from "@/config";
 import { cookies } from "next/headers";
 
@@ -17,13 +17,12 @@ export async function createAdminClient() {
   };
 }
 
-export async function createSessionClient(request: NextRequest) {
+export async function createSessionClient() {
   const client = new Client()
     .setEndpoint(config.appwriteUrl)
     .setProject(config.appwriteProjectId);
 
   const session = cookies().get("session");
-  console.log(session);
 
   if (!session || !session.value) {
     throw new Error("No session");
@@ -38,9 +37,9 @@ export async function createSessionClient(request: NextRequest) {
   };
 }
 
-export async function getLoggedInUser(request: NextRequest) {
+export async function getLoggedInUser() {
   try {
-    const { account } = await createSessionClient(request);
+    const { account } = await createSessionClient();
     return await account.get();
   } catch (error) {
     return null;

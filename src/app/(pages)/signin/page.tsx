@@ -1,109 +1,23 @@
-"use client";
+import { redirect } from "next/navigation";
+import { getLoggedInUser } from "@/appwrite/serverSDK/appwrite";
+import SignInForm from "@/components/auth/SignInForm";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import config from "@/config";
-import { useRouter } from "next/navigation";
+export default async function SignIn() {
+  const user = await getLoggedInUser();
 
-const FormSchema = z.object({
-  email: z.string().email({ message: "Enter a valid email address" }),
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters.",
-  }),
-});
-
-export default function Login() {
-  const router = useRouter();
-
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const { email, password } = data;
-
-    try {
-      const response = await fetch(`${config.next_app_base_url}/api/signin`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
-      console.log(data);
-      if (data.success) {
-        toast(data?.msg || "Login successful");
-        router.replace("/dashboard");
-      } else {
-        toast(data?.msg || "Login failed");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  if (user && user.labels.includes("admin")) redirect("/dashboard");
 
   return (
     <section>
       <div className="mx-auto max-w-md space-y-6">
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">Login</h1>
+          <h1 className="text-3xl font-bold">Sign In</h1>
           <p className="text-lg text-gray-500 dark:text-gray-400">
             Enter your information to login your account
           </p>
         </div>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-bold">Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="example@email.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-bold">Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button className="w-full" type="submit">
-              Sign Up
-            </Button>
-          </form>
-        </Form>
+        <SignInForm />
       </div>
     </section>
   );

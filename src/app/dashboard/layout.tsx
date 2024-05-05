@@ -1,20 +1,14 @@
 import React from "react";
 import DashboardSidebar from "@/components/dashboard/Sidebar";
+import { getLoggedInUser } from "@/appwrite/serverSDK/appwrite";
 import { redirect } from "next/navigation";
-import config from "@/config";
-import { cookies } from "next/headers";
+import DashboardTopBar from "@/components/dashboard/TopBar";
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
-  const userPromise = await fetch(`${config.next_app_base_url}/api/user`, {
-    method: "GET",
-    credentials: "same-origin",
-  });
-  const user = await userPromise.json();
+  const user = await getLoggedInUser();
   console.log(user);
 
-  console.log(cookies().get("session"));
-
-  if (!user.success) redirect("/signin");
+  if (!user || !user.labels.includes("admin")) redirect("/signin");
 
   return (
     <main>
@@ -22,7 +16,12 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
         <div className="p-5 border-l border-black">
           <DashboardSidebar />
         </div>
-        <div className="flex-1">{children}</div>
+        <div className="flex-1">
+          <div>
+            <DashboardTopBar />
+          </div>
+          <div>{children}</div>
+        </div>
       </div>
     </main>
   );

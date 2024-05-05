@@ -16,6 +16,7 @@ import "@smastrom/react-rating/style.css";
 // Custom CSS
 import "./swipper.css";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const belleza = Belleza({
   subsets: ["latin"],
@@ -47,6 +48,7 @@ export default function RootLayout({
 
       <body className={`${belleza.variable} ${ooh_baby.variable}`}>
         {children}
+        <Toaster />
       </body>
     </html>
   );
