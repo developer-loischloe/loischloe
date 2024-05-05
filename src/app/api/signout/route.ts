@@ -9,7 +9,10 @@ export async function GET(request: NextRequest) {
     cookies().delete("session");
     await account.deleteSession("current");
 
-    return NextResponse.json({ success: true, msg: "Signout complete" });
+    return NextResponse.json({
+      success: true,
+      msg: "You are successfully signed out.",
+    });
   } catch (error: any) {
     console.log("Signout Error: ", error);
 

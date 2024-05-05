@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
+import { useToast } from "../ui/use-toast";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Enter a valid email address" }),
@@ -26,6 +26,7 @@ const FormSchema = z.object({
 
 const SignInForm = () => {
   const router = useRouter();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -51,7 +52,7 @@ const SignInForm = () => {
 
       if (data.success) {
         toast(data?.msg || "You are successfully signed in.");
-        router.replace("/dashboard");
+        router.refresh();
       } else {
         toast(data?.msg || "Signin failed");
       }

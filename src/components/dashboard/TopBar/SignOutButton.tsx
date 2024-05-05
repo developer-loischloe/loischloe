@@ -12,18 +12,17 @@ const SignOutButton = () => {
   async function signOut() {
     const response = await fetch(`${config.next_app_base_url}/api/signout`);
     const data = await response.json();
-    console.log(data);
 
     if (data.success) {
       toast(data?.msg || "Signout complete");
-      router.replace("/signin");
+      router.refresh();
     } else {
       toast(data?.msg || "Signout failed");
     }
   }
 
   return (
-    <Button onClick={signOut} variant={"outline"} type="submit">
+    <Button onClick={signOut} variant={"outline"} size={"sm"} type="submit">
       Sign out
     </Button>
   );

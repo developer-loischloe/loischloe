@@ -1,30 +1,38 @@
 import React from "react";
+import { Inter } from "next/font/google";
+import { redirect } from "next/navigation";
+
 import DashboardSidebar from "@/components/dashboard/Sidebar";
 import { getLoggedInUser } from "@/appwrite/serverSDK/appwrite";
-import { redirect } from "next/navigation";
 import DashboardTopBar from "@/components/dashboard/TopBar";
 
-const layout = async ({ children }: { children: React.ReactNode }) => {
-  const user = await getLoggedInUser();
-  console.log(user);
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+});
 
-  if (!user || !user.labels.includes("admin")) redirect("/signin");
+const Dashboardlayout = async ({ children }: { children: React.ReactNode }) => {
+  const user = await getLoggedInUser();
+
+  if (!user || !user.labels.includes("admin")) {
+    redirect("/signin");
+  }
 
   return (
-    <main>
-      <div className="flex gap-5">
-        <div className="p-5 border-l border-black">
+    <div className={`${inter.className} h-full bg-[#f2f2f2] `}>
+      <div className="flex h-full">
+        <div className="p-5 border-l border-black bg-red-500 h-full">
           <DashboardSidebar />
         </div>
         <div className="flex-1">
-          <div>
+          <div className="h-[80px] p-5 bg-white">
             <DashboardTopBar />
           </div>
-          <div>{children}</div>
+          <main className="">{children}</main>
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 
-export default layout;
+export default Dashboardlayout;

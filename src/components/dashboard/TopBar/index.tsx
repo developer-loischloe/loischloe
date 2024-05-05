@@ -1,10 +1,12 @@
 import React from "react";
 import SignOutButton from "./SignOutButton";
+import Account from "./Account";
 
 const DashboardTopBar = () => {
   return (
-    <div className="p-5 flex justify-between">
-      <div></div>
+    <div className="w-full h-full flex items-center justify-between">
+      <div>fgdg</div>
+      <Account />
       <SignOutButton />
     </div>
   );
