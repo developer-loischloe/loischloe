@@ -10,12 +10,13 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/free-mode";
 import "swiper/css/thumbs";
 
+// Custom Swiper CSS
+import "./swipper.css";
+
 // React Rating CSS
 import "@smastrom/react-rating/style.css";
 
-// Custom CSS
-import "./swipper.css";
-
+// Fonts
 const belleza = Belleza({
   subsets: ["latin"],
   weight: ["400"],
@@ -28,6 +29,7 @@ const ooh_baby = Oooh_Baby({
   variable: "--font-ooh_baby",
 });
 
+// Metadata
 export const metadata: Metadata = {
   title:
     "LOIS CHLOE- Leading Australian makeup brand that embraces beauty within the nature",

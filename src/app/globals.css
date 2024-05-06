@@ -122,9 +122,13 @@
   section {
     @apply max-w-7xl mx-auto px-5 py-7 md:py-16;
   }
+
+  section[aria-label="Notifications alt+T"] {
+    @apply !p-0;
+  }
 }
 
-/* style for 404 page  */
+/* style for 404 page  => Start*/
 .error-container {
   text-align: center;
   font-size: 106px;
@@ -277,7 +281,7 @@
     box-shadow: inset 160px -160px 0px 5px rgba(0, 0, 0, 0.4);
   }
 }
-
+/* style for 404 page  => End*/
 
 /* React Hotspot */
 .react-hotspots__hotspots__hotspot__content__container {

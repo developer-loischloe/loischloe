@@ -9,6 +9,7 @@ export default async function SignIn() {
   if (user && user.labels.includes("admin")) {
     redirect("/dashboard");
   }
+
   const loggedInAndNotAdmin = user && !user.labels.includes("admin");
 
   console.log(loggedInAndNotAdmin);
