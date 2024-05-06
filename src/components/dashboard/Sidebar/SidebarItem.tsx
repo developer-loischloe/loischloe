@@ -1,5 +1,4 @@
 "use client";
-import { DashboardItem } from ".";
 import {
   AccordionContent,
   AccordionItem,
@@ -8,38 +7,67 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Item, SectionItem } from ".";
+import { Diamond } from "lucide-react";
 
-export default function SidebarItem({ item }: { item: DashboardItem }) {
+export default function SidebarItem({ item }: { item: SectionItem }) {
   const pathname = usePathname();
-  const active = () => {
-    return pathname.startsWith(item.link);
+
+  const parentActive = () => {
+    return item.childItems.find((item) => pathname === item.link);
   };
 
   return (
-    <AccordionItem value={`item-${item.title}`} className={cn("border-none")}>
-      <AccordionTrigger
-        className={cn(
-          "group hover:no-underline px-5",
-          active() && "bg-[#002d3421] text-brand_secondary rounded-md "
-        )}
-      >
-        <div className="flex gap-2 items-center">
-          <div>{item.icon}</div>
-          <h5 className="group-hover:text-brand_secondary">{item.title}</h5>
-        </div>
-      </AccordionTrigger>
+    <AccordionItem
+      value={`item-${item.title}`}
+      className={cn("border-none w-full")}
+    >
+      <Link href={item.childItems[0].link}>
+        <AccordionTrigger
+          className={cn(
+            "group rounded-xl",
+            "hover:no-underline px-3",
+            parentActive() && "bg-[#002d3421]"
+          )}
+        >
+          <div
+            className={cn(
+              "flex gap-2 items-center group-hover:text-brand_primary",
+              parentActive() && "text-brand_primary"
+            )}
+          >
+            <div>{item.icon}</div>
+            <h5>{item.title}</h5>
+          </div>
+        </AccordionTrigger>
+      </Link>
       <AccordionContent>
-        {item.child.map((childItem) => (
-          <Link href={childItem.link}>
-            <div className="pl-10 flex gap-2 items-center group">
-              <div>{childItem.icon}</div>
-              <h5 className="group-hover:text-brand_primary">
-                {childItem.title}
-              </h5>
-            </div>
-          </Link>
+        {item?.childItems?.map((childItem) => (
+          <ChildItem childItem={childItem} />
         ))}
       </AccordionContent>
     </AccordionItem>
   );
 }
+
+const ChildItem = ({ childItem }: { childItem: Item }) => {
+  const pathname = usePathname();
+
+  const active = () => {
+    return pathname === childItem.link;
+  };
+
+  return (
+    <Link href={childItem.link} className="group">
+      <div
+        className={cn(
+          "pl-10 flex gap-2 items-center text-brand_gray group-hover:text-brand_primary text-base font-normal",
+          active() && "text-brand_primary"
+        )}
+      >
+        <Diamond size={12} />
+        <span>{childItem.title}</span>
+      </div>
+    </Link>
+  );
+};

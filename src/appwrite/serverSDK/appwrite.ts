@@ -1,7 +1,7 @@
 "use server";
 
-import { Client, Account } from "node-appwrite";
 import config from "@/config";
+import { Client, Account } from "node-appwrite";
 import { cookies } from "next/headers";
 
 export async function createAdminClient() {

@@ -76,6 +76,10 @@
     @apply border-border;
   }
 
+  body, html {
+    @apply h-full
+  }
+
   body {
     @apply font-belleza;
     color: var(--default-color);

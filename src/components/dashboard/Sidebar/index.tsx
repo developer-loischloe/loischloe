@@ -1,67 +1,101 @@
 import { Accordion } from "@/components/ui/accordion";
-import { Diamond, LayoutDashboard } from "lucide-react";
+import { FilePlus, LayoutDashboard, ShoppingCart } from "lucide-react";
 import React from "react";
 import SidebarItem from "./SidebarItem";
+import Link from "next/link";
+import Image from "next/image";
 
-export interface DashboardItem {
-  title: string;
-  icon: React.ReactNode;
-  link: string;
-  child: {
-    title: string;
-    icon: React.ReactNode;
-    link: string;
-  }[];
+import Logo from "@/assets/Logo-Gold.png";
+
+export interface Section {
+  sectionTitle: string;
+  sectionItems: SectionItem[];
 }
 
-const dashboardConstant: DashboardItem[] = [
+export interface SectionItem {
+  title: string;
+  icon: React.ReactNode;
+  childItems: Item[];
+}
+
+export interface Item {
+  title: string;
+  link: string;
+}
+
+const constants: Section[] = [
   {
-    title: "Dashboard",
-    icon: (
-      <LayoutDashboard size={18} className="hover:stroke-brand_secondary" />
-    ),
-    link: "/dashboard",
-    child: [
+    sectionTitle: "Main Home",
+    sectionItems: [
       {
         title: "Dashboard",
-        icon: <Diamond size={12} />,
-        link: "/dashboard",
-      },
-      {
-        title: "Dashboard",
-        icon: <Diamond size={12} />,
-        link: "/dashboard",
+        icon: <LayoutDashboard size={20} />,
+        childItems: [
+          {
+            title: "Overview",
+            link: "/dashboard",
+          },
+        ],
       },
     ],
   },
   {
-    title: "Order",
-    icon: (
-      <LayoutDashboard size={18} className="hover:stroke-brand_secondary" />
-    ),
-    link: "/dashboard/order",
-    child: [
+    sectionTitle: "All Page",
+    sectionItems: [
       {
-        title: "Order List",
-        icon: <Diamond size={12} />,
-        link: "/dashboard/order/order-list",
+        title: "Ecommerce",
+        icon: <ShoppingCart size={20} />,
+        childItems: [
+          {
+            title: "Product List",
+            link: "/dashboard/products",
+          },
+          {
+            title: "Add Product",
+            link: "/dashboard/products/add",
+          },
+        ],
       },
       {
-        title: "Order Details",
-        icon: <Diamond size={12} />,
-        link: "/dashboard/order/order-details",
+        title: "Order",
+        icon: <FilePlus size={20} />,
+        childItems: [
+          {
+            title: "Order List",
+            link: "/dashboard/orders",
+          },
+        ],
       },
     ],
   },
 ];
+
 const DashboardSidebar = () => {
   return (
-    <div>
-      <Accordion type="single" collapsible className="w-[200px] border-none">
-        {dashboardConstant.map((item) => (
-          <SidebarItem key={item.title} item={item} />
-        ))}
-      </Accordion>
+    <div className="space-y-5">
+      <div className="inline-flex items-center">
+        <Link href={"/"} className="">
+          <Image
+            src={Logo}
+            alt="logo"
+            priority
+            className="min-w-[100px] max-w-[160px]"
+          />
+        </Link>
+      </div>
+      {/* <Separator className="!m-0" /> */}
+      {constants.map((section) => (
+        <div className="space-y-2">
+          <h5 className="pl-3 text-brand_gray font-semibold">
+            {section.sectionTitle}
+          </h5>
+          <Accordion type="single" collapsible className="w-full border-none">
+            {section.sectionItems.map((item) => (
+              <SidebarItem key={item.title} item={item} />
+            ))}
+          </Accordion>
+        </div>
+      ))}
     </div>
   );
 };

@@ -12,15 +12,14 @@ const inter = Inter({
 
 const Dashboardlayout = async ({ children }: { children: React.ReactNode }) => {
   const user = await getLoggedInUser();
-  console.log(user);
 
   if (!user || !user.labels.includes("admin")) {
     redirect("/signin");
   }
 
   return (
-    <div className={`${inter.className}`}>
-      <div className="flex bg-[#f2f2f2] ">
+    <div className={`${inter.className} h-full`}>
+      <div className="flex bg-[#f2f2f2] h-full">
         <LayoutWrapper user={user}>{children}</LayoutWrapper>
       </div>
     </div>

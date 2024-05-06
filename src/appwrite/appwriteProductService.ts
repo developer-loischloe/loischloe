@@ -1,7 +1,7 @@
 import { Query } from "appwrite";
 import { databases } from "./appwriteConfig";
 import config from "@/config";
-import { SearchParams } from "@/app/(pages)/products/(products)/page";
+import { SearchParams } from "@/app/(website)/(pages)/products/(all-products)/page";
 
 interface ProductSearchParams extends SearchParams {
   productPerPage: number;
