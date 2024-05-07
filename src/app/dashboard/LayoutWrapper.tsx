@@ -13,7 +13,8 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { Menu } from "lucide-react";
-import React from "react";
+import { usePathname } from "next/navigation";
+import React, { useEffect } from "react";
 
 const LayoutWrapper = ({
   children,
@@ -24,10 +25,18 @@ const LayoutWrapper = ({
 }) => {
   const [open, setOpen] = React.useState(false);
 
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname.includes("/dashboard")) {
+      document.body.style.background = "#f1f1f1";
+    }
+  }, []);
+
   return (
     <div className="flex-1">
       {/* Topbar */}
-      <div className="h-[80px]  p-5 bg-white sticky top-0 flex gap-10">
+      <div className="h-[80px]  p-5 bg-white sticky top-0 flex gap-10 z-50">
         <Sheet modal={false} open={open} onOpenChange={setOpen}>
           <SheetTrigger className="">
             <Menu />
@@ -56,7 +65,7 @@ const LayoutWrapper = ({
       {/* Main Content */}
       <main
         className={cn(
-          "p-5 transition-all duration-500",
+          " p-5 transition-all duration-500",
           open && "md:ml-[300px]"
         )}
       >

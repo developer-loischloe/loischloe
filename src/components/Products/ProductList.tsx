@@ -1,4 +1,4 @@
-import { SearchParams } from "@/app/(pages)/products/(products)/page";
+import { SearchParams } from "@/app/(website)/(pages)/products/(all-products)/page";
 import ProductPagination from "./Product/ProductPagination";
 import ProductCard from "./ProductCard";
 import appwriteProductService from "@/appwrite/appwriteProductService";

@@ -1,4 +1,4 @@
-import { SearchParams } from "@/app/(pages)/products/(products)/page";
+import { SearchParams } from "@/app/(website)/(pages)/products/(all-products)/page";
 import appwriteCategoryService from "@/appwrite/appwriteCategoryService";
 import { cn, generateParams } from "@/lib/utils";
 import Link from "next/link";

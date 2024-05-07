@@ -19,6 +19,7 @@ const config = {
     },
     extend: {
       colors: {
+        brand_default: "var(--default-color)",
         brand_primary: "var(--brand-primary)",
         brand_secondary: "var(--brand-secondary)",
         brand_gray: "var(--brand-gray)",

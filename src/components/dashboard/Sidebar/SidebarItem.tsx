@@ -43,7 +43,7 @@ export default function SidebarItem({ item }: { item: SectionItem }) {
       </Link>
       <AccordionContent>
         {item?.childItems?.map((childItem) => (
-          <ChildItem childItem={childItem} />
+          <ChildItem key={childItem.title} childItem={childItem} />
         ))}
       </AccordionContent>
     </AccordionItem>

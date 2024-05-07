@@ -76,14 +76,8 @@
     @apply border-border;
   }
 
-  body, html {
-    @apply h-full
-  }
-
   body {
-    @apply font-belleza;
-    color: var(--default-color);
-    background: #fff;
+    @apply font-belleza bg-[#fff] text-brand_default overflow-x-hidden;
   }
 }
 

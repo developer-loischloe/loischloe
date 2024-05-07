@@ -51,7 +51,7 @@ export class AppwriteServerOrderService {
     }
   }
 
-  async getOrderDetails(orderId: string) {
+  async getOrderDetails({ orderId }: { orderId: string }) {
     try {
       const response = await adminDatabases.getDocument(
         config.appwriteDatabaseId,

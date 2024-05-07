@@ -83,9 +83,8 @@ const DashboardSidebar = () => {
           />
         </Link>
       </div>
-      {/* <Separator className="!m-0" /> */}
       {constants.map((section) => (
-        <div className="space-y-2">
+        <div key={section.sectionTitle} className="space-y-2">
           <h5 className="pl-3 text-brand_gray font-semibold">
             {section.sectionTitle}
           </h5>

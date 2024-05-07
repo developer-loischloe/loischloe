@@ -18,8 +18,8 @@ const Dashboardlayout = async ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <div className={`${inter.className} h-full`}>
-      <div className="flex bg-[#f2f2f2] h-full">
+    <div className={`${inter.className}`}>
+      <div className="flex">
         <LayoutWrapper user={user}>{children}</LayoutWrapper>
       </div>
     </div>
