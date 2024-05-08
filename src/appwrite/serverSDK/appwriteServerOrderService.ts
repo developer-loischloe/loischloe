@@ -67,6 +67,43 @@ export class AppwriteServerOrderService {
       throw error;
     }
   }
+
+  async updateOrderStatus({
+    orderId,
+    status,
+  }: {
+    orderId: string;
+    status: string;
+  }) {
+    try {
+      const response = await adminDatabases.updateDocument(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId.order,
+        orderId,
+        {
+          order_status: status,
+        }
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteOrder({ orderId }: { orderId: string }) {
+    try {
+      const response = await adminDatabases.deleteDocument(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId.order,
+        orderId
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 const appwriteServerOrderService = new AppwriteServerOrderService();

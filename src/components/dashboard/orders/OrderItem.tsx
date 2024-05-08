@@ -1,11 +1,13 @@
-"use client";
+// "use client";
 
-import { TableCell, TableRow } from "@/components/ui/table";
 import React from "react";
-import { Eye, PencilLine, Trash2, X } from "lucide-react";
-import { formatCurrency } from "@/lib/utils";
 import Link from "next/link";
+import { TableCell, TableRow } from "@/components/ui/table";
+import { Eye, PencilLine, Trash2, X } from "lucide-react";
+import { cn, formatCurrency } from "@/lib/utils";
 import { format as dateFormat } from "date-fns";
+import { UpdateOrderStatus } from "./UpdateOrderStatus";
+import DeleteOrder from "./order/DeleteOrder";
 
 const OrderItem = ({ order }: { order: any }) => {
   // console.log({ order });
@@ -39,7 +41,14 @@ const OrderItem = ({ order }: { order: any }) => {
       <TableCell className="text-center">
         {formatCurrency(order?.paymentInformation?.product_price)}
       </TableCell>
-      <TableCell>{order?.order_status}</TableCell>
+      <TableCell
+        className={cn(
+          order?.order_status === "processing" && "text-red-500",
+          order?.order_status === "completed" && "text-green-500"
+        )}
+      >
+        {order?.order_status}
+      </TableCell>
       <TableCell>
         <time className="text-brand_primary">
           {dateFormat(order?.$createdAt, "MM-dd-yyyy")}
@@ -50,8 +59,13 @@ const OrderItem = ({ order }: { order: any }) => {
           <Link href={`/dashboard/orders/${order?.$id}`}>
             <Eye size={20} className="text-blue-500 cursor-pointer" />
           </Link>
-          <PencilLine size={20} className="text-green-500 cursor-pointer" />
-          <Trash2 size={20} className="text-red-500 cursor-pointer" />
+          <UpdateOrderStatus orderId={order?.$id}>
+            <PencilLine size={20} className="text-green-500 cursor-pointer" />
+          </UpdateOrderStatus>
+
+          <DeleteOrder orderId={order?.$id}>
+            <Trash2 size={20} className="text-red-500 cursor-pointer" />
+          </DeleteOrder>
         </div>
       </TableCell>
     </TableRow>

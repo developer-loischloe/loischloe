@@ -1,20 +1,13 @@
 "use client";
+import React, { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { Menu } from "lucide-react";
+
 import DashboardSidebar from "@/components/dashboard/Sidebar";
 import DashboardTopBar from "@/components/dashboard/TopBar";
 
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetOverlay,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { Menu } from "lucide-react";
-import { usePathname } from "next/navigation";
-import React, { useEffect } from "react";
 
 const LayoutWrapper = ({
   children,
@@ -34,28 +27,23 @@ const LayoutWrapper = ({
   }, []);
 
   return (
-    <div className="flex-1">
+    <div>
       {/* Topbar */}
       <div className="h-[80px]  p-5 bg-white sticky top-0 flex gap-10 z-50">
+        {/* Sidebar Sheet */}
         <Sheet modal={false} open={open} onOpenChange={setOpen}>
-          <SheetTrigger className="">
+          <SheetTrigger>
             <Menu />
           </SheetTrigger>
-          <SheetContent
-            // onInteractOutside={() => {
-            //   setOpen(true);
-            //   console.log("int");
-            // }}
-            side={"left"}
-            className="w-[300px]"
-          >
+          <SheetContent side={"left"} className="w-[300px]">
             <DashboardSidebar />
           </SheetContent>
         </Sheet>
+
         <div
           className={cn(
             "w-full transition-all duration-500",
-            open && "md:ml-[300px]"
+            open && "xl:ml-[300px]"
           )}
         >
           <DashboardTopBar user={user} />
@@ -66,7 +54,7 @@ const LayoutWrapper = ({
       <main
         className={cn(
           " p-5 transition-all duration-500",
-          open && "md:ml-[300px]"
+          open && "xl:ml-[300px]"
         )}
       >
         {children}

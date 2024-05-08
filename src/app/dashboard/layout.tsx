@@ -19,9 +19,7 @@ const Dashboardlayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className={`${inter.className}`}>
-      <div className="flex">
-        <LayoutWrapper user={user}>{children}</LayoutWrapper>
-      </div>
+      <LayoutWrapper user={user}>{children}</LayoutWrapper>
     </div>
   );
 };
