@@ -5,24 +5,8 @@ import { Button } from "@/components/ui/button";
 import Banner from "@/assets/about/About_Cover-1.webp";
 
 const page = () => {
-  const getCurrentBdTime = () => {
-    const d = new Date();
-    const localTime = d.getTime();
-    const localOffset = d.getTimezoneOffset() * 60000;
-    const utc = localTime + localOffset;
-    const offset = +6; // UTC of USA Eastern Time Zone is -05.00
-    const usa = utc + 3600000 * offset;
-    console.log(usa);
-
-    const usaTimeNow = new Date(usa).toLocaleString();
-
-    return usaTimeNow;
-  };
-  console.log(getCurrentBdTime());
-
   return (
     <section className="space-y-10">
-      <div>{getCurrentBdTime()}</div>
       <Image src={Banner} alt="Banner" priority />
       <h1 className="heading-1 text-center">FIND OUT MORE ABOUT LOIS CHLOE</h1>
       <p className="text-brand_gray">

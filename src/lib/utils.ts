@@ -64,3 +64,17 @@ export const shippingCostProvider = {
   inside_dhaka: 60,
   outside_dhaka: 100,
 };
+
+export const getCurrentBdTime = () => {
+  const d = new Date();
+  const localTime = d.getTime();
+  const localOffset = d.getTimezoneOffset() * 60000;
+  const utc = localTime + localOffset;
+  const offset = +6; // UTC of USA Eastern Time Zone is -05.00
+  const usa = utc + 3600000 * offset;
+  console.log(usa);
+
+  const usaTimeNow = new Date(usa).toLocaleString();
+
+  return usaTimeNow;
+};

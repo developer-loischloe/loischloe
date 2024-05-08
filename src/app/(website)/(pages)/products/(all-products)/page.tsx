@@ -10,6 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { getCurrentBdTime } from "@/lib/utils";
 
 export interface SearchParams {
   p_category: string;
@@ -29,6 +30,8 @@ const page = ({
 }: {
   searchParams: SearchParams;
 }) => {
+  getCurrentBdTime();
+
   return (
     <section className="p-5 md:py-10">
       {/* Categories For Mobile */}
