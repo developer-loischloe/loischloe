@@ -39,6 +39,9 @@ export class AppwriteServerOrderService {
         }
       }
 
+      // sorting
+      QueryArray.push(Query.orderDesc("$createdAt"));
+
       const response = await adminDatabases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId.order,

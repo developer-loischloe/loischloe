@@ -8,13 +8,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { formatCurrency } from "@/lib/utils";
 
 const CartTotals = ({ order }: { order: any }) => {
   return (
     <div className="w-full bg-white p-5 rounded-lg">
       <Table className="w-full">
-        <TableHeader className="w-full  overflow-hidden">
-          <TableRow className="bg-[#f1f1f1] !rounded-lg hover:bg-[#f1f1f1]  border-none">
+        <TableHeader className="w-full  overflow-hidden !rounded-lg">
+          <TableRow className="bg-[#f1f1f17e] !rounded-lg hover:bg-[#f1f1f17e]  border-none">
             <TableHead className="font-bold !text-brand_default">
               Cart Totals
             </TableHead>
@@ -26,15 +27,21 @@ const CartTotals = ({ order }: { order: any }) => {
         <TableBody>
           <TableRow>
             <TableCell className="font-medium">Subtotal:</TableCell>
-            <TableCell>{order?.paymentInformation?.product_price}</TableCell>
+            <TableCell className="font-bold">
+              {formatCurrency(order?.paymentInformation?.product_price)}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell className="font-medium">Shipping:</TableCell>
-            <TableCell>{order?.paymentInformation?.shipping_cost}</TableCell>
+            <TableCell className="font-bold">
+              {formatCurrency(order?.paymentInformation?.shipping_cost)}
+            </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell className="font-medium">Total price:</TableCell>
-            <TableCell>{order?.paymentInformation?.total_price}</TableCell>
+            <TableCell className="font-bold">Total price:</TableCell>
+            <TableCell className="text-red-500 font-bold">
+              {formatCurrency(order?.paymentInformation?.total_price)}
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>
@@ -42,14 +49,4 @@ const CartTotals = ({ order }: { order: any }) => {
   );
 };
 
-// <div className="w-full bg-white p-5 rounded-lg">
-//   <div className="bg-[#f1f1f17e] px-3 py-2 rounded-md flex justify-between">
-//     <h5 className="font-bold">Cart Totals</h5>
-//     <h5 className="font-bold">Price</h5>
-//   </div>
-
-//   <div>
-//     <div></div>
-//   </div>
-// </div>
 export default CartTotals;

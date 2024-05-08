@@ -5,9 +5,10 @@ import React from "react";
 import { Eye, PencilLine, Trash2, X } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import Link from "next/link";
+import { format as dateFormat } from "date-fns";
 
 const OrderItem = ({ order }: { order: any }) => {
-  console.log({ order });
+  // console.log({ order });
 
   return (
     <TableRow>
@@ -39,6 +40,11 @@ const OrderItem = ({ order }: { order: any }) => {
         {formatCurrency(order?.paymentInformation?.product_price)}
       </TableCell>
       <TableCell>{order?.order_status}</TableCell>
+      <TableCell>
+        <time className="text-brand_primary">
+          {dateFormat(order?.$createdAt, "MM-dd-yyyy")}
+        </time>
+      </TableCell>
       <TableCell className="flex justify-center">
         <div className="flex gap-5">
           <Link href={`/dashboard/orders/${order?.$id}`}>

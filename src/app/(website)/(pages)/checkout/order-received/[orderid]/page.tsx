@@ -1,5 +1,5 @@
-import { format as dateFormat } from "date-fns";
 import Link from "next/link";
+import { format as dateFormat } from "date-fns";
 
 import appwriteOrderService from "@/appwrite/appwriteOrderService";
 import ShippingInformation from "@/components/Order_received/ShippingInformation";

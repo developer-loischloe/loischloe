@@ -6,34 +6,34 @@ const OrderShippingAddress = ({ order }: { order: any }) => {
 
   return (
     <div className="w-full bg-white p-5 rounded-lg">
-      <div className="mb-2">
-        <h5 className="font-bold">ShippingInformation</h5>
+      <div className="mb-5">
+        <h5 className="font-bold">Shipping Information</h5>
       </div>
 
-      <ul className="text-brand_gray">
+      <ul className="space-y-2">
         <li>
-          <span>Name: </span>
+          <span className="text-brand_gray">Name: </span>
           <span>{name}</span>
         </li>
         <li>
-          <span>Phone: </span>
+          <span className="text-brand_gray">Phone: </span>
           <span>{phone}</span>
         </li>
         <li>
-          <span>Email: </span>
+          <span className="text-brand_gray">Email: </span>
           <span>{email}</span>
         </li>
         <li>
-          <span>District: </span>
+          <span className="text-brand_gray">District: </span>
           <span>{district}</span>
         </li>
         <li>
-          <span>Address: </span>
+          <span className="text-brand_gray">Address: </span>
           <span>{address}</span>
         </li>
 
         <li>
-          <span>Order notes: </span>
+          <span className="text-brand_gray">Order notes: </span>
           <span>{order_notes}</span>
         </li>
       </ul>

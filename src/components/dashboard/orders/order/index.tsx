@@ -5,12 +5,13 @@ import OrderSummary from "@/components/dashboard/orders/order/OrderSummary";
 import OrderShippingAddress from "@/components/dashboard/orders/order/OrderShippingAddress";
 
 import appwriteServerOrderService from "@/appwrite/serverSDK/appwriteServerOrderService";
+import OrderPaymentMethod from "./OrderPaymentMethod";
 
 const OrderItem = async ({ orderId }: { orderId: string }) => {
   const { getOrderDetails } = appwriteServerOrderService;
   const order = await getOrderDetails({ orderId });
 
-  console.log(order);
+  // console.log(order);
 
   return (
     <div className="flex flex-col md:flex-row justify-between gap-5">
@@ -18,9 +19,10 @@ const OrderItem = async ({ orderId }: { orderId: string }) => {
         <OrderItems order={order} />
         <CartTotals order={order} />
       </div>
-      <div className="lg:min-w-[350px] flex flex-col gap-5">
+      <div className="md:max-w-[300px] lg:max-w-full lg:min-w-[350px] flex flex-col gap-5">
         <OrderSummary order={order} />
         <OrderShippingAddress order={order} />
+        <OrderPaymentMethod order={order} />
       </div>
     </div>
   );
