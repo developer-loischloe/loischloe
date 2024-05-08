@@ -2,25 +2,9 @@ import React from "react";
 import { format as dateFormat } from "date-fns";
 import { formatCurrency } from "@/lib/utils";
 
-const getCurrentBdTime = () => {
-  const d = new Date();
-  const localTime = d.getTime();
-  const localOffset = d.getTimezoneOffset() * 60000;
-  const utc = localTime + localOffset;
-  const offset = +6; // UTC of USA Eastern Time Zone is -05.00
-  const usa = utc + 3600000 * offset;
-  console.log(usa);
-
-  const usaTimeNow = new Date(usa).toLocaleString();
-
-  return usaTimeNow;
-};
-console.log(getCurrentBdTime());
-
 const OrderSummary = ({ order }: { order: any }) => {
   return (
     <div className="w-full bg-white p-5 rounded-lg">
-      <div>{getCurrentBdTime()}</div>
       <div className="mb-5">
         <h5 className="font-bold">Summary</h5>
       </div>
