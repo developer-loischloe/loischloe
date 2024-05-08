@@ -39,7 +39,7 @@ const SignInForm = () => {
     const { email, password } = data;
 
     try {
-      const response = await fetch(`${config.next_app_base_url}/api/signin`, {
+      const response = await fetch(`/api/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
