@@ -35,7 +35,7 @@ const statusConstant = [
   "processing",
   "on-hold",
   "completed",
-  "cancelled",
+  "canceled",
   "refunded",
 ];
 
