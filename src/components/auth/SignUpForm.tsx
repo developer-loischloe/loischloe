@@ -57,7 +57,6 @@ const SignUpForm = () => {
         password,
         name,
       });
-      console.log(response);
 
       if (response) {
         toast("Your account has been successfully created.");

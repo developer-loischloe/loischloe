@@ -1,9 +1,9 @@
-import { Accordion } from "@/components/ui/accordion";
-import { FilePlus, LayoutDashboard, ShoppingCart } from "lucide-react";
 import React from "react";
-import SidebarItem from "./SidebarItem";
 import Link from "next/link";
 import Image from "next/image";
+import { FilePlus, LayoutDashboard, ShoppingCart } from "lucide-react";
+import { Accordion } from "@/components/ui/accordion";
+import SidebarItem from "./SidebarItem";
 
 import Logo from "@/assets/Logo-Gold.png";
 
@@ -73,6 +73,7 @@ const constants: Section[] = [
 const DashboardSidebar = () => {
   return (
     <div className="space-y-5">
+      {/* Brand Logo */}
       <div className="inline-flex items-center">
         <Link href={"/"} className="">
           <Image
@@ -83,6 +84,8 @@ const DashboardSidebar = () => {
           />
         </Link>
       </div>
+
+      {/* Sidebar menu items */}
       {constants.map((section) => (
         <div key={section.sectionTitle} className="space-y-2">
           <h5 className="pl-3 text-brand_gray font-semibold">

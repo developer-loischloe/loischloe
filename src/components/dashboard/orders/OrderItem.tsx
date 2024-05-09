@@ -1,5 +1,3 @@
-// "use client";
-
 import React from "react";
 import Link from "next/link";
 import { TableCell, TableRow } from "@/components/ui/table";
@@ -10,14 +8,10 @@ import { UpdateOrderStatus } from "./UpdateOrderStatus";
 import DeleteOrder from "./order/DeleteOrder";
 
 const OrderItem = ({ order }: { order: any }) => {
-  // console.log({ order });
-
   return (
     <TableRow>
       <TableCell>
         {order?.orderItems?.map((item: any) => {
-          console.log({ item });
-
           return (
             <h5 key={item?.$id} className="line-clamp-1">
               {item?.product?.name}
@@ -27,8 +21,6 @@ const OrderItem = ({ order }: { order: any }) => {
       </TableCell>
       <TableCell>
         {order?.orderItems?.map((item: any) => {
-          console.log({ item });
-
           return (
             <div key={item?.$id} className="flex gap-2 items-center">
               <X size={12} />

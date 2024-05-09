@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getLoggedInUser } from "@/appwrite/serverSDK/appwrite";
+import { getLoggedInUser } from "@/appwrite/serverSDK/appwriteServerAccountClient";
 import SignUpForm from "@/components/auth/SignUpForm";
 
 export default async function SignUp() {

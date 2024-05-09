@@ -1,5 +1,5 @@
-import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import dynamic from "next/dynamic";
 
 // Components
 import HomeSlider from "@/components/Home/HomeSlider/index";

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createAdminClient } from "@/appwrite/serverSDK/appwrite";
+import { createAdminAccountClient } from "@/appwrite/serverSDK/appwriteServerAccountClient";
 import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
-  const { account } = await createAdminClient();
+  const { account } = await createAdminAccountClient();
   const { email, password } = await request.json();
 
   try {

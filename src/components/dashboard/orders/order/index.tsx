@@ -11,8 +11,6 @@ const OrderItem = async ({ orderId }: { orderId: string }) => {
   const { getOrderDetails } = appwriteServerOrderService;
   const order = await getOrderDetails({ orderId });
 
-  // console.log(order);
-
   return (
     <div className="flex flex-col md:flex-row justify-between gap-5">
       <div className="flex-1 flex flex-col gap-5">

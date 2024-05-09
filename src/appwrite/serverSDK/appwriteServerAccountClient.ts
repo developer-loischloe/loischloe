@@ -4,7 +4,7 @@ import config from "@/config";
 import { Client, Account } from "node-appwrite";
 import { cookies } from "next/headers";
 
-export async function createAdminClient() {
+export async function createAdminAccountClient() {
   const client = new Client()
     .setEndpoint(config.appwriteUrl)
     .setProject(config.appwriteProjectId)
@@ -17,7 +17,7 @@ export async function createAdminClient() {
   };
 }
 
-export async function createSessionClient() {
+export async function createSessionAccountClient() {
   const client = new Client()
     .setEndpoint(config.appwriteUrl)
     .setProject(config.appwriteProjectId);
@@ -39,7 +39,7 @@ export async function createSessionClient() {
 
 export async function getLoggedInUser() {
   try {
-    const { account } = await createSessionClient();
+    const { account } = await createSessionAccountClient();
     return await account.get();
   } catch (error) {
     return null;

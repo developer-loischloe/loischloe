@@ -77,7 +77,7 @@ export function UpdateOrderStatus({
         <DialogHeader>
           <DialogTitle>Update Order Status</DialogTitle>
           <DialogDescription>
-            Select a status and click save when you're done.
+            Select a status and click update when you're done.
           </DialogDescription>
         </DialogHeader>
 

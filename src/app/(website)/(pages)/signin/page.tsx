@@ -1,18 +1,15 @@
 import { redirect } from "next/navigation";
-import { getLoggedInUser } from "@/appwrite/serverSDK/appwrite";
+import { getLoggedInUser } from "@/appwrite/serverSDK/appwriteServerAccountClient";
 import SignInForm from "@/components/auth/SignInForm";
 
 export default async function SignIn() {
   const user = await getLoggedInUser();
-  console.log(user);
 
   if (user && user.labels.includes("admin")) {
     redirect("/dashboard");
   }
 
   const loggedInAndNotAdmin = user && !user.labels.includes("admin");
-
-  console.log(loggedInAndNotAdmin);
 
   return (
     <section>

@@ -24,7 +24,7 @@ export class AppwriteServerOrderService {
     resultPerPage = 10,
   }: {
     page?: string | number;
-    resultPerPage?: number;
+    resultPerPage?: string | number;
   }) {
     try {
       const QueryArray = [];

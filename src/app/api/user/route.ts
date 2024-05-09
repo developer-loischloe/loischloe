@@ -1,11 +1,10 @@
-import { createSessionClient } from "@/appwrite/serverSDK/appwrite";
+import { createSessionAccountClient } from "@/appwrite/serverSDK/appwriteServerAccountClient";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
-    const { account } = await createSessionClient();
+    const { account } = await createSessionAccountClient();
     const user = await account.get();
-    console.log(user);
 
     return NextResponse.json(
       { success: true, user },

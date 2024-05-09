@@ -42,6 +42,7 @@ export const PaginationComponent = ({
           <Link
             href={`${basePath}?${generateParams({
               page: Number(currentPageNumber) - 1,
+              resultPerPage,
               ...extraSearchParams,
             })}`}
           >
@@ -56,6 +57,7 @@ export const PaginationComponent = ({
             <Link
               href={`${basePath}?${generateParams({
                 page: Number(pageNumber),
+                resultPerPage,
                 ...extraSearchParams,
               })}`}
             >
@@ -77,6 +79,7 @@ export const PaginationComponent = ({
           <Link
             href={`${basePath}?${generateParams({
               page: Number(currentPageNumber) + 1,
+              resultPerPage,
               ...extraSearchParams,
             })}`}
           >

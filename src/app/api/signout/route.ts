@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSessionClient } from "@/appwrite/serverSDK/appwrite";
+import { createSessionAccountClient } from "@/appwrite/serverSDK/appwriteServerAccountClient";
 import { cookies } from "next/headers";
 
 export async function GET(request: NextRequest) {
-  const { account } = await createSessionClient();
+  const { account } = await createSessionAccountClient();
 
   try {
     cookies().delete("session");

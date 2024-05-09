@@ -10,14 +10,23 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 import appwriteServerOrderService from "@/appwrite/serverSDK/appwriteServerOrderService";
-import OrderItem from "./OrderItem";
 import { PaginationComponent } from "@/components/Shared/Pagination/PaginationComponent";
+import OrderItem from "./OrderItem";
+import NotFoundComponent from "@/components/Shared/NotFoundComponent";
 
-const OrderList = async ({ page }: { page: string }) => {
-  const resultPerPage = 15;
-
+const OrderList = async ({
+  page,
+  resultPerPage,
+}: {
+  page: string;
+  resultPerPage: string;
+}) => {
   const { getAllOrder } = appwriteServerOrderService;
   const orders = await getAllOrder({ page, resultPerPage });
+
+  if (orders.documents.length === 0) {
+    return <NotFoundComponent />;
+  }
 
   return (
     <div>
@@ -49,12 +58,9 @@ const OrderList = async ({ page }: { page: string }) => {
       {/* Pagination */}
       <PaginationComponent
         currentPageNumber={Number(page)}
-        resultPerPage={resultPerPage}
+        resultPerPage={Number(resultPerPage)}
         totalItems={orders.total}
         basePath={"/dashboard/orders"}
-        extraSearchParams={{
-          resultPerPage,
-        }}
       />
     </div>
   );

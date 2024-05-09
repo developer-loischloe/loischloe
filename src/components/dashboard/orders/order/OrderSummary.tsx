@@ -1,6 +1,6 @@
 import React from "react";
 import { format as dateFormat } from "date-fns";
-import { formatCurrency } from "@/lib/utils";
+import { cn, formatCurrency } from "@/lib/utils";
 
 const OrderSummary = ({ order }: { order: any }) => {
   return (
@@ -19,10 +19,21 @@ const OrderSummary = ({ order }: { order: any }) => {
           <time className="text-brand_primary">
             {dateFormat(order?.$createdAt, "MM-dd-yyyy")}
           </time>
-          {/* <span> - </span>
+          <span> - </span>
           <time className="text-brand_primary">
-            {dateFormat(order?.$createdAt, "h:mm:ss a")}
-          </time> */}
+            {dateFormat(order?.$createdAt, "h:mm a")}
+          </time>
+        </li>
+        <li>
+          <span className="text-brand_gray">Order status: </span>
+          <span
+            className={cn(
+              order?.order_status === "processing" && "text-red-500",
+              order?.order_status === "completed" && "text-green-500"
+            )}
+          >
+            {order?.order_status}
+          </span>
         </li>
         <li>
           <span className="text-brand_gray">Total: </span>
