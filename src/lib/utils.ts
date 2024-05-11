@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import currencyFormatter from "currency-formatter";
+import { format, toZonedTime } from "date-fns-tz";
 
 // =>>
 export function cn(...inputs: ClassValue[]) {
@@ -63,4 +64,14 @@ export const calculateDiscountPercentage = (
 export const shippingCostProvider = {
   inside_dhaka: 60,
   outside_dhaka: 100,
+};
+
+export const getBdtime = (date: any) => {
+  const bdDate = toZonedTime(date, "Asia/Dhaka");
+  return format(bdDate, "h:mm a", { timeZone: "Asia/Dhaka" });
+};
+
+export const getBdDate = (date: any) => {
+  const bdDate = toZonedTime(date, "Asia/Dhaka");
+  return format(bdDate, "MM-dd-yyyy", { timeZone: "Asia/Dhaka" });
 };

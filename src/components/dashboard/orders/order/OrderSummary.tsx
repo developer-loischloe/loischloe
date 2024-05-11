@@ -1,6 +1,5 @@
 import React from "react";
-import { format as dateFormat } from "date-fns";
-import { cn, formatCurrency } from "@/lib/utils";
+import { cn, formatCurrency, getBdDate, getBdtime } from "@/lib/utils";
 
 const OrderSummary = ({ order }: { order: any }) => {
   return (
@@ -17,11 +16,11 @@ const OrderSummary = ({ order }: { order: any }) => {
         <li>
           <span className="text-brand_gray">Date: </span>
           <time className="text-brand_primary">
-            {dateFormat(order?.$createdAt, "MM-dd-yyyy")}
+            {getBdDate(order?.$createdAt)}
           </time>
           <span> - </span>
           <time className="text-brand_primary">
-            {dateFormat(order?.$createdAt, "h:mm a")}
+            {getBdtime(order?.$createdAt)}
           </time>
         </li>
         <li>
