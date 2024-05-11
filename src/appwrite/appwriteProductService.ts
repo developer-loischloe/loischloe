@@ -3,10 +3,6 @@ import { databases } from "./appwriteConfig";
 import config from "@/config";
 import { SearchParams } from "@/app/(website)/(pages)/products/(all-products)/page";
 
-interface ProductSearchParams extends SearchParams {
-  productPerPage: number;
-}
-
 export class AppwriteProductService {
   async getProductList({
     p_category,
@@ -14,8 +10,8 @@ export class AppwriteProductService {
     n_category,
     keyword,
     page,
-    productPerPage,
-  }: ProductSearchParams) {
+    resultPerPage,
+  }: SearchParams) {
     try {
       let QueryArray = [];
 
@@ -37,10 +33,10 @@ export class AppwriteProductService {
       }
 
       // pagination
-      if (productPerPage) {
-        QueryArray.push(Query.limit(Number(productPerPage)));
+      if (resultPerPage) {
+        QueryArray.push(Query.limit(Number(resultPerPage)));
 
-        const skip = (Number(page) - 1) * Number(productPerPage);
+        const skip = (Number(page) - 1) * Number(resultPerPage);
         if (skip) {
           QueryArray.push(Query.offset(skip));
         }

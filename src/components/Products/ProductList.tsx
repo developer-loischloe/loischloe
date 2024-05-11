@@ -1,9 +1,7 @@
 import { SearchParams } from "@/app/(website)/(pages)/products/(all-products)/page";
-import ProductPagination from "./Product/ProductPagination";
 import ProductCard from "./ProductCard";
 import appwriteProductService from "@/appwrite/appwriteProductService";
-
-export const productPerPage = 12;
+import { PaginationComponent } from "../Shared/Pagination/PaginationComponent";
 
 const ProductList = async ({
   p_category,
@@ -11,6 +9,7 @@ const ProductList = async ({
   n_category,
   keyword,
   page,
+  resultPerPage,
 }: SearchParams) => {
   const products = await appwriteProductService.getProductList({
     p_category,
@@ -18,7 +17,7 @@ const ProductList = async ({
     n_category,
     keyword,
     page,
-    productPerPage,
+    resultPerPage,
   });
 
   return (
@@ -30,16 +29,13 @@ const ProductList = async ({
               <ProductCard product={product} key={product?.$id} />
             ))}
           </div>
-          <ProductPagination
-            total={products?.total}
-            {...{
-              p_category,
-              c_category,
-              n_category,
-              keyword,
-              page,
-              productPerPage,
-            }}
+
+          <PaginationComponent
+            basePath="/products"
+            currentPageNumber={Number(page)}
+            resultPerPage={Number(resultPerPage)}
+            totalItems={products?.total}
+            extraSearchParams={{ p_category, c_category, n_category }}
           />
         </div>
       ) : (

@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -79,6 +80,7 @@ export default function Header() {
               />
             </div>
           </div>
+
           <div className="flex gap-5">
             {/* <div className="hidden md:block">
             <WishListBtn />

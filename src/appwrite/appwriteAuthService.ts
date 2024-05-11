@@ -22,8 +22,14 @@ export class AppwriteAuthService {
         name
       );
 
-      return userAccount;
+      if (userAccount) {
+        return this.login({ email, password });
+      } else {
+        return userAccount;
+      }
     } catch (error) {
+      console.log("createUserAccount error: ", error);
+
       throw error;
     }
   }
@@ -32,28 +38,20 @@ export class AppwriteAuthService {
     try {
       return await account.createEmailSession(email, password);
     } catch (error) {
+      console.log("login error: ", error);
+
       throw error;
-    }
-  }
-
-  async isLoggedIn(): Promise<boolean> {
-    try {
-      const data = await this.getCurrentUser();
-
-      return Boolean(data);
-    } catch (error) {
-      return false;
     }
   }
 
   async getCurrentUser() {
     try {
-      return account.get();
+      return await account.get();
     } catch (error) {
       console.log("getCurrentUser error: ", error);
-    } finally {
-      return null;
     }
+
+    return null;
   }
 
   async logout() {
@@ -61,6 +59,7 @@ export class AppwriteAuthService {
       return await account.deleteSession("current");
     } catch (error) {
       console.log("logout error: ", error);
+      throw error;
     }
   }
 }

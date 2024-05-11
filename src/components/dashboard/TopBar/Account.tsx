@@ -7,8 +7,11 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import SignOutButton from "./SignOutButton";
+import { useAuth } from "@/context/authContext";
 
-const Account = ({ user }: { user: any }) => {
+const Account = () => {
+  const { user } = useAuth();
+
   return (
     <Popover>
       <PopoverTrigger>

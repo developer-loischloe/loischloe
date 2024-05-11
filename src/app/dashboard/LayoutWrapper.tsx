@@ -2,24 +2,19 @@
 import React, { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 import DashboardSidebar from "@/components/dashboard/Sidebar";
 import DashboardTopBar from "@/components/dashboard/TopBar";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
 
-const LayoutWrapper = ({
-  children,
-  user,
-}: {
-  children: React.ReactNode;
-  user: any;
-}) => {
+const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = React.useState(false);
 
   const pathname = usePathname();
 
+  // Set background
   useEffect(() => {
     if (pathname.includes("/dashboard")) {
       document.body.style.background = "#f1f1f1";
@@ -46,7 +41,7 @@ const LayoutWrapper = ({
             open && "xl:ml-[300px]"
           )}
         >
-          <DashboardTopBar user={user} />
+          <DashboardTopBar />
         </div>
       </div>
 

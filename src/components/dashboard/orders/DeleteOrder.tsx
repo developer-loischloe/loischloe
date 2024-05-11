@@ -1,4 +1,5 @@
 "use client";
+import appwriteOrderService from "@/appwrite/appwriteOrderService";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -10,8 +11,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { deleteOrderServerAction } from "@/lib/serverAction/dashboard/orderAction";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const DeleteOrder = ({
   children,
@@ -20,10 +21,16 @@ const DeleteOrder = ({
   children: React.ReactNode;
   orderId: string;
 }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const router = useRouter();
+  const { deleteOrder } = appwriteOrderService;
 
   const handleDelete = async () => {
-    const response = await deleteOrderServerAction({ orderId });
+    setIsSubmitting(true);
+
+    const response = await deleteOrder({ orderId });
+    setIsSubmitting(false);
     router.refresh();
   };
 
@@ -40,7 +47,9 @@ const DeleteOrder = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button onClick={handleDelete}>Delete</Button>
+          <Button onClick={handleDelete}>
+            {isSubmitting ? "Deleting..." : "Delete"}
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

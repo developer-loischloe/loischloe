@@ -52,7 +52,7 @@ const SearchSuggestion = ({
           n_category: "",
           keyword,
           page: "1",
-          productPerPage: 6,
+          resultPerPage: "6",
         })
         .then((products) => {
           setSearchProducts(products.documents);

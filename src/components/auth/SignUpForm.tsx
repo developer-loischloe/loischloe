@@ -15,7 +15,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { appwriteAuthService } from "@/appwrite/appwriteAuthService";
-import { useRouter } from "next/navigation";
 
 const FormSchema = z
   .object({
@@ -36,8 +35,6 @@ const FormSchema = z
   });
 
 const SignUpForm = () => {
-  const router = useRouter();
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -60,10 +57,11 @@ const SignUpForm = () => {
 
       if (response) {
         toast("Your account has been successfully created.");
-        router.push("/signin");
+        window.location.href = "/signin";
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      toast(error?.message || "Signup failed!");
     }
   }
 
@@ -133,7 +131,7 @@ const SignUpForm = () => {
           type="submit"
           disabled={!isDirty || isSubmitting}
         >
-          Submit
+          {isSubmitting ? "Submitting..." : "Submit"}
         </Button>
       </form>
     </Form>

@@ -13,6 +13,7 @@ import WhyChooseUs from "@/components/Home/WhyChooseUs";
 import Faq from "@/components/Home/Faq";
 import FeaturedProductListLoading from "@/components/Shared/loading/FeaturedProductListLoading";
 import MustHaveEssentials from "@/components/Home/MustHaveEssentials";
+import Loader from "@/components/Shared/loading/Loader";
 
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
   ssr: false,
@@ -35,7 +36,9 @@ export default function Home() {
         <FeaturedProducts />
       </Suspense>
       <LoisChloeMagazine />
-      <MustHaveEssentials />
+      <Suspense fallback={<Loader />}>
+        <MustHaveEssentials />
+      </Suspense>
       <CustomerFeedback />
       <WhyChooseUs />
       <BeautyAdvice />

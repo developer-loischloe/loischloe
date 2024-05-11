@@ -1,5 +1,10 @@
 import React from "react";
 import { Toaster } from "@/components/ui/sonner";
+import dynamic from "next/dynamic";
+
+const AuthProvider = dynamic(() => import("@/context/authContext"), {
+  ssr: false,
+});
 
 import "./globals.css";
 
@@ -11,8 +16,10 @@ const Rootlayout = ({
   return (
     <html lang="en">
       <body>
-        {children}
-        <Toaster />
+        <AuthProvider>
+          {children}
+          <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );

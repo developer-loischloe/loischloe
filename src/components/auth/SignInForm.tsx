@@ -3,8 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import config from "@/config";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,6 +14,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { appwriteAuthService } from "@/appwrite/appwriteAuthService";
+import { useAuth } from "@/context/authContext";
 
 const FormSchema = z.object({
   email: z.string().email({ message: "Enter a valid email address" }),
@@ -25,8 +25,6 @@ const FormSchema = z.object({
 });
 
 const SignInForm = () => {
-  const router = useRouter();
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -35,28 +33,25 @@ const SignInForm = () => {
     },
   });
 
+  const { user } = useAuth();
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const { email, password } = data;
 
     try {
-      const response = await fetch(`/api/signin`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        toast(data?.msg || "You are successfully signed in.");
-        router.refresh();
-      } else {
-        toast(data?.msg || "Signin failed");
+      if (user) {
+        await appwriteAuthService.logout();
       }
-    } catch (error) {
-      console.log(error);
+
+      const response = await appwriteAuthService.login({ email, password });
+
+      if (response) {
+        toast("You are successfully signed in.");
+        window.location.href = "/dashboard";
+      }
+    } catch (error: any) {
+      console.log(error?.message);
+      toast(error?.message || "Signin failed!");
     }
   }
 
@@ -98,7 +93,7 @@ const SignInForm = () => {
           type="submit"
           disabled={!isDirty || isSubmitting}
         >
-          Submit
+          {isSubmitting ? "Submitting..." : "Submit"}
         </Button>
       </form>
     </Form>

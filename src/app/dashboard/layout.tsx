@@ -1,26 +1,22 @@
 import React from "react";
 import { Inter } from "next/font/google";
-import { redirect } from "next/navigation";
 
-import { getLoggedInUser } from "@/appwrite/serverSDK/appwriteServerAccountClient";
 import LayoutWrapper from "./LayoutWrapper";
+import { AdminProtectedRoute } from "@/context/authContext";
 
+// Font
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   preload: true,
 });
 
-const Dashboardlayout = async ({ children }: { children: React.ReactNode }) => {
-  const user = await getLoggedInUser();
-
-  if (!user || !user.labels.includes("admin")) {
-    redirect("/signin");
-  }
-
+const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className={`${inter.className}`}>
-      <LayoutWrapper user={user}>{children}</LayoutWrapper>
+      <AdminProtectedRoute>
+        <LayoutWrapper>{children}</LayoutWrapper>
+      </AdminProtectedRoute>
     </div>
   );
 };

@@ -1,23 +1,23 @@
 "use client";
 
 import React from "react";
-import config from "@/config";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { appwriteAuthService } from "@/appwrite/appwriteAuthService";
 
 const SignOutButton = () => {
-  const router = useRouter();
+  const { logout } = appwriteAuthService;
 
   async function signOut() {
-    const response = await fetch(`${config.next_app_base_url}/api/signout`);
-    const data = await response.json();
+    const response = await logout();
+    console.log(response);
 
-    if (data.success) {
-      toast(data?.msg || "Signout complete");
-      router.refresh();
+    if (response) {
+      toast("Signout complete");
+      window.location.reload();
     } else {
-      toast(data?.msg || "Signout failed");
+      toast("Signout failed");
     }
   }
 

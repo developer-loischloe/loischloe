@@ -12,10 +12,10 @@ const menuItems = [
     name: "Products",
     href: "/products",
   },
-  // {
-  //   name: "Campaign",
-  //   href: "/campaign",
-  // },
+  {
+    name: "Special Offer",
+    href: "/offer",
+  },
   // {
   //   name: "Contact",
   //   href: "/contact",
@@ -43,7 +43,7 @@ const MenuList = ({
             prefetch
             className={cn(
               "flex-1 text-center text-sm font-semibold  hover:text-brand_primary",
-              pathname === item.href && "text-brand_primary"
+              pathname === item.href && "text-brand_primary "
             )}
           >
             {item.name}

@@ -1,7 +1,7 @@
+import Link from "next/link";
+import { cn, generateParams } from "@/lib/utils";
 import { SearchParams } from "@/app/(website)/(pages)/products/(all-products)/page";
 import appwriteCategoryService from "@/appwrite/appwriteCategoryService";
-import { cn, generateParams } from "@/lib/utils";
-import Link from "next/link";
 
 const Categories = async ({
   p_category,

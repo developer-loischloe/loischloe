@@ -1,5 +1,6 @@
 "use client";
 
+import appwriteOrderService from "@/appwrite/appwriteOrderService";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -25,11 +26,36 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { updateOrderStatusServerAction } from "@/lib/serverAction/dashboard/orderAction";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+export function UpdateOrderStatus({
+  children,
+  orderId,
+}: {
+  children: React.ReactNode;
+  orderId: string;
+}) {
+  return (
+    <Dialog>
+      <DialogTrigger>{children}</DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Update Order Status</DialogTitle>
+          <DialogDescription>
+            Select a status and click update when you're done.
+          </DialogDescription>
+        </DialogHeader>
+
+        <div>
+          <OrderStatusUpdateForm orderId={orderId} />
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 const statusConstant = [
   "processing",
@@ -43,13 +69,7 @@ const formSchema = z.object({
   status: z.string().min(1, { message: "Select a status" }),
 });
 
-export function UpdateOrderStatus({
-  children,
-  orderId,
-}: {
-  children: React.ReactNode;
-  orderId: string;
-}) {
+function OrderStatusUpdateForm({ orderId }: { orderId: string }) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -58,12 +78,14 @@ export function UpdateOrderStatus({
       status: "",
     },
   });
+
   const { isDirty, isSubmitting } = form.formState;
+  const { updateOrderStatus } = appwriteOrderService;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { status } = values;
 
-    const response = await updateOrderStatusServerAction({ orderId, status });
+    const response = await updateOrderStatus({ orderId, status });
 
     if (response.$id === orderId) {
       router.refresh();
@@ -71,47 +93,35 @@ export function UpdateOrderStatus({
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Update Order Status</DialogTitle>
-          <DialogDescription>
-            Select a status and click update when you're done.
-          </DialogDescription>
-        </DialogHeader>
-
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="status"
-              render={({ field: { onChange, ...field } }) => (
-                <FormItem>
-                  <FormControl>
-                    <Select onValueChange={onChange} {...field}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a status" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {statusConstant.map((status) => (
-                          <SelectItem key={status} value={status}>
-                            {status}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" disabled={!isDirty || isSubmitting}>
-              {isSubmitting ? "Updating..." : "Update"}
-            </Button>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="status"
+          render={({ field: { onChange } }) => (
+            <FormItem>
+              <FormControl>
+                <Select onValueChange={onChange}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {statusConstant.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        {status}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" disabled={!isDirty || isSubmitting}>
+          {isSubmitting ? "Updating..." : "Update"}
+        </Button>
+      </form>
+    </Form>
   );
 }
