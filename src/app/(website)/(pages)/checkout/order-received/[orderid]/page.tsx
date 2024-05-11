@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { format as dateFormat } from "date-fns";
 
 import appwriteOrderService from "@/appwrite/appwriteOrderService";
 import ShippingInformation from "@/components/Order_received/ShippingInformation";
 import OrderDetails from "@/components/Order_received/OrderDetails";
 import { Button } from "@/components/ui/button";
+import { getBdDate, getBdtime } from "@/lib/utils";
 
 const OrderReceived = async ({
   params: { orderid },
@@ -23,14 +23,14 @@ const OrderReceived = async ({
 
         <>
           <span>Date</span>: <span></span>
-          {order?.ordered_at && (
+          {order?.$createdAt && (
             <span className="space-x-10">
               <time className="text-brand_primary">
-                {dateFormat(order?.ordered_at, "MM-dd-yyyy")}
+                {getBdDate(order?.$createdAt)}
               </time>
 
               <time className="text-brand_primary">
-                {dateFormat(order?.ordered_at, "h:mm a")}
+                {getBdtime(order?.$createdAt)}
               </time>
             </span>
           )}

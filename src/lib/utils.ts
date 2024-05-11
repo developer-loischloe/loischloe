@@ -70,3 +70,8 @@ export const getBdtime = (date: any) => {
   const bdDate = toZonedTime(date, "Asia/Dhaka");
   return format(bdDate, "h:mm a", { timeZone: "Asia/Dhaka" });
 };
+
+export const getBdDate = (date: any) => {
+  const bdDate = toZonedTime(date, "Asia/Dhaka");
+  return format(bdDate, "MM-dd-yyyy", { timeZone: "Asia/Dhaka" });
+};
