@@ -1,8 +1,16 @@
 import React from "react";
 import { format as dateFormat } from "date-fns";
-import { cn, formatCurrency } from "@/lib/utils";
+import { cn, formatCurrency, getBdtime } from "@/lib/utils";
 
 const OrderSummary = ({ order }: { order: any }) => {
+  // console.log(
+  //   new Date(order?.$createdAt).toLocaleString("en-US", {
+  //     timeZone: "Europe/Paris",
+  //     timeStyle: "medium",
+  //     hourCycle: "h12",
+  //   })
+  // );
+
   return (
     <div className="w-full bg-white p-5 rounded-lg">
       <div className="mb-5">
@@ -21,7 +29,7 @@ const OrderSummary = ({ order }: { order: any }) => {
           </time>
           <span> - </span>
           <time className="text-brand_primary">
-            {dateFormat(order?.$createdAt, "h:mm a")}
+            {getBdtime(order?.$createdAt)}
           </time>
         </li>
         <li>
