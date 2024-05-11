@@ -11,7 +11,7 @@ const inter = Inter({
   preload: true,
 });
 
-const Dashboardlayout = async ({ children }: { children: React.ReactNode }) => {
+const Dashboardlayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className={`${inter.className}`}>
       <AdminProtectedRoute>

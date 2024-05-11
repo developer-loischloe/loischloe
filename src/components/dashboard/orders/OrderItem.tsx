@@ -5,7 +5,7 @@ import { Eye, PencilLine, Trash2, X } from "lucide-react";
 import { cn, formatCurrency } from "@/lib/utils";
 import { format as dateFormat } from "date-fns";
 import { UpdateOrderStatus } from "./UpdateOrderStatus";
-import DeleteOrder from "./order/DeleteOrder";
+import DeleteOrder from "./DeleteOrder";
 
 const OrderItem = ({ order }: { order: any }) => {
   return (

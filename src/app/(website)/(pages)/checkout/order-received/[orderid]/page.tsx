@@ -23,15 +23,15 @@ const OrderReceived = async ({
 
         <>
           <span>Date</span>: <span></span>
-          {order?.$createdAt && (
+          {order?.ordered_at && (
             <span className="space-x-10">
               <time className="text-brand_primary">
-                {dateFormat(order?.$createdAt, "MM-dd-yyyy")}
+                {dateFormat(order?.ordered_at, "MM-dd-yyyy")}
               </time>
 
-              {/* <time className="text-brand_primary">
-                {dateFormat(order?.$createdAt, "h:mm:ss a")}
-              </time> */}
+              <time className="text-brand_primary">
+                {dateFormat(order?.ordered_at, "h:mm a")}
+              </time>
             </span>
           )}
         </>

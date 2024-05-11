@@ -1,20 +1,37 @@
-import { Suspense } from "react";
+import appwriteProductService from "@/appwrite/appwriteProductService";
 import OfferSet from "@/components/Home/MustHaveEssentials/OfferSet";
 import LipStickSet from "./LipStickSet";
 
-const MustHaveEssentials = () => {
+const MustHaveEssentials = async () => {
+  const { getProductsByIds } = appwriteProductService;
+
+  const offerSetProductsPromise = getProductsByIds([
+    "66275729770e9b297af5",
+    "66092ea953c9650c164c",
+    "66092620ce4ec1fe55b1",
+    "66092bd0d811bde9b0d1",
+    "660946a0a8b365fd47ee",
+  ]);
+
+  const lipstickSetProductsPromise = getProductsByIds([
+    "660906177ffa1cc98562",
+    "66110b62534c53ca959f",
+    "66090035745143268a80",
+  ]);
+
+  const [offerSetProducts, lipstickSetProducts] = await Promise.all([
+    offerSetProductsPromise,
+    lipstickSetProductsPromise,
+  ]);
+
   return (
     <section>
       <h5 className="text-center subHeading">Absolute</h5>
       <h4 className="heading-1 text-center">Must-Have Essentials</h4>
 
       <div className="space-y-10 md:space-y-16">
-        <Suspense>
-          <OfferSet />
-        </Suspense>
-        <Suspense>
-          <LipStickSet />
-        </Suspense>
+        <OfferSet products={offerSetProducts} />
+        <LipStickSet products={lipstickSetProducts} />
       </div>
     </section>
   );

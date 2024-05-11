@@ -25,8 +25,8 @@ export default function SignIn() {
   }
 
   return (
-    <section>
-      <div className="mx-auto max-w-lg space-y-6 shadow-2xl p-10 rounded-lg">
+    <section className="min-h-screen flex items-center justify-center">
+      <div className="w-full mx-auto max-w-lg space-y-6 shadow-2xl p-10 rounded-lg">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">Sign In</h1>
           <p className="text-lg text-gray-500 dark:text-gray-400">

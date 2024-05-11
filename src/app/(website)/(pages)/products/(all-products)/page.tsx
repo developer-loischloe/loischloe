@@ -10,7 +10,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { getCurrentBdTime } from "@/lib/utils";
 
 export interface SearchParams {
   p_category: string;
@@ -18,6 +17,7 @@ export interface SearchParams {
   n_category: string;
   keyword: string;
   page: string;
+  resultPerPage: string;
 }
 const page = ({
   searchParams: {
@@ -26,12 +26,11 @@ const page = ({
     n_category = "",
     keyword = "",
     page = "1",
+    resultPerPage = "12",
   },
 }: {
   searchParams: SearchParams;
 }) => {
-  getCurrentBdTime();
-
   return (
     <section className="p-5 md:py-10">
       {/* Categories For Mobile */}
@@ -50,6 +49,7 @@ const page = ({
                   n_category,
                   keyword,
                   page,
+                  resultPerPage,
                 }}
               />
             </Suspense>
@@ -62,7 +62,14 @@ const page = ({
         <div className="hidden md:flex">
           <Suspense fallback={<CategoryListLoading />}>
             <Categories
-              {...{ p_category, c_category, n_category, keyword, page }}
+              {...{
+                p_category,
+                c_category,
+                n_category,
+                keyword,
+                page,
+                resultPerPage,
+              }}
             />
           </Suspense>
         </div>
@@ -73,7 +80,14 @@ const page = ({
           fallback={<ProductListLoading />}
         >
           <ProductList
-            {...{ p_category, c_category, n_category, keyword, page }}
+            {...{
+              p_category,
+              c_category,
+              n_category,
+              keyword,
+              page,
+              resultPerPage,
+            }}
           />
         </Suspense>
       </div>

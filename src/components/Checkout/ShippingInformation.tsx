@@ -107,6 +107,7 @@ export default function ShippingInformation() {
     };
 
     const orderInfo = {
+      ordered_at: new Date(),
       shippingInformation,
       orderItems: getOrderItems(cartList),
       paymentInformation: {
