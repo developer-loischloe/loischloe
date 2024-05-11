@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 
-import { Item, SectionItem } from ".";
+import { Item, SectionItem } from "./index";
 
 export default function SidebarItem({ item }: { item: SectionItem }) {
   return (

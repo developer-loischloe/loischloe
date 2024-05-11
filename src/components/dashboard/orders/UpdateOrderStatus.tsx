@@ -1,5 +1,6 @@
 "use client";
 
+import appwriteOrderService from "@/appwrite/appwriteOrderService";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -25,7 +26,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { updateOrderStatusServerAction } from "@/lib/serverAction/dashboard/orderAction";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -35,7 +35,7 @@ const statusConstant = [
   "processing",
   "on-hold",
   "completed",
-  "cancelled",
+  "canceled",
   "refunded",
 ];
 
@@ -59,11 +59,12 @@ export function UpdateOrderStatus({
     },
   });
   const { isDirty, isSubmitting } = form.formState;
+  const { updateOrderStatus } = appwriteOrderService;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { status } = values;
 
-    const response = await updateOrderStatusServerAction({ orderId, status });
+    const response = await updateOrderStatus({ orderId, status });
 
     if (response.$id === orderId) {
       router.refresh();

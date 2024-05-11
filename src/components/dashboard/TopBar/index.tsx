@@ -2,7 +2,7 @@ import React from "react";
 import Account from "./Account";
 import { Search } from "lucide-react";
 
-const DashboardTopBar = ({ user }: { user: any }) => {
+const DashboardTopBar = () => {
   return (
     <div className="w-full h-full flex items-center justify-between">
       <div className="w-full">
@@ -17,7 +17,7 @@ const DashboardTopBar = ({ user }: { user: any }) => {
           </div>
         </form>
       </div>
-      <Account user={user} />
+      <Account />
     </div>
   );
 };

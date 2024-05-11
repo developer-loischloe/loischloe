@@ -1,4 +1,5 @@
 "use client";
+import appwriteOrderService from "@/appwrite/appwriteOrderService";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -10,7 +11,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { deleteOrderServerAction } from "@/lib/serverAction/dashboard/orderAction";
 import { useRouter } from "next/navigation";
 
 const DeleteOrder = ({
@@ -21,9 +21,10 @@ const DeleteOrder = ({
   orderId: string;
 }) => {
   const router = useRouter();
+  const { deleteOrder } = appwriteOrderService;
 
   const handleDelete = async () => {
-    const response = await deleteOrderServerAction({ orderId });
+    const response = await deleteOrder({ orderId });
     router.refresh();
   };
 

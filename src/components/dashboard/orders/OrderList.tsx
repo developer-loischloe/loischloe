@@ -9,10 +9,10 @@ import {
 } from "@/components/ui/table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
-import appwriteServerOrderService from "@/appwrite/serverSDK/appwriteServerOrderService";
 import { PaginationComponent } from "@/components/Shared/Pagination/PaginationComponent";
 import OrderItem from "./OrderItem";
 import NotFoundComponent from "@/components/Shared/NotFoundComponent";
+import appwriteOrderService from "@/appwrite/appwriteOrderService";
 
 const OrderList = async ({
   page,
@@ -21,7 +21,7 @@ const OrderList = async ({
   page: string;
   resultPerPage: string;
 }) => {
-  const { getAllOrder } = appwriteServerOrderService;
+  const { getAllOrder } = appwriteOrderService;
   const orders = await getAllOrder({ page, resultPerPage });
 
   if (orders.documents.length === 0) {
