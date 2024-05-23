@@ -75,3 +75,16 @@ export const getBdDate = (date: any) => {
   const bdDate = toZonedTime(date, "Asia/Dhaka");
   return format(bdDate, "MM-dd-yyyy", { timeZone: "Asia/Dhaka" });
 };
+
+// file transformation
+export const getFileToUrl = (file: File) => {
+  return new Promise(function (resolve, reject) {
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      resolve(e.target?.result);
+    };
+
+    reader.readAsDataURL(file);
+  });
+};
