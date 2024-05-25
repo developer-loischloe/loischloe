@@ -88,3 +88,8 @@ export const getFileToUrl = (file: File) => {
     reader.readAsDataURL(file);
   });
 };
+
+// Function to remove HTML tags from a string
+export const removeHtmlTags = (str: string) => {
+  return str.replace(/<\/?[^>]+(>|$)/g, "");
+};

@@ -1,11 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
-import { getFileToUrl } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import slugify from "slugify";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import { getFileToUrl, removeHtmlTags } from "@/lib/utils";
+
 import {
   Form,
   FormControl,
@@ -14,13 +15,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
 import { Textarea } from "../ui/textarea";
+import { toast } from "sonner";
+
+// custom components
 import InputList from "../Shared/InputList";
 import SelectList from "../Shared/SelectList";
 import RichTextEditor from "../Shared/RichTextEditor";
+import { uploadFiles } from "@/lib/uploader";
 
+// constant for featured image
 const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
@@ -29,51 +35,63 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/webp",
 ];
 
-const FormSchema = z.object({
-  title: z.string().min(1, {
-    message: "Title is required.",
-  }),
-  slug: z.string().min(1, {
-    message: "Slug is required.",
-  }),
-  datePublished: z.string().min(1, {
-    message: "Published date is required.",
-  }),
-  content: z.string().min(100, {
-    message: "Content must be at least 100 characters.",
-  }),
-  tags: z.array(z.string()),
-  categories: z.array(z.string()),
-  featuredImage: z
-    .any()
-    .refine((files) => files?.[0]?.size === 0, `Featured image is required.`)
-    .refine(
-      (files) => files?.[0]?.size > MAX_FILE_SIZE,
-      `Max image size is 5MB.`
-    )
-    .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
-    ),
-  metaTitle: z.string().min(1, {
-    message: "Meta Title is required.",
-  }),
-  metaDescription: z.string().min(1, {
-    message: "Meta Description is required.",
-  }),
-  metaKeywords: z.array(z.string()),
-});
+const FormSchema = z
+  .object({
+    title: z
+      .string()
+      .min(1, {
+        message: "Title is required.",
+      })
+      .refine(
+        (title) => title.trimStart().trimEnd().split(" ").length >= 5,
+        "Title must be at least 5 words."
+      ),
+    slug: z.string().min(1, {
+      message: "Slug is required.",
+    }),
+    datePublished: z.string().min(1, {
+      message: "Published date is required.",
+    }),
+    content: z
+      .string()
+      .min(1, {
+        message: "Content is required.",
+      })
+      .refine(
+        (descriptin) =>
+          removeHtmlTags(descriptin).trimStart().trimEnd().split(" ").length >=
+          10,
+        "Conten must be at least 10 words."
+      ),
+    tags: z.array(z.string()),
+    categories: z.array(z.string()),
+    featuredImage: z
+      .any()
+      .refine((files) => files?.length >= 1, `Featured image is required.`)
+      .refine(
+        (files) => files?.[0]?.size <= MAX_FILE_SIZE,
+        `Max image size is 5MB.`
+      )
+      .refine(
+        (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+        "Only .jpg, .jpeg, .png and .webp formats are supported."
+      ),
+    metaTitle: z.string().min(1, {
+      message: "Meta Title is required.",
+    }),
+    metaDescription: z.string().min(1, {
+      message: "Meta Description is required.",
+    }),
+    metaKeywords: z.array(z.string()),
+  })
+  .superRefine((data) => {
+    if (data.slug) {
+      data.slug = slugify(data.slug, { lower: true });
+    }
+  });
 
 export default function AddBlogForm() {
-  const [featuredImage, setFeaturedImage] = useState<File | null>(null);
-  const [featuredImageUrl, setFeaturedImageUrl] = useState<any>("");
-
-  useEffect(() => {
-    featuredImage &&
-      getFileToUrl(featuredImage).then((res) => {
-        setFeaturedImageUrl(res);
-      });
-  }, [featuredImage]);
+  const [featuredImageUrl, setFeaturedImageUrl] = useState<any>(null);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -91,10 +109,33 @@ export default function AddBlogForm() {
     },
   });
 
-  console.log(form.watch());
+  // Generate Featured image url
+  const { featuredImage } = form.watch();
+  if (featuredImage[0]) {
+    getFileToUrl(featuredImage[0]).then((res) => {
+      setFeaturedImageUrl(res);
+    });
+  }
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast(`<pre>${JSON.stringify(data)}</pre>`);
+  const handleGenerateSlug = () => {
+    const { title } = form.watch();
+    if (title) {
+      form.setValue("slug", slugify(title, { lower: true }));
+      form.clearErrors("slug");
+    }
+  };
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    // toast(`<pre>${JSON.stringify(data)}</pre>`);
+
+    console.log(data);
+
+    const uploadedimages = await uploadFiles(
+      data.featuredImage,
+      "664af7610003e41e27d7"
+    );
+
+    console.log(uploadedimages);
   }
 
   return (
@@ -114,19 +155,29 @@ export default function AddBlogForm() {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="slug"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Slug</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter blog slug" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+        <div>
+          <FormField
+            control={form.control}
+            name="slug"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Slug</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter blog slug" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {form.watch().title && (
+            <span
+              onClick={handleGenerateSlug}
+              className="text-sm text-blue-600 hover:underline cursor-pointer"
+            >
+              Generate slug
+            </span>
           )}
-        />
+        </div>
 
         <FormField
           control={form.control}
@@ -193,8 +244,6 @@ export default function AddBlogForm() {
                   allItems={["skin", "hair"]}
                   selectedItems={field.value}
                   setSelectedItems={(values) => {
-                    console.log(values);
-
                     field.onChange(values);
                   }}
                 />
@@ -215,9 +264,7 @@ export default function AddBlogForm() {
                   type="file"
                   accept="image/*"
                   onChange={(e) => {
-                    console.log(e.target.files);
                     if (e.target?.files) {
-                      setFeaturedImage(e.target.files[0]);
                       field.onChange(e.target?.files);
                     }
                   }}

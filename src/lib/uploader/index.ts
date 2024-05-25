@@ -1,7 +1,12 @@
 import { storage } from "@/appwrite/appwriteConfig";
 import { ID } from "appwrite";
 
-export const uploadFiles = (files: any, bucketId: string) => {
+interface File {
+  id: string;
+  url: string;
+}
+
+export const uploadFiles = (files: any, bucketId: string): Promise<File[]> => {
   let filePromises: any[] = [];
 
   return new Promise((resolve, reject) => {
@@ -15,18 +20,22 @@ export const uploadFiles = (files: any, bucketId: string) => {
     }
 
     Promise.all(filePromises).then((files) => {
-      let uploadedFiles: { id: string; url: string }[] = [];
+      let uploadedFiles: File[] = [];
 
-      files.map((file) => {
-        const fileUrl = storage.getFileView(bucketId, file.$id);
+      try {
+        files.map((file) => {
+          const fileUrl = storage.getFileView(bucketId, file.$id);
 
-        uploadedFiles.push({
-          id: file.$id,
-          url: fileUrl.href,
+          uploadedFiles.push({
+            id: file.$id,
+            url: fileUrl.href,
+          });
         });
-      });
 
-      resolve(uploadedFiles);
+        resolve(uploadedFiles);
+      } catch (error) {
+        reject("Upload failed");
+      }
     });
   });
 };
