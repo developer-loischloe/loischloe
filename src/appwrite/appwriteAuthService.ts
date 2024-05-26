@@ -62,6 +62,24 @@ export class AppwriteAuthService {
       throw error;
     }
   }
+
+  async addUserPreferences(prefs: object) {
+    try {
+      return await account.updatePrefs(prefs);
+    } catch (error) {
+      console.log("addUserPreferences error: ", error);
+      throw error;
+    }
+  }
+
+  async updateUser(name: string) {
+    try {
+      return await account.updateName(name);
+    } catch (error) {
+      console.log("updateUser error: ", error);
+      throw error;
+    }
+  }
 }
 
 export const appwriteAuthService = new AppwriteAuthService();

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { getFileToUrl, removeHtmlTags } from "@/lib/utils";
+import { getFileToUrl } from "@/lib/utils";
 
 import {
   Form,
@@ -25,6 +25,9 @@ import InputList from "../Shared/InputList";
 import SelectList from "../Shared/SelectList";
 import RichTextEditor from "../Shared/RichTextEditor";
 import { uploadFiles } from "@/lib/uploader";
+import config from "@/config";
+import appwriteBlogService from "@/appwrite/appwriteBlogService";
+import { useAuth } from "@/context/authContext";
 
 // constant for featured image
 const MAX_FILE_SIZE = 5000000;
@@ -52,17 +55,9 @@ const FormSchema = z
     datePublished: z.string().min(1, {
       message: "Published date is required.",
     }),
-    content: z
-      .string()
-      .min(1, {
-        message: "Content is required.",
-      })
-      .refine(
-        (descriptin) =>
-          removeHtmlTags(descriptin).trimStart().trimEnd().split(" ").length >=
-          10,
-        "Conten must be at least 10 words."
-      ),
+    content: z.string().min(1, {
+      message: "Description is required.",
+    }),
     tags: z.array(z.string()),
     categories: z.array(z.string()),
     featuredImage: z
@@ -92,6 +87,8 @@ const FormSchema = z
 
 export default function AddBlogForm() {
   const [featuredImageUrl, setFeaturedImageUrl] = useState<any>(null);
+
+  const { user } = useAuth();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -126,17 +123,27 @@ export default function AddBlogForm() {
   };
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    // toast(`<pre>${JSON.stringify(data)}</pre>`);
-
-    console.log(data);
-
     const uploadedimages = await uploadFiles(
       data.featuredImage,
-      "664af7610003e41e27d7"
+      config.appwriteBucketId.blog
     );
 
-    console.log(uploadedimages);
+    const blogData = {
+      ...data,
+      featuredImage: uploadedimages[0].url,
+      authorId: user?.$id,
+    };
+
+    try {
+      const response = await appwriteBlogService.createBlog(blogData);
+      toast("Blog post successfully created.");
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+  const { isDirty, isSubmitting } = form.formState;
 
   return (
     <Form {...form}>
@@ -334,7 +341,9 @@ export default function AddBlogForm() {
         />
 
         {/* Submit Button */}
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={!isDirty || isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Submit"}
+        </Button>
       </form>
     </Form>
   );

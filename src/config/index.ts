@@ -1,9 +1,16 @@
 const config = {
+  // App Base URl
   next_app_base_url: String(process.env.NEXT_PUBLIC_APP_BASE_URL),
+  // Appwrite Base
   appwrite_API_key: String(process.env.NEXT_APPWRITE_API_KEY),
   appwriteUrl: String(process.env.NEXT_PUBLIC_APPWRITE_URL),
   appwriteProjectId: String(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID),
+  // Database Id
   appwriteDatabaseId: String(process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID),
+  appwriteBlogDatabaseId: String(
+    process.env.NEXT_PUBLIC_APPWRITE_BLOG_DATABASE_ID
+  ),
+  // Collection
   appwriteCollectionId: {
     product: String(process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_PRODUCT),
     category: {
@@ -19,10 +26,17 @@ const config = {
     },
     order: String(process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_ORDER),
   },
+  // Collection (Blog)
+  appwriteBlogCollectionId: {
+    blog: String(process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_BLOG),
+  },
+  // Storage Bucket
   appwriteBucketId: {
     review_image: String(
       process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_REVIEW_IMAGE
     ),
+    blog: String(process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_BLOG),
+    avatar: String(process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_AVATAR),
   },
 };
 
