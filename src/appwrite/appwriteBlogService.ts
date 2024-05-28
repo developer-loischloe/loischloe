@@ -17,6 +17,61 @@ export class AppwriteBlogService {
       throw error;
     }
   }
+
+  async updateBlog({ id, blogData }: { id: string; blogData: any }) {
+    try {
+      const response = await databases.updateDocument(
+        config.appwriteBlogDatabaseId,
+        config.appwriteBlogCollectionId.blog,
+        id,
+        blogData
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAllBlog() {
+    try {
+      const response = await databases.listDocuments(
+        config.appwriteBlogDatabaseId,
+        config.appwriteBlogCollectionId.blog
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAllBlogById(id: string) {
+    try {
+      const response = await databases.getDocument(
+        config.appwriteBlogDatabaseId,
+        config.appwriteBlogCollectionId.blog,
+        id
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAllCategories() {
+    try {
+      const response = await databases.listDocuments(
+        config.appwriteBlogDatabaseId,
+        config.appwriteBlogCollectionId.all_category
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 const appwriteBlogService = new AppwriteBlogService();

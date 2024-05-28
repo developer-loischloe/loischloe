@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import slugify from "slugify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -62,13 +62,16 @@ const FormSchema = z
     categories: z.array(z.string()),
     featuredImage: z
       .any()
-      .refine((files) => files?.length >= 1, `Featured image is required.`)
       .refine(
-        (files) => files?.[0]?.size <= MAX_FILE_SIZE,
+        (files) => !files || files?.length >= 1,
+        `Featured image is required.`
+      )
+      .refine(
+        (files) => !files || files?.[0]?.size <= MAX_FILE_SIZE,
         `Max image size is 5MB.`
       )
       .refine(
-        (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+        (files) => !files || ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
         "Only .jpg, .jpeg, .png and .webp formats are supported."
       ),
     metaTitle: z.string().min(1, {
@@ -85,39 +88,55 @@ const FormSchema = z
     }
   });
 
-interface DefaultValuesProps {
-  title: string;
-  slug: string;
-  datePublished: string;
-  content: string;
-  tags: string[];
-  categories: string[];
-  featuredImage: string;
-  metaTitle: string;
-  metaDescription: string;
-  metaKeywords: string[];
-}
+const dateFormat = (originalDateStr: string) => {
+  // Parse the date string into a Date object
+  const dateObj = new Date(originalDateStr);
 
-export default function AddBlogForm() {
-  const [featuredImageUrl, setFeaturedImageUrl] = useState<any>(null);
+  // Get the components of the date
+  const year = dateObj.getUTCFullYear();
+  const month = String(dateObj.getUTCMonth() + 1).padStart(2, "0"); // Months are zero-based
+  const day = String(dateObj.getUTCDate()).padStart(2, "0");
+  const hours = String(dateObj.getUTCHours()).padStart(2, "0");
+  const minutes = String(dateObj.getUTCMinutes()).padStart(2, "0");
+
+  // Format the date into the desired string format
+  const formattedDateStr = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+  return formattedDateStr;
+};
+
+export default function EditBlogForm({ post }: { post?: any }) {
+  const [featuredImageUrl, setFeaturedImageUrl] = useState<any>(
+    post?.featuredImage || null
+  );
+
+  const [allCategories, setAllCategories] = useState([]);
+
+  useEffect(() => {
+    appwriteBlogService.getAllCategories().then((res) => {
+      setAllCategories(res.documents[0].categories);
+    });
+  }, []);
 
   const { user } = useAuth();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      title: "",
-      slug: "",
-      datePublished: "",
-      content: "",
-      tags: [],
-      categories: [],
+      title: post?.title || "",
+      slug: post?.slug || "",
+      datePublished: dateFormat(post?.datePublished) || "",
+      content: post?.content || "",
+      tags: post?.tags || [],
+      categories: post?.categories || [],
       featuredImage: "",
-      metaTitle: "",
-      metaDescription: "",
-      metaKeywords: [],
+      metaTitle: post?.metaTitle || "",
+      metaDescription: post?.metaDescription || "",
+      metaKeywords: post?.metaKeywords || [],
     },
   });
+
+  console.log(form.watch());
 
   // Generate Featured image url
   const { featuredImage } = form.watch();
@@ -136,20 +155,30 @@ export default function AddBlogForm() {
   };
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const uploadedimages = await uploadFiles(
-      data.featuredImage,
-      config.appwriteBucketId.blog
-    );
+    let featuredImage = "";
+
+    if (data.featuredImage) {
+      const uploadedimages = await uploadFiles(
+        data.featuredImage,
+        config.appwriteBucketId.blog
+      );
+      featuredImage = uploadedimages[0].url;
+    } else {
+      featuredImage = post?.featurdeImage;
+    }
 
     const blogData = {
       ...data,
-      featuredImage: uploadedimages[0].url,
+      featuredImage: featuredImage,
       authorId: user?.$id,
     };
 
     try {
-      const response = await appwriteBlogService.createBlog(blogData);
-      toast("Blog post successfully created.");
+      const response = await appwriteBlogService.updateBlog({
+        id: post?.$id,
+        blogData,
+      });
+      toast("Blog post successfully updated.");
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -252,26 +281,28 @@ export default function AddBlogForm() {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="categories"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Categories</FormLabel>
-              <FormControl>
-                <SelectList
-                  placeHolder="Select a fruit"
-                  allItems={["skin", "hair"]}
-                  selectedItems={field.value}
-                  setSelectedItems={(values) => {
-                    field.onChange(values);
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div>
+          <FormField
+            control={form.control}
+            name="categories"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Categories</FormLabel>
+                <FormControl>
+                  <SelectList
+                    placeHolder="Select a fruit"
+                    allItems={allCategories}
+                    selectedItems={field.value}
+                    setSelectedItems={(values) => {
+                      field.onChange(values);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}

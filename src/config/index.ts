@@ -29,6 +29,9 @@ const config = {
   // Collection (Blog)
   appwriteBlogCollectionId: {
     blog: String(process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_BLOG),
+    all_category: String(
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_BLOG_ALL_CATEGORIES
+    ),
   },
   // Storage Bucket
   appwriteBucketId: {
