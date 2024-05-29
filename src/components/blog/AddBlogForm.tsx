@@ -1,11 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import slugify from "slugify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useAuth } from "@/context/authContext";
 
+import config from "@/config";
 import { getFileToUrl } from "@/lib/utils";
+import { uploadFiles } from "@/lib/uploader";
+import appwriteBlogService from "@/appwrite/appwriteBlogService";
 
 import {
   Form,
@@ -24,10 +28,7 @@ import { toast } from "sonner";
 import InputList from "../Shared/InputList";
 import SelectList from "../Shared/SelectList";
 import RichTextEditor from "../Shared/RichTextEditor";
-import { uploadFiles } from "@/lib/uploader";
-import config from "@/config";
-import appwriteBlogService from "@/appwrite/appwriteBlogService";
-import { useAuth } from "@/context/authContext";
+import { useRouter } from "next/navigation";
 
 // constant for featured image
 const MAX_FILE_SIZE = 5000000;
@@ -46,8 +47,8 @@ const FormSchema = z
         message: "Title is required.",
       })
       .refine(
-        (title) => title.trimStart().trimEnd().split(" ").length >= 5,
-        "Title must be at least 5 words."
+        (title) => title.trimStart().trimEnd().split(" ").length >= 3,
+        "Title must be at least 3 words."
       ),
     slug: z.string().min(1, {
       message: "Slug is required.",
@@ -85,23 +86,19 @@ const FormSchema = z
     }
   });
 
-interface DefaultValuesProps {
-  title: string;
-  slug: string;
-  datePublished: string;
-  content: string;
-  tags: string[];
-  categories: string[];
-  featuredImage: string;
-  metaTitle: string;
-  metaDescription: string;
-  metaKeywords: string[];
-}
-
 export default function AddBlogForm() {
   const [featuredImageUrl, setFeaturedImageUrl] = useState<any>(null);
 
+  const router = useRouter();
   const { user } = useAuth();
+
+  const [allCategories, setAllCategories] = useState([]);
+
+  useEffect(() => {
+    appwriteBlogService.getAllCategories().then((res) => {
+      setAllCategories(res.documents[0].categories);
+    });
+  }, []);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -150,7 +147,7 @@ export default function AddBlogForm() {
     try {
       const response = await appwriteBlogService.createBlog(blogData);
       toast("Blog post successfully created.");
-      console.log(response);
+      router.push("/dashboard/blog");
     } catch (error) {
       console.log(error);
     }
@@ -261,7 +258,7 @@ export default function AddBlogForm() {
               <FormControl>
                 <SelectList
                   placeHolder="Select a fruit"
-                  allItems={["skin", "hair"]}
+                  allItems={allCategories}
                   selectedItems={field.value}
                   setSelectedItems={(values) => {
                     field.onChange(values);
@@ -304,7 +301,7 @@ export default function AddBlogForm() {
           />
         )}
 
-        <h5 className="font-bold text-lg">SEO</h5>
+        <p className="font-bold text-lg">SEO</p>
         <FormField
           control={form.control}
           name="metaTitle"

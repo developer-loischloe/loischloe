@@ -5,7 +5,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
+import config from "@/config";
+import { uploadFiles } from "@/lib/uploader";
 import { getFileToUrl } from "@/lib/utils";
+import { useAuth } from "@/context/authContext";
+import appwriteBlogService from "@/appwrite/appwriteBlogService";
 
 import {
   Form,
@@ -17,17 +21,14 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "../ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
 // custom components
 import InputList from "../Shared/InputList";
 import SelectList from "../Shared/SelectList";
 import RichTextEditor from "../Shared/RichTextEditor";
-import { uploadFiles } from "@/lib/uploader";
-import config from "@/config";
-import appwriteBlogService from "@/appwrite/appwriteBlogService";
-import { useAuth } from "@/context/authContext";
+import { useRouter } from "next/navigation";
 
 // constant for featured image
 const MAX_FILE_SIZE = 5000000;
@@ -46,8 +47,8 @@ const FormSchema = z
         message: "Title is required.",
       })
       .refine(
-        (title) => title.trimStart().trimEnd().split(" ").length >= 5,
-        "Title must be at least 5 words."
+        (title) => title.trimStart().trimEnd().split(" ").length >= 3,
+        "Title must be at least 3 words."
       ),
     slug: z.string().min(1, {
       message: "Slug is required.",
@@ -106,6 +107,8 @@ const dateFormat = (originalDateStr: string) => {
 };
 
 export default function EditBlogForm({ post }: { post?: any }) {
+  console.log(post);
+
   const [featuredImageUrl, setFeaturedImageUrl] = useState<any>(
     post?.featuredImage || null
   );
@@ -119,6 +122,7 @@ export default function EditBlogForm({ post }: { post?: any }) {
   }, []);
 
   const { user } = useAuth();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -135,8 +139,6 @@ export default function EditBlogForm({ post }: { post?: any }) {
       metaKeywords: post?.metaKeywords || [],
     },
   });
-
-  console.log(form.watch());
 
   // Generate Featured image url
   const { featuredImage } = form.watch();
@@ -178,10 +180,16 @@ export default function EditBlogForm({ post }: { post?: any }) {
         id: post?.$id,
         blogData,
       });
+
       toast("Blog post successfully updated.");
-      console.log(response);
-    } catch (error) {
+
+      setTimeout(() => {
+        router.refresh();
+        router.push("/dashboard/blog");
+      }, 5000);
+    } catch (error: any) {
       console.log(error);
+      toast(error?.message);
     }
   }
 
@@ -335,7 +343,7 @@ export default function EditBlogForm({ post }: { post?: any }) {
           />
         )}
 
-        <h5 className="font-bold text-lg">SEO</h5>
+        <p className="font-bold text-lg">SEO</p>
         <FormField
           control={form.control}
           name="metaTitle"

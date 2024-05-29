@@ -1,5 +1,5 @@
-import AddBlogForm from "@/components/blog/AddBlogForm";
 import React from "react";
+import AddBlogForm from "@/components/blog/AddBlogForm";
 
 const page = () => {
   return (
@@ -8,7 +8,7 @@ const page = () => {
         Add new blog post
       </h1>
 
-      <div className=" ">
+      <div className="">
         <AddBlogForm />
       </div>
     </div>

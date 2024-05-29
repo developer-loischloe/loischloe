@@ -1,4 +1,4 @@
-import { ID } from "appwrite";
+import { ID, Query } from "appwrite";
 import { databases } from "./appwriteConfig";
 import config from "@/config";
 
@@ -46,15 +46,15 @@ export class AppwriteBlogService {
     }
   }
 
-  async getAllBlogById(id: string) {
+  async getBlogBySlug(slug: string) {
     try {
-      const response = await databases.getDocument(
+      const response = await databases.listDocuments(
         config.appwriteBlogDatabaseId,
         config.appwriteBlogCollectionId.blog,
-        id
+        [Query.equal("slug", slug)]
       );
 
-      return response;
+      return response.documents[0];
     } catch (error) {
       throw error;
     }
