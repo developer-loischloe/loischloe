@@ -16,10 +16,10 @@ const menuItems = [
     name: "Special Offer",
     href: "/offer",
   },
-  // {
-  //   name: "Contact",
-  //   href: "/contact",
-  // },
+  {
+    name: "Blog",
+    href: "/blog",
+  },
 ];
 
 const MenuList = ({

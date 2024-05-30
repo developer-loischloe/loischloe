@@ -85,7 +85,7 @@ const FormSchema = z
   })
   .superRefine((data) => {
     if (data.slug) {
-      data.slug = slugify(data.slug, { lower: true });
+      data.slug = slugify(data.slug.replace(/:/g, " "), { lower: true });
     }
   });
 
@@ -151,7 +151,7 @@ export default function EditBlogForm({ post }: { post?: any }) {
   const handleGenerateSlug = () => {
     const { title } = form.watch();
     if (title) {
-      form.setValue("slug", slugify(title, { lower: true }));
+      form.setValue("slug", slugify(title.replace(/:/g, " "), { lower: true }));
       form.clearErrors("slug");
     }
   };

@@ -288,3 +288,12 @@
 .react-hotspots__image img {
   @apply rounded-2xl;
 }
+
+.froalaContentView {
+  img {
+        @apply m-auto h-auto max-h-[650px]   rounded-xl  object-cover
+  }
+  iframe {
+    @apply m-auto
+  }
+}

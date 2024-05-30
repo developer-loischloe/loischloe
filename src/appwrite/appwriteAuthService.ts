@@ -1,5 +1,6 @@
 import { ID } from "appwrite";
 import { account } from "./appwriteConfig";
+import { users } from "./appwriteServerSDKConfig";
 
 interface CreateUserAccount {
   email: string;
@@ -80,6 +81,15 @@ export class AppwriteAuthService {
       throw error;
     }
   }
+
+  // async getUserById(id: string) {
+  //   try {
+  //     return await users.get(id);
+  //   } catch (error) {
+  //     console.log("getUserById error: ", error);
+  //     throw error;
+  //   }
+  // }
 }
 
 export const appwriteAuthService = new AppwriteAuthService();

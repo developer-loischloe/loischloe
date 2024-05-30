@@ -60,6 +60,20 @@ export class AppwriteBlogService {
     }
   }
 
+  async getBlogByCategories(categories: string[]) {
+    try {
+      const response = await databases.listDocuments(
+        config.appwriteBlogDatabaseId,
+        config.appwriteBlogCollectionId.blog,
+        [Query.equal("categories", categories)]
+      );
+
+      return response.documents;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getAllCategories() {
     try {
       const response = await databases.listDocuments(
