@@ -12,9 +12,9 @@ const RelatedBlogPost = async ({
   console.log(categories);
 
   const posts = await appwriteBlogService.getBlogByCategories(categories);
-  console.log({ posts: posts.length });
+  console.log({ posts: posts.documents });
 
-  const filteredPosts = posts
+  const filteredPosts = posts.documents
     .filter((post) => post.$id !== currentBlogId)
     .slice(0, 6);
   console.log({ filteredPosts: filteredPosts.length });

@@ -60,6 +60,21 @@ export class AppwriteBlogService {
     }
   }
 
+  async createBlogCategory(category: string) {
+    try {
+      const response = await databases.createDocument(
+        config.appwriteBlogDatabaseId,
+        config.appwriteBlogCollectionId.all_category,
+        ID.unique(),
+        { name: category }
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getBlogByCategories(categories: string[]) {
     try {
       const response = await databases.listDocuments(
@@ -68,7 +83,7 @@ export class AppwriteBlogService {
         [Query.equal("categories", categories)]
       );
 
-      return response.documents;
+      return response;
     } catch (error) {
       throw error;
     }

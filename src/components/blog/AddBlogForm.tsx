@@ -29,6 +29,7 @@ import InputList from "../Shared/InputList";
 import SelectList from "../Shared/SelectList";
 import RichTextEditor from "../Shared/RichTextEditor";
 import { useRouter } from "next/navigation";
+import { CreateNewCategoryDialog } from "./CreateNewCategoryDialog";
 
 // constant for featured image
 const MAX_FILE_SIZE = 5000000;
@@ -79,6 +80,7 @@ const FormSchema = z
       message: "Meta Description is required.",
     }),
     metaKeywords: z.array(z.string()),
+    canonicalUrl: z.string().optional(),
   })
   .superRefine((data) => {
     if (data.slug) {
@@ -92,11 +94,14 @@ export default function AddBlogForm() {
   const router = useRouter();
   const { user } = useAuth();
 
-  const [allCategories, setAllCategories] = useState([]);
+  const [allCategories, setAllCategories] = useState<string[]>([]);
 
   useEffect(() => {
     appwriteBlogService.getAllCategories().then((res) => {
-      setAllCategories(res.documents[0].categories);
+      const categories = res.documents.map((document): string => document.name);
+      console.log(categories);
+
+      setAllCategories(categories);
     });
   }, []);
 
@@ -113,6 +118,7 @@ export default function AddBlogForm() {
       metaTitle: "",
       metaDescription: "",
       metaKeywords: [],
+      canonicalUrl: "",
     },
   });
 
@@ -248,27 +254,32 @@ export default function AddBlogForm() {
             </FormItem>
           )}
         />
+        <div>
+          <FormField
+            control={form.control}
+            name="categories"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Categories</FormLabel>
+                <FormControl>
+                  <SelectList
+                    placeHolder="Select a fruit"
+                    allItems={allCategories}
+                    selectedItems={field.value}
+                    setSelectedItems={(values) => {
+                      field.onChange(values);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="categories"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Categories</FormLabel>
-              <FormControl>
-                <SelectList
-                  placeHolder="Select a fruit"
-                  allItems={allCategories}
-                  selectedItems={field.value}
-                  setSelectedItems={(values) => {
-                    field.onChange(values);
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <div>
+            <CreateNewCategoryDialog setAllCategories={setAllCategories} />
+          </div>
+        </div>
 
         <FormField
           control={form.control}
