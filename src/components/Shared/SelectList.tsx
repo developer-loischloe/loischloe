@@ -35,7 +35,7 @@ const SelectList = ({
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Select</SelectLabel>
-            {allItems.map((item) => (
+            {allItems?.map((item) => (
               <SelectItem key={item} value={item}>
                 {item}
               </SelectItem>

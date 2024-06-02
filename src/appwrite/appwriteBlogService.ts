@@ -33,11 +33,12 @@ export class AppwriteBlogService {
     }
   }
 
-  async getAllBlog() {
+  async deleteBlog({ blogId }: { blogId: string }) {
     try {
-      const response = await databases.listDocuments(
+      const response = await databases.deleteDocument(
         config.appwriteBlogDatabaseId,
-        config.appwriteBlogCollectionId.blog
+        config.appwriteBlogCollectionId.blog,
+        blogId
       );
 
       return response;
@@ -46,6 +47,88 @@ export class AppwriteBlogService {
     }
   }
 
+  async getAllBlog({
+    page,
+    resultPerPage,
+  }: {
+    page: string;
+    resultPerPage: string;
+  }) {
+    try {
+      let QueryArray = [];
+
+      // pagination
+      if (resultPerPage) {
+        QueryArray.push(Query.limit(Number(resultPerPage)));
+
+        const skip = (Number(page) - 1) * Number(resultPerPage);
+        if (skip) {
+          QueryArray.push(Query.offset(skip));
+        }
+      }
+
+      const response = await databases.listDocuments(
+        config.appwriteBlogDatabaseId,
+        config.appwriteBlogCollectionId.blog,
+        QueryArray
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getFeaturedBlog() {
+    try {
+      const response = await databases.listDocuments(
+        config.appwriteBlogDatabaseId,
+        config.appwriteBlogCollectionId.blog,
+        [Query.equal("featured", true)]
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getRecentBlog({
+    page,
+    resultPerPage,
+  }: {
+    page: string;
+    resultPerPage: string;
+  }) {
+    try {
+      let QueryArray = [];
+
+      // pagination
+      if (resultPerPage) {
+        QueryArray.push(Query.limit(Number(resultPerPage)));
+
+        const skip = (Number(page) - 1) * Number(resultPerPage);
+        if (skip) {
+          QueryArray.push(Query.offset(skip));
+        }
+      }
+
+      // filter recent post
+      QueryArray.push(Query.notEqual("featured", true));
+
+      const response = await databases.listDocuments(
+        config.appwriteBlogDatabaseId,
+        config.appwriteBlogCollectionId.blog,
+        QueryArray
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // single blog
   async getBlogBySlug(slug: string) {
     try {
       const response = await databases.listDocuments(
@@ -81,6 +164,34 @@ export class AppwriteBlogService {
         config.appwriteBlogDatabaseId,
         config.appwriteBlogCollectionId.blog,
         [Query.equal("categories", categories)]
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getBlogByCategory(category: string) {
+    try {
+      const response = await databases.listDocuments(
+        config.appwriteBlogDatabaseId,
+        config.appwriteBlogCollectionId.blog,
+        [Query.search("categories", category)]
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getBlogBytag(tag: string) {
+    try {
+      const response = await databases.listDocuments(
+        config.appwriteBlogDatabaseId,
+        config.appwriteBlogCollectionId.blog,
+        [Query.search("tags", tag)]
       );
 
       return response;

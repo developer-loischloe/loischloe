@@ -9,6 +9,7 @@ import config from "@/config";
 import { uploadFiles } from "@/lib/uploader";
 import { getFileToUrl } from "@/lib/utils";
 import { useAuth } from "@/context/authContext";
+
 import appwriteBlogService from "@/appwrite/appwriteBlogService";
 
 import {
@@ -29,15 +30,8 @@ import InputList from "../Shared/InputList";
 import SelectList from "../Shared/SelectList";
 import RichTextEditor from "../Shared/RichTextEditor";
 import { useRouter } from "next/navigation";
-
-// constant for featured image
-const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-];
+import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from "./AddBlogForm";
+import { CreateNewCategoryDialog } from "./CreateNewCategoryDialog";
 
 const FormSchema = z
   .object({
@@ -82,6 +76,11 @@ const FormSchema = z
       message: "Meta Description is required.",
     }),
     metaKeywords: z.array(z.string()),
+    canonicalUrl: z
+      .string()
+      .refine((url) => !url || /^(https?):\/\//i.test(url), {
+        message: "Please enter a valid URL",
+      }),
   })
   .superRefine((data) => {
     if (data.slug) {
@@ -89,6 +88,7 @@ const FormSchema = z
     }
   });
 
+// format Date for published date
 const dateFormat = (originalDateStr: string) => {
   // Parse the date string into a Date object
   const dateObj = new Date(originalDateStr);
@@ -107,17 +107,16 @@ const dateFormat = (originalDateStr: string) => {
 };
 
 export default function EditBlogForm({ post }: { post?: any }) {
-  console.log(post);
-
+  const [allCategories, setAllCategories] = useState<string[]>([]);
   const [featuredImageUrl, setFeaturedImageUrl] = useState<any>(
     post?.featuredImage || null
   );
 
-  const [allCategories, setAllCategories] = useState([]);
-
+  // Fetch all categories
   useEffect(() => {
     appwriteBlogService.getAllCategories().then((res) => {
-      setAllCategories(res.documents[0].categories);
+      const categories = res.documents.map((document): string => document.name);
+      setAllCategories(categories);
     });
   }, []);
 
@@ -137,10 +136,11 @@ export default function EditBlogForm({ post }: { post?: any }) {
       metaTitle: post?.metaTitle || "",
       metaDescription: post?.metaDescription || "",
       metaKeywords: post?.metaKeywords || [],
+      canonicalUrl: post?.canonicalUrl || "",
     },
   });
 
-  // Generate Featured image url
+  // Generate Base64 Featured image url
   const { featuredImage } = form.watch();
   if (featuredImage[0]) {
     getFileToUrl(featuredImage[0]).then((res) => {
@@ -170,8 +170,17 @@ export default function EditBlogForm({ post }: { post?: any }) {
     }
 
     const blogData = {
-      ...data,
+      title: data.title,
+      slug: data?.slug,
+      datePublished: data.datePublished,
+      content: data?.content,
+      tags: data?.tags,
+      categories: data?.categories,
       featuredImage: featuredImage,
+      metaTitle: data?.metaTitle,
+      metaDescription: data?.metaDescription,
+      metaKeywords: data?.metaKeywords,
+      ...(data.canonicalUrl && { canonicalUrl: data?.canonicalUrl }),
       authorId: user?.$id,
     };
 
@@ -183,10 +192,8 @@ export default function EditBlogForm({ post }: { post?: any }) {
 
       toast("Blog post successfully updated.");
 
-      setTimeout(() => {
-        router.refresh();
-        router.push("/dashboard/blog");
-      }, 5000);
+      router.push("/dashboard/blog");
+      router.refresh();
     } catch (error: any) {
       console.log(error);
       toast(error?.message);
@@ -298,7 +305,7 @@ export default function EditBlogForm({ post }: { post?: any }) {
                 <FormLabel>Categories</FormLabel>
                 <FormControl>
                   <SelectList
-                    placeHolder="Select a fruit"
+                    placeHolder="Select categories"
                     allItems={allCategories}
                     selectedItems={field.value}
                     setSelectedItems={(values) => {
@@ -310,6 +317,10 @@ export default function EditBlogForm({ post }: { post?: any }) {
               </FormItem>
             )}
           />
+
+          <div>
+            <CreateNewCategoryDialog setAllCategories={setAllCategories} />
+          </div>
         </div>
 
         <FormField
@@ -386,6 +397,20 @@ export default function EditBlogForm({ post }: { post?: any }) {
                     field.onChange(values);
                   }}
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="canonicalUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Canonical URL</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter canonical URL" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

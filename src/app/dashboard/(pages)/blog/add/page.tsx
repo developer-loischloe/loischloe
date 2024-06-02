@@ -5,7 +5,7 @@ const page = () => {
   return (
     <div className="w-full  max-w-7xl mx-auto">
       <h1 className="text-xl md:text-2xl mb-5 font-bold text-center">
-        Add new blog post
+        Add a new blog post
       </h1>
 
       <div className="">

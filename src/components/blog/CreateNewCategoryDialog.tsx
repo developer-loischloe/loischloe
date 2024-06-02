@@ -32,7 +32,7 @@ export function CreateNewCategoryDialog({
 
     try {
       const response = await appwriteBlogService.createBlogCategory(category);
-      console.log(response);
+
       toast("Category created.");
       setAllCategories((prev) => [...prev, response.name]);
 

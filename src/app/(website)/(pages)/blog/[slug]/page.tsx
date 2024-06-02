@@ -1,13 +1,16 @@
-import React from "react";
-import appwriteBlogService from "@/appwrite/appwriteBlogService";
+import React, { Suspense } from "react";
 import Image from "next/image";
-import { formatDate } from "date-fns";
 import Link from "next/link";
+import { formatDate } from "date-fns";
+
 import config from "@/config";
-import { Eye, ThumbsUp } from "lucide-react";
+import appwriteBlogService from "@/appwrite/appwriteBlogService";
 import RelatedBlogPost from "@/components/blog/RelatedBlogPost";
 
 import FroalaContentView from "./FroalaContentView";
+import Views from "./Views";
+import Likes from "./Likes";
+import Loading from "@/app/dashboard/loading";
 
 export async function generateMetadata({
   params: { slug },
@@ -15,12 +18,16 @@ export async function generateMetadata({
   params: { slug: string };
 }) {
   const post = await appwriteBlogService.getBlogBySlug(slug);
-  console.log({ SinglePost: post });
+  // console.log({ SinglePost: post });
 
   return {
     title: post?.metaTitle,
     description: post?.metaDescription,
     keywords: post?.metaKeywords,
+    alternates: {
+      canonical:
+        post?.canonicalUrl || `${config.next_app_base_url}/blog/${slug}`,
+    },
   };
 }
 
@@ -31,7 +38,6 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
     `${config.next_app_base_url}/api/user/${post?.authorId}`
   );
   const { user } = await userPromise.json();
-  console.log(user);
 
   if (!post) {
     return <div>No Post found</div>;
@@ -54,7 +60,7 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
         {/* Categories */}
         <ul className="flex gap-5">
           {post?.categories?.map((category: string, index: number) => (
-            <Link href={`/blog/category/${category}`}>
+            <Link key={category} href={`/blog/category/${category}`}>
               <li className="hover:text-brand_primary transition-all cursor-pointer hover:underline ">
                 <span>{category}</span>
                 {index + 1 < post?.categories?.length && (
@@ -171,46 +177,39 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
           </time>
         </div>
       </div>
-      {/* <div
-        dangerouslySetInnerHTML={{ __html: post?.content }}
-        className="blog_description"
-      ></div> */}
 
       <FroalaContentView content={post?.content} />
+
       {/* Tags */}
-      <div>
-        <p className="font-bold text-xl">Popular tags:</p>
-        <ul className="flex gap-5">
-          {post?.tags?.map((tag: string) => (
-            <Link href={`/blog/tag/${tag}`}>
-              <li className="hover:text-brand_primary transition-all cursor-pointer hover:underline">
-                #{tag}
-              </li>
-            </Link>
-          ))}
-        </ul>
-      </div>
+      {post?.tags?.length > 0 && (
+        <div>
+          <p className="font-bold text-xl">Tags:</p>
+          <ul className="flex gap-5">
+            {post?.tags?.map((tag: string) => (
+              <Link key={tag} href={`/blog/tag/${tag}`}>
+                <li className="hover:text-brand_primary transition-all cursor-pointer hover:underline">
+                  #{tag}
+                </li>
+              </Link>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* views, like */}
       <div className="flex gap-10">
-        <div className="flex items-center gap-2">
-          <ThumbsUp size={18} />
-
-          {post?.likes}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Eye size={18} />
-          {post?.views}
-        </div>
+        <Views post={post} />
+        <Likes post={post} />
       </div>
 
       {/* Related Blog Post */}
       <div>
-        <RelatedBlogPost
-          categories={post?.categories}
-          currentBlogId={post?.$id}
-        />
+        <Suspense fallback={<Loading />}>
+          <RelatedBlogPost
+            categories={post?.categories}
+            currentBlogId={post?.$id}
+          />
+        </Suspense>
       </div>
     </section>
   );

@@ -1,16 +1,21 @@
 import React from "react";
 import appwriteBlogService from "@/appwrite/appwriteBlogService";
 import EditBlogForm from "@/components/blog/EditBlogForm";
-import { unstable_noStore as noStore } from "next/cache";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const page = async ({ params: { slug } }: { params: { slug: string } }) => {
-  noStore();
-
   const post = await appwriteBlogService.getBlogBySlug(slug);
-  console.log({ SinglePost: post });
 
   if (!post) {
-    return <div>No Post found</div>;
+    return (
+      <div className="w-full  max-w-7xl mx-auto flex justify-center flex-col items-center gap-5 py-5">
+        <h2 className="text-center">No Posts found</h2>
+        <Link href={"/dashboard/blog/add"}>
+          <Button>Add new post</Button>
+        </Link>
+      </div>
+    );
   }
 
   return (
@@ -27,6 +32,3 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
 };
 
 export default page;
-
-export const dynamic = "force-dynamic";
-export const revalidate = 0;

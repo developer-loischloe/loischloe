@@ -1,12 +1,14 @@
 "use client";
+
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import slugify from "slugify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useAuth } from "@/context/authContext";
 
 import config from "@/config";
+import { useAuth } from "@/context/authContext";
 import { getFileToUrl } from "@/lib/utils";
 import { uploadFiles } from "@/lib/uploader";
 import appwriteBlogService from "@/appwrite/appwriteBlogService";
@@ -28,18 +30,18 @@ import { toast } from "sonner";
 import InputList from "../Shared/InputList";
 import SelectList from "../Shared/SelectList";
 import RichTextEditor from "../Shared/RichTextEditor";
-import { useRouter } from "next/navigation";
 import { CreateNewCategoryDialog } from "./CreateNewCategoryDialog";
 
 // constant for featured image
-const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = [
+export const MAX_FILE_SIZE = 5000000;
+export const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
   "image/jpg",
   "image/png",
   "image/webp",
 ];
 
+// Blog Schema
 const FormSchema = z
   .object({
     title: z
@@ -80,7 +82,6 @@ const FormSchema = z
       message: "Meta Description is required.",
     }),
     metaKeywords: z.array(z.string()),
-    canonicalUrl: z.string().optional(),
   })
   .superRefine((data) => {
     if (data.slug) {
@@ -90,17 +91,15 @@ const FormSchema = z
 
 export default function AddBlogForm() {
   const [featuredImageUrl, setFeaturedImageUrl] = useState<any>(null);
+  const [allCategories, setAllCategories] = useState<string[]>([]);
 
   const router = useRouter();
   const { user } = useAuth();
 
-  const [allCategories, setAllCategories] = useState<string[]>([]);
-
+  // Fetch all categories
   useEffect(() => {
     appwriteBlogService.getAllCategories().then((res) => {
       const categories = res.documents.map((document): string => document.name);
-      console.log(categories);
-
       setAllCategories(categories);
     });
   }, []);
@@ -118,11 +117,10 @@ export default function AddBlogForm() {
       metaTitle: "",
       metaDescription: "",
       metaKeywords: [],
-      canonicalUrl: "",
     },
   });
 
-  // Generate Featured image url
+  // Generate Base64 Featured image url for preview
   const { featuredImage } = form.watch();
   if (featuredImage[0]) {
     getFileToUrl(featuredImage[0]).then((res) => {
@@ -154,6 +152,7 @@ export default function AddBlogForm() {
       const response = await appwriteBlogService.createBlog(blogData);
       toast("Blog post successfully created.");
       router.push("/dashboard/blog");
+      router.refresh();
     } catch (error) {
       console.log(error);
     }
@@ -254,6 +253,7 @@ export default function AddBlogForm() {
             </FormItem>
           )}
         />
+
         <div>
           <FormField
             control={form.control}
@@ -263,7 +263,7 @@ export default function AddBlogForm() {
                 <FormLabel>Categories</FormLabel>
                 <FormControl>
                   <SelectList
-                    placeHolder="Select a fruit"
+                    placeHolder="Select categories"
                     allItems={allCategories}
                     selectedItems={field.value}
                     setSelectedItems={(values) => {
@@ -312,7 +312,8 @@ export default function AddBlogForm() {
           />
         )}
 
-        <p className="font-bold text-lg">SEO</p>
+        <br />
+        <h5 className="font-bold text-lg">SEO</h5>
         <FormField
           control={form.control}
           name="metaTitle"
