@@ -114,7 +114,7 @@ export default function EditBlogForm({ post }: { post?: any }) {
 
   // Fetch all categories
   useEffect(() => {
-    appwriteBlogService.getAllCategories().then((res) => {
+    appwriteBlogService.getAllBlogCategories().then((res) => {
       const categories = res.documents.map((document): string => document.name);
       setAllCategories(categories);
     });
@@ -376,7 +376,11 @@ export default function EditBlogForm({ post }: { post?: any }) {
             <FormItem>
               <FormLabel>Meta Description</FormLabel>
               <FormControl>
-                <Textarea placeholder="Enter meta Description" {...field} />
+                <Textarea
+                  placeholder="Enter meta Description"
+                  {...field}
+                  rows={7}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -408,7 +412,7 @@ export default function EditBlogForm({ post }: { post?: any }) {
           name="canonicalUrl"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Canonical URL</FormLabel>
+              <FormLabel>Canonical URL (optional)</FormLabel>
               <FormControl>
                 <Input placeholder="Enter canonical URL" {...field} />
               </FormControl>

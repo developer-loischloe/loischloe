@@ -74,6 +74,8 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
         {/* Title */}
         <h1 className="heading-1">{post?.title}</h1>
       </div>
+
+      {/* MetaData */}
       <div className="flex flex-col sm:flex-row gap-5 justify-between">
         <div className="flex items-center gap-2">
           <Image
@@ -88,6 +90,7 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
             By <span className="text-brand_primary">{user.name}</span>
           </p>
         </div>
+
         <div className="flex items-center gap-2 text-brand_gray">
           <svg
             width="18"
@@ -172,7 +175,7 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
               strokeLinejoin="round"
             />
           </svg>
-          <time className="">
+          <time className={formatDate(post?.datePublished, "dd MMMM yyyy")}>
             {formatDate(post?.datePublished, "dd MMMM yyyy")}
           </time>
         </div>
@@ -183,7 +186,7 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
       {/* Tags */}
       {post?.tags?.length > 0 && (
         <div>
-          <p className="font-bold text-xl">Tags:</p>
+          <span className="font-bold text-xl">Tags:</span>
           <ul className="flex gap-5">
             {post?.tags?.map((tag: string) => (
               <Link key={tag} href={`/blog/tag/${tag}`}>

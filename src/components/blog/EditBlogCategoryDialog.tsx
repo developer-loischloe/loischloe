@@ -1,7 +1,8 @@
 "use client";
-import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ReactNode, useState } from "react";
 import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,34 +17,36 @@ import { Label } from "@/components/ui/label";
 
 import appwriteBlogService from "@/appwrite/appwriteBlogService";
 
-export function CreateNewCategoryDialog({
+export function EditBlogCategoryDialog({
   children,
-  setAllCategories,
+  name,
+  id,
 }: {
-  children?: ReactNode;
-  setAllCategories?: Dispatch<SetStateAction<string[]>>;
+  children: ReactNode;
+  name: string;
+  id: string;
 }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(name);
   const [error, setError] = useState<null | string>(null);
 
-  const handleCreate = async () => {
+  const handleUpdate = async () => {
     if (!category) {
       return setError("Category is required.");
     }
     setIsSubmitting(true);
 
     try {
-      const response = await appwriteBlogService.createBlogCategory(category);
+      const response = await appwriteBlogService.updateBlogCategory({
+        id,
+        name: category,
+      });
 
-      toast("Category created.");
-      if (setAllCategories) {
-        setAllCategories((prev) => [...prev, response.name]);
-      }
+      toast("Category updated.");
 
       setOpen(false);
       setCategory("");
@@ -60,18 +63,10 @@ export function CreateNewCategoryDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {children ? (
-          <div className="ml-auto max-w-max">{children}</div>
-        ) : (
-          <span className="text-xs hover:underline text-blue-500 cursor-pointer">
-            Create new category
-          </span>
-        )}
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create new category</DialogTitle>
+          <DialogTitle>Edit category</DialogTitle>
         </DialogHeader>
         <div className="space-y-2">
           <Label htmlFor="name" className="text-right">
@@ -81,11 +76,7 @@ export function CreateNewCategoryDialog({
             placeholder="Enter category name"
             value={category}
             onChange={(e) => {
-              const value = e.target.value;
-              if (value.length > 0) {
-                setError(null);
-              }
-              setCategory(value);
+              setCategory(e.target.value);
             }}
           />
 
@@ -94,8 +85,8 @@ export function CreateNewCategoryDialog({
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={handleCreate} disabled={isSubmitting}>
-            Create
+          <Button onClick={handleUpdate} disabled={isSubmitting}>
+            Update
           </Button>
         </DialogFooter>
       </DialogContent>

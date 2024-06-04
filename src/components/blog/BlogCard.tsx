@@ -1,6 +1,6 @@
-import { formatDate } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
+import { formatDate } from "date-fns";
 
 const BlogCard = ({
   post,

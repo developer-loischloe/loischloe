@@ -31,10 +31,9 @@ const ooh_baby = Oooh_Baby({
 
 // Metadata
 export const metadata: Metadata = {
-  title:
-    "LOIS CHLOE- Leading Australian makeup brand that embraces beauty within the nature",
+  title: "Find the Best Deals on Makeup Products in Bangladesh | Lois Chloe",
   description:
-    "LOIS CHLOE is the number one vegan and cruelty free makeup brand based in Australia which blends sustainable makeup choices with a hint of luxury to your daily makeup necessities. They are dedicated to provide you with the best quality high end products with a diverse line up which definitely has something for all and caters to each of your beauty needs.",
+    "Buy makeup products from Lois Chloe at the best prices online. Explore our range of Face Palettes, Foundations, Eyeliners, and more. Shop now for unbeatable deals!",
 };
 
 export default function RootLayout({
@@ -45,7 +44,12 @@ export default function RootLayout({
   return (
     <>
       <GoogleTagManager gtmId={String(process.env.NEXT_PUBLIC_GTM_ID)} />
-
+      <head>
+        <meta
+          name="google-site-verification"
+          content="tItO_atbw0P1IaSATXuSK_6L09tFfeUDSsqVgumT_KI"
+        />
+      </head>
       <div className={`${belleza.variable} ${ooh_baby.variable}`}>
         {children}
       </div>

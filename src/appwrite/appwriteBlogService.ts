@@ -3,6 +3,7 @@ import { databases } from "./appwriteConfig";
 import config from "@/config";
 
 export class AppwriteBlogService {
+  // => => Blog Categories
   async createBlog(blogData: any) {
     try {
       const response = await databases.createDocument(
@@ -128,7 +129,7 @@ export class AppwriteBlogService {
     }
   }
 
-  // single blog
+  // Single blog
   async getBlogBySlug(slug: string) {
     try {
       const response = await databases.listDocuments(
@@ -138,21 +139,6 @@ export class AppwriteBlogService {
       );
 
       return response.documents[0];
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  async createBlogCategory(category: string) {
-    try {
-      const response = await databases.createDocument(
-        config.appwriteBlogDatabaseId,
-        config.appwriteBlogCollectionId.all_category,
-        ID.unique(),
-        { name: category }
-      );
-
-      return response;
     } catch (error) {
       throw error;
     }
@@ -200,7 +186,52 @@ export class AppwriteBlogService {
     }
   }
 
-  async getAllCategories() {
+  // => => Blog Categories
+  async createBlogCategory(category: string) {
+    try {
+      const response = await databases.createDocument(
+        config.appwriteBlogDatabaseId,
+        config.appwriteBlogCollectionId.all_category,
+        ID.unique(),
+        { name: category }
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateBlogCategory({ id, name }: { id: string; name: string }) {
+    try {
+      const response = await databases.updateDocument(
+        config.appwriteBlogDatabaseId,
+        config.appwriteBlogCollectionId.all_category,
+        id,
+        { name: name }
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteBlogCategory({ categoryId }: { categoryId: string }) {
+    try {
+      const response = await databases.deleteDocument(
+        config.appwriteBlogDatabaseId,
+        config.appwriteBlogCollectionId.all_category,
+        categoryId
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAllBlogCategories() {
     try {
       const response = await databases.listDocuments(
         config.appwriteBlogDatabaseId,

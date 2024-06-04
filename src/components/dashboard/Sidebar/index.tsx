@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 import {
+  BookPlus,
   BookText,
   FilePlus,
   LayoutDashboard,
@@ -91,6 +92,16 @@ const constants: Section[] = [
           {
             title: "Add Blog",
             link: "/dashboard/blog/add",
+          },
+        ],
+      },
+      {
+        title: "Categories",
+        icon: <BookPlus size={20} />,
+        childItems: [
+          {
+            title: "All Category",
+            link: "/dashboard/blog/blog-categories",
           },
         ],
       },

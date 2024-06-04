@@ -1,19 +1,16 @@
-import appwriteBlogService from "@/appwrite/appwriteBlogService";
+import React from "react";
 import Offer from "@/components/Home/Offer";
 import BlogCard from "@/components/blog/BlogCard";
-import React from "react";
+import appwriteBlogService from "@/appwrite/appwriteBlogService";
 
 const page = async ({
   params: { category },
 }: {
   params: { category: string };
 }) => {
-  console.log(category);
-
   const { getBlogByCategory } = appwriteBlogService;
 
   const posts = await getBlogByCategory(category);
-  // console.log(posts);
 
   return (
     <>

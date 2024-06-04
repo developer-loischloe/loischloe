@@ -1,9 +1,9 @@
 "use client";
-import appwriteBlogService from "@/appwrite/appwriteBlogService";
-import { cn } from "@/lib/utils";
-import { ThumbsUp } from "lucide-react";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ThumbsUp } from "lucide-react";
+import { cn } from "@/lib/utils";
+import appwriteBlogService from "@/appwrite/appwriteBlogService";
 
 const Likes = ({ post }: { post: any }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,8 +23,6 @@ const Likes = ({ post }: { post: any }) => {
     });
 
     router.refresh();
-    console.log(response);
-
     setIsSubmitting(false);
   };
   return (

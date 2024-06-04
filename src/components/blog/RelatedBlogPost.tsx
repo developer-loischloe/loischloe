@@ -1,6 +1,6 @@
 import React from "react";
-import appwriteBlogService from "@/appwrite/appwriteBlogService";
 import BlogCard from "./BlogCard";
+import appwriteBlogService from "@/appwrite/appwriteBlogService";
 
 const RelatedBlogPost = async ({
   categories,

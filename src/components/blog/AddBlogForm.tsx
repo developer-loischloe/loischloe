@@ -98,7 +98,7 @@ export default function AddBlogForm() {
 
   // Fetch all categories
   useEffect(() => {
-    appwriteBlogService.getAllCategories().then((res) => {
+    appwriteBlogService.getAllBlogCategories().then((res) => {
       const categories = res.documents.map((document): string => document.name);
       setAllCategories(categories);
     });
@@ -150,6 +150,7 @@ export default function AddBlogForm() {
 
     try {
       const response = await appwriteBlogService.createBlog(blogData);
+
       toast("Blog post successfully created.");
       router.push("/dashboard/blog");
       router.refresh();
@@ -335,7 +336,11 @@ export default function AddBlogForm() {
             <FormItem>
               <FormLabel>Meta Description</FormLabel>
               <FormControl>
-                <Textarea placeholder="Enter meta Description" {...field} />
+                <Textarea
+                  placeholder="Enter meta Description"
+                  rows={7}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

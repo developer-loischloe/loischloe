@@ -2,8 +2,6 @@ import React, { Suspense } from "react";
 import Link from "next/link";
 import { Eye, PencilLine, Trash2 } from "lucide-react";
 
-import appwriteBlogService from "@/appwrite/appwriteBlogService";
-
 import {
   Table,
   TableBody,
@@ -19,6 +17,8 @@ import ResultPerPage from "@/components/dashboard/orders/ResultPerPage";
 import { Button } from "@/components/ui/button";
 import Loading from "../../loading";
 
+import appwriteBlogService from "@/appwrite/appwriteBlogService";
+
 const BlogPage = ({
   searchParams: { page = "1", resultPerPage = "10" },
 }: {
@@ -33,7 +33,12 @@ const BlogPage = ({
       <br />
 
       {/* Top */}
-      <div className="w-full flex justify-end mb-5">
+      <div className="w-full flex justify-between items-center mb-5">
+        <div>
+          <Link href={`/dashboard/blog/add`}>
+            <Button>New Blog</Button>
+          </Link>
+        </div>
         <ResultPerPage
           basePath={"/dashboard/blog"}
           resultPerPage={resultPerPage}
@@ -69,9 +74,6 @@ const BlogList = async ({
     return (
       <div className="w-full  max-w-7xl mx-auto flex justify-center flex-col items-center gap-5 py-5">
         <h2 className="text-center">No Posts found</h2>
-        <Link href={"/dashboard/blog/add"}>
-          <Button>Add new post</Button>
-        </Link>
       </div>
     );
   }
@@ -84,21 +86,23 @@ const BlogList = async ({
             <TableRow>
               <TableHead className="">Blog post</TableHead>
 
-              <TableHead className="text-right">Action</TableHead>
+              <TableHead className="text-center">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {posts?.documents?.map((post) => (
               <TableRow key={post?.$id}>
                 <TableCell className="font-medium">
-                  <h3 className="font-bold text-lg mb-3"> {post?.title}</h3>
+                  <h3 className="font-bold md:text-lg mb-3 line-clamp-2">
+                    {post?.title}
+                  </h3>
                   <div
                     dangerouslySetInnerHTML={{ __html: post?.content }}
                     className="line-clamp-3"
                   />
                 </TableCell>
                 <TableCell className="flex justify-center">
-                  <div className="flex gap-5">
+                  <div className="flex flex-col md:flex-row gap-5">
                     <Link href={`/blog/${post?.slug}`}>
                       <Eye size={20} className="text-blue-500 cursor-pointer" />
                     </Link>
@@ -131,7 +135,7 @@ const BlogList = async ({
       <PaginationComponent
         currentPageNumber={Number(page)}
         resultPerPage={Number(resultPerPage)}
-        totalItems={posts.total}
+        totalItems={posts?.total}
         basePath={"/dashboard/blog"}
       />
     </div>
