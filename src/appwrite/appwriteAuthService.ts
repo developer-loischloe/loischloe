@@ -1,5 +1,6 @@
 import { ID } from "appwrite";
 import { account } from "./appwriteConfig";
+import { users } from "./appwriteServerSDKConfig";
 
 interface CreateUserAccount {
   email: string;
@@ -62,6 +63,33 @@ export class AppwriteAuthService {
       throw error;
     }
   }
+
+  async addUserPreferences(prefs: object) {
+    try {
+      return await account.updatePrefs(prefs);
+    } catch (error) {
+      console.log("addUserPreferences error: ", error);
+      throw error;
+    }
+  }
+
+  async updateUser(name: string) {
+    try {
+      return await account.updateName(name);
+    } catch (error) {
+      console.log("updateUser error: ", error);
+      throw error;
+    }
+  }
+
+  // async getUserById(id: string) {
+  //   try {
+  //     return await users.get(id);
+  //   } catch (error) {
+  //     console.log("getUserById error: ", error);
+  //     throw error;
+  //   }
+  // }
 }
 
 export const appwriteAuthService = new AppwriteAuthService();

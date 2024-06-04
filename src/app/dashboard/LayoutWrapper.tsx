@@ -24,7 +24,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       {/* Topbar */}
-      <div className="h-[80px]  p-5 bg-white sticky top-0 flex gap-10 z-50">
+      <div className="h-[80px]  p-5 bg-white sticky top-0 flex gap-5 z-50">
         {/* Sidebar Sheet */}
         <Sheet modal={false} open={open} onOpenChange={setOpen}>
           <SheetTrigger>

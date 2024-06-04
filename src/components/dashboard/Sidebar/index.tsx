@@ -2,7 +2,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
-import { FilePlus, LayoutDashboard, ShoppingCart } from "lucide-react";
+import {
+  BookPlus,
+  BookText,
+  FilePlus,
+  LayoutDashboard,
+  ShoppingCart,
+} from "lucide-react";
 
 import { Accordion } from "@/components/ui/accordion";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -51,7 +57,7 @@ const constants: Section[] = [
         icon: <ShoppingCart size={20} />,
         childItems: [
           {
-            title: "Product List",
+            title: "All Product",
             link: "/dashboard/products",
           },
           {
@@ -65,8 +71,37 @@ const constants: Section[] = [
         icon: <FilePlus size={20} />,
         childItems: [
           {
-            title: "Order List",
+            title: "All Order",
             link: "/dashboard/orders",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    sectionTitle: "Blog Manage",
+    sectionItems: [
+      {
+        title: "Blog",
+        icon: <BookText size={20} />,
+        childItems: [
+          {
+            title: "All Blog",
+            link: "/dashboard/blog",
+          },
+          {
+            title: "Add Blog",
+            link: "/dashboard/blog/add",
+          },
+        ],
+      },
+      {
+        title: "Categories",
+        icon: <BookPlus size={20} />,
+        childItems: [
+          {
+            title: "All Category",
+            link: "/dashboard/blog/blog-categories",
           },
         ],
       },
@@ -109,7 +144,7 @@ const DashboardSidebar = () => {
       <ScrollArea className="h-[calc(100vh-100px)]">
         {/* Sidebar menu items */}
         {constants.map((section) => (
-          <div key={section.sectionTitle} className="space-y-2">
+          <div key={section.sectionTitle} className="space-y-2 mb-5">
             <h5 className="pl-3 text-brand_gray font-semibold">
               {section.sectionTitle}
             </h5>

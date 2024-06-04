@@ -89,6 +89,9 @@ dependencies:
   framer-motion:
     specifier: ^11.0.8
     version: 11.0.8(react-dom@18.2.0)(react@18.2.0)
+  froala-editor:
+    specifier: ^4.2.0
+    version: 4.2.0
   lucide-react:
     specifier: ^0.350.0
     version: 0.350.0(react@18.2.0)
@@ -113,6 +116,9 @@ dependencies:
   react-fast-marquee:
     specifier: ^1.6.4
     version: 1.6.4(react-dom@18.2.0)(react@18.2.0)
+  react-froala-wysiwyg:
+    specifier: ^4.2.0
+    version: 4.2.0(react-dom@18.2.0)(react@18.2.0)
   react-hook-form:
     specifier: ^7.51.1
     version: 7.51.1(react@18.2.0)
@@ -134,6 +140,9 @@ dependencies:
   sharp:
     specifier: ^0.33.2
     version: 0.33.2
+  slugify:
+    specifier: ^1.6.6
+    version: 1.6.6
   sonner:
     specifier: ^1.4.41
     version: 1.4.41(react-dom@18.2.0)(react@18.2.0)
@@ -2085,6 +2094,13 @@ packages:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
     dev: true
 
+  /create-react-class@15.7.0:
+    resolution: {integrity: sha512-QZv4sFWG9S5RUvkTYWbflxeZX+JG7Cz0Tn33rQBJ+WFQTqTfUTjMjiv9tnfXazjsO5r0KhPs+AqCjyrQX6h2ng==}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+    dev: false
+
   /cross-fetch@3.1.5:
     resolution: {integrity: sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==}
     dependencies:
@@ -2761,6 +2777,10 @@ packages:
       tslib: 2.6.2
     optionalDependencies:
       '@emotion/is-prop-valid': 0.8.8
+    dev: false
+
+  /froala-editor@4.2.0:
+    resolution: {integrity: sha512-gYVw0oR4yD/8TNFdFELnOwKjNKifxsNnWZIcmjYaoFXYx0rdnSN8z6ewqXurEZ4Ehm3q/hIq1eVXzx1v/fynlA==}
     dev: false
 
   /fs.realpath@1.0.0:
@@ -3760,6 +3780,18 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /react-froala-wysiwyg@4.2.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-uMOhTOQ5G8dcZF4gFrUChsfarZogJ54YBgJQgQVfMuINMxMyn/NN0lLryRHVJJ/GG+lmuIWfIwiI+bGu68ouBA==}
+    peerDependencies:
+      react: ~0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ~0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      create-react-class: 15.7.0
+      froala-editor: 4.2.0
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /react-hook-form@7.51.1(react@18.2.0):
     resolution: {integrity: sha512-ifnBjl+kW0ksINHd+8C/Gp6a4eZOdWyvRv0UBaByShwU8JbVx5hTcTWEcd5VdybvmPTATkVVXk9npXArHmo56w==}
     engines: {node: '>=12.22.0'}
@@ -4133,6 +4165,11 @@ packages:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
     dev: true
+
+  /slugify@1.6.6:
+    resolution: {integrity: sha512-h+z7HKHYXj6wJU+AnS/+IH8Uh9fdcX1Lrhg1/VMdf9PwoBQXFcXiAdsy2tSK0P6gKwJLXp02r90ahUCqHk9rrw==}
+    engines: {node: '>=8.0.0'}
+    dev: false
 
   /sonner@1.4.41(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-uG511ggnnsw6gcn/X+YKkWPo5ep9il9wYi3QJxHsYe7yTZ4+cOd1wuodOUmOpFuXL+/RE3R04LczdNCDygTDgQ==}

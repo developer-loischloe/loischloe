@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import SignOutButton from "./SignOutButton";
 import { useAuth } from "@/context/authContext";
+import UpdateProfilePicture from "./UpdateProfilePicture";
 
 const Account = () => {
   const { user } = useAuth();
@@ -16,18 +17,21 @@ const Account = () => {
     <Popover>
       <PopoverTrigger>
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarImage src={user?.prefs?.avatar} />
           <AvatarFallback>
             {user?.name.split(" ")[0].slice(0, 2)}
           </AvatarFallback>
         </Avatar>
       </PopoverTrigger>
-      <PopoverContent>
-        <ul>
+      <PopoverContent className="space-y-5">
+        <ul className="space-y-5">
           <li>
-            <SignOutButton />
+            <UpdateProfilePicture />
           </li>
         </ul>
+        <div className="flex-col">
+          <SignOutButton />
+        </div>
       </PopoverContent>
     </Popover>
   );
