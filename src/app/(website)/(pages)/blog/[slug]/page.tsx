@@ -8,9 +8,9 @@ import appwriteBlogService from "@/appwrite/appwriteBlogService";
 import RelatedBlogPost from "@/components/blog/RelatedBlogPost";
 
 import FroalaContentView from "./FroalaContentView";
-import Views from "./Views";
-import Likes from "./Likes";
 import Loading from "@/app/dashboard/loading";
+import AddComment from "./AddComment";
+import CommentList from "./CommentList";
 
 export async function generateMetadata({
   params: { slug },
@@ -44,7 +44,7 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
   }
 
   return (
-    <section className="space-y-10">
+    <section className="max-w-6xl mx-auto space-y-10">
       <div className="w-full overflow-hidden">
         <Image
           src={post?.featuredImage}
@@ -58,7 +58,7 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
 
       <div className="space-y-5">
         {/* Categories */}
-        <ul className="flex gap-5">
+        <ul className="flex flex-wrap gap-5">
           {post?.categories?.map((category: string, index: number) => (
             <Link key={category} href={`/blog/category/${category}`}>
               <li className="hover:text-brand_primary transition-all cursor-pointer hover:underline ">
@@ -189,8 +189,8 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
       {/* Tags */}
       {post?.tags?.length > 0 && (
         <div>
-          <span className="font-bold text-xl">Tags:</span>
-          <ul className="flex gap-5">
+          <h5 className="font-bold text-xl mb-3">Tags:</h5>
+          <ul className="flex flex-wrap gap-5">
             {post?.tags?.map((tag: string) => (
               <Link key={tag} href={`/blog/tag/${tag}`}>
                 <li className="hover:text-brand_primary transition-all cursor-pointer hover:underline">
@@ -202,23 +202,22 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
         </div>
       )}
 
-      {/* views, like */}
-      <div className="flex gap-10">
-        <Views post={post} />
-        <Likes post={post} />
+      <div>
+        <CommentList blog={post} />
+        <br />
+        <br />
+        <AddComment blog={post} />
       </div>
 
       {/* Related Blog Post */}
-      <div>
-        {post?.categories?.length > 0 && (
-          <Suspense fallback={<Loading />}>
-            <RelatedBlogPost
-              categories={post?.categories}
-              currentBlogId={post?.$id}
-            />
-          </Suspense>
-        )}
-      </div>
+      {post?.categories?.length > 0 && (
+        <Suspense fallback={<Loading />}>
+          <RelatedBlogPost
+            categories={post?.categories}
+            currentBlogId={post?.$id}
+          />
+        </Suspense>
+      )}
     </section>
   );
 };

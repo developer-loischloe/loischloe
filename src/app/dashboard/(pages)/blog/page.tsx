@@ -93,13 +93,9 @@ const BlogList = async ({
             {posts?.documents?.map((post) => (
               <TableRow key={post?.$id}>
                 <TableCell className="font-medium">
-                  <h3 className="font-bold md:text-lg mb-3 line-clamp-2">
+                  <h3 className="font-bold text-lg mb-3 line-clamp-2">
                     {post?.title}
                   </h3>
-                  <div
-                    dangerouslySetInnerHTML={{ __html: post?.content }}
-                    className="line-clamp-3"
-                  />
                 </TableCell>
                 <TableCell className="flex justify-center">
                   <div className="flex flex-col md:flex-row gap-5">
