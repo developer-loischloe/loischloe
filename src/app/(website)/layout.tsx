@@ -44,12 +44,7 @@ export default function RootLayout({
   return (
     <>
       <GoogleTagManager gtmId={String(process.env.NEXT_PUBLIC_GTM_ID)} />
-      <head>
-        <meta
-          name="google-site-verification"
-          content="tItO_atbw0P1IaSATXuSK_6L09tFfeUDSsqVgumT_KI"
-        />
-      </head>
+
       <div className={`${belleza.variable} ${ooh_baby.variable}`}>
         {children}
       </div>

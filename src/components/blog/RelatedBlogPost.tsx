@@ -10,7 +10,7 @@ const RelatedBlogPost = async ({
   currentBlogId: string;
 }) => {
   const posts = await appwriteBlogService.getBlogByCategories(categories);
-  // console.log({ posts: posts.documents });
+  console.log({ posts: posts.documents });
 
   const filteredPosts = posts.documents
     .filter((post) => post.$id !== currentBlogId)
