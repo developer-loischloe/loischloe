@@ -4,17 +4,17 @@ import CountDown from "./CountDown";
 
 const OfferCountDown = () => {
   const [timeInSideDhaka, setTimeInSideDhaka] = useState<null | Date>(
-    new Date("4/15/2024 8:00:00")
+    new Date("6/13/2024 20:00:00")
   );
 
   useEffect(() => {
-    setTimeInSideDhaka(new Date("4/15/2024 8:00:00"));
+    setTimeInSideDhaka(new Date("6/13/2024 20:00:00"));
   }, []);
 
   return (
     <section>
       <h3 className="text-2xl md:text-4xl font-bold text-center mb-2 uppercase">
-        Delivery Will Start From:
+        Delivery Will Be Closed In :
       </h3>
       <div className="flex justify-center gap-1">
         <div>

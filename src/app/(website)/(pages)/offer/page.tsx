@@ -13,8 +13,8 @@ const page = () => {
   return (
     <>
       <OfferBanner />
-      {/* <LoisChloeMarquee />
-      <OfferCountDown /> */}
+      {/* <LoisChloeMarquee /> */}
+      <OfferCountDown />
       <section>
         <OfferProducts />
       </section>

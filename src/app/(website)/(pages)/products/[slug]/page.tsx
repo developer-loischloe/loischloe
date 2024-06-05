@@ -19,6 +19,21 @@ const ProductImageSlider = dynamic(
   { ssr: false }
 );
 
+export async function generateStaticParams() {
+  const products = await appwriteProductService.getProductList({
+    p_category: "",
+    c_category: "",
+    n_category: "",
+    keyword: "",
+    page: "1",
+    resultPerPage: "1000",
+  });
+
+  return products.documents.map((product: any) => ({
+    slug: product.slug,
+  }));
+}
+
 const page = async ({ params: { slug } }: { params: { slug: string } }) => {
   const products = await appwriteProductService.getProductDetails(slug);
 

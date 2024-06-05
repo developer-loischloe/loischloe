@@ -35,7 +35,8 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
   const post = await appwriteBlogService.getBlogBySlug(slug);
 
   const userPromise = await fetch(
-    `${config.next_app_base_url}/api/user/${post?.authorId}`
+    `${config.next_app_base_url}/api/user/${post?.authorId}`,
+    { cache: "no-store" }
   );
   const { user } = await userPromise.json();
 

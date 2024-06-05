@@ -155,7 +155,7 @@ export default function Header() {
           <div
             className={cn(
               "absolute top-[-900px] z-[50] bg-white w-[95vw] md:w-[750px] p-5 rounded-b-md transition-all duration-300",
-              showPopOver && "top-[82px]"
+              showPopOver && "top-[82px] sm:top-[130px]"
             )}
           >
             <SearchSuggestion
