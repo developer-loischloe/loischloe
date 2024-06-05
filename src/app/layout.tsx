@@ -1,6 +1,6 @@
 import React from "react";
-import { Toaster } from "@/components/ui/sonner";
 import dynamic from "next/dynamic";
+import { Toaster } from "@/components/ui/sonner";
 
 const AuthProvider = dynamic(() => import("@/context/authContext"), {
   ssr: false,
@@ -15,6 +15,13 @@ const Rootlayout = ({
 }>) => {
   return (
     <html lang="en">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="tItO_atbw0P1IaSATXuSK_6L09tFfeUDSsqVgumT_KI"
+        />
+      </head>
+
       <body>
         <AuthProvider>
           {children}

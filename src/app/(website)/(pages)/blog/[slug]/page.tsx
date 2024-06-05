@@ -79,7 +79,10 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
       <div className="flex flex-col sm:flex-row gap-5 justify-between">
         <div className="flex items-center gap-2">
           <Image
-            src={user.avatar || ""}
+            src={
+              user.avatar ||
+              "https://cloud.appwrite.io/v1/storage/buckets/65feab130c0a4167d13d/files/660d0c9eb800e9966414/view?project=65ed75e73895ca457661&mode=admin"
+            }
             alt="avatar"
             width={100}
             height={100}
@@ -207,12 +210,14 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
 
       {/* Related Blog Post */}
       <div>
-        <Suspense fallback={<Loading />}>
-          <RelatedBlogPost
-            categories={post?.categories}
-            currentBlogId={post?.$id}
-          />
-        </Suspense>
+        {post?.categories?.length > 0 && (
+          <Suspense fallback={<Loading />}>
+            <RelatedBlogPost
+              categories={post?.categories}
+              currentBlogId={post?.$id}
+            />
+          </Suspense>
+        )}
       </div>
     </section>
   );
