@@ -15,7 +15,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       <main>{children}</main>
       <Footer />
       <ReactScrollToTop />
-      {/* <Whatsapp /> */}
+      <Whatsapp />
     </ReduxProvider>
   );
 };

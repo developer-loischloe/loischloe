@@ -18,8 +18,7 @@ const whatsappVariants = {
 };
 
 const Whatsapp = () => {
-  const message =
-    "Hello, I've been brainstorming a project with the goal of making a positive impact. Can you assist me?";
+  const message = "Hello,";
   return (
     <motion.div
       initial="hidden"
@@ -27,7 +26,7 @@ const Whatsapp = () => {
       variants={whatsappVariants}
       className="fixed bottom-[30px] right-[20px] md:right-[40px] z-[100000]"
     >
-      <a href={`https://wa.me/8801631132907?text=${message}`} target="_blank">
+      <a href={`https://wa.me/8801840100578?text=${message}`} target="_blank">
         <Image
           src="/whatsapp.svg"
           alt="whatsapp"
