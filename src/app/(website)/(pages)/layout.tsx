@@ -1,14 +1,10 @@
 import { Suspense } from "react";
-import dynamic from "next/dynamic";
 
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import ReactScrollToTop from "./ReactScrollToTop";
 import ReduxProvider from "./ReduxProvider";
-
-const FacebookMessanger = dynamic(() => import("./FacebookMessanger"), {
-  ssr: false,
-});
+import Whatsapp from "./Whatsapp";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -19,7 +15,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       <main>{children}</main>
       <Footer />
       <ReactScrollToTop />
-      <FacebookMessanger />
+      {/* <Whatsapp /> */}
     </ReduxProvider>
   );
 };
