@@ -51,11 +51,24 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  robots: {
+    index: false,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     type: "website",
-    url: website_url,
     title: title,
     description: description,
+    url: website_url,
     siteName: website_name,
     images: [
       {
@@ -69,7 +82,11 @@ export const metadata: Metadata = {
     description: description,
     site: website_url,
     creator: "MD Shamim Hossain",
-    images: website_url + "/og_image.png",
+    images: [
+      {
+        url: website_url + "/og_image.png",
+      },
+    ],
   },
 };
 

@@ -14,10 +14,14 @@ import ProductListLoading from "@/components/Shared/loading/ProductListLoading";
 import RecentlyViewed from "@/components/Products/Product/RecentlyViewed";
 import SavedViewedProduct from "@/components/Products/Product/SavedViewedProduct";
 import SendGTMEvent from "@/components/GTM/SendGTMEvent";
+import { Metadata } from "next";
+import { globalMetaDataConstant } from "@/app/constant";
 const ProductImageSlider = dynamic(
   () => import("@/components/Products/Product/ProductSlider"),
   { ssr: false }
 );
+
+const { website_url, website_name } = globalMetaDataConstant;
 
 // export async function generateStaticParams() {
 //   const products = await appwriteProductService.getProductList({
@@ -33,6 +37,43 @@ const ProductImageSlider = dynamic(
 //     slug: product.slug,
 //   }));
 // }
+
+export async function generateMetadata({
+  params: { slug },
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const products = await appwriteProductService.getProductDetails(slug);
+  const product = products.documents[0];
+
+  return {
+    title: product?.name,
+    description: product?.short_description,
+    openGraph: {
+      type: "website",
+      title: product?.name,
+      description: product?.short_description,
+      url: `${website_url}/products/${product?.slug}`,
+      siteName: website_name,
+      images: [
+        {
+          url: product?.images[0]?.image_url,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product?.name,
+      description: product?.short_description,
+      site: `${website_url}/products/${product?.slug}`,
+      images: [
+        {
+          url: product?.images[0]?.image_url,
+        },
+      ],
+    },
+  };
+}
 
 const page = async ({ params: { slug } }: { params: { slug: string } }) => {
   const products = await appwriteProductService.getProductDetails(slug);

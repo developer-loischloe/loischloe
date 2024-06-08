@@ -10,6 +10,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Metadata } from "next";
 
 export interface SearchParams {
   p_category: string;
@@ -19,6 +20,12 @@ export interface SearchParams {
   page: string;
   resultPerPage: string;
 }
+
+// Metadata
+export const metadata: Metadata = {
+  title: "Products",
+};
+
 const page = ({
   searchParams: {
     p_category = "",

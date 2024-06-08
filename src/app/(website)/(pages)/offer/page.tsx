@@ -4,10 +4,15 @@ import OfferBanner from "@/components/Offer/OfferBanner";
 import appwriteProductService from "@/appwrite/appwriteProductService";
 import ProductCard from "@/components/Products/ProductCard";
 import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
+import { Metadata } from "next";
 const OfferCountDown = dynamic(
   () => import("@/components/Shared/countDown/OfferCountDown"),
   { ssr: false }
 );
+// Metadata
+export const metadata: Metadata = {
+  title: "Special Offer",
+};
 
 const page = () => {
   return (

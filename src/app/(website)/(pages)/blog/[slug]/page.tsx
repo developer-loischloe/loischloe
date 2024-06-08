@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
 import { formatDate } from "date-fns";
 
 import config from "@/config";
@@ -11,12 +12,15 @@ import FroalaContentView from "./FroalaContentView";
 import Loading from "@/app/dashboard/loading";
 import AddComment from "./AddComment";
 import CommentList from "./CommentList";
+import { globalMetaDataConstant } from "@/app/constant";
+
+const { website_name, website_url } = globalMetaDataConstant;
 
 export async function generateMetadata({
   params: { slug },
 }: {
   params: { slug: string };
-}) {
+}): Promise<Metadata> {
   const post = await appwriteBlogService.getBlogBySlug(slug);
   // console.log({ SinglePost: post });
 
@@ -25,8 +29,30 @@ export async function generateMetadata({
     description: post?.metaDescription,
     keywords: post?.metaKeywords,
     alternates: {
-      canonical:
-        post?.canonicalUrl || `${config.next_app_base_url}/blog/${slug}`,
+      canonical: post?.canonicalUrl || `${website_url}/blog/${slug}`,
+    },
+    openGraph: {
+      type: "article",
+      title: post?.metaTitle,
+      description: post?.metaDescription,
+      url: `${website_url}/blog/${post?.slug}`,
+      siteName: website_name,
+      images: [
+        {
+          url: post?.featuredImage,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post?.metaTitle,
+      description: post?.metaDescription,
+      site: `${website_url}/blog/${post?.slug}`,
+      images: [
+        {
+          url: post?.featuredImage,
+        },
+      ],
     },
   };
 }

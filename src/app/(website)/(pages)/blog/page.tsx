@@ -4,6 +4,7 @@ import appwriteBlogService from "@/appwrite/appwriteBlogService";
 import Offer from "@/components/Home/Offer";
 import BlogCard from "@/components/blog/BlogCard";
 import { PaginationComponent } from "@/components/Shared/Pagination/PaginationComponent";
+import { Metadata } from "next";
 
 const page = async ({
   searchParams: { page = "1", resultPerPage = "10" },

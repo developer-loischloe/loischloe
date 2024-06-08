@@ -1,13 +1,13 @@
 import React from "react";
 import Image from "next/image";
+import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Banner from "@/assets/about/About_Cover-1.webp";
-import { Metadata } from "next";
 
 // Metadata
 export const metadata: Metadata = {
-  title: "About us",
+  title: "About Us",
 };
 
 const page = () => {
