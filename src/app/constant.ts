@@ -19,5 +19,5 @@ export const globalMetaDataConstant = {
     "eye makeup",
   ],
   website_name: "LOISCHLOE",
-  website_url: "https://4c22-103-59-38-62.ngrok-free.app",
+  website_url: config.next_app_base_url,
 };
