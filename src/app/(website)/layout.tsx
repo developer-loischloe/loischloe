@@ -16,6 +16,7 @@ import "./swipper.css";
 // React Rating CSS
 import "@smastrom/react-rating/style.css";
 import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
+import { globalMetaDataConstant } from "../constant";
 
 // Fonts
 const belleza = Belleza({
@@ -30,11 +31,46 @@ const ooh_baby = Oooh_Baby({
   variable: "--font-ooh_baby",
 });
 
+const { title, description, keywords, website_name, website_url } =
+  globalMetaDataConstant;
+
 // Metadata
 export const metadata: Metadata = {
-  title: "Find the Best Deals on Makeup Products in Bangladesh | Lois Chloe",
-  description:
-    "Buy makeup products from Lois Chloe at the best prices online. Explore our range of Face Palettes, Foundations, Eyeliners, and more. Shop now for unbeatable deals!",
+  generator: "Next.js",
+  applicationName: "LOISCHLOE",
+  referrer: "origin-when-cross-origin",
+  authors: [{ name: "loischloe admin" }],
+  creator: "Md Shamim Hossain",
+  title: {
+    template: `%s | LOISCHLOE`,
+    default: `${title} | LOISCHLOE`,
+  },
+  description: description,
+  keywords: keywords,
+  metadataBase: new URL(website_url),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: website_url,
+    title: title,
+    description: description,
+    siteName: website_name,
+    images: [
+      {
+        url: website_url + "/og_image.png",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: title,
+    description: description,
+    site: website_url,
+    creator: "MD Shamim Hossain",
+    images: website_url + "/og_image.png",
+  },
 };
 
 export default function RootLayout({

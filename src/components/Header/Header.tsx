@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
-import { AlignRight, Search } from "lucide-react";
+import { AlignRight, LayoutDashboard, Search } from "lucide-react";
 import { MotionDiv } from "@/framer-motion/motion";
 import { sectionVariants } from "@/framer-motion/variants";
 import { cn } from "@/lib/utils";
@@ -25,6 +25,7 @@ import WishListBtn from "./WishListBtn";
 import UserBtn from "./UserBtn";
 import useScrollHandler from "@/lib/hooks/useScrollHandler";
 import SearchSuggestion from "./SearchSuggestion";
+import { useAuth } from "@/context/authContext";
 const CartBtn = dynamic(() => import("./Cart/CartBtn"), { ssr: false });
 
 export default function Header() {
@@ -43,6 +44,11 @@ export default function Header() {
       setShowSearchbar(false);
     }
   }, [scrolling]);
+
+  const { user } = useAuth();
+
+  const isLoggedIn = Boolean(user);
+  const isAdmin = Boolean(user?.labels.includes("admin"));
 
   return (
     <>
@@ -85,6 +91,13 @@ export default function Header() {
             {/* <div className="hidden md:block">
             <WishListBtn />
           </div> */}
+
+            {isLoggedIn && isAdmin && (
+              <Link href={"/dashboard"} className="">
+                <LayoutDashboard />
+              </Link>
+            )}
+
             <div className="">
               <CartBtn />
             </div>
