@@ -35,7 +35,7 @@ const CartBtn = () => {
       }}
     >
       <SheetTrigger>
-        <div className="relative">
+        <div className="relative" title="Cart">
           <ShoppingBag />
           <span className="absolute -top-2 -right-2 md:-top-3 md:-right-3 bg-brand_primary w-5 h-5 md:w-6 md:h-6 rounded-full text-sm flex items-center justify-center">
             {cartList.length}

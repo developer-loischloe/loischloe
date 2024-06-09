@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { appwriteAuthService } from "@/appwrite/appwriteAuthService";
 
@@ -11,7 +10,6 @@ const SignOutButton = () => {
 
   async function signOut() {
     const response = await logout();
-    console.log(response);
 
     if (response) {
       toast("Signout complete");

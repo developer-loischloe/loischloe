@@ -10,6 +10,8 @@ import type { Swiper as SwiperRef } from "swiper";
 import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 import "./styles.css";
+import { cn } from "@/lib/utils";
+import Fancybox from "@/components/Shared/FancyBox";
 
 interface Image {
   image_id: string;
@@ -26,6 +28,7 @@ export default function TestSlider({ images }: { images: Image[] }) {
         loop={true}
         spaceBetween={10}
         navigation={true}
+        // slidesPerView={1}
         autoplay={{
           delay: 2500,
           pauseOnMouseEnter: true,
@@ -35,19 +38,37 @@ export default function TestSlider({ images }: { images: Image[] }) {
         className="productSlider"
       >
         {images &&
-          images.map((image) => (
+          images.map((_, p_index) => (
             <SwiperSlide
-              key={image.image_id}
+              key={_.image_id}
               className="flex flex-col items-center justify-center gap-5 select-none"
             >
-              <Image
-                src={image.image_url}
-                alt={image.alt}
-                width={500}
-                height={500}
-                priority
-                className=" max-h-[500px]"
-              />
+              <Fancybox
+                options={{
+                  Carousel: {
+                    infinite: false,
+                  },
+                }}
+              >
+                {images &&
+                  images.map((c_image, c_index) => (
+                    <a
+                      key={c_image.image_url}
+                      data-fancybox={`product-images-${p_index}`}
+                      href={c_image.image_url}
+                      className={cn(p_index === c_index ? "block" : "hidden")}
+                    >
+                      <Image
+                        src={c_image.image_url}
+                        alt={c_image.alt}
+                        width={500}
+                        height={500}
+                        priority
+                        className="mx-auto max-h-[500px]"
+                      />
+                    </a>
+                  ))}
+              </Fancybox>
             </SwiperSlide>
           ))}
       </Swiper>
