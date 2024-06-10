@@ -16,10 +16,19 @@ import { Autoplay } from "swiper/modules";
 // Import Swiper styles
 import "./styles.css";
 
-import Main_banner_1 from "../../../../public/home_slider/main_banner_1.png";
-import Mobile_banner_1 from "../../../../public/home_slider/mobile_banner_1.png";
-import Main_banner_2 from "../../../../public/home_slider/main_banner_2.jpg";
-import Mobile_banner_2 from "../../../../public/home_slider/mobile_banner_2.jpg";
+// desktop(2000 X 757)
+import Main_banner_1 from "../../../../public/home_slider/2000x757_px/main_banner_1.png";
+import Main_banner_2 from "../../../../public/home_slider/2000x757_px/W-Post-1.png";
+import Main_banner_3 from "../../../../public/home_slider/2000x757_px/W-Post-2.png";
+import Main_banner_4 from "../../../../public/home_slider/2000x757_px/W-Post-3.png";
+import Main_banner_5 from "../../../../public/home_slider/2000x757_px/W-Post-4.png";
+
+// Mobile(1563 X 1458)
+import Mobile_banner_1 from "../../../../public/home_slider/1563x1458_px/mobile_banner_1.png";
+import Mobile_banner_2 from "../../../../public/home_slider/1563x1458_px/W-Post-5.png";
+import Mobile_banner_3 from "../../../../public/home_slider/1563x1458_px/W-Post-6.png";
+import Mobile_banner_4 from "../../../../public/home_slider/1563x1458_px/W-Post-7.png";
+import Mobile_banner_5 from "../../../../public/home_slider/1563x1458_px/W-Post-8.png";
 
 const sliderConstant = [
   {
@@ -37,25 +46,34 @@ const sliderConstant = [
       main: Main_banner_2,
       mobile: Mobile_banner_2,
     },
-    alt: "banner 2",
-    link: "/offer",
+    alt: "Special Offer: Buy One Beauty Box, Get One Free",
+    link: "/products/special-offer-buy-one-beauty-box-get-one-free",
   },
   {
     id: 3,
     banner: {
-      main: Main_banner_1,
-      mobile: Mobile_banner_1,
+      main: Main_banner_3,
+      mobile: Mobile_banner_3,
     },
-    alt: "banner 1",
-    link: "/products",
+    alt: "Special Offer: Buy 1 Get 1 Cushion Foundation (Regular)",
+    link: "/products/special-offer-buy-1-get-1-cushion-foundation-regular",
   },
   {
     id: 4,
     banner: {
-      main: Main_banner_2,
-      mobile: Mobile_banner_2,
+      main: Main_banner_4,
+      mobile: Mobile_banner_4,
     },
-    alt: "banner 2",
+    alt: "Eid Bundle",
+    link: "/products/eid-bundle",
+  },
+  {
+    id: 5,
+    banner: {
+      main: Main_banner_5,
+      mobile: Mobile_banner_5,
+    },
+    alt: "banner 5",
     link: "/offer",
   },
 ];
