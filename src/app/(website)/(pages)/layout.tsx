@@ -6,6 +6,7 @@ import ReactScrollToTop from "./ReactScrollToTop";
 import ReduxProvider from "./ReduxProvider";
 import Whatsapp from "./Whatsapp";
 import FreeGiftModal from "@/components/Shared/FreeGiftModal";
+import FreeGiftPopUp from "@/components/FreeGiftPopUp";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -15,9 +16,10 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       </Suspense>
       <main>{children}</main>
       <Footer />
-      <ReactScrollToTop />
+      {/* <ReactScrollToTop /> */}
       <Whatsapp />
       <FreeGiftModal />
+      <FreeGiftPopUp />
     </ReduxProvider>
   );
 };

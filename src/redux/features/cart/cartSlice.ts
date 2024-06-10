@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
-import { toast } from "sonner";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { toast } from "sonner";
 
 export interface Item {
   product: any;
@@ -43,6 +43,14 @@ const checkIsEligibleForFreeGift = (cartList: Item[]) => {
   }, 0);
 
   return filteredItemsTotalPrice >= 2500;
+};
+
+const checkIsAlreadyGiftClaimed = (cartList: Item[]) => {
+  const filteredItems = cartList.filter((item: Item) => {
+    return item.product.sale_price === 0;
+  });
+
+  return filteredItems.length > 0;
 };
 
 // Define a type for the slice state
@@ -95,13 +103,17 @@ export const cartSlice = createSlice({
       }
 
       const isEligibleForFreeGift = checkIsEligibleForFreeGift(cartList);
+
       if (!isEligibleForFreeGift) {
-        cartList.filter((item: Item) => {
+        cartList = cartList.filter((item: Item) => {
           return item.price !== 0;
         });
       }
 
-      state.isEligibleForFreeGift = isEligibleForFreeGift;
+      const isAlreadyGiftClaimed = checkIsAlreadyGiftClaimed(cartList);
+
+      state.isEligibleForFreeGift =
+        isEligibleForFreeGift && !isAlreadyGiftClaimed;
       state.cartList = cartList;
 
       setLocalCartItems(cartList);
@@ -120,12 +132,15 @@ export const cartSlice = createSlice({
 
         const isEligibleForFreeGift = checkIsEligibleForFreeGift(cartList);
         if (!isEligibleForFreeGift) {
-          cartList.filter((item: Item) => {
+          cartList = cartList.filter((item: Item) => {
             return item.price !== 0;
           });
         }
 
-        state.isEligibleForFreeGift = isEligibleForFreeGift;
+        const isAlreadyGiftClaimed = checkIsAlreadyGiftClaimed(cartList);
+
+        state.isEligibleForFreeGift =
+          isEligibleForFreeGift && !isAlreadyGiftClaimed;
         state.cartList = cartList;
 
         setLocalCartItems(cartList);

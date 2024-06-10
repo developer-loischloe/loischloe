@@ -1,15 +1,21 @@
 "use client";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { useDispatch } from "react-redux";
-import { addToCart, setShowCartSidebar } from "@/redux/features/cart/cartSlice";
+import { addToCart } from "@/redux/features/cart/cartSlice";
 import { Button } from "@/components/ui/button";
 
-const AddGiftToCartButton = ({ product }: { product: any }) => {
+const AddGiftToCartButton = ({
+  product,
+  setOpen,
+}: {
+  product: any;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
     dispatch(addToCart({ product, price: product?.sale_price, quantity: 1 }));
-    dispatch(setShowCartSidebar({ show: true }));
+    setOpen(false);
   };
 
   return (

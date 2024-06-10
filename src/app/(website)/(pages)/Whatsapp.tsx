@@ -12,7 +12,7 @@ const whatsappVariants = {
     opacity: 1,
     x: 0,
     transition: {
-      delay: 5,
+      delay: 3,
     },
   },
 };

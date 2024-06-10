@@ -4,11 +4,9 @@ import { useDispatch } from "react-redux";
 
 const QuantityUpdater = ({
   quantity,
-  // setQuantity,
   product,
 }: {
   quantity: number;
-  // setQuantity: React.Dispatch<React.SetStateAction<number>>;
   product: any;
 }) => {
   const dispatch = useDispatch();

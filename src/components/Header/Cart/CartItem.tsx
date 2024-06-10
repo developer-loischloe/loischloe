@@ -41,7 +41,9 @@ const CartItem = ({
           <TableHeader>
             <TableRow>
               <TableHead className="">Price</TableHead>
-              <TableHead className="text-center">Quantity</TableHead>
+              {product?.sale_price > 0 && (
+                <TableHead className="text-center">Quantity</TableHead>
+              )}
               <TableHead className="hidden sm:flex items-center">
                 Total
               </TableHead>
@@ -57,9 +59,12 @@ const CartItem = ({
                   </span>
                 </ins>
               </TableCell>
-              <TableCell className="">
-                <QuantityUpdater quantity={prevQuantity} product={product} />
-              </TableCell>
+              {product?.sale_price > 0 && (
+                <TableCell className="">
+                  <QuantityUpdater quantity={prevQuantity} product={product} />
+                </TableCell>
+              )}
+
               <TableCell className="hidden sm:flex items-center mt-2">
                 <ins className="no-underline text-brand_gray">
                   <span className="">

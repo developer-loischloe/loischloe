@@ -15,7 +15,6 @@ import GiftProductCard from "./GiftProductCard";
 
 const FreeGiftModal = () => {
   const isEligibleForFreeGift = useSelector(selectIsEligibleForFreeGift);
-  console.log(isEligibleForFreeGift);
 
   const [open, setOpen] = useState<boolean>(isEligibleForFreeGift);
   const [products, setProducts] = useState<null | any>(null);
@@ -37,12 +36,10 @@ const FreeGiftModal = () => {
       });
   }, []);
 
-  console.log(products);
-
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger className="">Open</DialogTrigger>
+        <DialogTrigger className="hidden">Open</DialogTrigger>
         <DialogContent className="!z-[10000]">
           <DialogHeader>
             <DialogTitle className="mb-5 text-2xl text-center">
@@ -51,7 +48,11 @@ const FreeGiftModal = () => {
             <DialogDescription>
               <div className="max-w-max mx-auto">
                 {products?.map((product: any) => (
-                  <GiftProductCard key={product?.$id} product={product} />
+                  <GiftProductCard
+                    key={product?.$id}
+                    product={product}
+                    setOpen={setOpen}
+                  />
                 ))}
               </div>
             </DialogDescription>

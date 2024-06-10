@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -7,17 +7,22 @@ import {
   formatCurrency,
   generateParams,
 } from "@/lib/utils";
-import AddToCartButton from "@/components/Products/AddToCartButton";
 import AddGiftToCartButton from "./AddGiftToCartButton";
 
-const GiftProductCard = ({ product }: { product: any }) => {
+const GiftProductCard = ({
+  product,
+  setOpen,
+}: {
+  product: any;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
   const discount = calculateDiscountPercentage(
     product?.price,
     product?.sale_price
   );
 
   return (
-    <div className="w-[220px] shadow-2xl rounded-sm flex flex-col items-center justify-between group overflow-hidden">
+    <div className="w-[230px] shadow-2xl rounded-sm flex flex-col items-center justify-between group overflow-hidden">
       <div className="w-full overflow-hidden relative">
         {discount > 0 && (
           <div className="absolute top-2 left-5 bg-brand_primary max-w-max px-5 py-1 rounded-sm z-10">
@@ -76,8 +81,8 @@ const GiftProductCard = ({ product }: { product: any }) => {
           </div>
         </div>
       </div>
-      <div className="w-full">
-        <AddGiftToCartButton product={product} />
+      <div className="w-full p-5">
+        <AddGiftToCartButton product={product} setOpen={setOpen} />
       </div>
     </div>
   );
