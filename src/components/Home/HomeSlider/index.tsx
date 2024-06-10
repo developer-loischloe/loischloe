@@ -34,23 +34,14 @@ const sliderConstant = [
   {
     id: 1,
     banner: {
-      main: Main_banner_1,
-      mobile: Mobile_banner_1,
+      main: Main_banner_4,
+      mobile: Mobile_banner_4,
     },
-    alt: "banner 1",
-    link: "/products",
+    alt: "Eid Bundle",
+    link: "/products/eid-bundle",
   },
   {
     id: 2,
-    banner: {
-      main: Main_banner_2,
-      mobile: Mobile_banner_2,
-    },
-    alt: "Special Offer: Buy One Beauty Box, Get One Free",
-    link: "/products/special-offer-buy-one-beauty-box-get-one-free",
-  },
-  {
-    id: 3,
     banner: {
       main: Main_banner_3,
       mobile: Mobile_banner_3,
@@ -59,22 +50,22 @@ const sliderConstant = [
     link: "/products/special-offer-buy-1-get-1-cushion-foundation-regular",
   },
   {
-    id: 4,
-    banner: {
-      main: Main_banner_4,
-      mobile: Mobile_banner_4,
-    },
-    alt: "Eid Bundle",
-    link: "/products/eid-bundle",
-  },
-  {
-    id: 5,
+    id: 3,
     banner: {
       main: Main_banner_5,
       mobile: Mobile_banner_5,
     },
-    alt: "banner 5",
+    alt: "Offer",
     link: "/offer",
+  },
+  {
+    id: 4,
+    banner: {
+      main: Main_banner_2,
+      mobile: Mobile_banner_2,
+    },
+    alt: "Special Offer: Buy One Beauty Box, Get One Free",
+    link: "/products/special-offer-buy-one-beauty-box-get-one-free",
   },
 ];
 

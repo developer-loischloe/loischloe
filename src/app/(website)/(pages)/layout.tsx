@@ -5,6 +5,7 @@ import Footer from "@/components/Footer/Footer";
 import ReactScrollToTop from "./ReactScrollToTop";
 import ReduxProvider from "./ReduxProvider";
 import Whatsapp from "./Whatsapp";
+import FreeGiftModal from "@/components/Shared/FreeGiftModal";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -16,6 +17,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       <Footer />
       <ReactScrollToTop />
       <Whatsapp />
+      <FreeGiftModal />
     </ReduxProvider>
   );
 };

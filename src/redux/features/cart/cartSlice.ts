@@ -33,6 +33,18 @@ export const checkItemExistOrNot = ({
   return items.find((item: Item) => item?.product?.$id === currentProductId);
 };
 
+const checkIsEligibleForFreeGift = (cartList: Item[]) => {
+  const filteredItems = cartList.filter((item: Item) => {
+    return item.product.parent_category !== "offer";
+  });
+
+  const filteredItemsTotalPrice = filteredItems.reduce((acc, curr) => {
+    return acc + curr.quantity * curr.price;
+  }, 0);
+
+  return filteredItemsTotalPrice >= 2500;
+};
+
 // Define a type for the slice state
 export interface CartState {
   cartList: Item[];
@@ -42,6 +54,7 @@ export interface CartState {
     total_cost: number;
   };
   showCartSidebar: boolean;
+  isEligibleForFreeGift: boolean;
 }
 
 // Define the initial state using that type
@@ -53,6 +66,7 @@ const initialState: CartState = {
     total_cost: 0,
   },
   showCartSidebar: false,
+  isEligibleForFreeGift: false,
 };
 
 export const cartSlice = createSlice({
@@ -80,7 +94,16 @@ export const cartSlice = createSlice({
         sendGTMEvent({ event: "AddToCart", product: action.payload.product });
       }
 
+      const isEligibleForFreeGift = checkIsEligibleForFreeGift(cartList);
+      if (!isEligibleForFreeGift) {
+        cartList.filter((item: Item) => {
+          return item.price !== 0;
+        });
+      }
+
+      state.isEligibleForFreeGift = isEligibleForFreeGift;
       state.cartList = cartList;
+
       setLocalCartItems(cartList);
     },
     removeFromCart: (state, action: PayloadAction<{ productId: string }>) => {
@@ -95,7 +118,16 @@ export const cartSlice = createSlice({
             item.product.$id !== action.payload.productId
         );
 
+        const isEligibleForFreeGift = checkIsEligibleForFreeGift(cartList);
+        if (!isEligibleForFreeGift) {
+          cartList.filter((item: Item) => {
+            return item.price !== 0;
+          });
+        }
+
+        state.isEligibleForFreeGift = isEligibleForFreeGift;
         state.cartList = cartList;
+
         setLocalCartItems(cartList);
         toast(`${itemExist?.product?.name} is removed from your cart.`);
       }
@@ -146,5 +178,7 @@ export const selectCartList = (state: RootState) => state.cart.cartList;
 export const selectCartCost = (state: RootState) => state.cart.cartCost;
 export const selectShowCartSidebar = (state: RootState) =>
   state.cart.showCartSidebar;
+export const selectIsEligibleForFreeGift = (state: RootState) =>
+  state.cart.isEligibleForFreeGift;
 
 export default cartSlice.reducer;

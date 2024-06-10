@@ -24,12 +24,17 @@ const InstagramReels = dynamic(
     ssr: false,
   }
 );
+const OfferCountDown = dynamic(
+  () => import("@/components/Shared/countDown/OfferCountDown"),
+  { ssr: false }
+);
 
 export default function Home() {
   return (
     <div>
       <HomeSlider />
       <ShipmentToDelivery />
+      <OfferCountDown />
       <TrendingCategories />
       <Offer />
       <Suspense fallback={<FeaturedProductListLoading />}>
