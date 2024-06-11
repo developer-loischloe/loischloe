@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { useAuth } from "@/context/authContext";
 
 const whatsappVariants = {
   hidden: {
@@ -18,13 +20,21 @@ const whatsappVariants = {
 };
 
 const Whatsapp = () => {
+  const { user } = useAuth();
+
+  const isLoggedIn = Boolean(user);
+  const isAdmin = Boolean(user?.labels.includes("admin"));
+
   const message = "Hello,";
   return (
     <motion.div
       initial="hidden"
       animate="visible"
       variants={whatsappVariants}
-      className="fixed bottom-[45px] right-[20px] md:right-[40px] z-[100000]"
+      className={cn(
+        "fixed bottom-[25px] right-[20px] lg:right-[40px] z-[50]",
+        isLoggedIn && isAdmin && "bottom-[45px]"
+      )}
     >
       <a href={`https://wa.me/8801840100578?text=${message}`} target="_blank">
         <Image

@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/popover";
 
 import giftImage from "@/assets/gift/Mascara.webp";
+import { useAuth } from "@/context/authContext";
+import { cn } from "@/lib/utils";
 
 const animateVariants = {
   hidden: {
@@ -26,21 +28,32 @@ const animateVariants = {
 };
 
 const FreeGiftPopUp = () => {
+  const { user } = useAuth();
+
+  const isLoggedIn = Boolean(user);
+  const isAdmin = Boolean(user?.labels.includes("admin"));
+
   return (
     <motion.div
       initial="hidden"
       animate="visible"
       variants={animateVariants}
-      className="fixed bottom-[45px] left-[20px] md:left-[40px] z-[100000]"
+      className={cn(
+        "fixed bottom-[25px] left-[20px] lg:left-[40px] z-[50]",
+        isLoggedIn && isAdmin && "bottom-[45px]"
+      )}
     >
       <Popover>
         <PopoverTrigger>
-          <div className="flex gap-2 items-center bg-white py-3 px-4 shadow-lg rounded-xl">
-            <Gift size={40} />
-            <p className="text-lg font-semibold">Offers</p>
+          <div className="relative flex gap-2 items-center bg-white py-2 px-3 shadow-lg rounded-md">
+            <Gift size={40} className="text-brand_secondary" />
+            <p className="text-base text-black font-semibold">Offers</p>
+            <div className="absolute -top-1.5 -right-1.5 bg-[#F72119] w-6 h-6 rounded-full flex justify-center items-center">
+              <span className="text-sm font-semibold text-white">1</span>
+            </div>
           </div>
         </PopoverTrigger>
-        <PopoverContent className="ml-[20px] md:ml-[40px] space-y-5 p-0">
+        <PopoverContent className="ml-[20px] mb-2 lg:ml-[40px] space-y-5 p-0">
           <div className="shadow-md p-3">
             <p className="font-semibold text-2xl">Offers For You</p>
             <p className="text-brand_gray">

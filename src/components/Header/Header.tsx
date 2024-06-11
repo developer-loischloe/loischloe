@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
-import { AlignLeft, LayoutDashboard, Search } from "lucide-react";
+import { AlignJustify, AlignLeft, LayoutDashboard, Search } from "lucide-react";
 import { MotionDiv } from "@/framer-motion/motion";
 import { sectionVariants } from "@/framer-motion/variants";
 import { cn } from "@/lib/utils";
@@ -103,7 +103,7 @@ export default function Header() {
                 <Sheet open={showSidebar} onOpenChange={setShowSidebar}>
                   <SheetTrigger>
                     <div title="Menu">
-                      <AlignLeft className="hover:text-brand_primary transition-all" />
+                      <AlignJustify className="hover:text-brand_primary transition-all" />
                     </div>
                   </SheetTrigger>
                   <SheetContent

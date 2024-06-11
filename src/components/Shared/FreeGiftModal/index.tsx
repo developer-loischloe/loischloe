@@ -9,9 +9,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogOverlay,
 } from "@/components/ui/dialog";
 import { selectIsEligibleForFreeGift } from "@/redux/features/cart/cartSlice";
 import GiftProductCard from "./GiftProductCard";
+import GiftSlider from "./GiftSlider";
 
 const FreeGiftModal = () => {
   const isEligibleForFreeGift = useSelector(selectIsEligibleForFreeGift);
@@ -25,7 +27,11 @@ const FreeGiftModal = () => {
 
   useEffect(() => {
     appwriteProductService
-      .getProductsByIds(["660946a0a8b365fd47ee"])
+      .getProductsByIds([
+        "66093fc505cd2ff14361",
+        "660946a0a8b365fd47ee",
+        "6609442884933e6e60c0",
+      ])
       .then((products) => {
         const modifiedProducts = products.map((product) => {
           product.sale_price = 0;
@@ -36,28 +42,26 @@ const FreeGiftModal = () => {
       });
   }, []);
 
+  console.log(products);
+
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger className="hidden">Open</DialogTrigger>
-        <DialogContent className="!z-[10000]">
-          <DialogHeader>
-            <DialogTitle className="mb-5 text-2xl text-center">
-              Select your free gift!
-            </DialogTitle>
-            <DialogDescription>
-              <div className="max-w-max mx-auto">
-                {products?.map((product: any) => (
-                  <GiftProductCard
-                    key={product?.$id}
-                    product={product}
-                    setOpen={setOpen}
-                  />
-                ))}
-              </div>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
+        {/* <DialogTrigger className="">Open</DialogTrigger> */}
+        <DialogOverlay className="bg-black  !z-[9999]">
+          <DialogContent className="!z-[10000]">
+            <DialogHeader>
+              <DialogTitle className="mb-5 text-2xl text-center">
+                Select your free gift!
+              </DialogTitle>
+              <DialogDescription>
+                <div className="max-w-max mx-auto">
+                  <GiftSlider products={products} setOpen={setOpen} />
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </DialogOverlay>
       </Dialog>
     </div>
   );
