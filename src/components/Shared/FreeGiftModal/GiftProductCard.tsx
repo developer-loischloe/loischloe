@@ -22,7 +22,7 @@ const GiftProductCard = ({
   );
 
   return (
-    <div className="w-[230px] shadow-2xl rounded-sm flex flex-col items-center justify-between group overflow-hidden">
+    <div className="w-full rounded-sm flex flex-col items-center justify-between group overflow-hidden">
       <div className="w-full overflow-hidden relative">
         {discount > 0 && (
           <div className="absolute top-2 left-5 bg-brand_primary max-w-max px-5 py-1 rounded-sm z-10">

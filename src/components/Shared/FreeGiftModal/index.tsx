@@ -8,12 +8,10 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogOverlay,
 } from "@/components/ui/dialog";
-import { selectIsEligibleForFreeGift } from "@/redux/features/cart/cartSlice";
-import GiftProductCard from "./GiftProductCard";
 import GiftSlider from "./GiftSlider";
+import { selectIsEligibleForFreeGift } from "@/redux/features/cart/cartSlice";
 
 const FreeGiftModal = () => {
   const isEligibleForFreeGift = useSelector(selectIsEligibleForFreeGift);
@@ -21,10 +19,18 @@ const FreeGiftModal = () => {
   const [open, setOpen] = useState<boolean>(isEligibleForFreeGift);
   const [products, setProducts] = useState<null | any>(null);
 
+  // =>>>>>>>>
   useEffect(() => {
-    setOpen(isEligibleForFreeGift);
+    if (isEligibleForFreeGift) {
+      setTimeout(() => {
+        setOpen(isEligibleForFreeGift);
+      }, 3000);
+    } else {
+      setOpen(isEligibleForFreeGift);
+    }
   }, [isEligibleForFreeGift]);
 
+  // => Fetch free products
   useEffect(() => {
     appwriteProductService
       .getProductsByIds([
@@ -42,8 +48,6 @@ const FreeGiftModal = () => {
       });
   }, []);
 
-  console.log(products);
-
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -55,9 +59,7 @@ const FreeGiftModal = () => {
                 Select your free gift!
               </DialogTitle>
               <DialogDescription>
-                <div className="max-w-max mx-auto">
-                  <GiftSlider products={products} setOpen={setOpen} />
-                </div>
+                <GiftSlider products={products} setOpen={setOpen} />
               </DialogDescription>
             </DialogHeader>
           </DialogContent>
