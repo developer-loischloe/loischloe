@@ -65,9 +65,7 @@ const FreeGiftPopUp = () => {
               <Image
                 src={giftImage}
                 alt="Mascara"
-                width={70}
-                height={70}
-                className="rounded-md"
+                className="rounded-md w-[70px] h-[70px]"
               />
               <p className="">
                 Get a Free Gift with Purchases of 2500 tk or More!

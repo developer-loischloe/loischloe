@@ -17,11 +17,21 @@ export default function GiftSlider({
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
-    <div className="w-full max-w-[280px] mx-auto">
+    <div className="w-full max-w-[300px] sm:max-w-[450px] md:max-w-[650px] mx-auto">
       <Swiper
         spaceBetween={10}
         navigation={true}
         slidesPerView={1}
+        breakpoints={{
+          640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
+        }}
         autoplay={{
           delay: 2500,
           pauseOnMouseEnter: true,

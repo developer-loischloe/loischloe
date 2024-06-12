@@ -35,7 +35,7 @@ const ProductList = async ({
             currentPageNumber={Number(page)}
             resultPerPage={Number(resultPerPage)}
             totalItems={products?.total}
-            extraSearchParams={{ p_category, c_category, n_category }}
+            extraSearchParams={{ p_category, c_category, n_category, keyword }}
           />
         </div>
       ) : (

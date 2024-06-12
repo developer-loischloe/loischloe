@@ -33,6 +33,10 @@ const config = {
       process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_BLOG_ALL_CATEGORIES
     ),
   },
+  // Collection (Newsletter)
+  appwriteNewsletterCollection_Id: String(
+    process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_NEWSLETTER
+  ),
   // Storage Bucket
   appwriteBucketId: {
     review_image: String(

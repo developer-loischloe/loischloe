@@ -5,7 +5,6 @@ import appwriteProductService from "@/appwrite/appwriteProductService";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogOverlay,
@@ -52,16 +51,14 @@ const FreeGiftModal = () => {
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         {/* <DialogTrigger className="">Open</DialogTrigger> */}
-        <DialogOverlay className="bg-black  !z-[9999]">
-          <DialogContent className="!z-[10000]">
+        <DialogOverlay className="bg-black/70  !z-[9999]">
+          <DialogContent className="!z-[10000] max-w-max rounded-md">
             <DialogHeader>
               <DialogTitle className="mb-5 text-2xl text-center">
                 Select your free gift!
               </DialogTitle>
-              <DialogDescription>
-                <GiftSlider products={products} setOpen={setOpen} />
-              </DialogDescription>
             </DialogHeader>
+            <GiftSlider products={products} setOpen={setOpen} />
           </DialogContent>
         </DialogOverlay>
       </Dialog>
