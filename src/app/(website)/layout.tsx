@@ -99,8 +99,7 @@ export default function RootLayout({
     <>
       <GoogleTagManager gtmId={String(process.env.NEXT_PUBLIC_GTM_ID)} />
 
-    //  <LoisChloeMarquee />
-      <div className={`${belleza.variable} ${ooh_baby.variable}`}>
+        <div className={`${belleza.variable} ${ooh_baby.variable}`}>
         {children}
       </div>
     </>
