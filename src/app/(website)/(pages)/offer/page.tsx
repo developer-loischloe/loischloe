@@ -19,7 +19,7 @@ const page = () => {
     <>
       <OfferBanner />
       {/* <LoisChloeMarquee /> */}
-      <OfferCountDown />
+      {/* <OfferCountDown /> */}
       <section>
         <OfferProducts />
       </section>
