@@ -10,21 +10,29 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 import { PaginationComponent } from "@/components/Shared/Pagination/PaginationComponent";
-import OrderItem from "./OrderItem";
 import NotFoundComponent from "@/components/Shared/NotFoundComponent";
-import appwriteOrderService from "@/appwrite/appwriteOrderService";
+import appwriteProductService from "@/appwrite/appwriteProductService";
+import ProductItem from "./ProductItem";
 
-const OrderList = async ({
+const ProductList = async ({
   page,
   resultPerPage,
+  keyword,
 }: {
   page: string;
   resultPerPage: string;
+  keyword: string;
 }) => {
-  const { getAllOrder } = appwriteOrderService;
-  const orders = await getAllOrder({ page, resultPerPage });
+  const products = await appwriteProductService.getProductList({
+    p_category: "",
+    c_category: "",
+    n_category: "",
+    keyword,
+    page,
+    resultPerPage,
+  });
 
-  if (orders.documents.length === 0) {
+  if (products.documents.length === 0) {
     return <NotFoundComponent />;
   }
 
@@ -35,18 +43,23 @@ const OrderList = async ({
           <TableHeader>
             <TableRow>
               <TableHead className="min-w-[250px]">Product</TableHead>
+              <TableHead className="min-w-[150px] ">Product Id</TableHead>
+              <TableHead className="min-w-[100px]  text-center">
+                Price
+              </TableHead>
+              <TableHead className="min-w-[100px] text-center">
+                Sale Price
+              </TableHead>
               <TableHead>Quantity</TableHead>
-              <TableHead className="w-[150px] ">OrderId</TableHead>
-              <TableHead className="text-center">Amount</TableHead>
-              <TableHead className="min-w-[120px]">Order Status</TableHead>
+              <TableHead className="min-w-[100px]">Stock</TableHead>
               <TableHead className="min-w-[120px]">Date</TableHead>
 
               <TableHead className="text-center">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {orders?.documents.map((order: any) => (
-              <OrderItem key={order.$id} order={order} />
+            {products?.documents.map((product: any) => (
+              <ProductItem key={product.$id} product={product} />
             ))}
           </TableBody>
         </Table>
@@ -59,11 +72,12 @@ const OrderList = async ({
       <PaginationComponent
         currentPageNumber={Number(page)}
         resultPerPage={Number(resultPerPage)}
-        totalItems={orders.total}
-        basePath={"/dashboard/orders"}
+        totalItems={products.total}
+        basePath={"/dashboard/products"}
+        extraSearchParams={{ keyword }}
       />
     </div>
   );
 };
 
-export default OrderList;
+export default ProductList;

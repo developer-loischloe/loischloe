@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   Pagination,
   PaginationContent,
+  PaginationEllipsis,
   PaginationItem,
 } from "@/components/ui/pagination";
 import { cn, generateParams } from "@/lib/utils";
@@ -52,27 +53,45 @@ export const PaginationComponent = ({
           </Link>
         </PaginationItem>
 
-        {pagination().map((pageNumber: number) => (
-          <PaginationItem key={pageNumber}>
-            <Link
-              href={`${basePath}?${generateParams({
-                page: Number(pageNumber),
-                resultPerPage,
-                ...extraSearchParams,
-              })}`}
-            >
-              <Button
-                variant={"ghost"}
-                className={cn(
-                  Number(currentPageNumber) == pageNumber &&
-                    "bg-brand_secondary hover:bg-brand_secondary text-white hover:text-white transition-all"
-                )}
-              >
-                {pageNumber}
-              </Button>
-            </Link>
+        {Number(currentPageNumber) >= 1 && (
+          <PaginationItem>
+            <PaginationEllipsis />
           </PaginationItem>
-        ))}
+        )}
+
+        {pagination()
+          .slice(
+            currentPageNumber - 3 < 0 ? 0 : currentPageNumber - 3,
+            currentPageNumber + 2
+          )
+          .map((pageNumber: number) => (
+            <PaginationItem key={pageNumber}>
+              <Link
+                href={`${basePath}?${generateParams({
+                  page: Number(pageNumber),
+                  resultPerPage,
+                  ...extraSearchParams,
+                })}`}
+              >
+                <Button
+                  variant={"ghost"}
+                  className={cn(
+                    Number(currentPageNumber) == pageNumber &&
+                      "bg-brand_secondary hover:bg-brand_secondary text-white hover:text-white transition-all"
+                  )}
+                >
+                  {pageNumber}
+                </Button>
+              </Link>
+            </PaginationItem>
+          ))}
+
+        {Number(currentPageNumber) < totalPage && (
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        )}
+
         <PaginationItem
           className={cn(Number(currentPageNumber) >= totalPage && "hidden")}
         >

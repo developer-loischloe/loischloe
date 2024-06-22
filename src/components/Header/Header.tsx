@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
-import { AlignJustify, AlignLeft, LayoutDashboard, Search } from "lucide-react";
+import { AlignJustify, LayoutDashboard, Search } from "lucide-react";
 import { MotionDiv } from "@/framer-motion/motion";
 import { sectionVariants } from "@/framer-motion/variants";
 import { cn } from "@/lib/utils";
@@ -38,7 +38,7 @@ export default function Header() {
   const { lastScrollY, scrolling } = useScrollHandler();
 
   useEffect(() => {
-    if (scrolling && lastScrollY > 500) {
+    if (scrolling && lastScrollY > 700) {
       setShowPopOver(false);
       setShowSearchbar(false);
     }

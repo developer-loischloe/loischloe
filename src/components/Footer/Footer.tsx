@@ -134,7 +134,7 @@ const Footer = () => {
             Copyright {new Date().getFullYear()},{" "}
             <Link href={"/"} className="text-brand_primary hover:underline">
               LOISCHLOE.
-            </Link>
+            </Link>{" "}
             All rights reserved.
           </span>
         </div>
