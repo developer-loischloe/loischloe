@@ -17,7 +17,7 @@ const OrderItem = async ({ orderId }: { orderId: string }) => {
         <OrderItems order={order} />
         <CartTotals order={order} />
       </div>
-      <div className="md:max-w-[300px] lg:max-w-full lg:min-w-[350px] flex flex-col gap-5">
+      <div className="md:max-w-[300px]  lg:max-w-[400px] lg:min-w-[350px] flex flex-col gap-5">
         <OrderSummary order={order} />
         <OrderShippingAddress order={order} />
         <OrderPaymentMethod order={order} />

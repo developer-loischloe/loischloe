@@ -53,7 +53,7 @@ export const PaginationComponent = ({
           </Link>
         </PaginationItem>
 
-        {Number(currentPageNumber) >= 1 && (
+        {Number(currentPageNumber) - 3 >= 1 && (
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>
@@ -86,7 +86,7 @@ export const PaginationComponent = ({
             </PaginationItem>
           ))}
 
-        {Number(currentPageNumber) < totalPage && (
+        {Number(currentPageNumber) + 3 <= totalPage && (
           <PaginationItem>
             <PaginationEllipsis />
           </PaginationItem>
