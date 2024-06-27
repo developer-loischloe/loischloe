@@ -1,10 +1,13 @@
-import React from "react";
+import React, { Suspense } from "react";
+import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import OfferBanner from "@/components/Offer/OfferBanner";
 import appwriteProductService from "@/appwrite/appwriteProductService";
-import ProductCard from "@/components/Products/ProductCard";
+import { unstable_noStore as noStore } from "next/cache";
+
 import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
-import { Metadata } from "next";
+import ProductCard from "@/components/Products/ProductCard";
+import ProductListLoading from "@/components/Shared/loading/ProductListLoading";
 const OfferCountDown = dynamic(
   () => import("@/components/Shared/countDown/OfferCountDown"),
   { ssr: false }
@@ -21,7 +24,12 @@ const page = () => {
       {/* <LoisChloeMarquee /> */}
       {/* <OfferCountDown /> */}
       <section>
-        <OfferProducts />
+        <Suspense
+          fallback={<ProductListLoading />}
+          key={Math.random() * 1000 + 50}
+        >
+          <OfferProducts />
+        </Suspense>
       </section>
     </>
   );
@@ -30,6 +38,7 @@ const page = () => {
 export default page;
 
 const OfferProducts = async () => {
+  noStore();
   const products = await appwriteProductService.getOfferProducts();
 
   if (products.total === 0) {
