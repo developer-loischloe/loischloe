@@ -13,7 +13,7 @@ export class AppwriteProductService {
     resultPerPage,
   }: SearchParams) {
     try {
-      let QueryArray = [];
+      let QueryArray = [Query.equal("Published", [true])];
 
       if (n_category) {
         QueryArray.push(Query.search("nested_child_category", n_category));
@@ -59,7 +59,7 @@ export class AppwriteProductService {
       const response = await databases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId.product,
-        [Query.equal("slug", [slug])]
+        [Query.equal("Published", [true]), Query.equal("slug", [slug])]
       );
 
       return response;
@@ -74,7 +74,27 @@ export class AppwriteProductService {
         config.appwriteDatabaseId,
         config.appwriteCollectionId.product,
         [
+          Query.equal("Published", [true]),
           Query.equal("featured", [true]),
+          Query.orderDesc("$createdAt"),
+          Query.limit(10),
+        ]
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getHotProducts() {
+    try {
+      const response = await databases.listDocuments(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId.product,
+        [
+          Query.equal("Published", [true]),
+          Query.equal("hot_product", [true]),
           Query.orderDesc("$createdAt"),
           Query.limit(10),
         ]
@@ -91,7 +111,11 @@ export class AppwriteProductService {
       const response = await databases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId.product,
-        [Query.search("child_category", child_category), Query.limit(10)]
+        [
+          Query.equal("Published", [true]),
+          Query.search("child_category", child_category),
+          Query.limit(10),
+        ]
       );
 
       return response;
@@ -123,7 +147,10 @@ export class AppwriteProductService {
       const response = await databases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId.product,
-        [Query.search("parent_category", "offer")]
+        [
+          Query.equal("Published", [true]),
+          Query.search("parent_category", "offer"),
+        ]
       );
 
       return response;

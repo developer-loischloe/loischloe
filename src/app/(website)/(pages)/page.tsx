@@ -11,9 +11,10 @@ import LoisChloeMagazine from "@/components/Home/LoisChloeMagazine/index";
 import CustomerFeedback from "@/components/Home/CustomerFeedback";
 import WhyChooseUs from "@/components/Home/WhyChooseUs";
 import Faq from "@/components/Home/Faq";
-import FeaturedProductListLoading from "@/components/Shared/loading/FeaturedProductListLoading";
 import MustHaveEssentials from "@/components/Home/MustHaveEssentials";
 import Loader from "@/components/Shared/loading/Loader";
+import HotProducts from "@/components/Home/HotProducts";
+import SliderProductListLoading from "@/components/Shared/loading/SliderProductListLoading";
 
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
   ssr: false,
@@ -34,11 +35,13 @@ export default function Home() {
     <div>
       <HomeSlider />
       <ShipmentToDelivery />
-      
       <TrendingCategories />
-      <Offer />
-      <Suspense fallback={<FeaturedProductListLoading />}>
+      <Suspense fallback={<SliderProductListLoading />}>
         <FeaturedProducts />
+      </Suspense>
+      <Offer />
+      <Suspense fallback={<SliderProductListLoading />}>
+        <HotProducts />
       </Suspense>
       <LoisChloeMagazine />
       <Suspense fallback={<Loader />}>
@@ -48,7 +51,6 @@ export default function Home() {
       <WhyChooseUs />
       <BeautyAdvice />
       <Faq />
-      {/* <Reels /> */}
       <InstagramReels />
     </div>
   );

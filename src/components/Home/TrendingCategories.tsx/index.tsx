@@ -28,7 +28,7 @@ const TrendingCategories = () => {
     {
       icon: mascara,
       name: "Combo deals",
-      link: "/offer",
+      link: "/combo-deals",
     },
   ];
 

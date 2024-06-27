@@ -13,8 +13,8 @@ const menuItems = [
     href: "/products",
   },
   {
-    name: "Special Offer",
-    href: "/offer",
+    name: "Combo",
+    href: "/combo-deals",
   },
   {
     name: "Blog",

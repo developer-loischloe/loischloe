@@ -17,6 +17,7 @@ import { Autoplay } from "swiper/modules";
 import "./styles.css";
 
 // desktop(2000 X 757)
+import Main_banner from "../../../../public/home_slider/2000x757_px/Web_1.png";
 import Main_banner_1 from "../../../../public/home_slider/2000x757_px/main_banner_1.png";
 import Main_banner_2 from "../../../../public/home_slider/2000x757_px/W-Post-1.png";
 import Main_banner_3 from "../../../../public/home_slider/2000x757_px/W-Post-2.png";
@@ -24,6 +25,7 @@ import Main_banner_4 from "../../../../public/home_slider/2000x757_px/W-Post-3.p
 import Main_banner_5 from "../../../../public/home_slider/2000x757_px/W-Post-4.png";
 
 // Mobile(1563 X 1458)
+import Mobile_banner from "../../../../public/home_slider/1563x1458_px/Web_2.png";
 import Mobile_banner_1 from "../../../../public/home_slider/1563x1458_px/mobile_banner_1.png";
 import Mobile_banner_2 from "../../../../public/home_slider/1563x1458_px/W-Post-5.png";
 import Mobile_banner_3 from "../../../../public/home_slider/1563x1458_px/W-Post-6.png";
@@ -34,39 +36,66 @@ const sliderConstant = [
   {
     id: 1,
     banner: {
-      main: Main_banner_4,
-      mobile: Mobile_banner_4,
+      main: Main_banner,
+      mobile: Mobile_banner,
     },
-    alt: "Eid Bundle",
-    link: "/products/eid-bundle",
+    alt: "Banner",
+    link: "/products",
   },
   {
     id: 2,
     banner: {
-      main: Main_banner_3,
-      mobile: Mobile_banner_3,
+      main: Main_banner_5,
+      mobile: Mobile_banner_5,
     },
-    alt: "Special Offer: Buy 1 Get 1 Cushion Foundation (Regular)",
-    link: "/products/special-offer-buy-1-get-1-cushion-foundation-regular",
+    alt: "Combo",
+    link: "/combo-deals",
   },
   {
     id: 3,
     banner: {
-      main: Main_banner_5,
-      mobile: Mobile_banner_5,
+      main: Main_banner,
+      mobile: Mobile_banner,
     },
-    alt: "Offer",
-    link: "/offer",
+    alt: "Banner",
+    link: "/products",
   },
   {
     id: 4,
     banner: {
-      main: Main_banner_2,
-      mobile: Mobile_banner_2,
+      main: Main_banner_5,
+      mobile: Mobile_banner_5,
     },
-    alt: "Special Offer: Buy One Beauty Box, Get One Free",
-    link: "/products/special-offer-buy-one-beauty-box-get-one-free",
+    alt: "Combo",
+    link: "/combo-deals",
   },
+  // {
+  //   id: 1,
+  //   banner: {
+  //     main: Main_banner_4,
+  //     mobile: Mobile_banner_4,
+  //   },
+  //   alt: "Eid Bundle",
+  //   link: "/products/eid-bundle",
+  // },
+  // {
+  //   id: 2,
+  //   banner: {
+  //     main: Main_banner_3,
+  //     mobile: Mobile_banner_3,
+  //   },
+  //   alt: "Special Offer: Buy 1 Get 1 Cushion Foundation (Regular)",
+  //   link: "/products/special-offer-buy-1-get-1-cushion-foundation-regular",
+  // },
+  // {
+  //   id: 4,
+  //   banner: {
+  //     main: Main_banner_2,
+  //     mobile: Mobile_banner_2,
+  //   },
+  //   alt: "Special Offer: Buy One Beauty Box, Get One Free",
+  //   link: "/products/special-offer-buy-one-beauty-box-get-one-free",
+  // },
 ];
 
 export default function App() {
@@ -93,7 +122,7 @@ export default function App() {
         delay: 2000,
         pauseOnMouseEnter: true,
       }}
-      loop={true}
+      // loop={true}
       onAutoplayTimeLeft={onAutoplayTimeLeft}
       className="homeSliderSwiper relative overflow-hidden"
     >

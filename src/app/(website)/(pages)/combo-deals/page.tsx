@@ -32,6 +32,16 @@ export default page;
 const OfferProducts = async () => {
   const products = await appwriteProductService.getOfferProducts();
 
+  if (products.total === 0) {
+    return (
+      <div>
+        <h1 className="text-center text-xl md:text-2xl font-semibold">
+          At this moment, we do not have any ongoing deals.
+        </h1>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-[700px] mx-auto">
       <div className="flex-1 grid grid-cols-1 sm:grid-cols-2  gap-5">
