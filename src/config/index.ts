@@ -13,6 +13,10 @@ const config = {
   // Collection
   appwriteCollectionId: {
     product: String(process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_PRODUCT),
+    product_image: String(
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_PRODUCT_IMAGE
+    ),
+
     category: {
       parent_category: String(
         process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_PARENT_CATEGORY
@@ -39,6 +43,9 @@ const config = {
   ),
   // Storage Bucket
   appwriteBucketId: {
+    product_image: String(
+      process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_PRODUCT_IMAGE
+    ),
     review_image: String(
       process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_REVIEW_IMAGE
     ),
