@@ -1,45 +1,84 @@
-import appwriteStorageService from "@/appwrite/appwriteStorageService";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { useState } from "react";
+import { Plus } from "lucide-react";
+
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Models } from "appwrite";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import SelectFromLibrary from "./SelectFromLibrary";
+// custom components
 import Upload from "./Upload";
+import SelectFromLibrary from "./SelectFromLibrary";
+import PreviewSelectedImages from "./SelectFromLibrary/SelectedImages/PreviewSelectedImages";
+
+export interface UploadConfig {
+  databaseId: string;
+  collectionId: string;
+  bucketId: string;
+}
 
 const ImageUploader = ({
   handler,
+  defaultImages,
+  uploadConfig,
 }: {
   handler: (imageIds: string[]) => void;
+  defaultImages: any[];
+  uploadConfig: UploadConfig;
 }) => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedImages, setSelectedImages] = useState<any[]>(
+    defaultImages || []
+  );
+
+  const handleAddImage = () => {
+    const ids = selectedImages.flatMap((img) => img.$id);
+    handler(ids);
+    setOpenDialog(false);
+  };
+
+  const handleRemove = (id: string) => {
+    const filteredImages = selectedImages.filter((img) => img.$id !== id);
+    setSelectedImages(filteredImages);
+    const ids = filteredImages.flatMap((img) => img.$id);
+    handler(ids);
+  };
+
   return (
-    <div className="">
-      <Dialog>
-        <DialogTrigger>Add images</DialogTrigger>
-        <DialogContent className="!max-w-[700px]">
+    <div>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogTrigger>
+          <div className="flex justify-center items-center gap-5 border rounded-md border-dashed p-5">
+            <Plus size={18} />
+            <p className="text-sm text-blue-500">Add Images</p>
+          </div>
+        </DialogTrigger>
+        <DialogContent className="!max-w-[900px]">
           <Tabs defaultValue="upload" className="">
             <TabsList className="mx-auto w-full mt-3 mb-2">
               <TabsTrigger value="upload">Upload</TabsTrigger>
               <TabsTrigger value="library">Select From Library</TabsTrigger>
             </TabsList>
             <TabsContent value="upload">
-              <Upload />
+              <Upload uploadConfig={uploadConfig} />
             </TabsContent>
             <TabsContent value="library">
-              <SelectFromLibrary handler={handler} />
+              <SelectFromLibrary
+                handler={handleAddImage}
+                selectedImages={selectedImages}
+                setSelectedImages={setSelectedImages}
+                uploadConfig={uploadConfig}
+              />
             </TabsContent>
           </Tabs>
         </DialogContent>
       </Dialog>
+
+      {!openDialog && selectedImages.length > 0 && (
+        <PreviewSelectedImages
+          selectedImages={selectedImages}
+          handleRemove={handleRemove}
+          uploadConfig={uploadConfig}
+        />
+      )}
     </div>
   );
 };

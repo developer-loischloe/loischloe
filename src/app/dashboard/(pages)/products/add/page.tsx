@@ -12,7 +12,7 @@ const AddProductPage = async () => {
       </h1>
 
       <div className="">
-        <AddProductForm categories={categories.documents} />
+        <AddProductForm formType="create" categories={categories.documents} />
       </div>
     </div>
   );

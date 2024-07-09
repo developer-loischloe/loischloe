@@ -2,17 +2,14 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Eye, PencilLine, Trash2, X } from "lucide-react";
 import { cn, formatCurrency } from "@/lib/utils";
 import { format as dateFormat } from "date-fns";
-import { UpdateOrderStatus } from "../orders/UpdateOrderStatus";
-import DeleteOrder from "../orders/DeleteOrder";
-import Image from "next/image";
+import DeleteProduct from "./DeleteProduct";
 
 const ProductItem = ({ product }: { product: any }) => {
-  console.log(product);
-
   return (
     <TableRow>
       <TableCell>
@@ -56,13 +53,13 @@ const ProductItem = ({ product }: { product: any }) => {
           <Link href={`/products/${product?.slug}`}>
             <Eye size={20} className="text-blue-500 cursor-pointer" />
           </Link>
-          <UpdateOrderStatus orderId={product?.$id}>
+          <Link href={`/dashboard/products/edit/${product?.slug}`}>
             <PencilLine size={20} className="text-green-500 cursor-pointer" />
-          </UpdateOrderStatus>
+          </Link>
 
-          <DeleteOrder orderId={product?.$id}>
+          <DeleteProduct productId={product?.$id}>
             <Trash2 size={20} className="text-red-500 cursor-pointer" />
-          </DeleteOrder>
+          </DeleteProduct>
         </div>
       </TableCell>
     </TableRow>

@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import appwriteProductService from "@/appwrite/appwriteProductService";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import Description from "@/components/Products/Product/Description";
 import ProductHandler from "@/components/Products/Product/ProductHandler";
 import RelatedProducts from "@/components/Products/Product/RelatedProducts";
@@ -16,6 +15,8 @@ import SavedViewedProduct from "@/components/Products/Product/SavedViewedProduct
 import SendGTMEvent from "@/components/GTM/SendGTMEvent";
 import { Metadata } from "next";
 import { globalMetaDataConstant } from "@/app/constant";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 const ProductImageSlider = dynamic(
   () => import("@/components/Products/Product/ProductSlider"),
   { ssr: false }
@@ -77,6 +78,17 @@ export async function generateMetadata({
 
 const page = async ({ params: { slug } }: { params: { slug: string } }) => {
   const products = await appwriteProductService.getProductDetails(slug);
+
+  if (products.total === 0) {
+    return (
+      <div className="flex flex-col gap-5 justify-center items-center py-[100px]">
+        <h1 className="text-2xl">Oops! Product not found.</h1>
+        <Link href={"/products"}>
+          <Button>See All Products</Button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <>

@@ -30,6 +30,7 @@ const ProductList = async ({
     keyword,
     page,
     resultPerPage,
+    sort: "DESC",
   });
 
   if (products.documents.length === 0) {
@@ -53,7 +54,6 @@ const ProductList = async ({
               <TableHead>Quantity</TableHead>
               <TableHead className="min-w-[100px]">Stock</TableHead>
               <TableHead className="min-w-[120px]">Date</TableHead>
-
               <TableHead className="text-center">Action</TableHead>
             </TableRow>
           </TableHeader>

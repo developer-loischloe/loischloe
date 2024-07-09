@@ -2,10 +2,10 @@ import React, { Suspense } from "react";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import Loader from "@/components/Shared/loading/Loader";
 import ResultPerPage from "@/components/dashboard/orders/ResultPerPage";
 import ProductList from "@/components/dashboard/products/ProductList";
-import { Button } from "@/components/ui/button";
 
 const ProductsPage = ({
   searchParams: { page = "1", resultPerPage = "10", keyword = "" },

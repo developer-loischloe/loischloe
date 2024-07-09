@@ -2,16 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import slugify from "slugify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import slugify from "slugify";
 import { z } from "zod";
-
-import config from "@/config";
-import { useAuth } from "@/context/authContext";
-import { getFileToUrl } from "@/lib/utils";
-import { uploadFiles } from "@/lib/uploader";
-import appwriteBlogService from "@/appwrite/appwriteBlogService";
 
 import {
   Form,
@@ -21,13 +16,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-
-// custom components
-import InputList from "../../Shared/InputList";
-import RichTextEditor from "../../Shared/RichTextEditor";
 import { Switch } from "@/components/ui/switch";
 import {
   Select,
@@ -36,17 +24,15 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
-import PreviewImages from "@/components/Shared/PreviewImages";
-import ImageUploader from "@/components/Shared/ImageUploader";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
-// constant for featured image
-export const MAX_FILE_SIZE = 5000000;
-export const ACCEPTED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-];
+// custom components
+import InputList from "../../Shared/InputList";
+import RichTextEditor from "../../Shared/RichTextEditor";
+import ImageUploader from "@/components/Shared/ImageUploader";
+import config from "@/config";
+import appwriteProductService from "@/appwrite/appwriteProductService";
 
 // Product Schema
 const FormSchema = z
@@ -64,9 +50,14 @@ const FormSchema = z
       message: "Sale price is required.",
     }),
     brand: z.string(),
-    short_description: z.string().min(1, {
-      message: "Short description is required.",
-    }),
+    short_description: z
+      .string()
+      .min(1, {
+        message: "Short description is required.",
+      })
+      .max(300, {
+        message: "Maximum 300 character.",
+      }),
     description: z.string().min(1, {
       message: "Description is required.",
     }),
@@ -98,36 +89,43 @@ const FormSchema = z
     }
   });
 
-export default function AddProductForm({ categories }: { categories: any }) {
+export default function AddProductForm({
+  categories,
+  product,
+  formType,
+}: {
+  categories: any;
+  product?: any;
+  formType: "create" | "update";
+}) {
   const [childCategories, setChildCategories] = useState<null | any[]>(null);
   const [nestedChildCategories, setNestedChildCategories] = useState<
     null | any[]
   >(null);
 
   const router = useRouter();
-  const { user } = useAuth();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: "",
-      slug: "",
-      price: 0,
-      sale_price: 0,
-      brand: "",
-      short_description: "",
-      description: "",
-      tags: [],
-      sku: "",
-      product_quantity: 1,
-      featured: false,
-      stock: "in-stock",
-      parent_category: "",
-      child_category: "",
-      nested_child_category: "",
-      hot_product: false,
-      images: null,
-      Published: true,
+      name: product?.name || "",
+      slug: product?.slug || "",
+      price: product?.price || 0,
+      sale_price: product?.sale_price || 0,
+      brand: product?.brand || "",
+      short_description: product?.short_description || "",
+      description: product?.description || "",
+      tags: product?.tags || [],
+      sku: product?.sku || "",
+      product_quantity: product?.product_quantity || 0,
+      featured: product?.featured || false,
+      stock: product?.stock || "in-stock",
+      parent_category: product?.parent_category || "",
+      child_category: product?.child_category || "",
+      nested_child_category: product?.nested_child_category || "",
+      hot_product: product?.hot_product || false,
+      images: product?.images?.flatMap((img: any) => img.$id) || null,
+      Published: product?.Published || true,
     },
   });
 
@@ -154,7 +152,7 @@ export default function AddProductForm({ categories }: { categories: any }) {
         setNestedChildCategories(selectedCategory?.nestedChildCategories);
       }
     }
-  }, [form.watch().child_category]);
+  }, [form.watch().child_category, childCategories]);
 
   const handleGenerateSlug = () => {
     const { name } = form.watch();
@@ -165,28 +163,34 @@ export default function AddProductForm({ categories }: { categories: any }) {
   };
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
+    if (formType === "create") {
+      // Create a new product
+      try {
+        const response = await appwriteProductService.createProduct(data);
 
-    // const uploadedimages = await uploadFiles(
-    //   data.featuredImage,
-    //   config.appwriteBucketId.blog
-    // );
+        toast.success("Product successfully created.");
+        router.push("/dashboard/products");
+        router.refresh();
+      } catch (error) {
+        console.log(error);
+        toast.error("Product not created.");
+      }
+    } else {
+      // Update a product
+      try {
+        const response = await appwriteProductService.updateProduct({
+          id: product?.$id,
+          data,
+        });
 
-    // const blogData = {
-    //   ...data,
-    //   featuredImage: uploadedimages[0].url,
-    //   authorId: user?.$id,
-    // };
-
-    // try {
-    //   const response = await appwriteBlogService.createBlog(blogData);
-
-    //   toast("Blog post successfully created.");
-    //   router.push("/dashboard/blog");
-    //   router.refresh();
-    // } catch (error) {
-    //   console.log(error);
-    // }
+        toast.success("Product successfully updated.");
+        router.push("/dashboard/products");
+        router.refresh();
+      } catch (error: any) {
+        console.log(error);
+        toast.error(error.message || "Product update failed.");
+      }
+    }
   }
 
   const { isDirty, isSubmitting } = form.formState;
@@ -241,6 +245,7 @@ export default function AddProductForm({ categories }: { categories: any }) {
               <FormControl>
                 <Input
                   type="number"
+                  min={0}
                   {...field}
                   onChange={(e) => {
                     field.onChange(Number(e.target.value));
@@ -261,6 +266,7 @@ export default function AddProductForm({ categories }: { categories: any }) {
               <FormControl>
                 <Input
                   type="number"
+                  min={0}
                   {...field}
                   onChange={(e) => {
                     field.onChange(Number(e.target.value));
@@ -367,6 +373,7 @@ export default function AddProductForm({ categories }: { categories: any }) {
               <FormControl>
                 <Input
                   type="number"
+                  min={0}
                   {...field}
                   onChange={(e) => {
                     field.onChange(Number(e.target.value));
@@ -385,7 +392,10 @@ export default function AddProductForm({ categories }: { categories: any }) {
             <FormItem>
               <FormLabel>Stock</FormLabel>
               <FormControl>
-                <Select onValueChange={(value) => field.onChange(value)}>
+                <Select
+                  value={field.value}
+                  onValueChange={(value) => field.onChange(value)}
+                >
                   <SelectTrigger className="">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
@@ -407,7 +417,10 @@ export default function AddProductForm({ categories }: { categories: any }) {
             <FormItem>
               <FormLabel>Parent Category</FormLabel>
               <FormControl>
-                <Select onValueChange={(value) => field.onChange(value)}>
+                <Select
+                  value={field.value}
+                  onValueChange={(value) => field.onChange(value)}
+                >
                   <SelectTrigger className="">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
@@ -432,7 +445,10 @@ export default function AddProductForm({ categories }: { categories: any }) {
               <FormItem>
                 <FormLabel>Child Category</FormLabel>
                 <FormControl>
-                  <Select onValueChange={(value) => field.onChange(value)}>
+                  <Select
+                    value={field.value}
+                    onValueChange={(value) => field.onChange(value)}
+                  >
                     <SelectTrigger className="">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
@@ -459,7 +475,10 @@ export default function AddProductForm({ categories }: { categories: any }) {
               <FormItem>
                 <FormLabel>Nested Child Category</FormLabel>
                 <FormControl>
-                  <Select onValueChange={(value) => field.onChange(value)}>
+                  <Select
+                    value={field.value}
+                    onValueChange={(value) => field.onChange(value)}
+                  >
                     <SelectTrigger className="">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
@@ -485,20 +504,15 @@ export default function AddProductForm({ categories }: { categories: any }) {
             <FormItem className="flex-1">
               <FormLabel>Product Images</FormLabel>
               <FormControl>
-                {/* <Input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={(e) => {
-                    if (e.target?.files) {
-                      field.onChange(e.target?.files);
-                    }
-                  }}
-                /> */}
-
                 <ImageUploader
                   handler={(imageIds: string[]) => {
-                    console.log(imageIds);
+                    field.onChange(imageIds);
+                  }}
+                  defaultImages={product?.images}
+                  uploadConfig={{
+                    databaseId: config.appwriteDatabaseId,
+                    collectionId: config.appwriteCollectionId.product_image,
+                    bucketId: config.appwriteBucketId.product_image,
                   }}
                 />
               </FormControl>
@@ -506,7 +520,6 @@ export default function AddProductForm({ categories }: { categories: any }) {
             </FormItem>
           )}
         />
-        {form.watch().images && <PreviewImages images={form.watch().images} />}
 
         <FormField
           control={form.control}

@@ -13,6 +13,7 @@ import Loading from "@/app/dashboard/loading";
 import AddComment from "./AddComment";
 import CommentList from "./CommentList";
 import { globalMetaDataConstant } from "@/app/constant";
+import { Button } from "@/components/ui/button";
 
 const { website_name, website_url } = globalMetaDataConstant;
 
@@ -67,7 +68,14 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
   const { user } = await userPromise.json();
 
   if (!post) {
-    return <div>No Post found</div>;
+    return (
+      <div className="flex flex-col gap-5 justify-center items-center py-[100px]">
+        <h1 className="text-2xl">Oops! Blog not found.</h1>
+        <Link href={"/blog"}>
+          <Button>See All Blog</Button>
+        </Link>
+      </div>
+    );
   }
 
   return (

@@ -1,9 +1,39 @@
-import { Query } from "appwrite";
+import { ID, Query } from "appwrite";
 import { databases } from "./appwriteConfig";
 import config from "@/config";
 import { SearchParams } from "@/app/(website)/(pages)/products/(all-products)/page";
 
 export class AppwriteProductService {
+  async createProduct(data: any) {
+    try {
+      const response = await databases.createDocument(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId.product,
+        ID.unique(),
+        data
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateProduct({ id, data }: { id: string; data: any }) {
+    try {
+      const response = await databases.updateDocument(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId.product,
+        id,
+        data
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getProductList({
     p_category,
     c_category,
@@ -11,7 +41,10 @@ export class AppwriteProductService {
     keyword,
     page,
     resultPerPage,
-  }: SearchParams) {
+    sort = "ASC",
+  }: SearchParams & {
+    sort?: "ASC" | "DESC";
+  }) {
     try {
       let QueryArray = [Query.equal("Published", [true])];
 
@@ -40,6 +73,13 @@ export class AppwriteProductService {
         if (skip) {
           QueryArray.push(Query.offset(skip));
         }
+      }
+
+      // sorting
+      if (sort === "ASC") {
+        QueryArray.push(Query.orderAsc("$createdAt"));
+      } else {
+        QueryArray.push(Query.orderDesc("$createdAt"));
       }
 
       const response = await databases.listDocuments(
@@ -151,6 +191,20 @@ export class AppwriteProductService {
           Query.equal("Published", [true]),
           Query.search("parent_category", "offer"),
         ]
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deleteProduct({ productId }: { productId: string }) {
+    try {
+      const response = await databases.deleteDocument(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId.product,
+        productId
       );
 
       return response;
