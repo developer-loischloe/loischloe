@@ -41,23 +41,39 @@ export class AppwriteProductService {
     keyword,
     page,
     resultPerPage,
-    sort = "ASC",
+    sort = "DESC",
+    filterPublishProduct = true,
   }: SearchParams & {
     sort?: "ASC" | "DESC";
+    filterPublishProduct?: boolean;
   }) {
     try {
-      let QueryArray = [Query.equal("Published", [true])];
+      let QueryArray = [];
 
+      // filter published or not
+      if (filterPublishProduct) {
+        QueryArray.push(Query.equal("Published", [true]));
+      }
+
+      // sorting
+      if (sort === "ASC") {
+        QueryArray.push(Query.orderAsc("$createdAt"));
+      } else {
+        QueryArray.push(Query.orderDesc("$createdAt"));
+      }
+
+      // search by keyword
+      if (keyword) {
+        QueryArray.push(Query.search("name", keyword));
+      }
+
+      // search by category
       if (n_category) {
         QueryArray.push(Query.search("nested_child_category", n_category));
       } else if (c_category) {
         QueryArray.push(Query.search("child_category", c_category));
       } else if (p_category) {
         QueryArray.push(Query.search("parent_category", p_category));
-      }
-
-      if (keyword) {
-        QueryArray.push(Query.search("name", keyword));
       }
 
       // apply order when searchparams is empty
@@ -75,13 +91,6 @@ export class AppwriteProductService {
         }
       }
 
-      // sorting
-      if (sort === "ASC") {
-        QueryArray.push(Query.orderAsc("$createdAt"));
-      } else {
-        QueryArray.push(Query.orderDesc("$createdAt"));
-      }
-
       const response = await databases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId.product,
@@ -94,12 +103,27 @@ export class AppwriteProductService {
     }
   }
 
-  async getProductDetails(slug: string) {
+  async getProductDetails({
+    slug,
+    filterPublishProduct = true,
+  }: {
+    slug: string;
+    filterPublishProduct?: boolean;
+  }) {
+    let QueryArray = [];
+
+    // filter published or not
+    if (filterPublishProduct) {
+      QueryArray.push(Query.equal("Published", [true]));
+    }
+
+    QueryArray.push(Query.equal("slug", [slug]));
+
     try {
       const response = await databases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId.product,
-        [Query.equal("Published", [true]), Query.equal("slug", [slug])]
+        QueryArray
       );
 
       return response;
@@ -117,7 +141,7 @@ export class AppwriteProductService {
           Query.equal("Published", [true]),
           Query.equal("featured", [true]),
           Query.orderDesc("$createdAt"),
-          Query.limit(10),
+          Query.limit(20),
         ]
       );
 
@@ -136,7 +160,7 @@ export class AppwriteProductService {
           Query.equal("Published", [true]),
           Query.equal("hot_product", [true]),
           Query.orderDesc("$createdAt"),
-          Query.limit(10),
+          Query.limit(20),
         ]
       );
 

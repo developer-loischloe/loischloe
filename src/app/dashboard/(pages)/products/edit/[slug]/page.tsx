@@ -11,7 +11,10 @@ const EditProduct = async ({
   params: { slug: string };
 }) => {
   const categories = await appwriteCategoryService.getCategoryList();
-  const products = await appwriteProductService.getProductDetails(slug);
+  const products = await appwriteProductService.getProductDetails({
+    slug,
+    filterPublishProduct: false,
+  });
 
   if (products.total === 0) {
     return (

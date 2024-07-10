@@ -13,24 +13,25 @@ import { PaginationComponent } from "@/components/Shared/Pagination/PaginationCo
 import NotFoundComponent from "@/components/Shared/NotFoundComponent";
 import appwriteProductService from "@/appwrite/appwriteProductService";
 import ProductItem from "./ProductItem";
+import { SearchParams } from "@/app/(website)/(pages)/products/(all-products)/page";
 
 const ProductList = async ({
+  p_category,
+  c_category,
+  n_category,
+  keyword,
   page,
   resultPerPage,
-  keyword,
-}: {
-  page: string;
-  resultPerPage: string;
-  keyword: string;
-}) => {
+}: SearchParams) => {
   const products = await appwriteProductService.getProductList({
-    p_category: "",
-    c_category: "",
-    n_category: "",
+    p_category,
+    c_category,
+    n_category,
     keyword,
     page,
     resultPerPage,
     sort: "DESC",
+    filterPublishProduct: false,
   });
 
   if (products.documents.length === 0) {

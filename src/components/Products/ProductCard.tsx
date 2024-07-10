@@ -9,6 +9,7 @@ import {
   generateParams,
 } from "@/lib/utils";
 import AddToCartButton from "./AddToCartButton";
+import { Button } from "../ui/button";
 
 // Declare it outside your component so it doesn't get re-created
 const myStyles = {
@@ -98,7 +99,13 @@ const ProductCard = ({ product }: { product: any }) => {
         </div>
       </div>
       <div className="w-full">
-        <AddToCartButton product={product} />
+        {product?.stock === "in-stock" ? (
+          <AddToCartButton product={product} />
+        ) : (
+          <Button disabled className="w-full">
+            Out Of Stock
+          </Button>
+        )}
       </div>
     </div>
   );

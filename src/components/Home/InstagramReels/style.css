@@ -5,3 +5,13 @@
 .instagram_reels .sk-ww-instagram-reels .swiper-button-next:after {
     content: '';
 }
+
+.sk_branding {
+    display: none !important;
+    visibility: hidden;
+    padding: 0;
+}
+
+.sk_branding .tutorial_link {
+    display: none;
+}

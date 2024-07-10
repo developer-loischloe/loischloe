@@ -7,7 +7,10 @@ const Categories = async ({
   p_category,
   c_category,
   n_category,
-}: SearchParams) => {
+  path = "/products",
+}: SearchParams & {
+  path?: string;
+}) => {
   const categories = await appwriteCategoryService.getCategoryList();
 
   return (
@@ -15,7 +18,7 @@ const Categories = async ({
       <ul className="w-full">
         <li>
           <Link
-            href={`/products`}
+            href={`${path}`}
             className={cn(
               "text-white px-2 py-1 rounded-full text-sm flex items-center justify-between gap-10 hover:text-brand_primary transition-all cursor-pointer ",
               !n_category && !c_category && !p_category && "text-brand_primary"
@@ -28,13 +31,16 @@ const Categories = async ({
         {/* Parent Categories */}
         {categories &&
           categories?.documents?.map((parentCategory: any) => {
+            // console.log(parentCategory);
+
             const p_active = parentCategory.slug === p_category;
+            console.log(p_category);
 
             return (
               <div key={parentCategory.$id}>
                 <li>
                   <Link
-                    href={`/products?${generateParams({
+                    href={`${path}?${generateParams({
                       p_category: parentCategory.slug,
                     })}`}
                     className={cn(
@@ -58,7 +64,7 @@ const Categories = async ({
                             <div key={childCategory.$id}>
                               <li>
                                 <Link
-                                  href={`/products?${generateParams({
+                                  href={`${path}?${generateParams({
                                     p_category: parentCategory.slug,
                                     c_category: childCategory.slug,
                                   })}`}
@@ -84,7 +90,7 @@ const Categories = async ({
                                           <div key={nestedChildCategory.$id}>
                                             <li>
                                               <Link
-                                                href={`/products?${generateParams(
+                                                href={`${path}?${generateParams(
                                                   {
                                                     p_category:
                                                       parentCategory.slug,

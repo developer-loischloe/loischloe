@@ -44,7 +44,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const products = await appwriteProductService.getProductDetails(slug);
+  const products = await appwriteProductService.getProductDetails({ slug });
   const product = products.documents[0];
 
   return {
@@ -77,7 +77,7 @@ export async function generateMetadata({
 }
 
 const page = async ({ params: { slug } }: { params: { slug: string } }) => {
-  const products = await appwriteProductService.getProductDetails(slug);
+  const products = await appwriteProductService.getProductDetails({ slug });
 
   if (products.total === 0) {
     return (

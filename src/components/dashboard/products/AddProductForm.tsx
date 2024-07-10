@@ -55,12 +55,17 @@ const FormSchema = z
       .min(1, {
         message: "Short description is required.",
       })
-      .max(300, {
-        message: "Maximum 300 character.",
+      .max(4000, {
+        message: "Maximum 4000 character.",
       }),
-    description: z.string().min(1, {
-      message: "Description is required.",
-    }),
+    description: z
+      .string()
+      .min(1, {
+        message: "Description is required.",
+      })
+      .max(10000, {
+        message: "Maximum 10000 character.",
+      }),
     tags: z.array(z.string()),
     sku: z.string(),
     product_quantity: z.number().min(1, {
@@ -74,9 +79,7 @@ const FormSchema = z
     child_category: z
       .string()
       .min(1, { message: "Child Category is required." }),
-    nested_child_category: z
-      .string()
-      .min(1, { message: "Nested Child Category is required." }),
+    nested_child_category: z.string(),
     hot_product: z.boolean().default(false),
     Published: z.boolean().default(true),
     images: z
@@ -125,7 +128,7 @@ export default function AddProductForm({
       nested_child_category: product?.nested_child_category || "",
       hot_product: product?.hot_product || false,
       images: product?.images?.flatMap((img: any) => img.$id) || null,
-      Published: product?.Published || true,
+      Published: product?.Published || false,
     },
   });
 
@@ -162,11 +165,36 @@ export default function AddProductForm({
     }
   };
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(productData: z.infer<typeof FormSchema>) {
+    const newProductData = {
+      name: productData.name,
+      slug: productData.slug,
+      price: productData.price,
+      sale_price: productData.sale_price,
+      brand: productData.brand,
+      short_description: productData.short_description,
+      description: productData.description,
+      tags: productData.tags,
+      sku: productData.sku,
+      product_quantity: productData.product_quantity,
+      featured: productData.featured,
+      stock: productData.stock,
+      parent_category: productData.parent_category,
+      child_category: productData.child_category,
+      ...(productData.nested_child_category
+        ? { nested_child_category: productData.nested_child_category }
+        : {}),
+      hot_product: productData.hot_product,
+      images: productData.images,
+      Published: productData.Published,
+    };
+
     if (formType === "create") {
       // Create a new product
       try {
-        const response = await appwriteProductService.createProduct(data);
+        const response = await appwriteProductService.createProduct(
+          newProductData
+        );
 
         toast.success("Product successfully created.");
         router.push("/dashboard/products");
@@ -180,7 +208,7 @@ export default function AddProductForm({
       try {
         const response = await appwriteProductService.updateProduct({
           id: product?.$id,
-          data,
+          data: newProductData,
         });
 
         toast.success("Product successfully updated.");

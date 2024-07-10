@@ -50,7 +50,11 @@ const ProductHandler = ({ product }: any) => {
         )}
       </div>
 
-      <CartHandler product={product} />
+      {product?.stock === "in-stock" ? (
+        <CartHandler product={product} />
+      ) : (
+        <br />
+      )}
     </div>
   );
 };
