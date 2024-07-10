@@ -28,8 +28,6 @@ const SelectFromLibrary = ({
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
 
-  console.log({ images, total });
-
   const fetchImages = async () => {
     // handle loading
     if (!images?.length) {
