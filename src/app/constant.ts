@@ -18,6 +18,6 @@ export const globalMetaDataConstant = {
     "face pallete",
     "eye makeup",
   ],
-  website_name: "LOISCHLOE",
+  website_name: "LOISCHLOE Bangladesh",
   website_url: config.next_app_base_url,
 };
