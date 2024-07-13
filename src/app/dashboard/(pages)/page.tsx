@@ -1,11 +1,14 @@
 import React from "react";
+import RecentOrdersView from "@/components/dashboard/overView/RecentOrdersView";
+import TopView from "@/components/dashboard/overView/TopView";
 
-const Dashboard = () => {
+const OverView = () => {
   return (
-    <div>
-      <h1>Dashboard Overview</h1>
+    <div className="space-y-10">
+      <TopView />
+      {/* <RecentOrdersView /> */}
     </div>
   );
 };
 
-export default Dashboard;
+export default OverView;

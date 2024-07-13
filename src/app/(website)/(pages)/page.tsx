@@ -15,6 +15,8 @@ import MustHaveEssentials from "@/components/Home/MustHaveEssentials";
 import Loader from "@/components/Shared/loading/Loader";
 import HotProducts from "@/components/Home/HotProducts";
 import SliderProductListLoading from "@/components/Shared/loading/SliderProductListLoading";
+import JsonLd from "@/components/Shared/JsonLd ";
+import { globalMetaDataConstant } from "@/app/constant";
 
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
   ssr: false,
@@ -31,6 +33,18 @@ const OfferCountDown = dynamic(
 );
 
 export default function Home() {
+  const { description, website_name, website_url } = globalMetaDataConstant;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: website_name,
+    alternateName: "LC",
+    url: website_url,
+    image: website_url + "/og_image.png",
+    description: description,
+  };
+
   return (
     <div>
       <HomeSlider />
@@ -52,6 +66,9 @@ export default function Home() {
       <BeautyAdvice />
       <Faq />
       <InstagramReels />
+
+      {/*  */}
+      <JsonLd data={jsonLd} />
     </div>
   );
 }
