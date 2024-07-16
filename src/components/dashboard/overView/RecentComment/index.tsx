@@ -22,10 +22,10 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { toast } from "sonner";
+import DeleteReview from "./DeleteReview";
 
 const myStyles = {
   itemShapes: Star,
@@ -74,17 +74,6 @@ const RecentComment = () => {
   useEffect(() => {
     fetchReview();
   }, [page]);
-
-  const handleDelete = async (id: string) => {
-    try {
-      await appwriteReviewService.deleteReview(id);
-      toast.success("Review deleted successfully.");
-      fetchReview();
-    } catch (error: any) {
-      console.log(error);
-      toast.error(error.message || "Review not deleted.");
-    }
-  };
 
   return (
     <Card className="lg:col-span-2">
@@ -161,11 +150,12 @@ const RecentComment = () => {
                 </div>
 
                 <div className="px-5">
-                  <Trash2
-                    size={18}
-                    className="text-red-500 invisible group-hover:visible cursor-pointer transition-all"
-                    onClick={() => handleDelete(review.$id)}
-                  />
+                  <DeleteReview reviewId={review.$id} fetchReview={fetchReview}>
+                    <Trash2
+                      size={18}
+                      className="text-red-500 invisible group-hover:visible cursor-pointer transition-all"
+                    />
+                  </DeleteReview>
                 </div>
               </div>
             ))}
