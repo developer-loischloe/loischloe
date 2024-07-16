@@ -3,7 +3,6 @@ import Link from "next/link";
 import { AlignLeft, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import Loader from "@/components/Shared/loading/Loader";
 import ResultPerPage from "@/components/dashboard/orders/ResultPerPage";
 import ProductList from "@/components/dashboard/products/ProductList";
 
@@ -14,6 +13,7 @@ import {
 } from "@/components/ui/popover";
 import Categories from "@/components/categories";
 import { SearchParams } from "@/app/(website)/(pages)/products/(all-products)/page";
+import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
 
 const ProductsPage = ({
   searchParams: {
@@ -77,7 +77,10 @@ const ProductsPage = ({
       </div>
 
       {/* Order List */}
-      <Suspense key={(Math.random() * 1000).toString()} fallback={<Loader />}>
+      <Suspense
+        key={(Math.random() * 1000).toString()}
+        fallback={<LoadingSpiner />}
+      >
         <ProductList
           {...{
             p_category,

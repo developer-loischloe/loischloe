@@ -1,8 +1,8 @@
 import React from "react";
-import Loader from "@/components/Shared/loading/Loader";
+import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
 
 const Loading = () => {
-  return <Loader />;
+  return <LoadingSpiner />;
 };
 
 export default Loading;

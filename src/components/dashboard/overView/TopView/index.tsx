@@ -9,7 +9,7 @@ import TopViewCard from "./TopViewCard";
 import PopularProducts from "./PopularProducts";
 import WelcomeCard from "./WelcomeCard";
 import appwriteOrderService from "@/appwrite/appwriteOrderService";
-import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const TopView = ({ year }: { year: number }) => {
   const [response, setResponse] = useState<any>(null);
@@ -51,7 +51,15 @@ const TopView = ({ year }: { year: number }) => {
   } satisfies ChartConfig;
 
   if (loading) {
-    return <LoadingSpiner />;
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 ">
+        {[1, 2, 3, 4].map((number) => (
+          <div key={number} className="w-full h-[220px]">
+            <Skeleton className="w-full h-full bg-black/5" />
+          </div>
+        ))}
+      </div>
+    );
   }
 
   if (error) {

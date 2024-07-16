@@ -12,11 +12,11 @@ import CustomerFeedback from "@/components/Home/CustomerFeedback";
 import WhyChooseUs from "@/components/Home/WhyChooseUs";
 import Faq from "@/components/Home/Faq";
 import MustHaveEssentials from "@/components/Home/MustHaveEssentials";
-import Loader from "@/components/Shared/loading/Loader";
 import HotProducts from "@/components/Home/HotProducts";
 import SliderProductListLoading from "@/components/Shared/loading/SliderProductListLoading";
 import JsonLd from "@/components/Shared/JsonLd ";
 import { globalMetaDataConstant } from "@/app/constant";
+import Loader from "@/components/Shared/loading/Loader";
 
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
   ssr: false,

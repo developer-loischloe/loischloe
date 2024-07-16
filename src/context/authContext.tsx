@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Models } from "appwrite";
 import { appwriteAuthService } from "@/appwrite/appwriteAuthService";
-import Loader from "@/components/Shared/loading/Loader";
+import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
 
 export const AuthContext = createContext<{
   isLoading: boolean;
@@ -80,13 +80,6 @@ export const AdminProtectedRoute = ({
   const isLoggedIn = Boolean(user);
   const isAdmin = Boolean(user?.labels.includes("admin"));
 
-  // console.log({
-  //   isLoading,
-  //   user,
-  //   isLoggedIn,
-  //   isAdmin,
-  // });
-
   useEffect(() => {
     if ((!isLoading && !isLoggedIn) || (!isLoading && !isAdmin)) {
       router.replace("/signin");
@@ -96,7 +89,7 @@ export const AdminProtectedRoute = ({
   if (isLoading) {
     return (
       <div className="h-screen flex justify-center items-center">
-        <Loader />
+        <LoadingSpiner />
       </div>
     );
   }

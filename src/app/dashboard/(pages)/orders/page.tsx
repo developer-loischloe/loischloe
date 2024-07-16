@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
-import Loader from "@/components/Shared/loading/Loader";
 import OrderList from "@/components/dashboard/orders/OrderList";
 import ResultPerPage from "@/components/dashboard/orders/ResultPerPage";
+import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
 
 const OrderListPage = ({
   searchParams: { page = "1", resultPerPage = "10" },
@@ -24,7 +24,10 @@ const OrderListPage = ({
       </div>
 
       {/* Order List */}
-      <Suspense key={(Math.random() * 1000).toString()} fallback={<Loader />}>
+      <Suspense
+        key={(Math.random() * 1000).toString()}
+        fallback={<LoadingSpiner />}
+      >
         <OrderList page={page} resultPerPage={resultPerPage} />
       </Suspense>
     </div>

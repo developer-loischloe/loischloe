@@ -1,6 +1,6 @@
 "use client";
 
-import Loader from "@/components/Shared/loading/Loader";
+import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
 import SignInForm from "@/components/auth/SignInForm";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/authContext";
@@ -21,7 +21,7 @@ export default function SignIn() {
   const loggedInAndNotAdmin = user && !user.labels.includes("admin");
 
   if (isLoading) {
-    return <Loader />;
+    return <LoadingSpiner />;
   }
 
   return (

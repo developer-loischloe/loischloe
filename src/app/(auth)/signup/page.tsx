@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import Loader from "@/components/Shared/loading/Loader";
 import SignUpForm from "@/components/auth/SignUpForm";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/authContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
 
 export default function SignUp() {
   const router = useRouter();
@@ -20,7 +20,7 @@ export default function SignUp() {
   }, [isLoading, user]);
 
   if (isLoading) {
-    return <Loader />;
+    return <LoadingSpiner />;
   }
 
   return (
