@@ -13,8 +13,6 @@ import "swiper/css/thumbs";
 // Custom Swiper CSS
 import "./swipper.css";
 
-// React Rating CSS
-import "@smastrom/react-rating/style.css";
 import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
 import { globalMetaDataConstant } from "../constant";
 

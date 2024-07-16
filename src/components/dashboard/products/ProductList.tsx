@@ -40,7 +40,7 @@ const ProductList = async ({
 
   return (
     <div>
-      <ScrollArea className="w-[calc(100vw-57px)]">
+      <ScrollArea>
         <Table className="bg-white rounded-md">
           <TableHeader>
             <TableRow>

@@ -1,5 +1,7 @@
 "use client";
+
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,10 +11,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useAuth } from "@/context/authContext";
-import Image from "next/image";
 
 import WelcomeBackImage from "@/assets/gift-box-3.png";
+import { useAuth } from "@/context/authContext";
 
 const WelcomeCard = () => {
   const { user } = useAuth();

@@ -13,12 +13,14 @@ const ProductItem = ({ product }: { product: any }) => {
   return (
     <TableRow>
       <TableCell>
-        <div className="flex gap-2 items-center">
+        <div className="w-[100px] flex gap-2 items-center">
           <Image
             src={product?.images?.[0].image_url}
             alt={product?.images?.[0].alt}
             width={100}
             height={100}
+            priority
+            className="w-auto h-auto"
           />
           <h5 className="line-clamp-3">{product?.name} </h5>
         </div>

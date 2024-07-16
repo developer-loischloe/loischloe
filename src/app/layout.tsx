@@ -7,6 +7,8 @@ const AuthProvider = dynamic(() => import("@/context/authContext"), {
 });
 
 import "./globals.css";
+// React Rating CSS
+import "@smastrom/react-rating/style.css";
 
 const Rootlayout = ({
   children,

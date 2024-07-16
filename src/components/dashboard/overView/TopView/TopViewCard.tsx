@@ -20,6 +20,7 @@ export default function TopViewCard({
   progress,
   chartData,
   chartConfig,
+  areaDataKey,
 }: {
   icon: React.ReactNode;
   cardTitle: string;
@@ -30,9 +31,10 @@ export default function TopViewCard({
   };
   chartData: any[];
   chartConfig: ChartConfig;
+  areaDataKey: string;
 }) {
   return (
-    <Card className="md:last:col-span-full lg:last:col-span-1">
+    <Card>
       <CardHeader>
         <div
           className={cn(
@@ -66,8 +68,8 @@ export default function TopViewCard({
             accessibilityLayer
             data={chartData}
             margin={{
-              left: 12,
-              right: 12,
+              left: 10,
+              right: 10,
             }}
           >
             <CartesianGrid vertical={false} />
@@ -79,23 +81,16 @@ export default function TopViewCard({
               tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip
-              cursor={false}
+              cursor={true}
               content={<ChartTooltipContent indicator="dot" />}
             />
+
             <Area
-              dataKey="mobile"
+              dataKey={areaDataKey}
               type="natural"
-              fill="var(--color-mobile)"
+              fill={`var(--color-${areaDataKey})`}
               fillOpacity={0.4}
-              stroke="var(--color-mobile)"
-              stackId="a"
-            />
-            <Area
-              dataKey="desktop"
-              type="natural"
-              fill="var(--color-desktop)"
-              fillOpacity={0.4}
-              stroke="var(--color-desktop)"
+              stroke={`var(--color-${areaDataKey})`}
               stackId="a"
             />
           </AreaChart>

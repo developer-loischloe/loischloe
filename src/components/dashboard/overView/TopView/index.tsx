@@ -1,51 +1,64 @@
 import React from "react";
-import TopViewtopViewCard from "./TopViewCard";
-import { DollarSign, ShoppingCart } from "lucide-react";
-import WelcomeCard from "./WelcomeCard";
+import Image from "next/image";
+import { ShoppingCart } from "lucide-react";
+import { formatMoney } from "@/lib/utils";
 import { ChartConfig } from "@/components/ui/chart";
+import TopViewCard from "./TopViewCard";
+import PopularProducts from "./PopularProducts";
+import WelcomeCard from "./WelcomeCard";
+import appwriteOrderService from "@/appwrite/appwriteOrderService";
 
-const TopView = () => {
-  const chartData = [
-    { month: "January", desktop: 186 },
-    { month: "February", desktop: 305 },
-    { month: "March", desktop: 237 },
-    { month: "April", desktop: 73 },
-    { month: "May", desktop: 209 },
-    { month: "June", desktop: 214 },
-  ];
+const TopView = async ({ year }: { year: string }) => {
+  const response = await appwriteOrderService.getOrderDetailsByYear(year);
 
-  const chartConfig = {
+  const { order, sale, popularProducts } = response;
+
+  const orderChartConfig = {
     order: {
       label: "Order",
+      color: "hsl(var(--chart-5))",
+    },
+  } satisfies ChartConfig;
+
+  const saleChartConfig = {
+    sale: {
+      label: "Sale",
       color: "hsl(var(--chart-2))",
     },
   } satisfies ChartConfig;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 ">
+    <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 ">
       <WelcomeCard />
-      <TopViewtopViewCard
+
+      {/* Order Stats */}
+      <TopViewCard
         icon={<ShoppingCart size={18} className="text-green-500" />}
         cardTitle="Total Orders"
-        cardValue="248k"
+        cardValue={String(order.total_order)}
         progress={{
-          value: "24",
-          increment: true,
+          value: order.progress.value,
+          increment: order.progress.increment,
         }}
-        chartData={chartData}
-        chartConfig={chartConfig}
+        chartData={order.chartData}
+        chartConfig={orderChartConfig}
+        areaDataKey="order"
       />
-      <TopViewtopViewCard
-        icon={<DollarSign size={18} className="text-green-500" />}
+
+      {/* Sale Stats */}
+      <TopViewCard
+        icon={<Image src={"/taka.svg"} alt="taka" width={20} height={20} />}
         cardTitle="Total Sales"
-        cardValue="$48.6k"
+        cardValue={formatMoney(sale.total_sale)}
         progress={{
-          value: "24",
-          increment: false,
+          value: sale.progress.value,
+          increment: sale.progress.increment,
         }}
-        chartData={chartData}
-        chartConfig={chartConfig}
+        chartData={sale.chartData}
+        chartConfig={saleChartConfig}
+        areaDataKey="sale"
       />
+      <PopularProducts products={popularProducts} />
     </div>
   );
 };

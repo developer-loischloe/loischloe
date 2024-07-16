@@ -13,6 +13,9 @@ const config = {
   // Collection
   appwriteCollectionId: {
     product: String(process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_PRODUCT),
+    product_review: String(
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_PRODUCT_REVIEW
+    ),
     product_image: String(
       process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_PRODUCT_IMAGE
     ),

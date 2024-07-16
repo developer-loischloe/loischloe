@@ -32,9 +32,9 @@ const ReviewsList = ({ product }: { product: any }) => {
             <div className="flex-1">
               <div className="flex gap-2">
                 <address className="font-bold">{review?.name}</address>
-                {review?.reviewedAt && (
+                {review?.$createdAt && (
                   <time className="text-brand_gray">
-                    {"-"} {dateFormat(review?.reviewedAt, "MM-dd-yyyy")}
+                    {"-"} {dateFormat(review?.$createdAt, "dd-MM-yyyy")}
                   </time>
                 )}
               </div>

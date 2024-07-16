@@ -13,6 +13,32 @@ export const formatCurrency = (price: number) => {
   return currencyFormatter.format(price, { code: "BDT" });
 };
 
+export const formatMoney = (amount: number) => {
+  if (amount < 1000) {
+    return amount.toString();
+  }
+
+  // Convert the amount to a string in the format of x.xxxk
+  let formattedAmount = (amount / 1000).toFixed(3);
+
+  // Remove trailing zeroes if necessary
+  formattedAmount = formattedAmount.replace(/\.?0+$/, "");
+
+  return `${formattedAmount}k`;
+};
+
+export const calculateChange = (
+  previousValue: number,
+  currentValue: number
+) => {
+  let change = currentValue - previousValue;
+  let changeType = change > 0 ? "increment" : "decrement";
+  let changeValue = Math.abs(change);
+  let percentageChange = ((changeValue / previousValue) * 100).toFixed(2);
+
+  return { changeType, changeValue, percentageChange };
+};
+
 export const formatCategory = (category: string) => {
   return category.split(" ").join("-");
 };
