@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Select,
   SelectContent,
@@ -6,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
 
 // utility function
 const getPreviousYears = () => {
@@ -21,19 +21,20 @@ const getPreviousYears = () => {
   return years;
 };
 
-const SelectYear = () => {
-  const router = useRouter();
-
+const SelectYear = ({
+  year,
+  changeYear,
+}: {
+  year: number;
+  changeYear: (year: number) => void;
+}) => {
   const handleChange = (year: string) => {
-    router.push(`/dashboard?year=${year}`);
+    changeYear(Number(year));
   };
 
   return (
     <div className="flex justify-end">
-      <Select
-        onValueChange={handleChange}
-        defaultValue={new Date().getFullYear().toString()}
-      >
+      <Select onValueChange={handleChange} defaultValue={String(year)}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Select Year" />
         </SelectTrigger>

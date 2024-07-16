@@ -105,7 +105,7 @@ export class AppwriteOrderService {
     }
   }
 
-  async getOrderDetailsByYear(year?: string) {
+  async getOrderDetailsByYear(year?: number) {
     const QUERY_LIMIT = 5000;
     const QUERY_YEAR = year ? Number(year) : new Date().getFullYear();
 

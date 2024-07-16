@@ -1,13 +1,21 @@
-import React, { Suspense } from "react";
-import TopView from "./TopView";
-import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
+"use client";
 
-const DashboardStats = ({ year }: { year: string }) => {
+import { useState } from "react";
+import TopView from "./TopView";
+import SelectYear from "./SelectYear";
+
+const DashboardStats = () => {
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  const changeYear = (year: number) => {
+    setYear(year);
+  };
+
   return (
     <div>
-      <Suspense key={`search=${year}`} fallback={<LoadingSpiner />}>
-        <TopView year={year} />
-      </Suspense>
+      <SelectYear year={year} changeYear={changeYear} />
+      <br />
+      <TopView year={year} />
     </div>
   );
 };
