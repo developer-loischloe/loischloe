@@ -1,41 +1,25 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
 import { formatMoney } from "@/lib/utils";
 import { ChartConfig } from "@/components/ui/chart";
+import { Skeleton } from "@/components/ui/skeleton";
 import TopViewCard from "./TopViewCard";
 import PopularProducts from "./PopularProducts";
 import WelcomeCard from "./WelcomeCard";
-import appwriteOrderService from "@/appwrite/appwriteOrderService";
-import { Skeleton } from "@/components/ui/skeleton";
 
-const TopView = ({ year }: { year: number }) => {
-  const [response, setResponse] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    setLoading(true);
-
-    appwriteOrderService
-      .getOrderDetailsByYear(year)
-      .then((response) => {
-        setError("");
-        setResponse(response);
-      })
-      .catch((error: any) => {
-        console.log(error);
-
-        setError(error.message || "Something went wrong!");
-        setResponse(null);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [year]);
-
+const TopView = ({
+  loading,
+  error,
+  response,
+}: {
+  loading: boolean;
+  error: string;
+  response: any;
+}) => {
+  // Chart Config
   const orderChartConfig = {
     order: {
       label: "Order",
@@ -55,7 +39,7 @@ const TopView = ({ year }: { year: number }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 ">
         {[1, 2, 3, 4].map((number) => (
           <div key={number} className="w-full h-[220px]">
-            <Skeleton className="w-full h-full bg-black/5" />
+            <Skeleton className="w-full h-full bg-black/10" />
           </div>
         ))}
       </div>
@@ -65,7 +49,7 @@ const TopView = ({ year }: { year: number }) => {
   if (error) {
     return (
       <div>
-        <p className="text-red-500">{error}</p>
+        <p className="text-center text-red-500">{error}</p>
       </div>
     );
   }

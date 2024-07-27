@@ -145,6 +145,21 @@ export class AppwriteOrderService {
 
       return productArray;
     }
+
+    function getBestBuyingDistrict(orders: any[]) {
+      const hashMap: any = {};
+
+      orders.forEach((order) => {
+        let district = order.shippingInformation.district;
+        hashMap[district] = (hashMap[district] || 0) + 1;
+      });
+
+      const entries = Object.entries(hashMap);
+      entries.sort((a: any, b: any) => b[1] - a[1]);
+
+      return entries;
+    }
+
     // =>>>>> Utility function  end
 
     try {
@@ -266,6 +281,9 @@ export class AppwriteOrderService {
       return {
         ...orderAndSaleData,
         popularProducts: getProductsSortedByPopularity(flatOrderItems),
+        bestBuyingDistrict: getBestBuyingDistrict(
+          currentYearResponse.documents
+        ),
       };
     } catch (error) {
       throw error;
