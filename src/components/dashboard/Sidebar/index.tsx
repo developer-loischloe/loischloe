@@ -8,6 +8,7 @@ import {
   FilePlus,
   LayoutDashboard,
   ShoppingCart,
+  Store,
 } from "lucide-react";
 
 import { Accordion } from "@/components/ui/accordion";
@@ -102,6 +103,40 @@ const constants: Section[] = [
           {
             title: "All Category",
             link: "/dashboard/blog/blog-categories",
+          },
+        ],
+      },
+    ],
+  },
+
+  {
+    sectionTitle: "Inventory Manage",
+    sectionItems: [
+      {
+        title: "Inventory",
+        icon: <Store size={20} />,
+        childItems: [
+          {
+            title: "All Shop",
+            link: "/retail",
+          },
+          {
+            title: "Add Shop",
+            link: "/retail/add",
+          },
+        ],
+      },
+      {
+        title: "Retail Shop",
+        icon: <Store size={20} />,
+        childItems: [
+          {
+            title: "All Shop",
+            link: "/retail",
+          },
+          {
+            title: "Add Shop",
+            link: "/retail/add",
           },
         ],
       },
