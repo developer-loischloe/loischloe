@@ -7,6 +7,7 @@ import {
   BookText,
   FilePlus,
   LayoutDashboard,
+  Package,
   ShoppingCart,
   Store,
 } from "lucide-react";
@@ -114,15 +115,11 @@ const constants: Section[] = [
     sectionItems: [
       {
         title: "Inventory",
-        icon: <Store size={20} />,
+        icon: <Package size={20} />,
         childItems: [
           {
-            title: "All Shop",
-            link: "/retail",
-          },
-          {
-            title: "Add Shop",
-            link: "/retail/add",
+            title: "All Product",
+            link: "/dashboard/inventory",
           },
         ],
       },
@@ -132,11 +129,7 @@ const constants: Section[] = [
         childItems: [
           {
             title: "All Shop",
-            link: "/retail",
-          },
-          {
-            title: "Add Shop",
-            link: "/retail/add",
+            link: "/dashboard/retail",
           },
         ],
       },

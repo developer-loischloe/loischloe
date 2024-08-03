@@ -18,14 +18,14 @@ import appwriteBlogService from "@/appwrite/appwriteBlogService";
 import { EditBlogCategoryDialog } from "@/components/blog/EditBlogCategoryDialog";
 import { CreateNewCategoryDialog } from "@/components/blog/CreateNewCategoryDialog";
 import { Button } from "@/components/ui/button";
-import Loading from "@/app/dashboard/loading";
+import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
 
 const page = () => {
   noStore();
 
   return (
     <Suspense
-      fallback={<Loading />}
+      fallback={<LoadingSpiner />}
       key={(Math.random() * 1000 + Math.random() * 100).toString()}
     >
       <AllCategories />

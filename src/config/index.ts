@@ -19,7 +19,6 @@ const config = {
     product_image: String(
       process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_PRODUCT_IMAGE
     ),
-
     category: {
       parent_category: String(
         process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_PARENT_CATEGORY
@@ -32,6 +31,16 @@ const config = {
       ),
     },
     order: String(process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_ORDER),
+  },
+  // Collection (Inventory)
+  appwriteInventoryCollectionId: {
+    inventory: String(process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_INVENTORY),
+    inventory_retail_shop: String(
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_INVENTORY_RETAIL_SHOP
+    ),
+    inventory_retail_shop_item: String(
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_INVENTORY_RETAIL_SHOP_ITEM
+    ),
   },
   // Collection (Blog)
   appwriteBlogCollectionId: {

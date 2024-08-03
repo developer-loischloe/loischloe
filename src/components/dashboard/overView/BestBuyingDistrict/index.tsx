@@ -33,7 +33,7 @@ const BestBuyingDistrict = ({
             <p className="text-red-500">{error}</p>
           </div>
         ) : (
-          <ScrollArea className="h-[500px]">
+          <ScrollArea className="h-[300px] lg:h-[500px]">
             {response?.bestBuyingDistrict?.map((district: any) => (
               <div
                 key={district[0]}

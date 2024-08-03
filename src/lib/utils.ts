@@ -51,6 +51,12 @@ export const validateEmail = (email: string) => {
     );
 };
 
+export const validateURL = (url: string) => {
+  const urlRegex =
+    /^(https?:\/\/)((([a-zA-Z0-9_\-]+)(\.[a-zA-Z0-9_\-]+)+)|localhost)(:\d+)?(\/[a-zA-Z0-9_\-.,:@&%=?\/~+#]*)?$/;
+  return urlRegex.test(url);
+};
+
 export const generateParams = (params: any) => {
   const urlSearchParams = new URLSearchParams();
 
