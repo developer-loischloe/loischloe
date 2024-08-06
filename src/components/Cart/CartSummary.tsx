@@ -23,7 +23,6 @@ const CartSummary = ({
 }) => {
   const cartCost = useSelector(selectCartCost);
   const cartList = useSelector(selectCartList);
-  // console.log(cartList);
 
   // calculate product price and shipping cost
   useProductPrice();
@@ -47,8 +46,17 @@ const CartSummary = ({
           <hr className="my-5" />
           <div>
             <div className="flex justify-between gap-20">
-              <span>Total</span>
-              <span> {formatCurrency(cartCost.total_cost)}</span>
+              <span>Discount</span>
+              <span className="text-red-500">
+                - {formatCurrency(cartCost.discount)}
+              </span>
+            </div>
+            <hr className="my-5" />
+            <div className="flex justify-between gap-20">
+              <span className="font-bold text-brand_secondary">Total</span>
+              <span className="text-brand_primary">
+                {formatCurrency(cartCost.total_cost)}
+              </span>
             </div>
           </div>
         </div>

@@ -59,6 +59,7 @@ export interface CartState {
   cartCost: {
     product_price: number;
     shipping_cost: number;
+    discount: number;
     total_cost: number;
   };
   showCartSidebar: boolean;
@@ -71,6 +72,7 @@ const initialState: CartState = {
   cartCost: {
     product_price: 0,
     shipping_cost: 0,
+    discount: 0,
     total_cost: 0,
   },
   showCartSidebar: false,
@@ -160,6 +162,7 @@ export const cartSlice = createSlice({
     ) => {
       if (action.payload.product_price) {
         state.cartCost.product_price = action.payload.product_price;
+        state.cartCost.discount = (28 / 100) * action.payload.product_price;
       }
 
       if (action.payload.shipping_cost) {
@@ -167,7 +170,9 @@ export const cartSlice = createSlice({
       }
 
       state.cartCost.total_cost =
-        state.cartCost.product_price + state.cartCost.shipping_cost;
+        state.cartCost.product_price +
+        state.cartCost.shipping_cost -
+        state.cartCost.discount;
     },
     setShowCartSidebar: (
       state,
