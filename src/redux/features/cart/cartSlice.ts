@@ -162,7 +162,7 @@ export const cartSlice = createSlice({
     ) => {
       if (action.payload.product_price) {
         state.cartCost.product_price = action.payload.product_price;
-        state.cartCost.discount = (28 / 100) * action.payload.product_price;
+        state.cartCost.discount = (24 / 100) * action.payload.product_price;
       }
 
       if (action.payload.shipping_cost) {

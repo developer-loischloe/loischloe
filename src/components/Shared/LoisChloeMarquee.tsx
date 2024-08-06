@@ -8,15 +8,15 @@ const LoisChloeMarquee = () => {
         <Marquee className="space-x-20">
           <div className="flex justify-between gap-x-40">
             <div>
-              🎉 Hurry Up! Celebrate 2nd Independence Day with 28% Off on All
+              🎉 Hurry Up! Celebrate 2nd Independence Day with 24% Off on All
               Products! Limited Time Only! 🎉
             </div>
             <div>
-              🎉 Hurry Up! Celebrate 2nd Independence Day with 28% Off on All
+              🎉 Hurry Up! Celebrate 2nd Independence Day with 24% Off on All
               Products! Limited Time Only! 🎉
             </div>
             <div>
-              🎉 Hurry Up! Celebrate 2nd Independence Day with 28% Off on All
+              🎉 Hurry Up! Celebrate 2nd Independence Day with 24% Off on All
               Products! Limited Time Only! 🎉
             </div>
           </div>
