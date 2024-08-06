@@ -31,10 +31,7 @@ const Categories = async ({
         {/* Parent Categories */}
         {categories &&
           categories?.documents?.map((parentCategory: any) => {
-            // console.log(parentCategory);
-
             const p_active = parentCategory.slug === p_category;
-            console.log(p_category);
 
             return (
               <div key={parentCategory.$id}>
