@@ -45,13 +45,17 @@ const CartSummary = ({
           </div>
           <hr className="my-5" />
           <div>
-            <div className="flex justify-between gap-20">
-              <span>Discount</span>
-              <span className="text-red-500">
-                - {formatCurrency(cartCost.discount)}
-              </span>
-            </div>
-            <hr className="my-5" />
+            {cartCost.discount > 0 && (
+              <>
+                <div className="flex justify-between gap-20">
+                  <span>Discount</span>
+                  <span className="text-red-500">
+                    - {formatCurrency(cartCost.discount)}
+                  </span>
+                </div>
+                <hr className="my-5" />
+              </>
+            )}
             <div className="flex justify-between gap-20 font-bold text-brand_secondary">
               <span className="">Total</span>
               <span>{formatCurrency(cartCost.total_cost)}</span>

@@ -54,7 +54,7 @@ const checkIsAlreadyGiftClaimed = (cartList: Item[]) => {
 };
 
 const calculateDiscount = (cartList: Item[]) => {
-  const DISCOUNT_PERCENT = 24;
+  const DISCOUNT_PERCENT = 0;
   const filteredItems = cartList.filter((item: Item) => {
     return item.product.parent_category !== "offer";
   });
