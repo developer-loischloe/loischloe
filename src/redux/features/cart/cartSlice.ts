@@ -53,6 +53,19 @@ const checkIsAlreadyGiftClaimed = (cartList: Item[]) => {
   return filteredItems.length > 0;
 };
 
+const calculateDiscount = (cartList: Item[]) => {
+  const DISCOUNT_PERCENT = 24;
+  const filteredItems = cartList.filter((item: Item) => {
+    return item.product.parent_category !== "offer";
+  });
+
+  const filteredItemsTotalPrice = filteredItems.reduce((acc, curr) => {
+    return acc + curr.quantity * curr.price;
+  }, 0);
+
+  return Math.floor((DISCOUNT_PERCENT / 100) * filteredItemsTotalPrice);
+};
+
 // Define a type for the slice state
 export interface CartState {
   cartList: Item[];
@@ -72,7 +85,7 @@ const initialState: CartState = {
   cartCost: {
     product_price: 0,
     shipping_cost: 0,
-    discount: 0,
+    discount: calculateDiscount(getLocalCartItems() || []),
     total_cost: 0,
   },
   showCartSidebar: false,
@@ -118,6 +131,9 @@ export const cartSlice = createSlice({
         isEligibleForFreeGift && !isAlreadyGiftClaimed;
       state.cartList = cartList;
 
+      // update discount
+      state.cartCost.discount = calculateDiscount(cartList);
+
       setLocalCartItems(cartList);
     },
     removeFromCart: (state, action: PayloadAction<{ productId: string }>) => {
@@ -145,6 +161,9 @@ export const cartSlice = createSlice({
           isEligibleForFreeGift && !isAlreadyGiftClaimed;
         state.cartList = cartList;
 
+        // update discount
+        state.cartCost.discount = calculateDiscount(cartList);
+
         setLocalCartItems(cartList);
         toast(`${itemExist?.product?.name} is removed from your cart.`);
       }
@@ -162,7 +181,6 @@ export const cartSlice = createSlice({
     ) => {
       if (action.payload.product_price) {
         state.cartCost.product_price = action.payload.product_price;
-        state.cartCost.discount = (24 / 100) * action.payload.product_price;
       }
 
       if (action.payload.shipping_cost) {

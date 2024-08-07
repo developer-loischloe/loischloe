@@ -36,7 +36,7 @@ const OrderSummary = ({ order }: { order: any }) => {
         </li>
         <li>
           <span className="text-brand_gray">Total: </span>
-          <span className="text-red-500 font-semibold">
+          <span className="text-brand_secondary font-semibold">
             {formatCurrency(order?.paymentInformation?.total_price)}
           </span>
         </li>

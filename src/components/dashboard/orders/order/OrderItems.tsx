@@ -5,7 +5,7 @@ const OrderItems = ({ order }: { order: any }) => {
   return (
     <div className="w-full bg-white p-5 rounded-lg space-y-5">
       <div className="bg-[#f1f1f17e] px-3 py-2 rounded-md">
-        <h5 className="font-bold">All Item</h5>
+        <h5 className="font-bold">Order Items</h5>
       </div>
       <div className="space-y-5">
         {order?.orderItems?.map((item: any) => (

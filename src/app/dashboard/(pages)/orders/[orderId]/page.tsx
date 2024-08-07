@@ -4,7 +4,7 @@ import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
 
 const page = ({ params: { orderId } }: { params: { orderId: string } }) => {
   return (
-    <div>
+    <div className="container">
       <h1 className="text-xl md:text-2xl mb-5 font-bold">Order #{orderId}</h1>
 
       <Suspense fallback={<LoadingSpiner />}>

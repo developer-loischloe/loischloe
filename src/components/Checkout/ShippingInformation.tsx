@@ -38,6 +38,7 @@ import {
 import appwriteOrderService from "@/appwrite/appwriteOrderService";
 import { useRouter } from "next/navigation";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { toast } from "sonner";
 const CartSummary = dynamic(() => import("../Cart/CartSummary"), {
   ssr: false,
 });
@@ -106,9 +107,11 @@ export default function ShippingInformation() {
       }),
     };
 
+    const orderItems = getOrderItems(cartList);
+
     const orderInfo = {
       shippingInformation,
-      orderItems: getOrderItems(cartList),
+      orderItems,
       paymentInformation: {
         payment_method: "cash-on-delivery",
         payment_id: "",
@@ -117,8 +120,17 @@ export default function ShippingInformation() {
         product_price: cartCost.product_price,
         shipping_cost: cartCost.shipping_cost,
         total_price: cartCost.total_cost,
+        discount: cartCost.discount,
       },
     };
+
+    if (!orderItems.length) {
+      toast.warning("Please add products before proceeding to checkout.");
+      setTimeout(() => {
+        router.push("/products");
+      }, 3000);
+      return;
+    }
 
     try {
       const response = await appwriteOrderService.createOrder(orderInfo);

@@ -49,12 +49,11 @@ const OrderDetails = ({ order }: { order: any }) => {
       )}
 
       <hr />
-
       <div>
         <Table>
           <TableBody>
             <TableRow className="flex justify-between border-none text-base">
-              <TableCell className="font-bold">Subtotal:</TableCell>
+              <TableCell className="font-bold">Product price:</TableCell>
               <TableCell>
                 {formatCurrency(order?.paymentInformation?.product_price)}
               </TableCell>
@@ -68,13 +67,20 @@ const OrderDetails = ({ order }: { order: any }) => {
             </TableRow>
 
             <TableRow className="flex justify-between  border-none text-base">
+              <TableCell className="font-bold">Discount:</TableCell>
+              <TableCell className="text-red-500">
+                - {formatCurrency(order?.paymentInformation?.discount)}
+              </TableCell>
+            </TableRow>
+            <TableRow className="flex justify-between  border-none text-base">
               <TableCell className="font-bold">Payment method: </TableCell>
               <TableCell>{order?.paymentInformation?.payment_method}</TableCell>
             </TableRow>
+            <hr />
 
             <TableRow className="flex justify-between  border-none text-base">
               <TableCell className="font-bold">Total:</TableCell>
-              <TableCell>
+              <TableCell className="font-bold">
                 {formatCurrency(order?.paymentInformation?.total_price)}
               </TableCell>
             </TableRow>
