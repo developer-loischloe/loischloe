@@ -12,7 +12,7 @@ import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <ReduxProvider>
-      <LoisChloeMarquee />
+      {/* <LoisChloeMarquee /> */}
       <Suspense>
         <Header />
       </Suspense>
@@ -20,8 +20,8 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       <Footer />
       <ReactScrollToTop />
       <Whatsapp />
-      {/* <FreeGiftModal />
-      <FreeGiftPopUp /> */}
+      <FreeGiftModal />
+      <FreeGiftPopUp />
     </ReduxProvider>
   );
 };
