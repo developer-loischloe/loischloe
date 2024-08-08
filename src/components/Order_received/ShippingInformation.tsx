@@ -5,8 +5,10 @@ const ShippingInformation = ({ order }: { order: any }) => {
     order.shippingInformation;
   return (
     <div>
-      <h4 className="text-xl text-brand_secondary">ShippingInformation</h4>
-      <ul className="text-brand_gray">
+      <h4 className="text-xl font-medium text-brand_secondary">
+        ShippingInformation
+      </h4>
+      <ul>
         <li>
           <span>Name: </span>
           <span>{name}</span>

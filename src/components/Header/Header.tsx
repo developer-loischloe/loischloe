@@ -25,6 +25,7 @@ import UserBtn from "./UserBtn";
 import useScrollHandler from "@/lib/hooks/useScrollHandler";
 import SearchSuggestion from "./SearchSuggestion";
 import { useAuth } from "@/context/authContext";
+import useUtils from "@/lib/hooks/useUtils";
 const CartBtn = dynamic(() => import("./Cart/CartBtn"), { ssr: false });
 
 export default function Header() {
@@ -44,6 +45,7 @@ export default function Header() {
     }
   }, [scrolling]);
 
+  useUtils();
   const { user } = useAuth();
 
   const isLoggedIn = Boolean(user);

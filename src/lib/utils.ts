@@ -51,6 +51,11 @@ export const validateEmail = (email: string) => {
     );
 };
 
+export const validateBdPhoneNumber = (phone: string) => {
+  const phoneRegex = /^\+8801[3-9]\d{8}$/;
+  return phoneRegex.test(phone);
+};
+
 export const validateURL = (url: string) => {
   const urlRegex =
     /^(https?:\/\/)((([a-zA-Z0-9_\-]+)(\.[a-zA-Z0-9_\-]+)+)|localhost)(:\d+)?(\/[a-zA-Z0-9_\-.,:@&%=?\/~+#]*)?$/;
@@ -67,21 +72,6 @@ export const generateParams = (params: any) => {
   }
 
   return urlSearchParams.toString();
-};
-
-export const calculateProductPrice = (
-  cartList: {
-    product: any;
-    quantity: number;
-  }[]
-) => {
-  const product_price = cartList?.reduce((acc, items) => {
-    const current_product_price = items?.product?.sale_price * items?.quantity;
-
-    return acc + current_product_price;
-  }, 0);
-
-  return product_price;
 };
 
 export const calculateDiscountPercentage = (

@@ -1,5 +1,5 @@
-import ShippingInformation from "@/components/Checkout/ShippingInformation";
 import React from "react";
+import ShippingInformation from "@/components/Checkout/ShippingInformation";
 
 const index = () => {
   return (

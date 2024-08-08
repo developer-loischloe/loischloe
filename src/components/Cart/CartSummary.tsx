@@ -1,6 +1,6 @@
 "use client";
-import { Button } from "../ui/button";
 import Link from "next/link";
+import { Button } from "../ui/button";
 import { formatCurrency } from "@/lib/utils";
 import { useSelector } from "react-redux";
 import {
@@ -8,8 +8,6 @@ import {
   selectCartList,
 } from "@/redux/features/cart/cartSlice";
 import ShippingCost from "./ShippingCost";
-import useProductPrice from "@/lib/hooks/useProductPrice";
-import useShippingCost from "@/lib/hooks/useShippingCost";
 import { sendGTMEvent } from "@next/third-parties/google";
 
 const CartSummary = ({
@@ -24,14 +22,10 @@ const CartSummary = ({
   const cartCost = useSelector(selectCartCost);
   const cartList = useSelector(selectCartList);
 
-  // calculate product price and shipping cost
-  useProductPrice();
-  useShippingCost("");
-
   return (
     <div className="space-y-5 w-full  max-w-[350px]">
-      <div className="border p-5 rounded-sm">
-        <h5 className="text-2xl mb-5">{title}</h5>
+      <div className="border p-3 rounded-sm">
+        {title && <h5 className="text-2xl mb-5">{title}</h5>}
         <div>
           <div className="flex justify-between gap-20">
             <span>Product price</span>
@@ -44,6 +38,7 @@ const CartSummary = ({
             <ShippingCost />
           </div>
           <hr className="my-5" />
+
           <div>
             {cartCost.discount > 0 && (
               <>
@@ -57,7 +52,7 @@ const CartSummary = ({
               </>
             )}
             <div className="flex justify-between gap-20 font-bold text-brand_secondary">
-              <span className="">Total</span>
+              <span>Total</span>
               <span>{formatCurrency(cartCost.total_cost)}</span>
             </div>
           </div>

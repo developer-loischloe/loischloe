@@ -1,5 +1,8 @@
 "use client";
+import "./style.css";
 
+import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -22,12 +25,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getDistrict, getDivision } from "divisionbd";
-import { shippingCostProvider, validateEmail } from "@/lib/utils";
+import {
+  shippingCostProvider,
+  validateBdPhoneNumber,
+  validateEmail,
+} from "@/lib/utils";
 import { Textarea } from "../ui/textarea";
-import dynamic from "next/dynamic";
-
-import PaymentInformation from "./PaymentInformation";
 import { useDispatch, useSelector } from "react-redux";
+import appwriteOrderService from "@/appwrite/appwriteOrderService";
+import { sendGTMEvent } from "@next/third-parties/google";
+import { toast } from "sonner";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Button } from "../ui/button";
 import {
   Item,
   resetCart,
@@ -35,10 +44,9 @@ import {
   selectCartList,
   updateCartCost,
 } from "@/redux/features/cart/cartSlice";
-import appwriteOrderService from "@/appwrite/appwriteOrderService";
-import { useRouter } from "next/navigation";
-import { sendGTMEvent } from "@next/third-parties/google";
-import { toast } from "sonner";
+import PhoneInput from "react-phone-number-input";
+import React from "react";
+
 const CartSummary = dynamic(() => import("../Cart/CartSummary"), {
   ssr: false,
 });
@@ -47,9 +55,12 @@ const formSchema = z.object({
   name: z.string().min(3, {
     message: "Name must be at least 3 characters.",
   }),
-  phone: z.string().min(11, {
-    message: "Phone number must be at least 11 characters.",
-  }),
+  phone: z
+    .string()
+    .refine(
+      (phone) => validateBdPhoneNumber(phone),
+      "Enter a valid BD phone number."
+    ),
   email: z
     .string()
     .refine(
@@ -63,6 +74,7 @@ const formSchema = z.object({
     message: "Enter your detailed address.",
   }),
   order_notes: z.string(),
+  payment_method: z.string(),
 });
 
 export default function ShippingInformation() {
@@ -76,11 +88,12 @@ export default function ShippingInformation() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      phone: "",
+      phone: "+880",
       email: "",
       district: "",
       address: "",
       order_notes: "",
+      payment_method: "cash-on-delivery",
     },
   });
 
@@ -95,25 +108,33 @@ export default function ShippingInformation() {
     });
   };
 
-  async function onSubmit(shippingInfo: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     const shippingInformation = {
-      ...(shippingInfo.name && { name: shippingInfo.name }),
-      ...(shippingInfo.phone && { phone: shippingInfo.phone }),
-      ...(shippingInfo.email && { email: shippingInfo.email }),
-      ...(shippingInfo.district && { district: shippingInfo.district }),
-      ...(shippingInfo.address && { address: shippingInfo.address }),
-      ...(shippingInfo.order_notes && {
-        order_notes: shippingInfo.order_notes,
+      ...(data.name && { name: data.name }),
+      ...(data.phone && { phone: data.phone }),
+      ...(data.email && { email: data.email }),
+      ...(data.district && { district: data.district }),
+      ...(data.address && { address: data.address }),
+      ...(data.order_notes && {
+        order_notes: data.order_notes,
       }),
     };
 
     const orderItems = getOrderItems(cartList);
 
-    const orderInfo = {
+    if (!orderItems.length) {
+      toast.warning("Please add products before proceeding to checkout.");
+      setTimeout(() => {
+        router.push("/products");
+      }, 3000);
+      return;
+    }
+
+    const orderData = {
       shippingInformation,
       orderItems,
       paymentInformation: {
-        payment_method: "cash-on-delivery",
+        payment_method: data.payment_method,
         payment_id: "",
         payment_status: "pending",
         // paidAt: Date.now(),
@@ -124,16 +145,9 @@ export default function ShippingInformation() {
       },
     };
 
-    if (!orderItems.length) {
-      toast.warning("Please add products before proceeding to checkout.");
-      setTimeout(() => {
-        router.push("/products");
-      }, 3000);
-      return;
-    }
-
     try {
-      const response = await appwriteOrderService.createOrder(orderInfo);
+      const response = await appwriteOrderService.createOrder(orderData);
+      // Redirect to the order-received page and clear cart
       if (response) {
         router.push(`/checkout/order-received/${response.$id}`);
         sendGTMEvent({
@@ -150,8 +164,9 @@ export default function ShippingInformation() {
     }
   }
 
-  const values = form.watch("district");
-  if (values === "Dhaka") {
+  // Update cartcost based on District
+  const district = form.watch("district");
+  if (district === "Dhaka") {
     dispatch(
       updateCartCost({ shipping_cost: shippingCostProvider.inside_dhaka })
     );
@@ -188,7 +203,14 @@ export default function ShippingInformation() {
                 <FormItem>
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your phone number" {...field} />
+                    <PhoneInput
+                      className="phone_number"
+                      international
+                      defaultCountry="BD"
+                      initialValueFormat="national"
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -260,6 +282,7 @@ export default function ShippingInformation() {
               )}
             />
           </div>
+
           <FormField
             control={form.control}
             name="order_notes"
@@ -279,7 +302,49 @@ export default function ShippingInformation() {
 
           <div className="flex flex-col md:flex-row justify-between gap-10">
             <CartSummary />
-            <PaymentInformation disabled={!isDirty || isSubmitting} />
+
+            {/* Payment Method */}
+            <div className="flex-1 space-y-5">
+              <div>
+                <FormField
+                  control={form.control}
+                  name="payment_method"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel>Choose Payment Method</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex flex-col space-y-1"
+                        >
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="cash-on-delivery" />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              Cash on delivery
+                            </FormLabel>
+                          </FormItem>
+
+                          {/* <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="bkash" />
+                            </FormControl>
+                            <FormLabel className="font-normal">Bkash</FormLabel>
+                          </FormItem>  */}
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <Button type="submit" disabled={!isDirty || isSubmitting}>
+                Place Order
+              </Button>
+            </div>
           </div>
         </form>
       </Form>

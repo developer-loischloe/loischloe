@@ -14,39 +14,43 @@ const OrderReceived = async ({
   const order = await appwriteOrderService.getOrderDetails(orderid);
 
   return (
-    <section>
-      <div className="space-y-3">
+    <div>
+      <section className="space-y-5">
         <div className="text-lg bg-green-100 p-3">
           Thank you. Your order has been received.
         </div>
-        <h1 className="text-2xl">Order Id: {order.$id}</h1>
 
-        <>
-          <span>Date</span>: <span></span>
-          {order?.$createdAt && (
-            <span className="space-x-10">
-              <time className="text-brand_primary">
-                {getBdDate(order?.$createdAt)}
-              </time>
+        <div>
+          <p className="text-xl">
+            Order Id: <span className="text-brand_secondary">#{order.$id}</span>
+          </p>
+          <div>
+            <span>Date</span>: <span></span>
+            {order?.$createdAt && (
+              <span className="space-x-10">
+                <time className="text-brand_primary">
+                  {getBdDate(order?.$createdAt)}
+                </time>
 
-              <time className="text-brand_primary">
-                {getBdtime(order?.$createdAt)}
-              </time>
-            </span>
-          )}
-        </>
-
-        <div className="space-y-5">
-          <ShippingInformation order={order} />
-          <OrderDetails order={order} />
+                <time className="text-brand_primary">
+                  {getBdtime(order?.$createdAt)}
+                </time>
+              </span>
+            )}
+          </div>
         </div>
+
+        <ShippingInformation order={order} />
+
+        <OrderDetails order={order} />
+
         <div>
           <Link href={"/"}>
             <Button>Back to home</Button>
           </Link>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 };
 

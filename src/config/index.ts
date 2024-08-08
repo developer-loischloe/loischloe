@@ -10,6 +10,11 @@ const config = {
   appwriteBlogDatabaseId: String(
     process.env.NEXT_PUBLIC_APPWRITE_BLOG_DATABASE_ID
   ),
+  // Collection (Utils)
+  appwriteUtils: {
+    collectionId: String(process.env.NEXT_PUBLIC_APPWRITE_UTILS_COLLECTION_ID),
+    documentId: String(process.env.NEXT_PUBLIC_APPWRITE_UTILS_DOCUMENT_ID),
+  },
   // Collection
   appwriteCollectionId: {
     product: String(process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_PRODUCT),
