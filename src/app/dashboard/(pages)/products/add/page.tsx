@@ -1,6 +1,12 @@
 import React from "react";
+import { Metadata } from "next";
 import AddProductForm from "@/components/dashboard/products/AddProductForm";
 import appwriteCategoryService from "@/appwrite/appwriteCategoryService";
+
+// Metadata
+export const metadata: Metadata = {
+  title: "Add Product",
+};
 
 const AddProductPage = async () => {
   const categories = await appwriteCategoryService.getCategoryList();

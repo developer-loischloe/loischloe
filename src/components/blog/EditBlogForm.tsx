@@ -190,13 +190,13 @@ export default function EditBlogForm({ post }: { post?: any }) {
         blogData,
       });
 
-      toast("Blog post successfully updated.");
+      toast.success("Blog post successfully updated.");
 
       router.push("/dashboard/blog");
       router.refresh();
     } catch (error: any) {
       console.log(error);
-      toast(error?.message);
+      toast.error(error?.message || "Blog post not update.");
     }
   }
 

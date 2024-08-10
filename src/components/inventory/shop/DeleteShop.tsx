@@ -35,12 +35,12 @@ const DeleteShop = ({
 
       const response = await deleteRetailShop({ id });
 
-      toast("Shop Successfully deleted.");
+      toast.success("Shop Successfully deleted.");
       setIsSubmitting(false);
       router.refresh();
     } catch (error: any) {
       console.log(error);
-      toast(error?.message || "Shop not delete.");
+      toast.error(error?.message || "Shop not delete.");
     }
   };
 
@@ -57,7 +57,11 @@ const DeleteShop = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button onClick={handleDelete} disabled={isSubmitting}>
+          <Button
+            variant={"destructive"}
+            onClick={handleDelete}
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "Deleting..." : "Delete"}
           </Button>
         </AlertDialogFooter>

@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -14,7 +13,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-
 import appwriteInventoryService from "@/appwrite/appwriteInventoryService";
 
 const DeleteRetailShopItem = ({
@@ -32,7 +30,6 @@ const DeleteRetailShopItem = ({
   const handleDelete = async () => {
     try {
       setIsSubmitting(true);
-
       const response = await deleteRetailShopItem({ id });
 
       toast.success("Item Successfully deleted.");
@@ -57,7 +54,11 @@ const DeleteRetailShopItem = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button onClick={handleDelete} disabled={isSubmitting}>
+          <Button
+            variant={"destructive"}
+            onClick={handleDelete}
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "Deleting..." : "Delete"}
           </Button>
         </AlertDialogFooter>

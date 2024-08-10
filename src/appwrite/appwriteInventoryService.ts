@@ -7,12 +7,12 @@ export class AppwriteInventoryService {
   async getInventory({
     page,
     resultPerPage,
-    product,
+    searchString,
     sort = "DESC",
   }: {
     page: string | number;
     resultPerPage: string | number;
-    product: string;
+    searchString: string;
     sort?: "ASC" | "DESC";
   }) {
     try {
@@ -26,8 +26,8 @@ export class AppwriteInventoryService {
       }
 
       // search
-      if (product) {
-        QueryArray.push(Query.search("product_name", product));
+      if (searchString) {
+        QueryArray.push(Query.search("product_name", searchString));
       }
 
       // pagination

@@ -44,8 +44,8 @@ const ProductList = async ({
         <Table className="bg-white rounded-md">
           <TableHeader>
             <TableRow>
-              <TableHead className="min-w-[250px]">Product</TableHead>
-              <TableHead className="min-w-[150px] ">Product Id</TableHead>
+              <TableHead className="min-w-[100px]">Image</TableHead>
+              <TableHead className="min-w-[150px] ">Product Nane</TableHead>
               <TableHead className="min-w-[100px]  text-center">
                 Price
               </TableHead>
@@ -54,7 +54,8 @@ const ProductList = async ({
               </TableHead>
               <TableHead>Quantity</TableHead>
               <TableHead className="min-w-[100px]">Stock</TableHead>
-              <TableHead className="min-w-[120px]">Date</TableHead>
+              <TableHead className="min-w-[120px]">CreatedAt</TableHead>
+              <TableHead className="min-w-[120px]">UpdatedAt</TableHead>
               <TableHead className="text-center">Action</TableHead>
             </TableRow>
           </TableHeader>

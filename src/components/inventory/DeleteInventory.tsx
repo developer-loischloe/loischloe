@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -14,7 +13,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-
 import appwriteInventoryService from "@/appwrite/appwriteInventoryService";
 
 const DeleteInventory = ({
@@ -35,12 +33,12 @@ const DeleteInventory = ({
 
       const response = await deleteInventory({ id });
 
-      toast("Inventory item successfully deleted.");
+      toast.success("Inventory item successfully deleted.");
       setIsSubmitting(false);
       router.refresh();
     } catch (error: any) {
       console.log(error);
-      toast(error?.message || "Inventory item not delete.");
+      toast.error(error?.message || "Inventory item not delete.");
     }
   };
 
@@ -57,7 +55,11 @@ const DeleteInventory = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button onClick={handleDelete} disabled={isSubmitting}>
+          <Button
+            variant={"destructive"}
+            onClick={handleDelete}
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "Deleting..." : "Delete"}
           </Button>
         </AlertDialogFooter>

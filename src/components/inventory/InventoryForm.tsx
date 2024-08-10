@@ -64,7 +64,7 @@ const InventoryForm = ({
     appwriteProductService
       .getAllProductIdAndName()
       .then((response) => {
-        setProducts(response.documents);
+        setProducts(response?.documents);
       })
       .catch((error) => {
         console.log(error);
@@ -95,12 +95,12 @@ const InventoryForm = ({
         const response = await createNewInventory(inventoryData);
 
         if (response) {
-          toast("Inventory item created successfully.");
+          toast.success("Inventory item created successfully.");
           router.refresh();
         }
       } catch (error: any) {
         console.log(error);
-        toast(error?.message || "Inventory item not created");
+        toast.error(error?.message || "Inventory item not created");
       }
     }
 
@@ -110,19 +110,17 @@ const InventoryForm = ({
         const response = await updateInventory({ id, data: inventoryData });
 
         if (response) {
-          toast("Inventory item updated successfully.");
+          toast.success("Inventory item updated successfully.");
           router.refresh();
         }
       } catch (error: any) {
         console.log(error);
-        toast(error?.message || "Inventory item not update");
+        toast.error(error?.message || "Inventory item not update");
       }
     }
   }
 
   const { isSubmitting, isDirty } = form.formState;
-
-  console.log({ retailShopTotalQuantity });
 
   return (
     <div className="px-1">
@@ -146,8 +144,8 @@ const InventoryForm = ({
                         )}
                       >
                         {field.value
-                          ? products.find(
-                              (product) => product.$id === field.value
+                          ? products?.find(
+                              (product) => product?.$id === field.value
                             )?.name
                           : "Select a product"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -160,34 +158,36 @@ const InventoryForm = ({
                       <CommandList>
                         <CommandEmpty>No product found.</CommandEmpty>
                         <CommandGroup>
-                          {products.map((product) => (
+                          {products?.map((product, index) => (
                             <CommandItem
-                              key={product.$id}
-                              value={product.name}
+                              key={product?.$id}
+                              value={product?.name}
                               className={cn(
-                                existingProduct.includes(product.$id) &&
+                                existingProduct?.includes(product?.$id) &&
                                   "!text-red-500"
                               )}
                               onSelect={() => {
                                 if (
                                   type === "create" &&
-                                  !existingProduct.includes(product.$id)
+                                  !existingProduct.includes(product?.$id)
                                 ) {
-                                  form.setValue("product", product.$id);
-                                  form.setValue("product_id", product.$id);
-                                  form.setValue("product_name", product.name);
+                                  form.setValue("product", product?.$id);
+                                  form.setValue("product_id", product?.$id);
+                                  form.setValue("product_name", product?.name);
                                 }
                               }}
                             >
                               <Check
                                 className={cn(
                                   "mr-2 h-4 w-4",
-                                  product.$id === field.value
+                                  product?.$id === field.value
                                     ? "opacity-100"
                                     : "opacity-0"
                                 )}
                               />
-                              <span> {product?.name}</span>
+                              <span>
+                                {index + 1} {" : "} {product?.name}
+                              </span>
                             </CommandItem>
                           ))}
                         </CommandGroup>
@@ -279,7 +279,7 @@ const InventoryForm = ({
           />
 
           <Button type="submit" disabled={isSubmitting || !isDirty}>
-            Submit
+            {isSubmitting ? "Submitting..." : "Submit"}
           </Button>
         </form>
       </Form>

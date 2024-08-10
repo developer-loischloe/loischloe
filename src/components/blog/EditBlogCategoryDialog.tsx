@@ -46,7 +46,7 @@ export function EditBlogCategoryDialog({
         name: category,
       });
 
-      toast("Category updated.");
+      toast.success("Category updated successfully.");
 
       setOpen(false);
       setCategory("");
@@ -55,7 +55,7 @@ export function EditBlogCategoryDialog({
       router.refresh();
     } catch (error: any) {
       console.log(error);
-      toast(error?.message);
+      toast.error(error?.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -86,7 +86,7 @@ export function EditBlogCategoryDialog({
         </div>
         <DialogFooter>
           <Button onClick={handleUpdate} disabled={isSubmitting}>
-            Update
+            {isSubmitting ? "Submitting..." : "Submit"}
           </Button>
         </DialogFooter>
       </DialogContent>

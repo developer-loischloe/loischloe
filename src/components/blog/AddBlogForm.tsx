@@ -151,11 +151,12 @@ export default function AddBlogForm() {
     try {
       const response = await appwriteBlogService.createBlog(blogData);
 
-      toast("Blog post successfully created.");
+      toast.success("Blog post successfully created.");
       router.push("/dashboard/blog");
       router.refresh();
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      toast.error(error?.message || "Blog post not created.");
     }
   }
 

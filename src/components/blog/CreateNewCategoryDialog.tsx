@@ -40,7 +40,7 @@ export function CreateNewCategoryDialog({
     try {
       const response = await appwriteBlogService.createBlogCategory(category);
 
-      toast("Category created.");
+      toast.success("Category created successfully.");
       if (setAllCategories) {
         setAllCategories((prev) => [...prev, response.name]);
       }
@@ -52,7 +52,7 @@ export function CreateNewCategoryDialog({
       router.refresh();
     } catch (error: any) {
       console.log(error);
-      toast(error?.message);
+      toast.error(error?.message);
     } finally {
       setIsSubmitting(false);
     }

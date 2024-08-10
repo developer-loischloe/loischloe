@@ -54,14 +54,14 @@ const DispatchInventoryItemForm = ({
       .getAllShopIdAndName()
       .then((response) => {
         setShops(
-          response.documents.filter(
+          response?.documents?.filter(
             (shop) => !existingShop.includes(shop?.shop_name)
           )
         );
       })
       .catch((error) => {
         console.log(error);
-        toast(error?.message || "Failed to fetch shops.");
+        toast.error(error?.message || "Failed to fetch shops.");
       });
   }, []);
 
@@ -81,12 +81,12 @@ const DispatchInventoryItemForm = ({
       const response = await addRetailShopItem(data);
 
       if (response) {
-        toast("Item dispatch successfully.");
+        toast.success("Item dispatch successfully.");
         router.refresh();
       }
     } catch (error: any) {
       console.log(error);
-      toast(error?.message || "Item dispatch failed.");
+      toast.error(error?.message || "Item dispatch failed.");
     }
   }
 
@@ -114,7 +114,7 @@ const DispatchInventoryItemForm = ({
                         )}
                       >
                         {field.value
-                          ? shops.find((shop) => shop.$id === field.value)
+                          ? shops?.find((shop) => shop.$id === field.value)
                               ?.shop_name
                           : "Select a shop"}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -138,7 +138,7 @@ const DispatchInventoryItemForm = ({
                               <Check
                                 className={cn(
                                   "mr-2 h-4 w-4",
-                                  shop.$id === field.value
+                                  shop?.$id === field.value
                                     ? "opacity-100"
                                     : "opacity-0"
                                 )}
@@ -181,7 +181,7 @@ const DispatchInventoryItemForm = ({
           />
 
           <Button type="submit" disabled={isSubmitting || !isDirty}>
-            Submit
+            {isSubmitting ? "Submitting..." : "Submit"}
           </Button>
         </form>
       </Form>

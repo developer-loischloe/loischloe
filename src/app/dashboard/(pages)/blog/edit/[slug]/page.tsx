@@ -1,10 +1,16 @@
 import React from "react";
 import Link from "next/link";
+import { Metadata } from "next";
 
 import EditBlogForm from "@/components/blog/EditBlogForm";
 import { Button } from "@/components/ui/button";
 
 import appwriteBlogService from "@/appwrite/appwriteBlogService";
+
+// Metadata
+export const metadata: Metadata = {
+  title: "Edit Blog",
+};
 
 const page = async ({ params: { slug } }: { params: { slug: string } }) => {
   const post = await appwriteBlogService.getBlogBySlug(slug);

@@ -35,12 +35,12 @@ const DeleteBlogCategory = ({
 
       const response = await deleteBlogCategory({ categoryId });
 
-      toast("Category Successfully deleted.");
+      toast.success("Category Successfully deleted.");
       setIsSubmitting(false);
       router.refresh();
     } catch (error: any) {
       console.log(error);
-      toast(error?.message);
+      toast.error(error?.message);
     }
   };
 
@@ -57,7 +57,7 @@ const DeleteBlogCategory = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button onClick={handleDelete}>
+          <Button variant={"destructive"} onClick={handleDelete}>
             {isSubmitting ? "Deleting..." : "Delete"}
           </Button>
         </AlertDialogFooter>

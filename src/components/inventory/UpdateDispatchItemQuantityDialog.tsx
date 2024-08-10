@@ -1,6 +1,7 @@
 "use client";
 import { ReactNode, useState } from "react";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +11,6 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import UpdateDispatchItemQuantityForm from "./UpdateDispatchItemQuantityForm";
-import { ArrowUpRight } from "lucide-react";
 
 export function UpdateDispatchItemQuantityDialog({
   children,

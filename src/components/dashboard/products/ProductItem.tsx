@@ -22,26 +22,24 @@ const ProductItem = ({ product }: { product: any }) => {
             priority
             className="w-auto h-auto"
           />
-          <h5 className="line-clamp-3">{product?.name} </h5>
         </div>
       </TableCell>
-      <TableCell>{product.$id}</TableCell>
+      <TableCell className="">{product?.name}</TableCell>
       <TableCell className="text-center">
         {formatCurrency(product?.price)}
       </TableCell>
       <TableCell className="text-center">
         {formatCurrency(product?.sale_price)}
       </TableCell>
-      <TableCell className={cn()}>{product?.product_quantity}</TableCell>
+      <TableCell className="">{product?.product_quantity}</TableCell>
       <TableCell
         className={cn("", {
           "text-green-400": product?.stock === "in-stock",
           "text-red-400": product?.stock === "out-of-stock",
         })}
       >
-        {product?.stock.split("-").join(" ")}
+        {product?.stock}
       </TableCell>
-
       <TableCell>
         <div>
           <time className="text-brand_primary">
@@ -49,7 +47,13 @@ const ProductItem = ({ product }: { product: any }) => {
           </time>
         </div>
       </TableCell>
-
+      <TableCell>
+        <div>
+          <time className="text-brand_primary">
+            {dateFormat(product?.$updatedAt, "MM-dd-yyyy")}
+          </time>
+        </div>
+      </TableCell>
       <TableCell>
         <div className="flex gap-5 h-full">
           <Link href={`/products/${product?.slug}`}>

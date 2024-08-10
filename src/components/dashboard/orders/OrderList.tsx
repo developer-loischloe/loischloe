@@ -36,7 +36,7 @@ const OrderList = async ({
             <TableRow>
               <TableHead className="min-w-[250px]">Product</TableHead>
               <TableHead>Quantity</TableHead>
-              <TableHead className="w-[150px] ">OrderId</TableHead>
+              <TableHead className="w-[150px] text-center">OrderId</TableHead>
               <TableHead className="text-center">Amount</TableHead>
               <TableHead className="min-w-[120px]">Order Status</TableHead>
               <TableHead className="min-w-[120px]">Date</TableHead>

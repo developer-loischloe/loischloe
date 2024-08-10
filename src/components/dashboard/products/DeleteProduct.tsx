@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import appwriteProductService from "@/appwrite/appwriteProductService";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -14,6 +13,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import appwriteProductService from "@/appwrite/appwriteProductService";
+import { toast } from "sonner";
 
 const DeleteProduct = ({
   children,
@@ -30,9 +31,16 @@ const DeleteProduct = ({
   const handleDelete = async () => {
     setIsSubmitting(true);
 
-    const response = await deleteProduct({ productId });
-    setIsSubmitting(false);
-    router.refresh();
+    try {
+      const response = await deleteProduct({ productId });
+
+      setIsSubmitting(false);
+      toast.success("Product successfully deleted.");
+      router.refresh();
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.message || "Product not delete.");
+    }
   };
 
   return (
@@ -48,7 +56,7 @@ const DeleteProduct = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button onClick={handleDelete}>
+          <Button variant={"destructive"} onClick={handleDelete}>
             {isSubmitting ? "Deleting..." : "Delete"}
           </Button>
         </AlertDialogFooter>

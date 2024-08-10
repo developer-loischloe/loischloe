@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import Link from "next/link";
+import { Metadata } from "next";
 import { AlignLeft, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,11 @@ import Categories from "@/components/categories";
 import { SearchParams } from "@/app/(website)/(pages)/products/(all-products)/page";
 import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
 
+// Metadata
+export const metadata: Metadata = {
+  title: "Products",
+};
+
 const ProductsPage = ({
   searchParams: {
     p_category = "",
@@ -28,7 +34,7 @@ const ProductsPage = ({
   searchParams: SearchParams;
 }) => {
   return (
-    <div className="w-full">
+    <div className="w-full max-w-7xl mx-auto">
       <h1 className="text-xl md:text-2xl mb-5 font-bold">Product List</h1>
 
       {/* Top */}

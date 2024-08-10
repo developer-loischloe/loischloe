@@ -24,6 +24,10 @@ export function ShopDialog({
 }) {
   const [open, setOpen] = useState(false);
 
+  const dialogClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -39,7 +43,7 @@ export function ShopDialog({
         <DialogHeader>
           <DialogTitle>{heading}</DialogTitle>
         </DialogHeader>
-        <ShopForm type={type} id={id} data={data} />
+        <ShopForm type={type} id={id} data={data} dialogClose={dialogClose} />
       </DialogContent>
     </Dialog>
   );

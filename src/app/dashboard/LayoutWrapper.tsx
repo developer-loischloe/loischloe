@@ -3,10 +3,8 @@ import React, { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
-
 import DashboardSidebar from "@/components/dashboard/Sidebar";
 import DashboardTopBar from "@/components/dashboard/TopBar";
-
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -14,7 +12,7 @@ const LayoutWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const pathname = usePathname();
 
-  // Set background
+  // Set background color
   useEffect(() => {
     if (pathname.includes("/dashboard")) {
       document.body.style.background = "#f1f1f1";

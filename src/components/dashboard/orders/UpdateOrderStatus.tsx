@@ -29,14 +29,17 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export function UpdateOrderStatus({
   children,
   orderId,
+  currentStatus,
 }: {
   children: React.ReactNode;
   orderId: string;
+  currentStatus: string;
 }) {
   return (
     <Dialog>
@@ -50,7 +53,10 @@ export function UpdateOrderStatus({
         </DialogHeader>
 
         <div>
-          <OrderStatusUpdateForm orderId={orderId} />
+          <OrderStatusUpdateForm
+            orderId={orderId}
+            currentStatus={currentStatus}
+          />
         </div>
       </DialogContent>
     </Dialog>
@@ -69,13 +75,19 @@ const formSchema = z.object({
   status: z.string().min(1, { message: "Select a status" }),
 });
 
-function OrderStatusUpdateForm({ orderId }: { orderId: string }) {
+function OrderStatusUpdateForm({
+  orderId,
+  currentStatus,
+}: {
+  orderId: string;
+  currentStatus: string;
+}) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      status: "",
+      status: currentStatus || "",
     },
   });
 
@@ -85,10 +97,16 @@ function OrderStatusUpdateForm({ orderId }: { orderId: string }) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { status } = values;
 
-    const response = await updateOrderStatus({ orderId, status });
+    try {
+      const response = await updateOrderStatus({ orderId, status });
 
-    if (response.$id === orderId) {
-      router.refresh();
+      if (response.$id === orderId) {
+        toast.success("Order status updated successfully.");
+        router.refresh();
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.message || "Order status not updated.");
     }
   }
 
@@ -101,7 +119,7 @@ function OrderStatusUpdateForm({ orderId }: { orderId: string }) {
           render={({ field: { onChange } }) => (
             <FormItem>
               <FormControl>
-                <Select onValueChange={onChange}>
+                <Select defaultValue={currentStatus} onValueChange={onChange}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a status" />
                   </SelectTrigger>

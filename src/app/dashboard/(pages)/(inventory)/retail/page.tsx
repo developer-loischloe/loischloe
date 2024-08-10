@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import Link from "next/link";
+import { Metadata } from "next";
 import { unstable_noStore as noStore } from "next/cache";
 import { Eye, PencilLine, Trash2 } from "lucide-react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -21,6 +22,11 @@ import { PaginationComponent } from "@/components/Shared/Pagination/PaginationCo
 import ResultPerPage from "@/components/dashboard/orders/ResultPerPage";
 import { getBdDate } from "@/lib/utils";
 
+// Metadata
+export const metadata: Metadata = {
+  title: "Retail Shops",
+};
+
 const RetailShopPage = ({
   searchParams: { page = "1", resultPerPage = "10" },
 }: {
@@ -29,12 +35,33 @@ const RetailShopPage = ({
   noStore();
 
   return (
-    <Suspense
-      fallback={<LoadingSpiner />}
-      key={(Math.random() * 1000 + Math.random() * 100).toString()}
-    >
-      <AllRetailShop page={page} resultPerPage={resultPerPage} />
-    </Suspense>
+    <div className="w-full max-w-7xl mx-auto">
+      <div className="w-full flex justify-between items-center">
+        <div>
+          <ShopDialog heading="Create new shop" type="create">
+            <div className="mb-5">
+              <Button>Create</Button>
+            </div>
+          </ShopDialog>
+        </div>
+        <div>
+          <ResultPerPage
+            basePath="/dashboard/retail"
+            resultPerPage={resultPerPage}
+            extraSearchParams={{ page }}
+          />
+        </div>
+      </div>
+
+      <br />
+
+      <Suspense
+        fallback={<LoadingSpiner />}
+        key={(Math.random() * 1000 + Math.random() * 100).toString()}
+      >
+        <AllRetailShop page={page} resultPerPage={resultPerPage} />
+      </Suspense>
+    </div>
   );
 };
 
@@ -53,24 +80,7 @@ const AllRetailShop = async ({
   });
 
   return (
-    <div className="w-full max-w-5xl mx-auto ">
-      <div className="w-full flex justify-between items-center">
-        <div>
-          <ShopDialog heading="Create new shop" type="create">
-            <div className="mb-5">
-              <Button>Create</Button>
-            </div>
-          </ShopDialog>
-        </div>
-        <div>
-          <ResultPerPage
-            basePath="/dashboard/retail"
-            resultPerPage={resultPerPage}
-            extraSearchParams={{ page }}
-          />
-        </div>
-      </div>
-      <br />
+    <main className="w-full">
       {response.total === 0 ? (
         <div className="w-full  max-w-7xl mx-auto flex justify-center flex-col items-center gap-5 py-5">
           <h2 className="text-center">No shop found</h2>
@@ -83,7 +93,7 @@ const AllRetailShop = async ({
                 <TableRow>
                   <TableHead className="">Shop</TableHead>
                   <TableHead className="">Website</TableHead>
-                  <TableHead className="min-w-[120px]">Date</TableHead>
+                  <TableHead className="min-w-[120px]">CreatedAt</TableHead>
                   <TableHead className="text-center">Total Items</TableHead>
                   <TableHead className="text-center">Action</TableHead>
                 </TableRow>
@@ -159,6 +169,6 @@ const AllRetailShop = async ({
           />
         </div>
       )}
-    </div>
+    </main>
   );
 };

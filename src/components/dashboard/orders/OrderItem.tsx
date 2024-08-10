@@ -22,7 +22,10 @@ const OrderItem = ({ order }: { order: any }) => {
       <TableCell>
         {order?.orderItems?.map((item: any) => {
           return (
-            <div key={item?.$id} className="flex gap-2 items-center">
+            <div
+              key={item?.$id}
+              className="flex gap-2 justify-center items-center"
+            >
               <X size={12} />
               <div>{item?.quantity}</div>
             </div>
@@ -51,7 +54,10 @@ const OrderItem = ({ order }: { order: any }) => {
           <Link href={`/dashboard/orders/${order?.$id}`}>
             <Eye size={20} className="text-blue-500 cursor-pointer" />
           </Link>
-          <UpdateOrderStatus orderId={order?.$id}>
+          <UpdateOrderStatus
+            orderId={order?.$id}
+            currentStatus={order?.order_status}
+          >
             <PencilLine size={20} className="text-green-500 cursor-pointer" />
           </UpdateOrderStatus>
 

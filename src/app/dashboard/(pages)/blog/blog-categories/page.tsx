@@ -1,4 +1,5 @@
 import React, { Suspense } from "react";
+import { Metadata } from "next";
 import { unstable_noStore as noStore } from "next/cache";
 
 import { PencilLine, Trash2 } from "lucide-react";
@@ -19,6 +20,11 @@ import { EditBlogCategoryDialog } from "@/components/blog/EditBlogCategoryDialog
 import { CreateNewCategoryDialog } from "@/components/blog/CreateNewCategoryDialog";
 import { Button } from "@/components/ui/button";
 import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
+
+// Metadata
+export const metadata: Metadata = {
+  title: "Blog Categories",
+};
 
 const page = () => {
   noStore();

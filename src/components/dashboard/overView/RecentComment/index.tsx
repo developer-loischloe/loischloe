@@ -149,7 +149,7 @@ const RecentComment = () => {
                   </Fancybox>
                 </div>
 
-                <div className="px-5">
+                <div className="md:px-5">
                   <DeleteReview reviewId={review.$id} fetchReview={fetchReview}>
                     <Trash2
                       size={18}
@@ -164,7 +164,7 @@ const RecentComment = () => {
       <CardFooter>
         {totalReview > 0 && (
           <Pagination className="bg-black/5 rounded-md">
-            <PaginationContent className="gap-20">
+            <PaginationContent className="gap-5">
               <PaginationItem>
                 <PaginationPrevious
                   className={cn("cursor-pointer", {

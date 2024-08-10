@@ -1,5 +1,11 @@
+import { Metadata } from "next";
 import React from "react";
 import AddBlogForm from "@/components/blog/AddBlogForm";
+
+// Metadata
+export const metadata: Metadata = {
+  title: "Add Blog",
+};
 
 const page = () => {
   return (

@@ -15,7 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
 import appwriteInventoryService from "@/appwrite/appwriteInventoryService";
 
 const formSchema = z.object({
@@ -43,17 +42,17 @@ const UpdateDispatchItemQuantityForm = ({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Update Inventory
+    // Update RetailShopItem quantity
     try {
       const response = await updateRetailShopItem({ id, data: values });
 
       if (response) {
-        toast("Quantity updated successfully.");
+        toast.success("Quantity updated successfully.");
         router.refresh();
       }
     } catch (error: any) {
       console.log(error);
-      toast(error?.message || "Quantity not update");
+      toast.error(error?.message || "Quantity not update");
     }
   }
 
@@ -72,12 +71,11 @@ const UpdateDispatchItemQuantityForm = ({
                 <FormControl>
                   <Input
                     type="number"
+                    min={0}
                     max={quantity + availableQuantity}
                     onChange={(e) => {
                       const { value } = e.target;
-                      if (Number(value) <= quantity + availableQuantity) {
-                        onChange(Number(value));
-                      }
+                      onChange(Number(value));
                     }}
                     {...rest}
                   />
@@ -88,7 +86,7 @@ const UpdateDispatchItemQuantityForm = ({
           />
 
           <Button type="submit" disabled={isSubmitting || !isDirty}>
-            Submit
+            {isSubmitting ? "Submitting..." : "Submit"}
           </Button>
         </form>
       </Form>

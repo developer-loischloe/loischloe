@@ -1,9 +1,15 @@
 import React from "react";
 import Link from "next/link";
+import { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import appwriteCategoryService from "@/appwrite/appwriteCategoryService";
 import appwriteProductService from "@/appwrite/appwriteProductService";
 import AddProductForm from "@/components/dashboard/products/AddProductForm";
+
+// Metadata
+export const metadata: Metadata = {
+  title: "Edit Product",
+};
 
 const EditProduct = async ({
   params: { slug },

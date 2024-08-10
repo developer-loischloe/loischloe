@@ -16,7 +16,6 @@ import { Accordion } from "@/components/ui/accordion";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 import SidebarItem from "./SidebarItem";
-
 import Logo from "@/assets/Logo-Gold.png";
 
 export interface Section {
@@ -169,7 +168,7 @@ const DashboardSidebar = () => {
         </Link>
       </div>
 
-      <ScrollArea className="h-[calc(100vh-100px)]">
+      <ScrollArea className="h-[calc(100vh-120px)]">
         {/* Sidebar menu items */}
         {constants.map((section) => (
           <div key={section.sectionTitle} className="space-y-2 mb-5">

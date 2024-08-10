@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import Link from "next/link";
+import { Metadata } from "next";
 import { Eye, PencilLine, Trash2 } from "lucide-react";
 
 import {
@@ -18,6 +19,11 @@ import { Button } from "@/components/ui/button";
 import Loading from "../../loading";
 
 import appwriteBlogService from "@/appwrite/appwriteBlogService";
+
+// Metadata
+export const metadata: Metadata = {
+  title: "Blogs",
+};
 
 const BlogPage = ({
   searchParams: { page = "1", resultPerPage = "10" },

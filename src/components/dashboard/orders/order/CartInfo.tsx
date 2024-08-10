@@ -25,13 +25,13 @@ const CartInfo = ({ order }: { order: any }) => {
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell className="font-medium">Subtotal:</TableCell>
+            <TableCell className="font-medium">Product price:</TableCell>
             <TableCell className="font-semibold">
               {formatCurrency(order?.paymentInformation?.product_price)}
             </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell className="font-medium">Shipping:</TableCell>
+            <TableCell className="font-medium">Shipping cost:</TableCell>
             <TableCell className="font-semibold">
               {formatCurrency(order?.paymentInformation?.shipping_cost)}
             </TableCell>

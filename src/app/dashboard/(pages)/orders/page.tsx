@@ -1,7 +1,13 @@
 import React, { Suspense } from "react";
+import { Metadata } from "next";
 import OrderList from "@/components/dashboard/orders/OrderList";
 import ResultPerPage from "@/components/dashboard/orders/ResultPerPage";
 import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
+
+// Metadata
+export const metadata: Metadata = {
+  title: "Orders",
+};
 
 const OrderListPage = ({
   searchParams: { page = "1", resultPerPage = "10" },
@@ -9,7 +15,7 @@ const OrderListPage = ({
   searchParams: { page: string; resultPerPage: string };
 }) => {
   return (
-    <div className="w-full">
+    <div className="w-full max-w-7xl mx-auto">
       <h1 className="text-xl md:text-2xl mb-5 font-bold">Order List</h1>
 
       {/* Top */}

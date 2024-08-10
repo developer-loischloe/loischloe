@@ -32,10 +32,16 @@ const DeleteBlogPost = ({
   const handleDelete = async () => {
     setIsSubmitting(true);
 
-    const response = await deleteBlog({ blogId });
-    toast("Post Successfully deleted.");
-    setIsSubmitting(false);
-    router.refresh();
+    try {
+      const response = await deleteBlog({ blogId });
+
+      toast("Blog post Successfully deleted.");
+      setIsSubmitting(false);
+      router.refresh();
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.message || "Blog post not deleted.");
+    }
   };
 
   return (
@@ -51,7 +57,7 @@ const DeleteBlogPost = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button onClick={handleDelete}>
+          <Button variant={"destructive"} onClick={handleDelete}>
             {isSubmitting ? "Deleting..." : "Delete"}
           </Button>
         </AlertDialogFooter>

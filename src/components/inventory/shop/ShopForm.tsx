@@ -34,10 +34,12 @@ const ShopForm = ({
   type,
   id,
   data,
+  dialogClose,
 }: {
   type: "create" | "update";
   id?: string;
   data?: any;
+  dialogClose: () => void;
 }) => {
   const { createRetailShop, updateRetailShop, isRetailShopExist } =
     appwriteInventoryService;
@@ -62,15 +64,16 @@ const ShopForm = ({
           const response = await createRetailShop(values);
 
           if (response) {
-            toast("Shop created successfully.");
+            toast.success("Shop created successfully.");
             router.refresh();
+            dialogClose();
           }
         } catch (error: any) {
           console.log(error);
-          toast(error?.message || "Shop not created");
+          toast.error(error?.message || "Shop not created");
         }
       } else {
-        toast("Shop already exist.");
+        toast.warning("Shop already exist.");
       }
     }
 
@@ -79,12 +82,13 @@ const ShopForm = ({
         const response = await updateRetailShop({ id: id, data: values });
 
         if (response) {
-          toast("Shop updated successfully.");
+          toast.success("Shop updated successfully.");
           router.refresh();
+          dialogClose();
         }
       } catch (error: any) {
         console.log(error);
-        toast(error?.message || "Shop not updated");
+        toast.error(error?.message || "Shop not updated");
       }
     }
   }
@@ -124,7 +128,7 @@ const ShopForm = ({
           />
 
           <Button type="submit" disabled={isSubmitting || !isDirty}>
-            Submit
+            {isSubmitting ? "Submitting..." : "Submit"}
           </Button>
         </form>
       </Form>

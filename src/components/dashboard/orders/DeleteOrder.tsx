@@ -1,5 +1,6 @@
 "use client";
-import appwriteOrderService from "@/appwrite/appwriteOrderService";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -11,8 +12,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import appwriteOrderService from "@/appwrite/appwriteOrderService";
+import { toast } from "sonner";
 
 const DeleteOrder = ({
   children,
@@ -29,9 +30,16 @@ const DeleteOrder = ({
   const handleDelete = async () => {
     setIsSubmitting(true);
 
-    const response = await deleteOrder({ orderId });
-    setIsSubmitting(false);
-    router.refresh();
+    try {
+      const response = await deleteOrder({ orderId });
+
+      setIsSubmitting(false);
+      toast.success("Order successfully deleted.");
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+      toast.success("Order not delete.");
+    }
   };
 
   return (
@@ -47,7 +55,7 @@ const DeleteOrder = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button onClick={handleDelete}>
+          <Button variant={"destructive"} onClick={handleDelete}>
             {isSubmitting ? "Deleting..." : "Delete"}
           </Button>
         </AlertDialogFooter>

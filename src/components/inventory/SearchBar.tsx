@@ -12,32 +12,39 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  query: z.string(),
+  searchString: z.string(),
 });
 
-const SearchBar = ({ product }: { product: string }) => {
-  const [open, setOpen] = useState(product !== "");
+const SearchBar = ({ searchString }: { searchString: string }) => {
+  const [open, setOpen] = useState(searchString !== "");
 
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      query: product || "",
+      searchString: searchString || "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    if (values.query) {
-      router.push(`/dashboard/inventory?product=${values.query}`);
+    if (values.searchString) {
+      router.push(`/dashboard/inventory?searchString=${values.searchString}`);
     } else {
       router.push(`/dashboard/inventory`);
     }
   }
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (searchString !== "" && inputRef?.current) {
+      inputRef?.current?.focus();
+    }
+  }, [inputRef]);
 
   return (
     <div className="w-full">
@@ -50,7 +57,7 @@ const SearchBar = ({ product }: { product: string }) => {
             >
               <FormField
                 control={form.control}
-                name="query"
+                name="searchString"
                 render={({ field }) => (
                   <FormItem className="w-full  max-w-[300px]">
                     <FormControl>
@@ -58,6 +65,7 @@ const SearchBar = ({ product }: { product: string }) => {
                         className="w-full "
                         placeholder="Search item..."
                         {...field}
+                        ref={inputRef}
                       />
                     </FormControl>
                     <FormMessage />

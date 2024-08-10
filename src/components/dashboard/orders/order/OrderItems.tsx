@@ -20,14 +20,14 @@ const OrderItems = ({ order }: { order: any }) => {
               <h5 className="font-medium">{item?.product?.name}</h5>
             </div>
 
-            <div className="flex flex-col items-center">
+            <div className="w-[80px] flex flex-col items-center">
               <p className="text-sm text-brand_gray mb-1">
                 <span>Quantity</span>
               </p>
               <h5 className="font-medium">{item?.quantity}</h5>
             </div>
 
-            <div>
+            <div className="w-[100px] flex flex-col items-center">
               <p className="text-sm text-brand_gray mb-1">
                 <span>Price</span>
               </p>
