@@ -40,7 +40,7 @@ const DeleteImage = ({
         image?.$id
       )
       .then((response) => {
-        // delete file
+        // delete file from bucket
         storage
           .deleteFile(uploadConfig.bucketId, image?.image_id)
           .then((response) => {
@@ -73,7 +73,7 @@ const DeleteImage = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button onClick={handleDelete}>
+          <Button variant={"destructive"} onClick={handleDelete}>
             {isSubmitting ? "Deleting..." : "Delete"}
           </Button>
         </AlertDialogFooter>

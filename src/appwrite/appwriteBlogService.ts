@@ -235,7 +235,8 @@ export class AppwriteBlogService {
     try {
       const response = await databases.listDocuments(
         config.appwriteBlogDatabaseId,
-        config.appwriteBlogCollectionId.all_category
+        config.appwriteBlogCollectionId.all_category,
+        [Query.orderDesc("$createdAt")]
       );
 
       return response;

@@ -17,10 +17,10 @@ const PreviewSingleFile = ({
   deletedImage: (id: string) => void;
 }) => {
   return (
-    <div className="mx-auto relative w-full h-full  border rounded-md  overflow-hidden">
+    <div className="aspect-square mx-auto relative w-full h-full  border rounded-md  overflow-hidden">
       <input
         type="checkbox"
-        className="absolute top-2 right-2"
+        className="absolute top-2 right-2 z-50"
         onChange={(e) => {
           if (e.target.checked) {
             setSelectedImages((prev) => [...prev, image]);
@@ -37,7 +37,7 @@ const PreviewSingleFile = ({
         deletedImage={deletedImage}
       >
         <Trash2
-          className="absolute top-2 left-2 hover:text-red-500 cursor-pointer"
+          className="absolute top-2 left-2 hover:text-red-500 cursor-pointer z-50"
           size={18}
         />
       </DeleteImage>

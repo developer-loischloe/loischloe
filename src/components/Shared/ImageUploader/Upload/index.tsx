@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useState } from "react";
 import { ID } from "appwrite";
 import { Progress } from "@/components/ui/progress";
 import { useDropzone } from "react-dropzone";
@@ -8,8 +8,10 @@ import { toast } from "sonner";
 
 export default function Upload({
   uploadConfig,
+  setCurrentTab,
 }: {
   uploadConfig: UploadConfig;
+  setCurrentTab: Dispatch<SetStateAction<string>>;
 }) {
   const [totalFile, setTotalFile] = useState(0);
   const [uploadedFile, setUploadedFile] = useState(0);
@@ -56,17 +58,26 @@ export default function Upload({
     });
   }, []);
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  // Calculate uploadProgress
+  const uploadProgress = Math.floor((uploadedFile / totalFile) * 100);
+
+  if (uploadProgress === 100) {
+    setTimeout(() => {
+      setCurrentTab("library");
+    }, 1500);
+  }
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: { "image/*": [] },
+  });
 
   return (
     <div className="h-[300px]">
       {totalFile ? (
         <div className="h-full p-10 flex flex-col gap-2 items-center justify-center">
           <p>Upload progress</p>
-          <Progress
-            value={Math.floor((uploadedFile / totalFile) * 100)}
-            className="max-w-[350px]"
-          />
+          <Progress value={uploadProgress} className="max-w-[350px]" />
         </div>
       ) : (
         <div

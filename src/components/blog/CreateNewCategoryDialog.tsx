@@ -1,7 +1,11 @@
 "use client";
+
 import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,9 +16,22 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import appwriteBlogService from "@/appwrite/appwriteBlogService";
+
+// Schema
+const formSchema = z.object({
+  category: z
+    .string()
+    .min(2, { message: "Category name must be atleast 2 characters." }),
+});
 
 export function CreateNewCategoryDialog({
   children,
@@ -23,22 +40,22 @@ export function CreateNewCategoryDialog({
   children?: ReactNode;
   setAllCategories?: Dispatch<SetStateAction<string[]>>;
 }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  const [category, setCategory] = useState("");
-  const [error, setError] = useState<null | string>(null);
+  // 1. Define your form.
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      category: "",
+    },
+  });
 
-  const handleCreate = async () => {
-    if (!category) {
-      return setError("Category is required.");
-    }
-    setIsSubmitting(true);
-
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await appwriteBlogService.createBlogCategory(category);
+      const response = await appwriteBlogService.createBlogCategory(
+        values.category
+      );
 
       toast.success("Category created successfully.");
       if (setAllCategories) {
@@ -46,17 +63,14 @@ export function CreateNewCategoryDialog({
       }
 
       setOpen(false);
-      setCategory("");
-      setError(null);
-
       router.refresh();
     } catch (error: any) {
       console.log(error);
       toast.error(error?.message);
-    } finally {
-      setIsSubmitting(false);
     }
-  };
+  }
+
+  const { isSubmitting } = form.formState;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -73,31 +87,28 @@ export function CreateNewCategoryDialog({
         <DialogHeader>
           <DialogTitle>Create new category</DialogTitle>
         </DialogHeader>
-        <div className="space-y-2">
-          <Label htmlFor="name" className="text-right">
-            Category
-          </Label>
-          <Input
-            placeholder="Enter category name"
-            value={category}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (value.length > 0) {
-                setError(null);
-              }
-              setCategory(value);
-            }}
-          />
-
-          <div>
-            {error && <span className="text-sm text-red-500">{error}</span>}
-          </div>
-        </div>
-        <DialogFooter>
-          <Button onClick={handleCreate} disabled={isSubmitting}>
-            Create
-          </Button>
-        </DialogFooter>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Category</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter category name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <DialogFooter className="sm:!justify-start">
+              <Button type="submit" disabled={isSubmitting}>
+                Create
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

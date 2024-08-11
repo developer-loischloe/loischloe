@@ -60,8 +60,8 @@ const ProductList = async ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products?.documents.map((product: any) => (
-              <ProductItem key={product.$id} product={product} />
+            {products?.documents?.map((product: any) => (
+              <ProductItem key={product?.$id} product={product} />
             ))}
           </TableBody>
         </Table>
@@ -76,7 +76,7 @@ const ProductList = async ({
         resultPerPage={Number(resultPerPage)}
         totalItems={products.total}
         basePath={"/dashboard/products"}
-        extraSearchParams={{ keyword }}
+        extraSearchParams={{ keyword, p_category, c_category, n_category }}
       />
     </div>
   );

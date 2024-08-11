@@ -12,9 +12,9 @@ const PreviewSingleSelectedImage = ({
   uploadConfig: UploadConfig;
 }) => {
   return (
-    <div className="relative group border rounded-md  overflow-hidden">
+    <div className="aspect-square relative group border rounded-md  overflow-hidden">
       <X
-        className="absolute right-2 top-2 invisible group-hover:visible cursor-pointer"
+        className="absolute right-2 top-2 invisible group-hover:visible cursor-pointer z-50"
         onClick={() => handleRemove(image.$id)}
       />
 

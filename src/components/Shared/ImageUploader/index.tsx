@@ -24,6 +24,7 @@ const ImageUploader = ({
   defaultImages: any[];
   uploadConfig: UploadConfig;
 }) => {
+  const [currentTab, setCurrentTab] = useState("upload");
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedImages, setSelectedImages] = useState<any[]>(
     defaultImages || []
@@ -52,13 +53,26 @@ const ImageUploader = ({
           </div>
         </DialogTrigger>
         <DialogContent className="!max-w-[900px]">
-          <Tabs defaultValue="upload" className="">
+          <Tabs value={currentTab} className="">
             <TabsList className="mx-auto w-full mt-3 mb-2">
-              <TabsTrigger value="upload">Upload</TabsTrigger>
-              <TabsTrigger value="library">Select From Library</TabsTrigger>
+              <TabsTrigger
+                value="upload"
+                onClick={() => setCurrentTab("upload")}
+              >
+                Upload
+              </TabsTrigger>
+              <TabsTrigger
+                value="library"
+                onClick={() => setCurrentTab("library")}
+              >
+                Select From Library
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="upload">
-              <Upload uploadConfig={uploadConfig} />
+              <Upload
+                uploadConfig={uploadConfig}
+                setCurrentTab={setCurrentTab}
+              />
             </TabsContent>
             <TabsContent value="library">
               <SelectFromLibrary

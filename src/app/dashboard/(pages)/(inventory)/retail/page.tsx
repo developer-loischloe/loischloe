@@ -83,7 +83,7 @@ const AllRetailShop = async ({
     <main className="w-full">
       {response.total === 0 ? (
         <div className="w-full  max-w-7xl mx-auto flex justify-center flex-col items-center gap-5 py-5">
-          <h2 className="text-center">No shop found</h2>
+          <h2 className="text-center">No shop found.</h2>
         </div>
       ) : (
         <div>

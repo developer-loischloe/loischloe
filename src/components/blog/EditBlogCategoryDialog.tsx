@@ -1,8 +1,11 @@
 "use client";
-import { useRouter } from "next/navigation";
-import { ReactNode, useState } from "react";
-import { toast } from "sonner";
 
+import { ReactNode, useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,9 +16,22 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import appwriteBlogService from "@/appwrite/appwriteBlogService";
+
+// Schema
+const formSchema = z.object({
+  category: z
+    .string()
+    .min(2, { message: "Category name must be atleast 2 characters." }),
+});
 
 export function EditBlogCategoryDialog({
   children,
@@ -26,69 +42,72 @@ export function EditBlogCategoryDialog({
   name: string;
   id: string;
 }) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  const [category, setCategory] = useState(name);
-  const [error, setError] = useState<null | string>(null);
+  // 1. Define your form.
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      category: name || "",
+    },
+  });
 
-  const handleUpdate = async () => {
-    if (!category) {
-      return setError("Category is required.");
-    }
-    setIsSubmitting(true);
-
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await appwriteBlogService.updateBlogCategory({
         id,
-        name: category,
+        name: values.category,
       });
 
       toast.success("Category updated successfully.");
-
       setOpen(false);
-      setCategory("");
-      setError(null);
-
       router.refresh();
     } catch (error: any) {
       console.log(error);
       toast.error(error?.message);
-    } finally {
-      setIsSubmitting(false);
     }
-  };
+  }
+
+  const { isSubmitting } = form.formState;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger asChild>
+        {children ? (
+          <div className="ml-auto max-w-max">{children}</div>
+        ) : (
+          <span className="text-xs hover:underline text-blue-500 cursor-pointer">
+            Edit category
+          </span>
+        )}
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit category</DialogTitle>
         </DialogHeader>
-        <div className="space-y-2">
-          <Label htmlFor="name" className="text-right">
-            Category
-          </Label>
-          <Input
-            placeholder="Enter category name"
-            value={category}
-            onChange={(e) => {
-              setCategory(e.target.value);
-            }}
-          />
-
-          <div>
-            {error && <span className="text-sm text-red-500">{error}</span>}
-          </div>
-        </div>
-        <DialogFooter>
-          <Button onClick={handleUpdate} disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Submit"}
-          </Button>
-        </DialogFooter>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Category</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter category name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <DialogFooter className="sm:!justify-start">
+              <Button type="submit" disabled={isSubmitting}>
+                Update
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

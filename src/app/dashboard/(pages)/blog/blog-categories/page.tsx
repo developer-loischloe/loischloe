@@ -1,9 +1,7 @@
 import React, { Suspense } from "react";
 import { Metadata } from "next";
 import { unstable_noStore as noStore } from "next/cache";
-
 import { PencilLine, Trash2 } from "lucide-react";
-
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   Table,
