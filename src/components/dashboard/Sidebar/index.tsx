@@ -134,6 +134,25 @@ const constants: Section[] = [
       },
     ],
   },
+  {
+    sectionTitle: "Utils Manage",
+    sectionItems: [
+      {
+        title: "Utils",
+        icon: <Package size={20} />,
+        childItems: [
+          {
+            title: "Free Gift",
+            link: "/dashboard/free-gift",
+          },
+          {
+            title: "Discount",
+            link: "/dashboard/discount",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 const DashboardSidebar = () => {

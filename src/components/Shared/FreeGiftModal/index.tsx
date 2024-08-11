@@ -10,11 +10,17 @@ import {
   DialogOverlay,
 } from "@/components/ui/dialog";
 import GiftSlider from "./GiftSlider";
-import { selectIsEligibleForFreeGift } from "@/redux/features/cart/cartSlice";
+import {
+  selectIsEligibleForFreeGift,
+  selectUtils,
+} from "@/redux/features/cart/cartSlice";
 
 const FreeGiftModal = () => {
+  // Selector
   const isEligibleForFreeGift = useSelector(selectIsEligibleForFreeGift);
+  const { freeGiftProductIds } = useSelector(selectUtils);
 
+  // State
   const [open, setOpen] = useState<boolean>(isEligibleForFreeGift);
   const [products, setProducts] = useState<null | any>(null);
 
@@ -32,11 +38,7 @@ const FreeGiftModal = () => {
   // => Fetch free products
   useEffect(() => {
     appwriteProductService
-      .getProductsByIds([
-        "66093fc505cd2ff14361",
-        "660946a0a8b365fd47ee",
-        "6609442884933e6e60c0",
-      ])
+      .getProductsByIds(freeGiftProductIds)
       .then((products) => {
         const modifiedProducts = products.map((product) => {
           product.sale_price = 0;
@@ -67,3 +69,9 @@ const FreeGiftModal = () => {
 };
 
 export default FreeGiftModal;
+
+// [
+//   "66093fc505cd2ff14361",
+//   "660946a0a8b365fd47ee",
+//   "6609442884933e6e60c0",
+// ]

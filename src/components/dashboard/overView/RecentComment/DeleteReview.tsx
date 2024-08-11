@@ -55,7 +55,7 @@ const DeleteReview = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button onClick={handleDelete}>
+          <Button variant={"destructive"} onClick={handleDelete}>
             {isDeleting ? "Deleting..." : "Delete"}
           </Button>
         </AlertDialogFooter>

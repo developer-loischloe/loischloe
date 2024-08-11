@@ -15,6 +15,21 @@ export class AppwriteUtilsService {
       throw error;
     }
   }
+
+  async updatefreeGiftEnable({ enable }: { enable: boolean }) {
+    try {
+      const response = await databases.updateDocument(
+        config.appwriteDatabaseId,
+        config.appwriteUtils.collectionId,
+        config.appwriteUtils.documentId,
+        { free_gift_enable: enable }
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 const appwriteUtilsService = new AppwriteUtilsService();

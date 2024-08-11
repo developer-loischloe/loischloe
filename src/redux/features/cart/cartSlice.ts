@@ -95,6 +95,7 @@ export interface CartState {
   utils: {
     discountPercentage: number;
     isfreeGiftEnable: Boolean;
+    freeGiftProductIds: string[];
   };
   cartList: Item[];
   cartCost: {
@@ -112,6 +113,7 @@ const initialState: CartState = {
   utils: {
     discountPercentage: 0,
     isfreeGiftEnable: false,
+    freeGiftProductIds: [],
   },
   cartList: getLocalCartItems() || [],
   cartCost: {
@@ -268,10 +270,12 @@ export const cartSlice = createSlice({
   }),
   extraReducers: (builder) => {
     builder.addCase(fetchUtils.fulfilled, (state, action) => {
-      // Update discountPercentage
+      // Update utils
       state.utils.discountPercentage =
         Number(action.payload.discount_percentage) || 0;
-      state.utils.isfreeGiftEnable = action.payload.free_gift_enable;
+      state.utils.isfreeGiftEnable = action.payload.free_gift_enable || false;
+      state.utils.freeGiftProductIds =
+        action.payload?.free_gift_product_ids || [];
 
       // calculate cartcost
       const product_price = calculateProductPrice(state.cartList) || 0;

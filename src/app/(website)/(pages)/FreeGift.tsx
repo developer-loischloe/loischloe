@@ -1,8 +1,8 @@
 "use client";
+import React from "react";
 import FreeGiftPopUp from "@/components/FreeGiftPopUp";
 import FreeGiftModal from "@/components/Shared/FreeGiftModal";
 import { selectUtils } from "@/redux/features/cart/cartSlice";
-import React from "react";
 import { useSelector } from "react-redux";
 
 const FreeGift = () => {
