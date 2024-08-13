@@ -75,6 +75,10 @@ const constants: Section[] = [
             title: "All Order",
             link: "/dashboard/orders",
           },
+          {
+            title: "Add Order",
+            link: "/dashboard/orders/add",
+          },
         ],
       },
     ],

@@ -34,14 +34,14 @@ export class AppwriteProductService {
     }
   }
 
-  async getAllProductIdAndName() {
+  async getAllProductIdAndNameAndPrice() {
     try {
       let QueryArray = [];
 
       // Filter
       QueryArray.push(Query.notEqual("parent_category", "offer"));
       // Select attribute
-      QueryArray.push(Query.select(["$id", "name"]));
+      QueryArray.push(Query.select(["$id", "name", "sale_price"]));
 
       QueryArray.push(Query.limit(5000));
 

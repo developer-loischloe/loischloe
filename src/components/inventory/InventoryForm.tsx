@@ -62,7 +62,7 @@ const InventoryForm = ({
   // Fetch all products
   useEffect(() => {
     appwriteProductService
-      .getAllProductIdAndName()
+      .getAllProductIdAndNameAndPrice()
       .then((response) => {
         setProducts(response?.documents);
       })
