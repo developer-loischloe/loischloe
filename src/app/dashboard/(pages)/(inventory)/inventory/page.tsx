@@ -1,231 +1,88 @@
-import React, { Suspense } from "react";
-import { Metadata } from "next";
-import { redirect } from "next/navigation";
-import { unstable_noStore as noStore } from "next/cache";
-import { Button } from "@/components/ui/button";
-import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
-import { AllocateProductDialog } from "@/components/inventory/AllocateProductDialog";
-import SelectStore from "@/components/inventory/SelectStore";
-import { SelectDateRangePicker } from "@/components/inventory/SelectDateRangePicker";
-import { InventoryDataTable } from "./InventoryDataTable";
-import ComponentPrint from "@/components/Shared/ComponentPrint";
-import InventoryDataPrintAbleComponent from "./InventoryDataPrintAbleComponent";
+import React from "react";
+import Image from "next/image";
+import appwriteProductService from "@/appwrite/appwriteProductService";
 import appwriteInventoryService from "@/appwrite/appwriteInventoryService";
+import { OverAllInventoryDataTable } from "./(components)/OverAllInventoryDataTable";
+import OverAllInventoryDataPrintableComponent from "./(components)/OverAllInventoryDataPrintableComponent";
+import ComponentPrint from "@/components/Shared/ComponentPrint";
 
-// Metadata
-export const metadata: Metadata = {
-  title: "Inventory",
-};
+import Logo from "@/assets/Logo-Gold.png";
 
-// Type
-export type InventoryItem = {
+export type OverAllInventoryData = {
   id: string;
-  product_id: any;
   product_name: any;
-  product_image: any;
-  store: {
-    id: any;
-    store_name: any;
-    store_type: any;
-  };
-  total_allocation_quantity: number;
-  total_sell_quantity: number;
-  total_damage_quantity: number;
-  total_return_quantity: number;
-  available_quantity: number;
-  createdAt: string;
-  updatedAt: string;
+  product_image_url: any;
+  product_quantity: any;
+  product_price: any;
+  product_sale_price: any;
+  product_available_quantity: number;
 };
 
-const getInventoryDataBetweenDateByStoreId = async ({
-  storeId,
-  fromDate,
-  toDate,
-}: {
-  storeId: string;
-  fromDate: string;
-  toDate: string;
-}) => {
-  // Utility function
-  const findDocumentsBetweenDates = (
-    documents: any[],
-    startDate: string,
-    endDate: string
-  ) => {
-    return documents?.filter((doc) => {
-      const createdAt = new Date(doc?.$createdAt);
-      return createdAt >= new Date(startDate) && createdAt <= new Date(endDate);
-    });
-  };
+const getOverAllInventoryData = async () => {
+  const { getAvailableQuantityByProductId } = appwriteInventoryService;
 
-  const response = await appwriteInventoryService.getInventory({
-    page: 1,
-    resultPerPage: 5000,
-    searchString: "",
-    storeId,
-  });
+  try {
+    const response =
+      await appwriteProductService.getAllProductbyExcludeParentCategory({
+        parent_category: "offer",
+      });
 
-  return response?.documents?.flatMap((inventory) => {
-    // Calculate
-    const total_allocation_quantity = findDocumentsBetweenDates(
-      inventory?.inventoryAllocations,
-      fromDate,
-      toDate
-    )?.reduce(
-      (acc: number, allocation: any) => acc + allocation?.quantity_allocated,
-      0
-    ) as number;
+    const results = await Promise.all(
+      response?.documents?.flatMap(async (product) => {
+        const availableQuantity = await getAvailableQuantityByProductId(
+          product?.$id
+        );
 
-    const total_sell_quantity = findDocumentsBetweenDates(
-      inventory?.inventorySales,
-      fromDate,
-      toDate
-    )?.reduce(
-      (acc: number, sale: any) => acc + sale?.quantity_sold,
-      0
-    ) as number;
+        const data = {
+          id: product?.$id,
+          product_name: product?.name,
+          product_image_url: product?.images?.[0]?.image_url,
+          product_quantity: product?.product_quantity,
+          product_price: product?.price,
+          product_sale_price: product?.sale_price,
+          product_available_quantity: availableQuantity,
+        };
 
-    const total_damage_quantity = findDocumentsBetweenDates(
-      inventory?.inventoryDamages,
-      fromDate,
-      toDate
-    )?.reduce(
-      (acc: number, damage: any) => acc + damage?.quantity_damaged,
-      0
-    ) as number;
+        return data;
+      })
+    );
 
-    const total_return_quantity = findDocumentsBetweenDates(
-      inventory?.inventoryReturn,
-      fromDate,
-      toDate
-    )?.reduce(
-      (acc: number, returnItem: any) => acc + returnItem?.quantity_return,
-      0
-    ) as number;
-
-    const available_quantity =
-      total_allocation_quantity -
-      (total_sell_quantity + total_damage_quantity + total_return_quantity);
-
-    const data = {
-      id: inventory.$id,
-      product_id: inventory?.product?.$id,
-      product_name: inventory?.product?.name,
-      product_image: inventory?.product?.images[0].image_url,
-      store: {
-        id: inventory?.storeDetails?.$id,
-        store_name: inventory?.storeDetails?.store_name,
-        store_type: inventory?.storeDetails?.store_type,
-      },
-      total_allocation_quantity: total_allocation_quantity,
-      total_sell_quantity: total_sell_quantity,
-      total_damage_quantity: total_damage_quantity,
-      total_return_quantity: total_return_quantity,
-      available_quantity: available_quantity,
-      createdAt: inventory.$createdAt,
-      updatedAt: inventory.$updatedAt,
-    };
-
-    return data;
-  });
-};
-
-const InventoryPage = async ({
-  searchParams: {
-    storeId,
-    fromDate = new Date(2024, 0, 1).toISOString(),
-    toDate = new Date().toISOString(),
-  },
-}: {
-  searchParams: {
-    storeId: string;
-    fromDate: string;
-    toDate: string;
-  };
-}) => {
-  noStore();
-
-  // if have not store id, then redirect to a store
-  if (!storeId) {
-    const response = await appwriteInventoryService.getAllStore({
-      page: 1,
-      resultPerPage: 5000,
-    });
-
-    const mainStoreId = response.documents.filter(
-      (store) => store.store_type === "main"
-    )[0].$id;
-    const storeId = mainStoreId || response.documents[0].$id;
-
-    redirect(`/dashboard/inventory?storeId=${storeId}`);
+    return results;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
-
-  return (
-    <div className="w-full max-w-7xl mx-auto ">
-      <div className="w-full flex flex-wrap justify-between items-center gap-5 lg:gap-10">
-        <AllocateProductDialog heading="Allocate Product">
-          <Button>Allocate Product</Button>
-        </AllocateProductDialog>
-        <SelectStore storeId={storeId} />
-        <SelectDateRangePicker
-          basePath="/dashboard/inventory"
-          dateData={{ from: new Date(fromDate), to: new Date(toDate) }}
-          extraSearchParams={{ storeId }}
-        />
-      </div>
-      <br />
-
-      <Suspense
-        fallback={<LoadingSpiner />}
-        key={(Math.random() * 1000 + Math.random() * 100).toString()}
-      >
-        <AllInventoryItem
-          storeId={storeId}
-          fromDate={fromDate}
-          toDate={toDate}
-        />
-      </Suspense>
-    </div>
-  );
 };
 
-export default InventoryPage;
-
-const AllInventoryItem = async ({
-  storeId,
-  fromDate,
-  toDate,
-}: {
-  storeId: string;
-  fromDate: string;
-  toDate: string;
-}) => {
-  // get inventoryData
-  const inventoryData = await getInventoryDataBetweenDateByStoreId({
-    storeId,
-    fromDate,
-    toDate,
-  });
+const page = async () => {
+  const overAllInventoryData = await getOverAllInventoryData();
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto">
+      <h1 className="text-center text-xl md:text-2xl mb-2">
+        Inventory Overview
+      </h1>
+
       <ComponentPrint
         // settings={{ hidePrintAbleComponent: false }}
-        documentTitle={`Store Report - ${
-          inventoryData[0]?.store?.store_name
-        } - ${Date.now()}`}
+        documentTitle={`Inventory Overview - ${new Date(
+          Date.now()
+        ).toLocaleDateString()}`}
       >
         <div>
-          <h1 className="text-center">
-            {new Date(fromDate).toLocaleDateString()}
-            {" - "}
-            {new Date(toDate).toLocaleDateString()}
-          </h1>
-          <br />
-          <InventoryDataPrintAbleComponent inventoryData={inventoryData} />
+          <div className="flex justify-center items-center mb-5">
+            <Image src={Logo} alt="Logo" width={150} />
+          </div>
+
+          <OverAllInventoryDataPrintableComponent
+            inventoryData={overAllInventoryData}
+          />
         </div>
       </ComponentPrint>
-      <InventoryDataTable data={inventoryData} />;
+
+      <OverAllInventoryDataTable data={overAllInventoryData} />
     </div>
   );
 };
+
+export default page;

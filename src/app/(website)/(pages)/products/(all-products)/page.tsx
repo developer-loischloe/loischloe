@@ -17,8 +17,8 @@ export interface SearchParams {
   c_category: string;
   n_category: string;
   keyword: string;
-  page: string;
-  resultPerPage: string;
+  page: string | number;
+  resultPerPage: string | number;
 }
 
 // Metadata

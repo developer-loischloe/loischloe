@@ -16,11 +16,11 @@ import {
 import { Button } from "@/components/ui/button";
 import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
 import appwriteInventoryService from "@/appwrite/appwriteInventoryService";
-import { ShopDialog } from "@/components/inventory/shop/ShopDialog";
 import { PaginationComponent } from "@/components/Shared/Pagination/PaginationComponent";
 import ResultPerPage from "@/components/dashboard/orders/ResultPerPage";
 import { getBdDate } from "@/lib/utils";
 import DeleteStore from "@/components/inventory/shop/DeleteStore";
+import { StoreDialog } from "@/components/inventory/shop/StoreDialog";
 
 // Metadata
 export const metadata: Metadata = {
@@ -38,11 +38,11 @@ const StorePage = ({
     <div className="w-full max-w-7xl mx-auto">
       <div className="w-full flex justify-between items-center">
         <div>
-          <ShopDialog heading="Create new store" type="create">
+          <StoreDialog heading="Create new store" type="create">
             <div className="mb-5">
               <Button>Create</Button>
             </div>
-          </ShopDialog>
+          </StoreDialog>
         </div>
         <div>
           <ResultPerPage
@@ -81,7 +81,7 @@ const AllStore = async ({
 
   return (
     <main className="w-full">
-      {response.total === 0 ? (
+      {response?.total === 0 ? (
         <div className="w-full  max-w-7xl mx-auto flex justify-center flex-col items-center gap-5 py-5">
           <h2 className="text-center">No store found.</h2>
         </div>
@@ -138,7 +138,7 @@ const AllStore = async ({
                           />
                         </Link>
 
-                        <ShopDialog
+                        <StoreDialog
                           heading="Update store"
                           type="update"
                           id={store?.$id}
@@ -148,7 +148,7 @@ const AllStore = async ({
                             size={20}
                             className="text-green-500 cursor-pointer"
                           />
-                        </ShopDialog>
+                        </StoreDialog>
 
                         <DeleteStore id={store?.$id}>
                           <Trash2
@@ -171,7 +171,7 @@ const AllStore = async ({
             basePath="/dashboard/store"
             currentPageNumber={Number(page)}
             resultPerPage={Number(resultPerPage)}
-            totalItems={response.total}
+            totalItems={response?.total}
           />
         </div>
       )}

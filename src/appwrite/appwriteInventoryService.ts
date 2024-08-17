@@ -12,8 +12,8 @@ export class AppwriteInventoryService {
         config.appwriteCollectionId.product,
         product_id,
         [Query.select(["product_quantity"])]
-      )
-      const totalProductQuantity = product?.product_quantity as number
+      );
+      const totalProductQuantity = product?.product_quantity as number;
 
       // find all allocation quantity
       const allocationResponse = await databases.listDocuments(
@@ -21,18 +21,21 @@ export class AppwriteInventoryService {
         config.appwriteInventoryCollectionId.inventory_allocation,
         [
           Query.equal("product_id", product_id),
-          Query.select(["quantity_allocated"])
+          Query.select(["quantity_allocated"]),
         ]
-      )
-      const totalProductAllocation = allocationResponse?.documents?.reduce((acc, allocation) => acc + allocation?.quantity_allocated, 0) as number
+      );
+      const totalProductAllocation = allocationResponse?.documents?.reduce(
+        (acc, allocation) => acc + allocation?.quantity_allocated,
+        0
+      ) as number;
 
+      const availableQuantity =
+        totalProductQuantity - totalProductAllocation || 0;
 
-      const availableQuantity = (totalProductQuantity - totalProductAllocation) || 0
-
-      return availableQuantity
+      return availableQuantity;
     } catch (error) {
       console.log(error);
-      throw error
+      throw error;
     }
   }
 
@@ -51,28 +54,26 @@ export class AppwriteInventoryService {
         [
           Query.equal("product_id", data.product_id),
           Query.equal("store_id", data.store_id),
-          Query.select(["$id", "product_id", "store_id"])
+          Query.select(["$id", "product_id", "store_id"]),
         ]
-      )
+      );
 
       // Check inventory exist or not
       const inventoryExist =
-        response?.documents[0]?.product_id ===
-        data.product_id &&
+        response?.documents[0]?.product_id === data.product_id &&
         response?.documents[0]?.store_id === data.store_id;
 
       if (inventoryExist) {
         // New Allocation with existing InventoryId
-        const inventoryId = response.documents[0].$id
+        const inventoryId = response.documents[0].$id;
 
         const allocationData = {
           product_id: data.product_id,
           store_id: data.store_id,
           quantity_allocated: data.quantity_allocated,
           product_name: data.product_name,
-          inventory: inventoryId
+          inventory: inventoryId,
         };
-
 
         const allocationResponse = await databases.createDocument(
           config.appwriteDatabaseId,
@@ -81,10 +82,9 @@ export class AppwriteInventoryService {
           allocationData
         );
 
-
         return allocationResponse;
       } else {
-        // Create new Inventory 
+        // Create new Inventory
         const inventoryData = {
           product_id: data?.product_id,
           product_name: data?.product_name,
@@ -100,7 +100,6 @@ export class AppwriteInventoryService {
           inventoryData
         );
 
-
         // New allocation with new InventoryId
         const allocationData = {
           product_id: data.product_id,
@@ -110,7 +109,6 @@ export class AppwriteInventoryService {
           inventory: createInventoryResponse.$id,
         };
 
-
         const allocationResponse = await databases.createDocument(
           config.appwriteDatabaseId,
           config.appwriteInventoryCollectionId.inventory_allocation,
@@ -118,14 +116,11 @@ export class AppwriteInventoryService {
           allocationData
         );
 
-
         return allocationResponse;
       }
-
-
     } catch (error) {
       console.log(error);
-      throw error
+      throw error;
     }
   }
 
@@ -148,7 +143,7 @@ export class AppwriteInventoryService {
 
       // filter by storeId
       if (storeId) {
-        QueryArray.push(Query.equal("store_id", storeId))
+        QueryArray.push(Query.equal("store_id", storeId));
       }
 
       // sorting
@@ -240,6 +235,26 @@ export class AppwriteInventoryService {
 
       return response;
     } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAStoreId() {
+    try {
+      const response = await databases.listDocuments(
+        config.appwriteDatabaseId,
+        config.appwriteInventoryCollectionId.inventory_stores,
+        [Query.select(["$id", "store_type"])]
+      );
+
+      const mainStoreId = response?.documents?.filter(
+        (store) => store?.store_type === "main"
+      )[0]?.$id;
+      const storeId = mainStoreId || response?.documents[0]?.$id || null;
+
+      return storeId;
+    } catch (error) {
+      console.log(error);
       throw error;
     }
   }
@@ -367,8 +382,8 @@ export class AppwriteInventoryService {
     return_reason: string;
     quantity_return: number;
     inventory: string;
-    allocate_store_id: string,
-    allocate_store_name: string
+    allocate_store_id: string;
+    allocate_store_name: string;
   }) {
     try {
       const response = await databases.createDocument(
@@ -398,7 +413,6 @@ export class AppwriteInventoryService {
       throw error;
     }
   }
-
 
   async deleteRetailShopItem({ id }: { id: string }) {
     try {

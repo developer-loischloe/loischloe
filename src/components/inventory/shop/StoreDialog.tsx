@@ -7,9 +7,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import ShopForm from "./ShopForm";
+import StoreForm from "./StoreForm";
 
-export function ShopDialog({
+export function StoreDialog({
   children,
   heading,
   type,
@@ -43,7 +43,7 @@ export function ShopDialog({
         <DialogHeader>
           <DialogTitle>{heading}</DialogTitle>
         </DialogHeader>
-        <ShopForm type={type} id={id} data={data} dialogClose={dialogClose} />
+        <StoreForm type={type} id={id} data={data} dialogClose={dialogClose} />
       </DialogContent>
     </Dialog>
   );

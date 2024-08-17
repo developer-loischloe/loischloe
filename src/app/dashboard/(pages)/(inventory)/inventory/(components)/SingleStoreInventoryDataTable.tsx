@@ -31,13 +31,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
-import { InventoryItem } from "./page";
 import { getBdDate } from "@/lib/utils";
 import { AddProductSellDialog } from "@/components/inventory/AddProductSellDialog";
 import { AddProductDamageDialog } from "@/components/inventory/AddProductDamageDialog";
 import { AddProductReturnDialog } from "@/components/inventory/AddProductReturnDialog";
 import DeleteInventory from "@/components/inventory/DeleteInventory";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { InventoryItem } from "../store/page";
 
 export const columns: ColumnDef<InventoryItem>[] = [
   {
@@ -235,7 +235,11 @@ export const columns: ColumnDef<InventoryItem>[] = [
   },
 ];
 
-export function InventoryDataTable({ data }: { data: InventoryItem[] }) {
+export function SingleStoreInventoryDataTable({
+  data,
+}: {
+  data: InventoryItem[];
+}) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []

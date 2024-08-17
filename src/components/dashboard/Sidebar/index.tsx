@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 import {
   BookPlus,
@@ -121,17 +121,21 @@ const constants: Section[] = [
         icon: <Package size={20} />,
         childItems: [
           {
-            title: "All Product",
+            title: "Overview",
             link: "/dashboard/inventory",
+          },
+          {
+            title: "View By Store",
+            link: "/dashboard/inventory/store",
           },
         ],
       },
       {
-        title: "Retail Shop",
+        title: "Store",
         icon: <Store size={20} />,
         childItems: [
           {
-            title: "All Shop",
+            title: "All Store",
             link: "/dashboard/store",
           },
         ],

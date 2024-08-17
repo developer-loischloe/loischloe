@@ -57,6 +57,31 @@ export class AppwriteProductService {
     }
   }
 
+  async getAllProductbyExcludeParentCategory({
+    parent_category,
+  }: {
+    parent_category: string;
+  }) {
+    try {
+      let QueryArray = [];
+
+      // Filter
+      QueryArray.push(Query.notEqual("parent_category", parent_category));
+
+      QueryArray.push(Query.limit(5000));
+
+      const response = await databases.listDocuments(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId.product,
+        QueryArray
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getProductList({
     p_category,
     c_category,

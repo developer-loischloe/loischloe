@@ -1,5 +1,4 @@
 import React from "react";
-import { InventoryItem } from "./page";
 import {
   Table,
   TableBody,
@@ -8,8 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { InventoryItem } from "../store/page";
 
-const InventoryDataPrintAbleComponent = ({
+const SingleStoreInventoryDataPrintAbleComponent = ({
   inventoryData,
 }: {
   inventoryData: InventoryItem[];
@@ -71,4 +71,4 @@ const InventoryDataPrintAbleComponent = ({
   );
 };
 
-export default InventoryDataPrintAbleComponent;
+export default SingleStoreInventoryDataPrintAbleComponent;

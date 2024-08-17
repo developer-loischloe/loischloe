@@ -63,7 +63,9 @@ const SelectStore = ({ storeId }: { storeId: string }) => {
                     key={store?.$id}
                     value={store?.store_name}
                     onSelect={() => {
-                      router.push(`/dashboard/inventory?storeId=${store?.$id}`);
+                      router.push(
+                        `/dashboard/inventory/store?storeId=${store?.$id}`
+                      );
                     }}
                   >
                     <Check

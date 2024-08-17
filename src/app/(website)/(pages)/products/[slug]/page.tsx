@@ -1,8 +1,7 @@
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
-
-import appwriteProductService from "@/appwrite/appwriteProductService";
-
+import Link from "next/link";
+import { Metadata } from "next";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Description from "@/components/Products/Product/Description";
 import ProductHandler from "@/components/Products/Product/ProductHandler";
@@ -13,10 +12,10 @@ import ProductListLoading from "@/components/Shared/loading/ProductListLoading";
 import RecentlyViewed from "@/components/Products/Product/RecentlyViewed";
 import SavedViewedProduct from "@/components/Products/Product/SavedViewedProduct";
 import SendGTMEvent from "@/components/GTM/SendGTMEvent";
-import { Metadata } from "next";
 import { globalMetaDataConstant } from "@/app/constant";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import appwriteProductService from "@/appwrite/appwriteProductService";
+import SingleProductloading from "./SingleProductloading";
 const ProductImageSlider = dynamic(
   () => import("@/components/Products/Product/ProductSlider"),
   { ssr: false }
@@ -45,7 +44,7 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   const products = await appwriteProductService.getProductDetails({ slug });
-  const product = products.documents[0];
+  const product = products?.documents[0];
 
   return {
     title: product?.name,
@@ -77,9 +76,22 @@ export async function generateMetadata({
 }
 
 const page = async ({ params: { slug } }: { params: { slug: string } }) => {
+  const key = `/products/${slug}/$${(Math.random() * 1000).toString()}`;
+
+  return (
+    <Suspense key={key} fallback={<SingleProductloading />}>
+      <SingleProductDetails slug={slug} />;
+    </Suspense>
+  );
+};
+
+export default page;
+
+// Product Details
+const SingleProductDetails = async ({ slug }: { slug: string }) => {
   const products = await appwriteProductService.getProductDetails({ slug });
 
-  if (products.total === 0) {
+  if (products?.total === 0) {
     return (
       <div className="flex flex-col gap-5 justify-center items-center py-[100px]">
         <h1 className="text-2xl">Oops! Product not found.</h1>
@@ -134,5 +146,3 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
     </>
   );
 };
-
-export default page;

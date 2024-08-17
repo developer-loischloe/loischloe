@@ -19,7 +19,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 import { Input } from "@/components/ui/input";
 import { validateURL } from "@/lib/utils";
@@ -30,7 +30,12 @@ const formSchema = z.object({
   store_name: z.string().min(2, {
     message: "Store name must be at least 2 characters.",
   }),
-  store_type: z.string().refine((val) => ["main", "retail"].includes(val), "Store type must be Main or Retail"),
+  store_type: z
+    .string()
+    .refine(
+      (val) => ["main", "retail"].includes(val),
+      "Store type must be Main or Retail"
+    ),
   web_address: z
     .string()
     .min(1, {
@@ -39,7 +44,7 @@ const formSchema = z.object({
     .refine((url) => validateURL(url), "Enter a valid web address"),
 });
 
-const ShopForm = ({
+const StoreForm = ({
   type,
   id,
   data,
@@ -50,8 +55,7 @@ const ShopForm = ({
   data?: any;
   dialogClose: () => void;
 }) => {
-  const { createStore, updateStore, isStoreExist } =
-    appwriteInventoryService;
+  const { createStore, updateStore, isStoreExist } = appwriteInventoryService;
 
   const router = useRouter();
 
@@ -130,7 +134,10 @@ const ShopForm = ({
               <FormItem>
                 <FormLabel>Store Type</FormLabel>
                 <FormControl>
-                  <Select value={field.value} onValueChange={(value) => field.onChange(value)}>
+                  <Select
+                    value={field.value}
+                    onValueChange={(value) => field.onChange(value)}
+                  >
                     <SelectTrigger className="">
                       <SelectValue placeholder="Select store" />
                     </SelectTrigger>
@@ -139,13 +146,11 @@ const ShopForm = ({
                       <SelectItem value="retail">Retail</SelectItem>
                     </SelectContent>
                   </Select>
-
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
 
           <FormField
             control={form.control}
@@ -170,4 +175,4 @@ const ShopForm = ({
   );
 };
 
-export default ShopForm;
+export default StoreForm;

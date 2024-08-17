@@ -1,8 +1,8 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-const loading = () => {
+const SingleProductloading = () => {
   return (
-    <>
+    <div>
       {/* breadcrumb */}
       <div className="">
         <Skeleton className="w-full h-[90px]" />
@@ -10,11 +10,11 @@ const loading = () => {
       <section className="space-y-10 py-5 md:py-10">
         <div className="flex flex-col md:flex-row gap-10">
           {/* slider */}
-          <div className="flex-1 flex flex-col lg:flex-row-reverse gap-5">
+          <div className="flex-1 flex flex-col  gap-5">
             <div className="flex-1">
               <Skeleton className="w-full h-full min-h-[250px] max-h-[350px]"></Skeleton>
             </div>
-            <div className=" flex lg:flex-col gap-3 overflow-x-hidden">
+            <div className=" flex  gap-3 overflow-x-hidden">
               {Array.from([1, 2, 3]).map((i) => (
                 <Skeleton
                   key={i}
@@ -47,8 +47,8 @@ const loading = () => {
           <Skeleton className="w-full h-[200px]" />
         </div>
       </section>
-    </>
+    </div>
   );
 };
 
-export default loading;
+export default SingleProductloading;

@@ -118,7 +118,7 @@ const AllocateProductForm = ({ closeDialog }: { closeDialog: () => void }) => {
       const allocationResponse = await createProductAllocation(allocationData);
 
       toast.success("Product allocated successfully.");
-      router.replace(`/dashboard/inventory?storeId=${values.store_id}`);
+      router.replace(`/dashboard/inventory/store?storeId=${values.store_id}`);
       router.refresh();
       closeDialog();
     } catch (error: any) {

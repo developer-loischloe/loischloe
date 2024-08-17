@@ -18,7 +18,7 @@ const ResultPerPage = ({
   extraSearchParams,
 }: {
   basePath: string;
-  resultPerPage: string;
+  resultPerPage: string | number;
   extraSearchParams: object;
 }) => {
   const router = useRouter();
@@ -35,7 +35,10 @@ const ResultPerPage = ({
   return (
     <div className="max-w-max">
       <Label className="text-sm text-brand_gray">Result per page</Label>
-      <Select defaultValue={resultPerPage || "10"} onValueChange={handleChange}>
+      <Select
+        defaultValue={String(resultPerPage) || "10"}
+        onValueChange={handleChange}
+      >
         <SelectTrigger className="w-[180px] ">
           <SelectValue placeholder="Select" className="" />
         </SelectTrigger>
