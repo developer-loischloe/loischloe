@@ -33,24 +33,24 @@ const DeleteInventory = ({
 
       const response = await deleteInventory({ id });
 
-      toast.success("Inventory item successfully deleted.");
+      toast.success("Item deleted successfully.");
       setIsSubmitting(false);
       router.refresh();
     } catch (error: any) {
       console.log(error);
-      toast.error(error?.message || "Inventory item not delete.");
+      toast.error(error?.message || "Item not delete.");
     }
   };
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger>{children}</AlertDialogTrigger>
+      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Confirm to delete Inventory Item?</AlertDialogTitle>
+          <AlertDialogTitle>Confirm to delete Item?</AlertDialogTitle>
           <AlertDialogDescription>
-            Once Inventory Item {id} has been deleted, it cannot be restored.
-            Confirm to delete?
+            Once Item {id} has been deleted, it cannot be restored. Confirm to
+            delete?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

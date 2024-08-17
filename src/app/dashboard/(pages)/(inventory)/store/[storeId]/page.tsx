@@ -17,16 +17,17 @@ import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
 import DeleteRetailShopItem from "@/components/inventory/DeleteRetailShopItem";
 import appwriteInventoryService from "@/appwrite/appwriteInventoryService";
 import { getBdDate } from "@/lib/utils";
+import Link from "next/link";
 
 // Metadata
 export const metadata: Metadata = {
-  title: "Retail Shop",
+  title: "Single Store",
 };
 
-const SingleShopPage = async ({
-  params: { shopId },
+const SingleStorePage = async ({
+  params: { storeId },
 }: {
-  params: { shopId: string };
+  params: { storeId: string };
 }) => {
   noStore();
 
@@ -36,16 +37,16 @@ const SingleShopPage = async ({
         fallback={<LoadingSpiner />}
         key={(Math.random() * 1000 + Math.random() * 100).toString()}
       >
-        <SingleShop id={shopId} />
+        <SingleStore id={storeId} />
       </Suspense>
     </div>
   );
 };
 
-export default SingleShopPage;
+export default SingleStorePage;
 
-const SingleShop = async ({ id }: { id: string }) => {
-  const shop = await appwriteInventoryService.getRetailShopDetails({
+const SingleStore = async ({ id }: { id: string }) => {
+  const store = await appwriteInventoryService.getStoreDetails({
     id,
   });
 
@@ -53,8 +54,16 @@ const SingleShop = async ({ id }: { id: string }) => {
     <div className="w-full">
       <div>
         <h1 className="text-center text-xl text-brand_primary">
-          {shop?.shop_name}
+          {store?.store_name}
         </h1>
+        <p className="text-center">
+          <Link
+            href={store?.web_address}
+            className="text-center text-sm hover:text-brand_secondary"
+          >
+            {store?.web_address}
+          </Link>
+        </p>
       </div>
       <br />
       <ScrollArea className="w-full">
@@ -69,7 +78,7 @@ const SingleShop = async ({ id }: { id: string }) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {shop?.shopItems?.map((item: any) => (
+            {/* {shop?.shopItems?.map((item: any) => (
               <TableRow key={item?.$id}>
                 <TableCell className="font-medium">
                   <Image
@@ -102,7 +111,7 @@ const SingleShop = async ({ id }: { id: string }) => {
                   </div>
                 </TableCell>
               </TableRow>
-            ))}
+            ))} */}
           </TableBody>
         </Table>
 

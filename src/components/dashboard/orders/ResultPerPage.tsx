@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
 import { generateParams } from "@/lib/utils";
+import { Label } from "@/components/ui/label";
 
 const ResultPerPage = ({
   basePath,
@@ -33,7 +34,7 @@ const ResultPerPage = ({
 
   return (
     <div className="max-w-max">
-      <h5 className="text-sm text-brand_gray mb-2">Result per page</h5>
+      <Label className="text-sm text-brand_gray">Result per page</Label>
       <Select defaultValue={resultPerPage || "10"} onValueChange={handleChange}>
         <SelectTrigger className="w-[180px] ">
           <SelectValue placeholder="Select" className="" />

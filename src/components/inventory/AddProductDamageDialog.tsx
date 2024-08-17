@@ -8,19 +8,21 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import DispatchInventoryItemForm from "./DispatchInventoryItemForm";
+import AddProductDamageForm from "./AddProductDamageForm";
 
-export function DispatchInventoryItemDialog({
+export function AddProductDamageDialog({
   children,
   heading,
-  id,
-  existingShop,
+  storeId,
+  productId,
+  inventoryId,
   availableQuantity,
 }: {
   children?: ReactNode;
   heading: string;
-  id: string;
-  existingShop: any[];
+  storeId: string;
+  productId: string;
+  inventoryId: string;
   availableQuantity: number;
 }) {
   const [open, setOpen] = useState(false);
@@ -41,9 +43,10 @@ export function DispatchInventoryItemDialog({
           <DialogTitle>{heading}</DialogTitle>
         </DialogHeader>
         <ScrollArea className="max-h-[80vh]">
-          <DispatchInventoryItemForm
-            id={id}
-            existingShop={existingShop}
+          <AddProductDamageForm
+            storeId={storeId}
+            productId={productId}
+            inventoryId={inventoryId}
             availableQuantity={availableQuantity}
           />
           <ScrollBar orientation="vertical" />

@@ -40,11 +40,20 @@ const config = {
   // Collection (Inventory)
   appwriteInventoryCollectionId: {
     inventory: String(process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_INVENTORY),
-    inventory_retail_shop: String(
-      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_INVENTORY_RETAIL_SHOP
+    inventory_stores: String(
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_INVENTORY_STORES
     ),
-    inventory_retail_shop_item: String(
-      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_INVENTORY_RETAIL_SHOP_ITEM
+    inventory_allocation: String(
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_INVENTORY_ALLOCATION
+    ),
+    inventory_sales: String(
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_INVENTORY_SALES
+    ),
+    inventory_damages: String(
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_INVENTORY_DAMAGES
+    ),
+    inventory_return: String(
+      process.env.NEXT_PUBLIC_APPWRITE_COLLECTION_ID_INVENTORY_RETURN
     ),
   },
   // Collection (Blog)

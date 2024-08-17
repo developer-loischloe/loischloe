@@ -1,51 +1,188 @@
 import React, { Suspense } from "react";
 import { Metadata } from "next";
-import Image from "next/image";
+import { redirect } from "next/navigation";
 import { unstable_noStore as noStore } from "next/cache";
-import { PencilLine, Plus, Trash2 } from "lucide-react";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
-import { PaginationComponent } from "@/components/Shared/Pagination/PaginationComponent";
-import ResultPerPage from "@/components/dashboard/orders/ResultPerPage";
-import { InventoryDialog } from "@/components/inventory/InventoryDialog";
-import DeleteInventory from "@/components/inventory/DeleteInventory";
-import { DispatchInventoryItemDialog } from "@/components/inventory/DispatchInventoryItemDialog";
-import { UpdateDispatchItemQuantityDialog } from "@/components/inventory/UpdateDispatchItemQuantityDialog";
-import SearchBar from "@/components/inventory/SearchBar";
+import { AllocateProductDialog } from "@/components/inventory/AllocateProductDialog";
+import SelectStore from "@/components/inventory/SelectStore";
+import { SelectDateRangePicker } from "@/components/inventory/SelectDateRangePicker";
+import { InventoryDataTable } from "./InventoryDataTable";
+import ComponentPrint from "@/components/Shared/ComponentPrint";
+import InventoryDataPrintAbleComponent from "./InventoryDataPrintAbleComponent";
 import appwriteInventoryService from "@/appwrite/appwriteInventoryService";
-import { getBdDate, getBdtime } from "@/lib/utils";
 
 // Metadata
 export const metadata: Metadata = {
   title: "Inventory",
 };
 
-const InventoryPage = async ({
-  searchParams: { page = "1", resultPerPage = "10", searchString = "" },
+// Type
+export type InventoryItem = {
+  id: string;
+  product_id: any;
+  product_name: any;
+  product_image: any;
+  store: {
+    id: any;
+    store_name: any;
+    store_type: any;
+  };
+  total_allocation_quantity: number;
+  total_sell_quantity: number;
+  total_damage_quantity: number;
+  total_return_quantity: number;
+  available_quantity: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+const getInventoryDataBetweenDateByStoreId = async ({
+  storeId,
+  fromDate,
+  toDate,
 }: {
-  searchParams: { page: string; resultPerPage: string; searchString: string };
+  storeId: string;
+  fromDate: string;
+  toDate: string;
+}) => {
+  // Utility function
+  const findDocumentsBetweenDates = (
+    documents: any[],
+    startDate: string,
+    endDate: string
+  ) => {
+    return documents?.filter((doc) => {
+      const createdAt = new Date(doc?.$createdAt);
+      return createdAt >= new Date(startDate) && createdAt <= new Date(endDate);
+    });
+  };
+
+  const response = await appwriteInventoryService.getInventory({
+    page: 1,
+    resultPerPage: 5000,
+    searchString: "",
+    storeId,
+  });
+
+  return response?.documents?.flatMap((inventory) => {
+    // Calculate
+    const total_allocation_quantity = findDocumentsBetweenDates(
+      inventory?.inventoryAllocations,
+      fromDate,
+      toDate
+    )?.reduce(
+      (acc: number, allocation: any) => acc + allocation?.quantity_allocated,
+      0
+    ) as number;
+
+    const total_sell_quantity = findDocumentsBetweenDates(
+      inventory?.inventorySales,
+      fromDate,
+      toDate
+    )?.reduce(
+      (acc: number, sale: any) => acc + sale?.quantity_sold,
+      0
+    ) as number;
+
+    const total_damage_quantity = findDocumentsBetweenDates(
+      inventory?.inventoryDamages,
+      fromDate,
+      toDate
+    )?.reduce(
+      (acc: number, damage: any) => acc + damage?.quantity_damaged,
+      0
+    ) as number;
+
+    const total_return_quantity = findDocumentsBetweenDates(
+      inventory?.inventoryReturn,
+      fromDate,
+      toDate
+    )?.reduce(
+      (acc: number, returnItem: any) => acc + returnItem?.quantity_return,
+      0
+    ) as number;
+
+    const available_quantity =
+      total_allocation_quantity -
+      (total_sell_quantity + total_damage_quantity + total_return_quantity);
+
+    const data = {
+      id: inventory.$id,
+      product_id: inventory?.product?.$id,
+      product_name: inventory?.product?.name,
+      product_image: inventory?.product?.images[0].image_url,
+      store: {
+        id: inventory?.storeDetails?.$id,
+        store_name: inventory?.storeDetails?.store_name,
+        store_type: inventory?.storeDetails?.store_type,
+      },
+      total_allocation_quantity: total_allocation_quantity,
+      total_sell_quantity: total_sell_quantity,
+      total_damage_quantity: total_damage_quantity,
+      total_return_quantity: total_return_quantity,
+      available_quantity: available_quantity,
+      createdAt: inventory.$createdAt,
+      updatedAt: inventory.$updatedAt,
+    };
+
+    return data;
+  });
+};
+
+const InventoryPage = async ({
+  searchParams: {
+    storeId,
+    fromDate = new Date(2024, 0, 1).toISOString(),
+    toDate = new Date().toISOString(),
+  },
+}: {
+  searchParams: {
+    storeId: string;
+    fromDate: string;
+    toDate: string;
+  };
 }) => {
   noStore();
 
+  // if have not store id, then redirect to a store
+  if (!storeId) {
+    const response = await appwriteInventoryService.getAllStore({
+      page: 1,
+      resultPerPage: 5000,
+    });
+
+    const mainStoreId = response.documents.filter(
+      (store) => store.store_type === "main"
+    )[0].$id;
+    const storeId = mainStoreId || response.documents[0].$id;
+
+    redirect(`/dashboard/inventory?storeId=${storeId}`);
+  }
+
   return (
     <div className="w-full max-w-7xl mx-auto ">
+      <div className="w-full flex flex-wrap justify-between items-center gap-5 lg:gap-10">
+        <AllocateProductDialog heading="Allocate Product">
+          <Button>Allocate Product</Button>
+        </AllocateProductDialog>
+        <SelectStore storeId={storeId} />
+        <SelectDateRangePicker
+          basePath="/dashboard/inventory"
+          dateData={{ from: new Date(fromDate), to: new Date(toDate) }}
+          extraSearchParams={{ storeId }}
+        />
+      </div>
+      <br />
+
       <Suspense
         fallback={<LoadingSpiner />}
         key={(Math.random() * 1000 + Math.random() * 100).toString()}
       >
         <AllInventoryItem
-          page={page}
-          resultPerPage={resultPerPage}
-          searchString={searchString}
+          storeId={storeId}
+          fromDate={fromDate}
+          toDate={toDate}
         />
       </Suspense>
     </div>
@@ -55,218 +192,40 @@ const InventoryPage = async ({
 export default InventoryPage;
 
 const AllInventoryItem = async ({
-  page,
-  resultPerPage,
-  searchString,
+  storeId,
+  fromDate,
+  toDate,
 }: {
-  page: string;
-  resultPerPage: string;
-  searchString: string;
+  storeId: string;
+  fromDate: string;
+  toDate: string;
 }) => {
-  const response = await appwriteInventoryService.getInventory({
-    page,
-    resultPerPage,
-    searchString,
+  // get inventoryData
+  const inventoryData = await getInventoryDataBetweenDateByStoreId({
+    storeId,
+    fromDate,
+    toDate,
   });
 
-  // Already created items
-  const existingProduct = response?.documents?.map(
-    (inventoryItem) => inventoryItem?.product?.$id
-  );
-
   return (
-    <div className="w-full">
-      <div className="w-full flex justify-between items-center">
+    <div>
+      <ComponentPrint
+        // settings={{ hidePrintAbleComponent: false }}
+        documentTitle={`Store Report - ${
+          inventoryData[0]?.store?.store_name
+        } - ${Date.now()}`}
+      >
         <div>
-          <InventoryDialog
-            heading="Create New Inventory Item"
-            type="create"
-            existingProduct={existingProduct}
-            retailShopTotalQuantity={0}
-          >
-            <Button>Create</Button>
-          </InventoryDialog>
-        </div>
-        <SearchBar searchString={searchString} />
-        <div>
-          <ResultPerPage
-            basePath="/dashboard/inventory"
-            resultPerPage={resultPerPage}
-            extraSearchParams={{ page }}
-          />
-        </div>
-      </div>
-      <br />
-      {response?.total === 0 ? (
-        <div className="w-full  max-w-7xl mx-auto flex justify-center flex-col items-center gap-5 py-5">
-          <h2 className="text-center">Inventory is empty.</h2>
-        </div>
-      ) : (
-        <div>
-          <ScrollArea className="w-full">
-            <Table className="bg-white rounded-md">
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="text-center min-w-[100px]">
-                    Image
-                  </TableHead>
-                  <TableHead className="min-w-[180px]">Product</TableHead>
-                  <TableHead className="text-center">Total Quantity</TableHead>
-                  <TableHead className="text-center">Store Sell</TableHead>
-                  <TableHead className="text-center">Damage</TableHead>
-                  <TableHead className="text-center min-w-[150px]">
-                    Retail Shop
-                  </TableHead>
-                  <TableHead className="text-center">Stock</TableHead>
-                  <TableHead className="text-center min-w-[200px]">
-                    Last Update
-                  </TableHead>
-                  <TableHead className="text-center">Action</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {response?.documents?.map((inventory) => {
-                  // calculation
-                  const totalQuantity = inventory?.total_quantity;
-                  const storeSell = inventory?.store_sell;
-                  const damage = inventory?.damage;
-                  const retailShopTotalQuantity = inventory?.shopItems?.reduce(
-                    (prev: number, item: any) => prev + item?.quantity,
-                    0
-                  );
-                  const availableQuantity =
-                    totalQuantity -
-                    (retailShopTotalQuantity + storeSell + damage);
-
-                  return (
-                    <TableRow key={inventory?.$id}>
-                      <TableCell className="font-medium">
-                        <Image
-                          src={inventory?.product?.images[0].image_url}
-                          alt={inventory?.product?.name}
-                          width={100}
-                          height={100}
-                        />
-                      </TableCell>
-                      <TableCell className="font-medium">
-                        <p className="">{inventory?.product?.name}</p>
-                      </TableCell>
-
-                      <TableCell className="font-medium">
-                        <p className="text-center">
-                          {inventory?.total_quantity}
-                        </p>
-                      </TableCell>
-                      <TableCell className="font-medium">
-                        <p className="text-center">{inventory?.store_sell}</p>
-                      </TableCell>
-                      <TableCell className="font-medium">
-                        <p className="text-center">{inventory?.damage}</p>
-                      </TableCell>
-                      <TableCell className="font-medium">
-                        <div className="text-center space-x-2 space-y-2">
-                          <div>
-                            <p>Total: {retailShopTotalQuantity}</p>
-                          </div>
-                          <div>
-                            {inventory?.shopItems?.map(
-                              (item: any, index: number) => (
-                                <UpdateDispatchItemQuantityDialog
-                                  key={item?.$id}
-                                  heading="Update shop quantity"
-                                  id={item?.$id}
-                                  quantity={item?.quantity}
-                                  shop={item?.shop}
-                                  availableQuantity={availableQuantity}
-                                >
-                                  <span className="text-xs">
-                                    {item?.shop?.shop_name}
-                                    {index + 1 !==
-                                      inventory?.shopItems?.length && ","}
-                                  </span>
-                                </UpdateDispatchItemQuantityDialog>
-                              )
-                            )}
-                          </div>
-                          <div className="">
-                            <DispatchInventoryItemDialog
-                              heading="Dispatch Item"
-                              id={inventory?.$id}
-                              existingShop={inventory?.shopItems?.map(
-                                (item: any) => item?.shop?.shop_name
-                              )}
-                              availableQuantity={availableQuantity}
-                            >
-                              <Button
-                                variant={"outline"}
-                                size={"sm"}
-                                className="w-full flex gap-1 items-center"
-                              >
-                                <Plus
-                                  size={10}
-                                  className="text-blue-500 cursor-pointer"
-                                />
-                                <span className="text-xs">add shop</span>
-                              </Button>
-                            </DispatchInventoryItemDialog>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="font-medium">
-                        <p className="text-center">{availableQuantity}</p>
-                      </TableCell>
-                      <TableCell className="font-medium space-x-2">
-                        <time className="text-brand_primary">
-                          {getBdDate(inventory?.$updatedAt)}
-                        </time>
-                        <span>-</span>
-                        <time className="text-brand_primary">
-                          {getBdtime(inventory?.$updatedAt)}
-                        </time>
-                      </TableCell>
-
-                      <TableCell className="h-full flex justify-center">
-                        <div className=" h-full flex items-center gap-5">
-                          <InventoryDialog
-                            heading="Edit Inventory Item"
-                            type="update"
-                            id={inventory?.$id}
-                            existingProduct={existingProduct}
-                            data={inventory}
-                            retailShopTotalQuantity={retailShopTotalQuantity}
-                          >
-                            <PencilLine
-                              size={20}
-                              className="text-green-500 cursor-pointer"
-                            />
-                          </InventoryDialog>
-
-                          <DeleteInventory id={inventory?.$id}>
-                            <Trash2
-                              size={20}
-                              className="text-red-500 cursor-pointer"
-                            />
-                          </DeleteInventory>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-
+          <h1 className="text-center">
+            {new Date(fromDate).toLocaleDateString()}
+            {" - "}
+            {new Date(toDate).toLocaleDateString()}
+          </h1>
           <br />
-          <PaginationComponent
-            basePath="/dashboard/inventory"
-            currentPageNumber={Number(page)}
-            resultPerPage={Number(resultPerPage)}
-            totalItems={response?.total}
-          />
+          <InventoryDataPrintAbleComponent inventoryData={inventoryData} />
         </div>
-      )}
+      </ComponentPrint>
+      <InventoryDataTable data={inventoryData} />;
     </div>
   );
 };

@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Search } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -12,16 +11,23 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { generateParams } from "@/lib/utils";
 
 const formSchema = z.object({
   searchString: z.string(),
 });
 
-const SearchBar = ({ searchString }: { searchString: string }) => {
-  const [open, setOpen] = useState(searchString !== "");
-
+const SearchBar = ({
+  basePath,
+  searchString,
+  extraSearchParams,
+}: {
+  basePath: string;
+  searchString: string
+  extraSearchParams: object;
+}) => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -31,12 +37,15 @@ const SearchBar = ({ searchString }: { searchString: string }) => {
     },
   });
 
+
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    if (values.searchString) {
-      router.push(`/dashboard/inventory?searchString=${values.searchString}`);
-    } else {
-      router.push(`/dashboard/inventory`);
-    }
+    const link = `${basePath}?${generateParams({
+      ...extraSearchParams,
+      searchString: values.searchString,
+    })}`;
+
+    router.replace(link);
   }
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -47,9 +56,36 @@ const SearchBar = ({ searchString }: { searchString: string }) => {
   }, [inputRef]);
 
   return (
-    <div className="w-full">
-      {open ? (
-        <div className="w-full flex justify-center items-center">
+    <div className="">
+      <div className="flex justify-center items-center">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-full flex justify-center items-center"
+          >
+            <FormField
+              control={form.control}
+              name="searchString"
+              render={({ field }) => (
+                <FormItem className="w-full  max-w-[300px]">
+                  <FormControl>
+                    <Input
+                      className="w-full "
+                      placeholder="Search item..."
+                      {...field}
+                      ref={inputRef}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
+      </div>
+
+      {/* {open ? (
+        <div className="flex justify-center items-center">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
@@ -81,7 +117,7 @@ const SearchBar = ({ searchString }: { searchString: string }) => {
             <Search className="hover:text-green-500 hover:scale-110 transition-all" />
           </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

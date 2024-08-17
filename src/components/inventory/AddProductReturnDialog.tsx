@@ -1,4 +1,5 @@
 "use client";
+
 import { ReactNode, useState } from "react";
 import {
   Dialog,
@@ -8,24 +9,24 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import InventoryForm from "./InventoryForm";
+import AddProductReturnForm from "./AddProductReturnForm";
 
-export function InventoryDialog({
+export function AddProductReturnDialog({
   children,
   heading,
-  type,
-  existingProduct,
-  id,
-  data,
-  retailShopTotalQuantity,
+  storeId,
+  productId,
+  productName,
+  inventoryId,
+  availableQuantity,
 }: {
   children?: ReactNode;
   heading: string;
-  type: "create" | "update";
-  existingProduct: string[];
-  id?: string;
-  data?: any;
-  retailShopTotalQuantity: number;
+  storeId: string;
+  productId: string;
+  productName: string;
+  inventoryId: string;
+  availableQuantity: number;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -33,7 +34,7 @@ export function InventoryDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {children ? (
-          <div className="ml-auto max-w-max">{children}</div>
+          <div className="mx-auto max-w-max cursor-pointer">{children}</div>
         ) : (
           <span className="text-xs hover:underline text-blue-500 cursor-pointer">
             {heading}
@@ -45,12 +46,12 @@ export function InventoryDialog({
           <DialogTitle>{heading}</DialogTitle>
         </DialogHeader>
         <ScrollArea className="max-h-[80vh]">
-          <InventoryForm
-            type={type}
-            id={id}
-            data={data}
-            existingProduct={existingProduct}
-            retailShopTotalQuantity={retailShopTotalQuantity}
+          <AddProductReturnForm
+            storeId={storeId}
+            productId={productId}
+            productName={productName}
+            inventoryId={inventoryId}
+            availableQuantity={availableQuantity}
           />
           <ScrollBar orientation="vertical" />
         </ScrollArea>

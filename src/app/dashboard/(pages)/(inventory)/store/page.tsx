@@ -17,17 +17,17 @@ import { Button } from "@/components/ui/button";
 import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
 import appwriteInventoryService from "@/appwrite/appwriteInventoryService";
 import { ShopDialog } from "@/components/inventory/shop/ShopDialog";
-import DeleteShop from "@/components/inventory/shop/DeleteShop";
 import { PaginationComponent } from "@/components/Shared/Pagination/PaginationComponent";
 import ResultPerPage from "@/components/dashboard/orders/ResultPerPage";
 import { getBdDate } from "@/lib/utils";
+import DeleteStore from "@/components/inventory/shop/DeleteStore";
 
 // Metadata
 export const metadata: Metadata = {
-  title: "Retail Shops",
+  title: "All Store",
 };
 
-const RetailShopPage = ({
+const StorePage = ({
   searchParams: { page = "1", resultPerPage = "10" },
 }: {
   searchParams: { page: string; resultPerPage: string };
@@ -38,7 +38,7 @@ const RetailShopPage = ({
     <div className="w-full max-w-7xl mx-auto">
       <div className="w-full flex justify-between items-center">
         <div>
-          <ShopDialog heading="Create new shop" type="create">
+          <ShopDialog heading="Create new store" type="create">
             <div className="mb-5">
               <Button>Create</Button>
             </div>
@@ -46,7 +46,7 @@ const RetailShopPage = ({
         </div>
         <div>
           <ResultPerPage
-            basePath="/dashboard/retail"
+            basePath="/dashboard/store"
             resultPerPage={resultPerPage}
             extraSearchParams={{ page }}
           />
@@ -59,22 +59,22 @@ const RetailShopPage = ({
         fallback={<LoadingSpiner />}
         key={(Math.random() * 1000 + Math.random() * 100).toString()}
       >
-        <AllRetailShop page={page} resultPerPage={resultPerPage} />
+        <AllStore page={page} resultPerPage={resultPerPage} />
       </Suspense>
     </div>
   );
 };
 
-export default RetailShopPage;
+export default StorePage;
 
-const AllRetailShop = async ({
+const AllStore = async ({
   page,
   resultPerPage,
 }: {
   page: string;
   resultPerPage: string;
 }) => {
-  const response = await appwriteInventoryService.getAllRetailShop({
+  const response = await appwriteInventoryService.getAllStore({
     page,
     resultPerPage,
   });
@@ -83,7 +83,7 @@ const AllRetailShop = async ({
     <main className="w-full">
       {response.total === 0 ? (
         <div className="w-full  max-w-7xl mx-auto flex justify-center flex-col items-center gap-5 py-5">
-          <h2 className="text-center">No shop found.</h2>
+          <h2 className="text-center">No store found.</h2>
         </div>
       ) : (
         <div>
@@ -91,41 +91,47 @@ const AllRetailShop = async ({
             <Table className="bg-white rounded-md">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="">Shop</TableHead>
+                  <TableHead className="">Store Name</TableHead>
+                  <TableHead className="">Store Type</TableHead>
                   <TableHead className="">Website</TableHead>
                   <TableHead className="min-w-[120px]">CreatedAt</TableHead>
-                  <TableHead className="text-center">Total Items</TableHead>
+                  <TableHead className="min-w-[120px]">UpdatedAt</TableHead>
                   <TableHead className="text-center">Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {response?.documents?.map((shop) => (
-                  <TableRow key={shop?.$id}>
+                {response?.documents?.map((store) => (
+                  <TableRow key={store?.$id}>
                     <TableCell className="font-medium">
-                      <p className="text-base">{shop?.shop_name}</p>
+                      <p className="text-base">{store?.store_name}</p>
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      <p className="text-base">{store?.store_type}</p>
                     </TableCell>
                     <TableCell className="font-medium">
                       <p className="font-medium">
                         <Link
-                          href={shop?.website}
+                          href={store?.web_address}
                           target="_blank"
                           className="underline hover:text-blue-500"
                         >
-                          {shop?.website}
+                          {store?.web_address}
                         </Link>
                       </p>
                     </TableCell>
                     <TableCell className="font-medium">
                       <time className="text-brand_primary">
-                        {getBdDate(shop?.$createdAt)}
+                        {getBdDate(store?.$createdAt)}
                       </time>
                     </TableCell>
-                    <TableCell className="font-medium text-center">
-                      <p className="text-base">{shop?.shopItems?.length}</p>
+                    <TableCell className="font-medium">
+                      <time className="text-brand_primary">
+                        {getBdDate(store?.$updatedAt)}
+                      </time>
                     </TableCell>
                     <TableCell className="flex justify-center">
                       <div className="flex gap-5">
-                        <Link href={`/dashboard/retail/${shop?.$id}`}>
+                        <Link href={`/dashboard/store/${store?.$id}`}>
                           <Eye
                             size={20}
                             className="text-blue-500 cursor-pointer"
@@ -133,10 +139,10 @@ const AllRetailShop = async ({
                         </Link>
 
                         <ShopDialog
-                          heading="Edit shop"
+                          heading="Update store"
                           type="update"
-                          id={shop?.$id}
-                          data={shop}
+                          id={store?.$id}
+                          data={store}
                         >
                           <PencilLine
                             size={20}
@@ -144,12 +150,12 @@ const AllRetailShop = async ({
                           />
                         </ShopDialog>
 
-                        <DeleteShop id={shop?.$id}>
+                        <DeleteStore id={store?.$id}>
                           <Trash2
                             size={20}
                             className="text-red-500 cursor-pointer"
                           />
-                        </DeleteShop>
+                        </DeleteStore>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -162,7 +168,7 @@ const AllRetailShop = async ({
 
           <br />
           <PaginationComponent
-            basePath="/dashboard/retail"
+            basePath="/dashboard/store"
             currentPageNumber={Number(page)}
             resultPerPage={Number(resultPerPage)}
             totalItems={response.total}

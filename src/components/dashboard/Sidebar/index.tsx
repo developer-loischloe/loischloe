@@ -132,7 +132,7 @@ const constants: Section[] = [
         childItems: [
           {
             title: "All Shop",
-            link: "/dashboard/retail",
+            link: "/dashboard/store",
           },
         ],
       },

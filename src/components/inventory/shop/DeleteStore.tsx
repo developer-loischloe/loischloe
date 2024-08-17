@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 
 import appwriteInventoryService from "@/appwrite/appwriteInventoryService";
 
-const DeleteShop = ({
+const DeleteStore = ({
   children,
   id,
 }: {
@@ -27,20 +27,20 @@ const DeleteShop = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
-  const { deleteRetailShop } = appwriteInventoryService;
+  const { deleteStore } = appwriteInventoryService;
 
   const handleDelete = async () => {
     try {
       setIsSubmitting(true);
 
-      const response = await deleteRetailShop({ id });
+      const response = await deleteStore({ id });
 
-      toast.success("Shop Successfully deleted.");
+      toast.success("Store Successfully deleted.");
       setIsSubmitting(false);
       router.refresh();
     } catch (error: any) {
       console.log(error);
-      toast.error(error?.message || "Shop not delete.");
+      toast.error(error?.message || "Store not delete.");
     }
   };
 
@@ -49,9 +49,9 @@ const DeleteShop = ({
       <AlertDialogTrigger>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Confirm to delete shop?</AlertDialogTitle>
+          <AlertDialogTitle>Confirm to delete store?</AlertDialogTitle>
           <AlertDialogDescription>
-            Once shop {id} has been deleted, it cannot be restored. Confirm to
+            Once store {id} has been deleted, it cannot be restored. Confirm to
             delete?
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -70,4 +70,4 @@ const DeleteShop = ({
   );
 };
 
-export default DeleteShop;
+export default DeleteStore;
