@@ -5,6 +5,7 @@ import appwriteInventoryService from "@/appwrite/appwriteInventoryService";
 import { OverAllInventoryDataTable } from "./(components)/OverAllInventoryDataTable";
 import OverAllInventoryDataPrintableComponent from "./(components)/OverAllInventoryDataPrintableComponent";
 import ComponentPrint from "@/components/Shared/ComponentPrint";
+import { unstable_noStore as noStore } from "next/cache";
 
 import Logo from "@/assets/Logo-Gold.png";
 
@@ -55,6 +56,8 @@ const getOverAllInventoryData = async () => {
 };
 
 const page = async () => {
+  noStore();
+
   const overAllInventoryData = await getOverAllInventoryData();
 
   return (

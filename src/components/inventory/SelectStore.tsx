@@ -13,10 +13,18 @@ import {
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
+import { cn, generateParams } from "@/lib/utils";
 import appwriteInventoryService from "@/appwrite/appwriteInventoryService";
 
-const SelectStore = ({ storeId }: { storeId: string }) => {
+const SelectStore = ({
+  basePath,
+  storeId,
+  extraSearchParams,
+}: {
+  basePath: string;
+  storeId: string;
+  extraSearchParams: object;
+}) => {
   const [stores, setStores] = useState<any[]>([]);
 
   const router = useRouter();
@@ -63,9 +71,13 @@ const SelectStore = ({ storeId }: { storeId: string }) => {
                     key={store?.$id}
                     value={store?.store_name}
                     onSelect={() => {
-                      router.push(
-                        `/dashboard/inventory/store?storeId=${store?.$id}`
-                      );
+                      // generate path
+                      const path = generateParams({
+                        storeId: store?.$id,
+                        ...extraSearchParams,
+                      });
+
+                      router.replace(`${basePath}?${path}`);
                     }}
                   >
                     <Check

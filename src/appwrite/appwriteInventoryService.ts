@@ -21,6 +21,7 @@ export class AppwriteInventoryService {
         config.appwriteInventoryCollectionId.inventory_allocation,
         [
           Query.equal("product_id", product_id),
+          Query.limit(50000),
           Query.select(["quantity_allocated"]),
         ]
       );
@@ -29,8 +30,23 @@ export class AppwriteInventoryService {
         0
       ) as number;
 
+      // find all return quantity
+      const returnResponse = await databases.listDocuments(
+        config.appwriteDatabaseId,
+        config.appwriteInventoryCollectionId.inventory_return,
+        [
+          Query.equal("product_id", product_id),
+          Query.limit(50000),
+          Query.select(["quantity_return"]),
+        ]
+      );
+      const totalReturn = returnResponse?.documents?.reduce(
+        (acc, returnItem) => acc + returnItem?.quantity_return,
+        0
+      ) as number;
+
       const availableQuantity =
-        totalProductQuantity - totalProductAllocation || 0;
+        totalProductQuantity - (totalProductAllocation - totalReturn) || 0;
 
       return availableQuantity;
     } catch (error) {

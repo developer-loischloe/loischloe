@@ -129,11 +129,11 @@ export const columns: ColumnDef<InventoryItem>[] = [
   {
     id: "available_quantity",
     accessorKey: "available_quantity",
-    header: () => <p className="text-center">Stock</p>,
+    header: () => <p className="text-center text-green-500">Stock</p>,
     cell: ({ row }) => {
       const { available_quantity } = row.original;
 
-      return <p className="text-center">{available_quantity}</p>;
+      return <p className="text-center text-green-500">{available_quantity}</p>;
     },
   },
 

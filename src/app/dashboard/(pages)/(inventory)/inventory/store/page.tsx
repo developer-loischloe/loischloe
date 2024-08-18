@@ -11,9 +11,10 @@ import { SelectDateRangePicker } from "@/components/inventory/SelectDateRangePic
 import ComponentPrint from "@/components/Shared/ComponentPrint";
 import appwriteInventoryService from "@/appwrite/appwriteInventoryService";
 import { StoreDialog } from "@/components/inventory/shop/StoreDialog";
-import Logo from "@/assets/Logo-Gold.png";
 import SingleStoreInventoryDataPrintAbleComponent from "../(components)/SingleStoreInventoryDataPrintAbleComponent";
 import { SingleStoreInventoryDataTable } from "../(components)/SingleStoreInventoryDataTable";
+import { generateParams } from "@/lib/utils";
+import Logo from "@/assets/Logo-Gold.png";
 
 // Metadata
 export const metadata: Metadata = {
@@ -40,6 +41,7 @@ export type InventoryItem = {
   updatedAt: string;
 };
 
+// Utils
 const getInventoryDataBetweenDateByStoreId = async ({
   storeId,
   fromDate,
@@ -63,7 +65,7 @@ const getInventoryDataBetweenDateByStoreId = async ({
 
   const response = await appwriteInventoryService.getInventory({
     page: 1,
-    resultPerPage: 5000,
+    resultPerPage: 50000,
     searchString: "",
     storeId,
   });
@@ -133,10 +135,19 @@ const getInventoryDataBetweenDateByStoreId = async ({
   });
 };
 
+const getPreviousYearDate = () => {
+  const now = new Date();
+  const previousYearDate = new Date(now);
+
+  // Subtract one year from the current year
+  previousYearDate.setFullYear(now.getFullYear() - 1);
+  return previousYearDate.toISOString();
+};
+
 const InventoryPage = async ({
   searchParams: {
     storeId,
-    fromDate = new Date(2024, 0, 1).toISOString(),
+    fromDate = getPreviousYearDate(),
     toDate = new Date().toISOString(),
   },
 }: {
@@ -153,7 +164,14 @@ const InventoryPage = async ({
     const storeId = await appwriteInventoryService.getAStoreId();
 
     if (storeId) {
-      redirect(`/dashboard/inventory/store?storeId=${storeId}`);
+      // generate path
+      const path = generateParams({
+        storeId,
+        fromDate,
+        toDate,
+      });
+
+      redirect(`/dashboard/inventory/store?${path}`);
     } else {
       return (
         <div className="w-full max-w-7xl mx-auto flex flex-col items-center justify-center gap-10 min-h-[30vh]">
@@ -177,7 +195,11 @@ const InventoryPage = async ({
         <AllocateProductDialog heading="Allocate Product">
           <Button>Allocate Product</Button>
         </AllocateProductDialog>
-        <SelectStore storeId={storeId} />
+        <SelectStore
+          basePath="/dashboard/inventory/store"
+          storeId={storeId}
+          extraSearchParams={{ fromDate, toDate }}
+        />
         <SelectDateRangePicker
           basePath="/dashboard/inventory/store"
           dateData={{ from: new Date(fromDate), to: new Date(toDate) }}
