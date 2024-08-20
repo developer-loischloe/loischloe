@@ -68,7 +68,7 @@ const FormSchema = z
       }),
     tags: z.array(z.string()),
     sku: z.string(),
-    product_quantity: z.number().min(1, {
+    product_quantity: z.number().min(0, {
       message: "Product Quantity is required",
     }),
     featured: z.boolean().default(false),
