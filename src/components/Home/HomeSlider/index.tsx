@@ -7,6 +7,7 @@ import { MotionDiv } from "@/framer-motion/motion";
 import { zoomVariants } from "@/framer-motion/variants";
 import { AnimatePresence } from "framer-motion";
 
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
