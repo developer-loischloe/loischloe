@@ -42,33 +42,33 @@ const sliderConstant = [
     alt: "Banner",
     link: "/products",
   },
-  {
-    id: 2,
-    banner: {
-      main: Main_banner_5,
-      mobile: Mobile_banner_5,
-    },
-    alt: "Combo",
-    link: "/combo-deals",
-  },
-  {
-    id: 3,
-    banner: {
-      main: Main_banner,
-      mobile: Mobile_banner,
-    },
-    alt: "Banner",
-    link: "/products",
-  },
-  {
-    id: 4,
-    banner: {
-      main: Main_banner_5,
-      mobile: Mobile_banner_5,
-    },
-    alt: "Combo",
-    link: "/combo-deals",
-  },
+  // {
+  //   id: 2,
+  //   banner: {
+  //     main: Main_banner_5,
+  //     mobile: Mobile_banner_5,
+  //   },
+  //   alt: "Combo",
+  //   link: "/combo-deals",
+  // },
+  // {
+  //   id: 3,
+  //   banner: {
+  //     main: Main_banner,
+  //     mobile: Mobile_banner,
+  //   },
+  //   alt: "Banner",
+  //   link: "/products",
+  // },
+  // {
+  //   id: 4,
+  //   banner: {
+  //     main: Main_banner_5,
+  //     mobile: Mobile_banner_5,
+  //   },
+  //   alt: "Combo",
+  //   link: "/combo-deals",
+  // },
   // {
   //   id: 1,
   //   banner: {
