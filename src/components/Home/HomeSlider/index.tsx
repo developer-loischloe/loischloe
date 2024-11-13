@@ -34,6 +34,15 @@ import Mobile_banner_5 from "../../../../public/home_slider/1563x1458_px/W-Post-
 
 const sliderConstant = [
   {
+    id: 0,
+    banner: {
+      main: Main_banner_1,
+      mobile: Mobile_banner_1,
+    },
+    alt: "Banner",
+    link: "/products",
+  },
+  {
     id: 1,
     banner: {
       main: Main_banner,
@@ -42,60 +51,24 @@ const sliderConstant = [
     alt: "Banner",
     link: "/products",
   },
-  // {
-  //   id: 2,
-  //   banner: {
-  //     main: Main_banner_5,
-  //     mobile: Mobile_banner_5,
-  //   },
-  //   alt: "Combo",
-  //   link: "/combo-deals",
-  // },
-  // {
-  //   id: 3,
-  //   banner: {
-  //     main: Main_banner,
-  //     mobile: Mobile_banner,
-  //   },
-  //   alt: "Banner",
-  //   link: "/products",
-  // },
-  // {
-  //   id: 4,
-  //   banner: {
-  //     main: Main_banner_5,
-  //     mobile: Mobile_banner_5,
-  //   },
-  //   alt: "Combo",
-  //   link: "/combo-deals",
-  // },
-  // {
-  //   id: 1,
-  //   banner: {
-  //     main: Main_banner_4,
-  //     mobile: Mobile_banner_4,
-  //   },
-  //   alt: "Eid Bundle",
-  //   link: "/products/eid-bundle",
-  // },
-  // {
-  //   id: 2,
-  //   banner: {
-  //     main: Main_banner_3,
-  //     mobile: Mobile_banner_3,
-  //   },
-  //   alt: "Special Offer: Buy 1 Get 1 Cushion Foundation (Regular)",
-  //   link: "/products/special-offer-buy-1-get-1-cushion-foundation-regular",
-  // },
-  // {
-  //   id: 4,
-  //   banner: {
-  //     main: Main_banner_2,
-  //     mobile: Mobile_banner_2,
-  //   },
-  //   alt: "Special Offer: Buy One Beauty Box, Get One Free",
-  //   link: "/products/special-offer-buy-one-beauty-box-get-one-free",
-  // },
+  {
+    id: 2,
+    banner: {
+      main: Main_banner_1,
+      mobile: Mobile_banner_1,
+    },
+    alt: "Banner",
+    link: "/products",
+  },
+  {
+    id: 3,
+    banner: {
+      main: Main_banner,
+      mobile: Mobile_banner,
+    },
+    alt: "Banner",
+    link: "/products",
+  },
 ];
 
 export default function App() {
