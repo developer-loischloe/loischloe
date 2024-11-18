@@ -7,7 +7,6 @@ import { MotionDiv } from "@/framer-motion/motion";
 import { zoomVariants } from "@/framer-motion/variants";
 import { AnimatePresence } from "framer-motion";
 
-
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -18,57 +17,53 @@ import { Autoplay } from "swiper/modules";
 import "./styles.css";
 
 // desktop(2000 X 757)
-import Main_banner from "../../../../public/home_slider/2000x757_px/Web_1.png";
-import Main_banner_1 from "../../../../public/home_slider/2000x757_px/main_banner_1.png";
-import Main_banner_2 from "../../../../public/home_slider/2000x757_px/W-Post-1.png";
-import Main_banner_3 from "../../../../public/home_slider/2000x757_px/W-Post-2.png";
-import Main_banner_4 from "../../../../public/home_slider/2000x757_px/W-Post-3.png";
-import Main_banner_5 from "../../../../public/home_slider/2000x757_px/W-Post-4.png";
+import Main_banner_1 from "../../../../public/home_slider/2000x757_px/No_CM_W_Post_V-1.webp";
+import Main_banner_2 from "../../../../public/home_slider/2000x757_px/No_CM_W_Post_V-2.webp";
+import Main_banner_3 from "../../../../public/home_slider/2000x757_px/No_CM_W_Post_V-3.webp";
+import Main_banner_4 from "../../../../public/home_slider/2000x757_px/No_CM_W_Post_V-4.webp";
 
 // Mobile(1563 X 1458)
-import Mobile_banner from "../../../../public/home_slider/1563x1458_px/Web_2.png";
-import Mobile_banner_1 from "../../../../public/home_slider/1563x1458_px/mobile_banner_1.png";
-import Mobile_banner_2 from "../../../../public/home_slider/1563x1458_px/W-Post-5.png";
-import Mobile_banner_3 from "../../../../public/home_slider/1563x1458_px/W-Post-6.png";
-import Mobile_banner_4 from "../../../../public/home_slider/1563x1458_px/W-Post-7.png";
-import Mobile_banner_5 from "../../../../public/home_slider/1563x1458_px/W-Post-8.png";
+import Mobile_banner_1 from "../../../../public/home_slider/1563x1458_px/No_CM_W_Post_V-1.1.webp";
+import Mobile_banner_2 from "../../../../public/home_slider/1563x1458_px/No_CM_W_Post_V-2.1.webp";
+import Mobile_banner_3 from "../../../../public/home_slider/1563x1458_px/No_CM_W_Post_V-3.1.webp";
+import Mobile_banner_4 from "../../../../public/home_slider/1563x1458_px/No_CM_W_Post_V-4.1.webp";
 
 const sliderConstant = [
   {
-    id: 0,
+    id: 1,
     banner: {
       main: Main_banner_1,
       mobile: Mobile_banner_1,
     },
     alt: "Banner",
-    link: "/products",
-  },
-  {
-    id: 1,
-    banner: {
-      main: Main_banner,
-      mobile: Mobile_banner,
-    },
-    alt: "Banner",
-    link: "/products",
+    link: "/products/warm-up-your-look",
   },
   {
     id: 2,
     banner: {
-      main: Main_banner_1,
-      mobile: Mobile_banner_1,
+      main: Main_banner_2,
+      mobile: Mobile_banner_2,
     },
     alt: "Banner",
-    link: "/products",
+    link: "/products/brighten-up-winter-with-bold-colors",
   },
   {
     id: 3,
     banner: {
-      main: Main_banner,
-      mobile: Mobile_banner,
+      main: Main_banner_3,
+      mobile: Mobile_banner_3,
     },
     alt: "Banner",
-    link: "/products",
+    link: "/products/chill-in-style",
+  },
+  {
+    id: 4,
+    banner: {
+      main: Main_banner_4,
+      mobile: Mobile_banner_4,
+    },
+    alt: "Banner",
+    link: "/combo-deals",
   },
 ];
 
