@@ -65,7 +65,7 @@ const sliderConstant = [
       mobile: Mobile_banner_4,
     },
     alt: "Banner",
-    link: "/combo-deals",
+    link: "/products/buy-3-liquid-matte-lipsticks-and-get-1-free",
   },
 ];
 

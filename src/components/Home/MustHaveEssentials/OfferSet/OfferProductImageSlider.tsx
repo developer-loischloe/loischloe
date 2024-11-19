@@ -45,7 +45,7 @@ export default function OfferProductImageSlider({
                     alt={product?.images[0].alt}
                     width={500}
                     height={500}
-                    className="w-full h-full max-h-[450px] md:max-h-[550px]"
+                    className="w-full h-full max-h-[450px] md:max-h-[550px] hover:scale-105 transition-all duration-300"
                     priority
                   />
                 </SwiperSlide>

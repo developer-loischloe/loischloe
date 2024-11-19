@@ -11,7 +11,7 @@ import FreeGift from "./FreeGift";
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <ReduxProvider>
-      {/* <LoisChloeMarquee /> */}
+      <LoisChloeMarquee />
       <Suspense>
         <Header />
       </Suspense>

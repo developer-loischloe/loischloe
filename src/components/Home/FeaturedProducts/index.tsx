@@ -1,7 +1,7 @@
-import appwriteProductService from "@/appwrite/appwriteProductService";
-import FeaturedProductsSlider from "./FeaturedProductsSlider";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import appwriteProductService from "@/appwrite/appwriteProductService";
+import FeaturedProductsSlider from "./FeaturedProductsSlider";
 
 const FeaturedProducts = async () => {
   const products = await appwriteProductService.getFeaturedProducts();
@@ -17,8 +17,8 @@ const FeaturedProducts = async () => {
         {/* products */}
         <FeaturedProductsSlider products={products.documents} />
         <div>
-          <Link href={"/products?p_category=makeup&c_category=face"}>
-            <Button>View all</Button>
+          <Link href={"/products"}>
+            <Button>Explore Products</Button>
           </Link>
         </div>
       </div>

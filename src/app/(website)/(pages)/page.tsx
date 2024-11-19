@@ -17,6 +17,7 @@ import SliderProductListLoading from "@/components/Shared/loading/SliderProductL
 import JsonLd from "@/components/Shared/JsonLd ";
 import { globalMetaDataConstant } from "@/app/constant";
 import Loader from "@/components/Shared/loading/Loader";
+import ComboDeals from "@/components/Home/ComboDeals";
 
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
   ssr: false,
@@ -50,9 +51,14 @@ export default function Home() {
       <HomeSlider />
       <ShipmentToDelivery />
       <TrendingCategories />
+
+      <Suspense fallback={<SliderProductListLoading />}>
+        <ComboDeals />
+      </Suspense>
       <Suspense fallback={<SliderProductListLoading />}>
         <FeaturedProducts />
       </Suspense>
+
       <Offer />
       <Suspense fallback={<SliderProductListLoading />}>
         <HotProducts />

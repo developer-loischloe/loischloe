@@ -52,8 +52,8 @@ const OfferProducts = async () => {
   }
 
   return (
-    <div className="w-full max-w-[700px] mx-auto">
-      <div className="flex-1 grid grid-cols-1 sm:grid-cols-2  gap-5">
+    <div className="w-full mx-auto">
+      <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-5">
         {products.documents?.map((product: any) => (
           <ProductCard product={product} key={product.$id} />
         ))}

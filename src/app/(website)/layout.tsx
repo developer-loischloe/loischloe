@@ -13,7 +13,6 @@ import "swiper/css/thumbs";
 // Custom Swiper CSS
 import "./swipper.css";
 
-import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
 import { globalMetaDataConstant } from "../constant";
 
 // Fonts

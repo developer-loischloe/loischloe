@@ -1,4 +1,3 @@
-import Loading from "@/app/dashboard/loading";
 import appwriteProductService from "@/appwrite/appwriteProductService";
 import { formatCurrency } from "@/lib/utils";
 import { sendGTMEvent } from "@next/third-parties/google";
@@ -94,8 +93,8 @@ const SearchSuggestion = ({
 
       {/* =>>>>>>>>>>>>>>> */}
       {isLoading ? (
-        <div className="mx-auto">
-          <Loading />
+        <div className="mx-auto py-20 flex-1 flex justify-center">
+          <p>Loading...</p>
         </div>
       ) : (
         <>

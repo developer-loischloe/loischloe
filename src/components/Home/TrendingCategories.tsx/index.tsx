@@ -43,8 +43,9 @@ const TrendingCategories = () => {
             <Link href={category.link}>
               <div
                 className={cn(
-                  "w-[90px] h-[90px] md:w-[130px] md:h-[130px] rounded-full flex items-center justify-center p-2",
-                  `bg-[#ffb662b2]`
+                  "w-[90px] h-[90px] md:w-[130px] md:h-[130px] lg:w-[140px] lg:h-[140px] rounded-full flex items-center justify-center p-2",
+                  `bg-[#ffb662b2]`,
+                  `hover:scale-110 transition-all duration-300`
                 )}
               >
                 <div className="w-full h-full bg-[#fff] rounded-full flex items-center justify-center">

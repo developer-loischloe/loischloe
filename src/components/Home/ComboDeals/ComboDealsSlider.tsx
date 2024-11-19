@@ -1,10 +1,11 @@
 "use client";
 import React from "react";
 import ProductCard from "@/components/Products/ProductCard";
+
 import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-const FeaturedProductsSlider = ({ products }: { products: any[] }) => {
+const ComboDealsSlider = ({ products }: { products: any[] }) => {
   return (
     <Swiper
       slidesPerView={1}
@@ -44,4 +45,4 @@ const FeaturedProductsSlider = ({ products }: { products: any[] }) => {
   );
 };
 
-export default FeaturedProductsSlider;
+export default ComboDealsSlider;

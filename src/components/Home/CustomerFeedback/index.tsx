@@ -90,7 +90,7 @@ export default function CustomerFeedback() {
             key={review.id}
             className="flex flex-col !items-center justify-center gap-5"
           >
-            <div className="max-w-max mx-auto">
+            <div className="max-w-max mx-auto hover:scale-105 transition-all duration-300">
               <Link href={review.link}>
                 <Image
                   src={review.image}

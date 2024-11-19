@@ -1,6 +1,6 @@
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 interface OfferProps {
   title: string;
@@ -11,9 +11,9 @@ interface OfferProps {
 
 const OfferCard = ({ offer }: { offer: OfferProps }) => {
   return (
-    <div className="relative flex-1 overflow-hidden  rounded-sm">
+    <div className="relative flex-1 overflow-hidden rounded-md hover:scale-105 transition-all duration-300">
       <Link href={offer.btnLink}>
-        <Image src={offer.bgImage} alt={offer.title} className="" />
+        <Image src={offer.bgImage} alt={offer.title} />
       </Link>
     </div>
   );

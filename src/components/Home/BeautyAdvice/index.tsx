@@ -36,8 +36,8 @@ const BeautyAdvice = () => {
         <h4 className="heading-1 text-center">The Power Of Green Cosmetics</h4>
 
         <div className="grid grid-cols-1 gap-y-10 md:grid-cols-4 md:gap-5">
-          {constant.map((item) => (
-            <VideoCard key={item.id} item={item} />
+          {constant?.map((item) => (
+            <VideoCard key={item?.id} item={item} />
           ))}
         </div>
       </div>

@@ -13,7 +13,7 @@ const VideoCard = ({ item }: { item: ItemProps }) => {
   return (
     <div
       className={cn(
-        "aspect-w-16 aspect-h-9 rounded-md overflow-hidden col-span-1",
+        "aspect-video rounded-md overflow-hidden col-span-1",
         item.id <= 2 && "md:col-span-2"
       )}
     >

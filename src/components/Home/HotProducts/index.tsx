@@ -1,6 +1,4 @@
 import appwriteProductService from "@/appwrite/appwriteProductService";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import HotProductsSlider from "./HotProductsSlider";
 
 const HotProducts = async () => {
@@ -15,12 +13,7 @@ const HotProducts = async () => {
 
       <div className="flex flex-col items-center gap-10">
         {/* products */}
-        <HotProductsSlider products={products.documents} />
-        <div>
-          <Link href={"/products?p_category=makeup&c_category=face"}>
-            <Button>View all</Button>
-          </Link>
-        </div>
+        <HotProductsSlider products={products?.documents} />
       </div>
     </section>
   );
