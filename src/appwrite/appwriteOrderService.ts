@@ -105,24 +105,16 @@ export class AppwriteOrderService {
     }
   }
 
-  async getOrderDetailsByYear(year?: number) {
+  async getDashboardOverviewData({
+    fromDate,
+    toDate,
+  }: {
+    fromDate: string;
+    toDate: string;
+  }) {
     const QUERY_LIMIT = 5000;
-    const QUERY_YEAR = year ? Number(year) : new Date().getFullYear();
 
     // =>>>>>> Utility function  start
-    function generateQueryDate(year: number) {
-      return new Date(year, 0).toISOString();
-    }
-
-    function calculateTotalSale(orders: any[]) {
-      const responseData = orders.reduce((acc, order) => {
-        acc += order.paymentInformation.product_price;
-
-        return acc;
-      }, 0);
-
-      return responseData;
-    }
 
     function getProductsSortedByPopularity(products: any[]) {
       const productFrequency: any = {};
@@ -146,12 +138,12 @@ export class AppwriteOrderService {
       return productArray;
     }
 
-    function getBestBuyingDistrict(orders: any[]) {
+    function getBestBuyingState(orders: any[]) {
       const hashMap: any = {};
 
       orders.forEach((order) => {
-        let district = order.shippingInformation.district;
-        hashMap[district] = (hashMap[district] || 0) + 1;
+        let state = order.shippingInformation.district;
+        hashMap[state] = (hashMap[state] || 0) + 1;
       });
 
       const entries = Object.entries(hashMap);
@@ -164,42 +156,15 @@ export class AppwriteOrderService {
 
     try {
       // fetch data
-      const currentYearResponse = await databases.listDocuments(
+      const response = await databases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId.order,
         [
-          Query.between(
-            "$createdAt",
-            generateQueryDate(QUERY_YEAR),
-            generateQueryDate(QUERY_YEAR + 1)
-          ),
+          Query.greaterThanEqual("$createdAt", fromDate),
+          Query.lessThanEqual("$createdAt", toDate),
           Query.equal("order_status", "completed"),
           Query.limit(QUERY_LIMIT),
         ]
-      );
-
-      const previousYearResponse = await databases.listDocuments(
-        config.appwriteDatabaseId,
-        config.appwriteCollectionId.order,
-        [
-          Query.between(
-            "$createdAt",
-            generateQueryDate(QUERY_YEAR - 1),
-            generateQueryDate(QUERY_YEAR)
-          ),
-          Query.equal("order_status", "completed"),
-          Query.limit(QUERY_LIMIT),
-        ]
-      );
-
-      // => calculate order and sale percentage (current year and last year)
-      const orderChange = calculateChange(
-        previousYearResponse.total,
-        currentYearResponse.total
-      );
-      const saleChange = calculateChange(
-        calculateTotalSale(previousYearResponse.documents),
-        calculateTotalSale(currentYearResponse.documents)
       );
 
       // initialOrderAndSaleData Schema
@@ -220,10 +185,6 @@ export class AppwriteOrderService {
             { month: "November", order: 0 },
             { month: "December", order: 0 },
           ],
-          progress: {
-            value: orderChange.percentageChange,
-            increment: orderChange.changeType === "increment",
-          },
         },
         sale: {
           total_sale: 0,
@@ -241,49 +202,40 @@ export class AppwriteOrderService {
             { month: "November", sale: 0 },
             { month: "December", sale: 0 },
           ],
-          progress: {
-            value: saleChange.percentageChange,
-            increment: saleChange.changeType === "increment",
-          },
         },
       };
 
-      const orderAndSaleData = currentYearResponse.documents.reduce(
-        (acc, order) => {
-          const monthIndex = new Date(order.$createdAt).getMonth();
+      const orderAndSaleData = response?.documents?.reduce((acc, order) => {
+        const monthIndex = new Date(order?.$createdAt).getMonth();
 
-          // Update total_order
-          if (acc.order.total_order === 0) {
-            acc.order.total_order = currentYearResponse.total;
-          }
-          // Update order chartData
-          acc.order.chartData[monthIndex].order++;
+        // Update total_order
+        if (acc.order.total_order === 0) {
+          acc.order.total_order = response?.total;
+        }
+        // Update order chartData
+        acc.order.chartData[monthIndex].order++;
 
-          // Update total_sale
-          acc.sale.total_sale += order.paymentInformation.product_price;
-          // Update sale chartData
-          acc.sale.chartData[monthIndex].sale +=
-            order.paymentInformation.total_price;
+        // Update total_sale
+        acc.sale.total_sale += order?.paymentInformation?.product_price;
+        // Update sale chartData
+        acc.sale.chartData[monthIndex].sale +=
+          order?.paymentInformation?.total_price;
 
-          return acc;
-        },
-        initialOrderAndSaleDataSchema
-      );
+        return acc;
+      }, initialOrderAndSaleDataSchema);
 
-      const flatOrderItems = currentYearResponse.documents
-        .flatMap((order) => order.orderItems)
+      const flatOrderItems = response?.documents
+        ?.flatMap((order) => order.orderItems)
         .flat()
         .flatMap((orderItem) => ({
-          name: orderItem.product.name,
-          price: orderItem.product.price,
+          name: orderItem?.product.name,
+          price: orderItem?.product.price,
         }));
 
       return {
         ...orderAndSaleData,
         popularProducts: getProductsSortedByPopularity(flatOrderItems),
-        bestBuyingDistrict: getBestBuyingDistrict(
-          currentYearResponse.documents
-        ),
+        bestBuyingStates: getBestBuyingState(response?.documents),
       };
     } catch (error) {
       throw error;

@@ -1,9 +1,7 @@
 "use client";
 
 import React from "react";
-import { TrendingDown, TrendingUp } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
-
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   ChartConfig,
@@ -11,13 +9,11 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { cn } from "@/lib/utils";
 
 export default function TopViewCard({
   icon,
   cardTitle,
   cardValue,
-  progress,
   chartData,
   chartConfig,
   areaDataKey,
@@ -25,10 +21,6 @@ export default function TopViewCard({
   icon: React.ReactNode;
   cardTitle: string;
   cardValue: string;
-  progress: {
-    value: string;
-    increment: boolean;
-  };
   chartData: any[];
   chartConfig: ChartConfig;
   areaDataKey: string;
@@ -36,27 +28,7 @@ export default function TopViewCard({
   return (
     <Card>
       <CardHeader>
-        <div
-          className={cn(
-            "flex justify-between",
-            progress.increment ? "text-green-500" : "text-red-500"
-          )}
-        >
-          <div>{icon}</div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm">
-              {progress.increment ? "+" : "-"}
-              {progress.value}%
-            </span>
-            <span>
-              {progress.increment ? (
-                <TrendingUp size={16} />
-              ) : (
-                <TrendingDown size={16} />
-              )}
-            </span>
-          </div>
-        </div>
+        <div>{icon}</div>
         <div>
           <p className="text-xl">{cardValue}</p>
           <p className="text-sm">{cardTitle}</p>
