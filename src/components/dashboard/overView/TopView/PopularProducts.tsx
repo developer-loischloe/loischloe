@@ -10,7 +10,7 @@ const PopularProducts = ({ products }: { products: any[] }) => {
         <CardTitle className="text-lg">Popular products</CardTitle>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[300px]">
+        <ScrollArea className="h-[300px] lg:h-[500px]">
           {products.map((product) => (
             <div
               key={product.name}

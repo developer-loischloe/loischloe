@@ -75,10 +75,10 @@ const constants: Section[] = [
             title: "All Order",
             link: "/dashboard/orders",
           },
-          {
-            title: "Add Order",
-            link: "/dashboard/orders/add",
-          },
+          // {
+          //   title: "Add Order",
+          //   link: "/dashboard/orders/add",
+          // },
         ],
       },
     ],
@@ -153,10 +153,10 @@ const constants: Section[] = [
             title: "Free Gift",
             link: "/dashboard/free-gift",
           },
-          {
-            title: "Discount",
-            link: "/dashboard/discount",
-          },
+          // {
+          //   title: "Discount",
+          //   link: "/dashboard/discount",
+          // },
         ],
       },
     ],
