@@ -271,6 +271,20 @@ export class AppwriteProductService {
     }
   }
 
+  async getPreOrderProducts() {
+    try {
+      const response = await databases.listDocuments(
+        config.appwriteDatabaseId,
+        config.appwriteCollectionId.product,
+        [Query.equal("Published", [true]), Query.equal("pre_order", [true])]
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async deleteProduct({ productId }: { productId: string }) {
     try {
       const response = await databases.deleteDocument(

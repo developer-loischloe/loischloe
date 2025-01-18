@@ -10,6 +10,7 @@ import {
 } from "@/lib/utils";
 import AddToCartButton from "./AddToCartButton";
 import { Button } from "../ui/button";
+import PreOrderButton from "./PreOrderButton";
 
 // Declare it outside your component so it doesn't get re-created
 const myStyles = {
@@ -99,7 +100,9 @@ const ProductCard = ({ product }: { product: any }) => {
         </div>
       </div>
       <div className="w-full">
-        {product?.stock === "in-stock" ? (
+        {product?.pre_order ? (
+          <PreOrderButton product={product} />
+        ) : product?.stock === "in-stock" ? (
           <AddToCartButton product={product} />
         ) : (
           <Button disabled className="w-full">

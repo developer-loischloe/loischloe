@@ -82,7 +82,7 @@ const ProductsPage = ({
         />
       </div>
 
-      {/* Order List */}
+      {/* Product List */}
       <Suspense
         key={(Math.random() * 1000).toString()}
         fallback={<LoadingSpiner />}

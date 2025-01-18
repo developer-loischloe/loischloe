@@ -17,6 +17,10 @@ const menuItems = [
     href: "/combo-deals",
   },
   {
+    name: "Pre-Order",
+    href: "/pre-order",
+  },
+  {
     name: "Blog",
     href: "/blog",
   },

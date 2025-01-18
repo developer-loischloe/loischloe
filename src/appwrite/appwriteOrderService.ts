@@ -1,7 +1,6 @@
 import { ID, Query } from "appwrite";
 import { databases } from "./appwriteConfig";
 import config from "@/config";
-import { calculateChange } from "@/lib/utils";
 
 export class AppwriteOrderService {
   async getAllOrder({
@@ -115,7 +114,6 @@ export class AppwriteOrderService {
     const QUERY_LIMIT = 5000;
 
     // =>>>>>> Utility function  start
-
     function getProductsSortedByPopularity(products: any[]) {
       const productFrequency: any = {};
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { formatCurrency } from "@/lib/utils";
+import Link from "next/link";
 
 const OrderItems = ({ order }: { order: any }) => {
   return (
@@ -17,7 +18,12 @@ const OrderItems = ({ order }: { order: any }) => {
               <p className="text-sm text-brand_gray mb-1">
                 <span>Product name</span>
               </p>
-              <h5 className="font-medium">{item?.product?.name}</h5>
+              <Link
+                href={`/products/${item?.product?.slug}`}
+                className="hover:text-brand_primary transition-all"
+              >
+                <h5 className="font-medium">{item?.product?.name}</h5>
+              </Link>
             </div>
 
             <div className="w-[80px] flex flex-col items-center">

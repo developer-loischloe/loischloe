@@ -40,6 +40,38 @@ const ProductItem = ({ product }: { product: any }) => {
       >
         {product?.stock}
       </TableCell>
+      <TableCell
+        className={cn("", {
+          "text-green-400": product?.featured,
+          "text-red-400": !product?.featured,
+        })}
+      >
+        {product?.featured ? "Yes" : "No"}
+      </TableCell>
+      <TableCell
+        className={cn("", {
+          "text-green-400": product?.hot_product,
+          "text-red-400": !product?.hot_product,
+        })}
+      >
+        {product?.hot_product ? "Yes" : "No"}
+      </TableCell>
+      <TableCell
+        className={cn("", {
+          "text-green-400": product?.pre_order,
+          "text-red-400": !product?.pre_order,
+        })}
+      >
+        {product?.pre_order ? "Yes" : "No"}
+      </TableCell>
+      <TableCell
+        className={cn("", {
+          "text-green-400": product?.Published,
+          "text-red-400": !product?.Published,
+        })}
+      >
+        {product?.Published ? "Yes" : "No"}
+      </TableCell>
       <TableCell>
         <div>
           <time className="text-brand_primary">

@@ -81,6 +81,7 @@ const FormSchema = z
       .min(1, { message: "Child Category is required." }),
     nested_child_category: z.string(),
     hot_product: z.boolean().default(false),
+    pre_order: z.boolean().default(false),
     Published: z.boolean().default(true),
     images: z
       .any()
@@ -127,6 +128,7 @@ export default function AddProductForm({
       child_category: product?.child_category || "",
       nested_child_category: product?.nested_child_category || "",
       hot_product: product?.hot_product || false,
+      pre_order: product?.pre_order || false,
       images: product?.images?.flatMap((img: any) => img.$id) || null,
       Published: product?.Published || false,
     },
@@ -185,6 +187,7 @@ export default function AddProductForm({
         ? { nested_child_category: productData.nested_child_category }
         : {}),
       hot_product: productData.hot_product,
+      pre_order: productData.pre_order,
       images: productData.images,
       Published: productData.Published,
     };
@@ -212,7 +215,7 @@ export default function AddProductForm({
         });
 
         toast.success("Product successfully updated.");
-        router.push("/dashboard/products");
+        // router.push("/dashboard/products");
         router.refresh();
       } catch (error: any) {
         console.log(error);
@@ -573,6 +576,24 @@ export default function AddProductForm({
           render={({ field }) => (
             <FormItem className="">
               <FormLabel className="">Hot Product</FormLabel>
+              <FormControl>
+                <Switch
+                  className="ml-10"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="pre_order"
+          render={({ field }) => (
+            <FormItem className="">
+              <FormLabel className="">Pre Order</FormLabel>
               <FormControl>
                 <Switch
                   className="ml-10"

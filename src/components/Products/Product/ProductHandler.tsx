@@ -1,7 +1,10 @@
 "use client";
+
 import { formatCurrency } from "@/lib/utils";
 import { Rating as ReactRating, Star } from "@smastrom/react-rating";
 import dynamic from "next/dynamic";
+import PreOrderButton from "../PreOrderButton";
+import { Button } from "@/components/ui/button";
 const CartHandler = dynamic(() => import("./CartHandler/CartHandler"));
 
 const myStyles = {
@@ -15,11 +18,18 @@ const ProductHandler = ({ product }: any) => {
 
   return (
     <div className="flex-1 space-y-5">
-      <div className="bg-brand_primary px-7 max-w-max text-sm pt-1">
-        <span className="">
-          {product?.stock.split("-").join(" ").toUpperCase()}
-        </span>
+      {/* Badge */}
+      <div className="bg-brand_primary px-5 py-1 max-w-max text-sm">
+        {product?.pre_order ? (
+          <span>Coming Soon – Pre-Order Now!</span>
+        ) : (
+          <span className="">
+            {product?.stock.split("-").join(" ").toUpperCase()}
+          </span>
+        )}
       </div>
+
+      {/* Title & Rating */}
       <div>
         <h1 className="text-3xl">{product?.name}</h1>
         <ReactRating
@@ -30,6 +40,7 @@ const ProductHandler = ({ product }: any) => {
         />
       </div>
 
+      {/* Description */}
       <div>
         <div
           dangerouslySetInnerHTML={{ __html: product?.short_description }}
@@ -39,6 +50,7 @@ const ProductHandler = ({ product }: any) => {
 
       <hr />
 
+      {/* Price */}
       <div className="space-x-5 ">
         <ins className="text-2xl no-underline">
           <span className="">{formatCurrency(product?.sale_price)}</span>
@@ -50,11 +62,18 @@ const ProductHandler = ({ product }: any) => {
         )}
       </div>
 
-      {product?.stock === "in-stock" ? (
-        <CartHandler product={product} />
-      ) : (
-        <br />
-      )}
+      {/* Action Handler */}
+      <div>
+        {product?.pre_order ? (
+          <PreOrderButton product={product} className="!max-w-max px-10" />
+        ) : product?.stock === "in-stock" ? (
+          <CartHandler product={product} />
+        ) : (
+          <Button disabled className="!max-w-max px-10">
+            Out Of Stock
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

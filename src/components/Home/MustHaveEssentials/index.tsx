@@ -28,16 +28,8 @@ const MustHaveEssentials = async () => {
       <h4 className="heading-1 text-center">Must-Have Essentials</h4>
 
       <div className="space-y-10 md:space-y-16">
-        <OfferSet
-          products={offerSetProducts.filter(
-            (product) => product?.stock === "in-stock"
-          )}
-        />
-        <LipStickSet
-          products={lipstickSetProducts.filter(
-            (product) => product?.stock === "in-stock"
-          )}
-        />
+        <OfferSet products={offerSetProducts} />
+        <LipStickSet products={lipstickSetProducts} />
       </div>
     </section>
   );

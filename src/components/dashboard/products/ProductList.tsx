@@ -54,6 +54,10 @@ const ProductList = async ({
               </TableHead>
               <TableHead>Quantity</TableHead>
               <TableHead className="min-w-[100px]">Stock</TableHead>
+              <TableHead className="min-w-[100px]">Featured</TableHead>
+              <TableHead className="min-w-[120px]">Hot Product</TableHead>
+              <TableHead className="min-w-[100px]">Pre-Order</TableHead>
+              <TableHead className="min-w-[100px]">Published</TableHead>
               <TableHead className="min-w-[120px]">CreatedAt</TableHead>
               <TableHead className="min-w-[120px]">UpdatedAt</TableHead>
               <TableHead className="text-center">Action</TableHead>
