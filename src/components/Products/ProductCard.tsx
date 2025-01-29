@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Rating as ReactRating, Star } from "@smastrom/react-rating";
+import { motion } from "framer-motion";
 import {
   calculateDiscountPercentage,
   cn,
@@ -26,24 +29,61 @@ const ProductCard = ({ product }: { product: any }) => {
   );
 
   return (
-    <div className=" shadow-2xl rounded-sm flex flex-col items-center justify-between group">
-      <div className="w-full overflow-hidden relative">
+    <div className="shadow-2xl rounded-sm flex flex-col items-center justify-between group h-full">
+      <div className="w-full overflow-hidden relative aspect-square">
         {discount > 0 && (
-          <div className="absolute top-2 left-5 bg-brand_primary max-w-max px-5 py-1 rounded-sm z-10">
+          <div className="absolute top-2 left-5 bg-brand_primary max-w-max px-5 py-1 rounded-sm z-20">
             <span className="text-sm text-brand_secondary">-{discount}%</span>
           </div>
         )}
-        <Link href={`/products/${product?.slug}`}>
-          <Image
-            src={product?.images[0]?.image_url}
-            alt="img1"
-            width={300}
-            height={300}
-            className="w-full group-hover:scale-105 transition-all duration-300"
-          />
+        <Link
+          href={`/products/${product?.slug}`}
+          className="block w-full h-full"
+        >
+          <motion.div
+            initial="rest"
+            whileHover="hover"
+            animate="rest"
+            className="relative w-full h-full"
+          >
+            <motion.div
+              variants={{
+                rest: { x: 0 },
+                hover: { x: "-100%" },
+              }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="absolute inset-0"
+            >
+              <Image
+                src={product?.images[0]?.image_url || "/placeholder.svg"}
+                alt={product?.name}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover"
+              />
+            </motion.div>
+            {product?.images[1] && (
+              <motion.div
+                variants={{
+                  rest: { x: "100%", opacity: 0 },
+                  hover: { x: 0, opacity: 1 },
+                }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={product?.images[1]?.image_url || "/placeholder.svg"}
+                  alt={`${product?.name} - alternate view`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover"
+                />
+              </motion.div>
+            )}
+          </motion.div>
         </Link>
       </div>
-      <div className="space-y-3 p-5">
+      <div className="space-y-3 p-5 w-full">
         <div>
           <Link href={`/products/${product?.slug}`}>
             <h3 className="text-xl hover:underline transition-all line-clamp-1">
@@ -51,21 +91,19 @@ const ProductCard = ({ product }: { product: any }) => {
             </h3>
           </Link>
           <div className="text-brand_gray">
-            {product?.categories?.map((category: any, index: number) => {
-              return (
-                <Link
-                  href={`/products?${generateParams({
-                    category: category?.slug,
-                  })}`}
-                  key={category?.$id}
-                >
-                  <span className="text-sm hover:underline">
-                    {category?.name}
-                  </span>
-                  {product?.categories.length > index + 1 && ", "}
-                </Link>
-              );
-            })}
+            {product?.categories?.map((category: any, index: number) => (
+              <Link
+                href={`/products?${generateParams({
+                  category: category?.slug,
+                })}`}
+                key={category?.$id}
+              >
+                <span className="text-sm hover:underline">
+                  {category?.name}
+                </span>
+                {product?.categories.length > index + 1 && ", "}
+              </Link>
+            ))}
           </div>
         </div>
 
@@ -99,7 +137,7 @@ const ProductCard = ({ product }: { product: any }) => {
           </div>
         </div>
       </div>
-      <div className="w-full">
+      <div className="w-full mt-auto">
         {product?.pre_order ? (
           <PreOrderButton product={product} />
         ) : product?.stock === "in-stock" ? (
