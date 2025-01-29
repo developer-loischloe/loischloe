@@ -46,7 +46,7 @@ const ProductCard = ({ product }: { product: any }) => {
       <div className="space-y-3 p-5">
         <div>
           <Link href={`/products/${product?.slug}`}>
-            <h3 className="text-xl hover:underline transition-all line-clamp-2">
+            <h3 className="text-xl hover:underline transition-all line-clamp-1">
               {product?.name}
             </h3>
           </Link>

@@ -91,6 +91,8 @@ export default page;
 const SingleProductDetails = async ({ slug }: { slug: string }) => {
   const products = await appwriteProductService.getProductDetails({ slug });
 
+  // console.log(products?.documents?.[0]?.images[0]);
+
   if (products?.total === 0) {
     return (
       <div className="flex flex-col gap-5 justify-center items-center py-[100px]">

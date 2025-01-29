@@ -8,7 +8,6 @@ import TrendingCategories from "@/components/Home/TrendingCategories.tsx";
 import Offer from "@/components/Home/Offer";
 import FeaturedProducts from "@/components/Home/FeaturedProducts";
 import LoisChloeMagazine from "@/components/Home/LoisChloeMagazine/index";
-import CustomerFeedback from "@/components/Home/CustomerFeedback";
 import WhyChooseUs from "@/components/Home/WhyChooseUs";
 import Faq from "@/components/Home/Faq";
 import MustHaveEssentials from "@/components/Home/MustHaveEssentials";
@@ -71,7 +70,6 @@ export default function Home() {
       <Suspense fallback={<Loader />}>
         <MustHaveEssentials />
       </Suspense>
-      <CustomerFeedback />
       <WhyChooseUs />
       <BeautyAdvice />
       <Faq />

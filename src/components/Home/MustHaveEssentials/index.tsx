@@ -1,8 +1,11 @@
 import appwriteProductService from "@/appwrite/appwriteProductService";
 import OfferSet from "@/components/Home/MustHaveEssentials/OfferSet";
 import LipStickSet from "./LipStickSet";
+import { unstable_noStore as noStore } from "next/cache";
 
 const MustHaveEssentials = async () => {
+  noStore();
+
   const { getProductsByIds } = appwriteProductService;
 
   const offerSetProductsPromise = getProductsByIds([

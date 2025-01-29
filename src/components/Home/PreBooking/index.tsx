@@ -1,7 +1,10 @@
 import appwriteProductService from "@/appwrite/appwriteProductService";
 import PreBookingSlider from "./PreBookingSlider";
+import { unstable_noStore as noStore } from "next/cache";
 
 const PreBooking = async () => {
+  noStore();
+
   const { getPreOrderProducts } = appwriteProductService;
 
   const { documents: products } = await getPreOrderProducts();

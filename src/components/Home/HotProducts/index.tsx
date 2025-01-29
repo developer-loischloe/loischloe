@@ -1,7 +1,10 @@
 import appwriteProductService from "@/appwrite/appwriteProductService";
 import HotProductsSlider from "./HotProductsSlider";
+import { unstable_noStore as noStore } from "next/cache";
 
 const HotProducts = async () => {
+  noStore();
+
   const products = await appwriteProductService.getHotProducts();
 
   if (!products.documents.length) return null;

@@ -2,8 +2,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import appwriteProductService from "@/appwrite/appwriteProductService";
 import FeaturedProductsSlider from "./FeaturedProductsSlider";
+import { unstable_noStore as noStore } from "next/cache";
 
 const FeaturedProducts = async () => {
+  noStore();
+
   const products = await appwriteProductService.getFeaturedProducts();
 
   if (!products.documents.length) return null;
