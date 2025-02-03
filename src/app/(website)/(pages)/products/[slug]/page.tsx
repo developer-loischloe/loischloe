@@ -23,21 +23,6 @@ const ProductImageSlider = dynamic(
 
 const { website_url, website_name } = globalMetaDataConstant;
 
-// export async function generateStaticParams() {
-//   const products = await appwriteProductService.getProductList({
-//     p_category: "",
-//     c_category: "",
-//     n_category: "",
-//     keyword: "",
-//     page: "1",
-//     resultPerPage: "1000",
-//   });
-
-//   return products.documents.map((product: any) => ({
-//     slug: product.slug,
-//   }));
-// }
-
 export async function generateMetadata({
   params: { slug },
 }: {

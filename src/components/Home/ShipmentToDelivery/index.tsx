@@ -35,44 +35,46 @@ const constant = [
 
 const ShipmentToDelivery = () => {
   return (
-    <section>
-      <Swiper
-        slidesPerView={2}
-        breakpoints={{
-          768: {
-            slidesPerView: 3,
-            spaceBetween: 30,
-          },
-          1024: {
-            slidesPerView: 4,
-            spaceBetween: 30,
-          },
-        }}
-        spaceBetween={10}
-        autoplay={{
-          delay: 2500,
-          pauseOnMouseEnter: true,
-        }}
-        scrollbar={{
-          hide: true,
-        }}
-        modules={[Scrollbar, Autoplay]}
-        className="mySwiper"
-      >
-        {constant.map((item) => (
-          <SwiperSlide key={item.title}>
-            <div className="flex items-center gap-5">
-              <div>{item.icon}</div>
-              <div className="">
-                <span className=" md:text-2xl text-brand_secondary">
-                  {item.title}
-                </span>
+    <div className="bg-zinc-100">
+      <section className="!py-5 md:!py-10">
+        <Swiper
+          slidesPerView={2}
+          breakpoints={{
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
+            1024: {
+              slidesPerView: 4,
+              spaceBetween: 30,
+            },
+          }}
+          spaceBetween={10}
+          autoplay={{
+            delay: 2500,
+            pauseOnMouseEnter: true,
+          }}
+          scrollbar={{
+            hide: true,
+          }}
+          modules={[Scrollbar, Autoplay]}
+          className="mySwiper"
+        >
+          {[...constant, ...constant].map((item, index) => (
+            <SwiperSlide key={String(item.title + index)}>
+              <div className="flex items-center gap-5">
+                <div>{item.icon}</div>
+                <div className="">
+                  <span className="md:text-xl text-brand_secondary">
+                    {item.title}
+                  </span>
+                </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </section>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </section>
+    </div>
   );
 };
 

@@ -3,12 +3,8 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { formatCurrency } from "@/lib/utils";
 import { useSelector } from "react-redux";
-import {
-  selectCartCost,
-  selectCartList,
-} from "@/redux/features/cart/cartSlice";
+import { selectCartCost } from "@/redux/features/cart/cartSlice";
 import ShippingCost from "./ShippingCost";
-import { sendGTMEvent } from "@next/third-parties/google";
 
 const CartSummary = ({
   title,
@@ -20,7 +16,6 @@ const CartSummary = ({
   hideSideBar?: () => void;
 }) => {
   const cartCost = useSelector(selectCartCost);
-  const cartList = useSelector(selectCartList);
 
   return (
     <div className="space-y-5 w-full  max-w-[350px]">
@@ -64,8 +59,6 @@ const CartSummary = ({
             <Button
               className="w-full"
               onClick={() => {
-                sendGTMEvent({ event: "InitiateCheckout", cartList, cartCost });
-
                 hideSideBar && hideSideBar();
               }}
             >

@@ -32,7 +32,6 @@ const ComboDealsSlider = ({ products }: { products: any[] }) => {
         delay: 2500,
         pauseOnMouseEnter: true,
       }}
-      loop={true}
       modules={[Navigation, Autoplay]}
       className="FeaturedProductSwiper"
     >

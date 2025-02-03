@@ -21,7 +21,7 @@ const ComboDeals = async () => {
         <ComboDealsSlider products={products.documents} />
         <div>
           <Link href={"/combo-deals"}>
-            <Button>See All Offers</Button>
+            <Button>View All</Button>
           </Link>
         </div>
       </div>
