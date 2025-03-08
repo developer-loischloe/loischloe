@@ -8,16 +8,16 @@ const LoisChloeMarquee = () => {
         <Marquee className="space-x-20">
           <div className="flex justify-between gap-x-40">
             <div>
-              🔥❄️ Pre-Winter Deals Are Running! ❄️🔥 Warm Up Your Winter with
-              Our Pre-Winter Offers – 🛍️ Shop Now & Save Big! 💸
+              🎉✨ Eid Special Offer! ✨🎉 Enjoy 5% OFF on All Products –
+              Celebrate & Save! 🛍️💖
             </div>
             <div>
-              🔥❄️ Pre-Winter Deals Are Running! ❄️🔥 Warm Up Your Winter with
-              Our Pre-Winter Offers – 🛍️ Shop Now & Save Big! 💸
+              🎉✨ Eid Special Offer! ✨🎉 Enjoy 5% OFF on All Products –
+              Celebrate & Save! 🛍️💖
             </div>
             <div>
-              🔥❄️ Pre-Winter Deals Are Running! ❄️🔥 Warm Up Your Winter with
-              Our Pre-Winter Offers – 🛍️ Shop Now & Save Big! 💸
+              🎉✨ Eid Special Offer! ✨🎉 Enjoy 5% OFF on All Products –
+              Celebrate & Save! 🛍️💖
             </div>
           </div>
         </Marquee>
