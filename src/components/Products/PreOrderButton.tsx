@@ -16,7 +16,7 @@ const PreOrderButton = ({
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(addToCart({ product, price: product?.sale_price, quantity: 1 }));
+    dispatch(addToCart({ product, price: product?.price, quantity: 1 }));
     dispatch(setShowCartSidebar({ show: true }));
   };
 

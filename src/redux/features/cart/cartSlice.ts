@@ -34,7 +34,7 @@ export const calculateProductPrice = (
   }[]
 ) => {
   const product_price = cartList?.reduce((acc, items) => {
-    const current_product_price = items?.product?.sale_price * items?.quantity;
+    const current_product_price = items?.product?.price * items?.quantity;
 
     return acc + current_product_price;
   }, 0);
@@ -74,20 +74,25 @@ const checkIsAlreadyGiftClaimed = (cartList: Item[]) => {
 
 const calculateDiscount = ({
   cartList,
-  discountPercentage,
 }: {
   cartList: Item[];
-  discountPercentage: number;
 }) => {
-  const filteredItems = cartList?.filter((item: Item) => {
-    return item.product.parent_category !== "offer";
+
+  const { total_price, sale_price } = cartList?.reduce((acc, curr) => {
+
+    return {
+      ...acc,
+      total_price: acc.total_price + curr.quantity * curr.product.price,
+      sale_price: acc.sale_price + curr.quantity * curr.product.sale_price,
+    }
+  }, {
+    total_price: 0,
+    sale_price: 0,
   });
 
-  const filteredItemsTotalPrice = filteredItems?.reduce((acc, curr) => {
-    return acc + curr.quantity * curr.price;
-  }, 0);
 
-  return Math.floor((discountPercentage / 100) * filteredItemsTotalPrice);
+  const discount = total_price - sale_price
+  return discount
 };
 
 // Define a type for the slice state
@@ -182,7 +187,6 @@ export const cartSlice = createSlice({
       state.cartCost.product_price = calculateProductPrice(cartList);
       state.cartCost.discount = calculateDiscount({
         cartList,
-        discountPercentage: state.utils.discountPercentage,
       });
       state.cartCost.total_cost =
         state.cartCost.product_price -
@@ -227,7 +231,6 @@ export const cartSlice = createSlice({
         state.cartCost.product_price = calculateProductPrice(cartList);
         state.cartCost.discount = calculateDiscount({
           cartList,
-          discountPercentage: state.utils.discountPercentage,
         });
         state.cartCost.total_cost =
           state.cartCost.product_price -
@@ -283,8 +286,9 @@ export const cartSlice = createSlice({
       const discount =
         calculateDiscount({
           cartList: state.cartList,
-          discountPercentage: action.payload.discount_percentage,
         }) || 0;
+
+
       const total_cost = product_price - discount + shipping_cost;
 
       // Update cartcost

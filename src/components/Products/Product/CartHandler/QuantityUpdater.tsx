@@ -17,9 +17,7 @@ const QuantityUpdater = ({
         size={20}
         onClick={() => {
           const qty = quantity >= 2 ? quantity - 1 : quantity;
-          dispatch(
-            addToCart({ product, quantity: qty, price: product.sale_price })
-          );
+          dispatch(addToCart({ product, quantity: qty, price: product.price }));
         }}
         className="cursor-pointer"
       />
@@ -28,9 +26,7 @@ const QuantityUpdater = ({
         size={20}
         onClick={() => {
           const qty = quantity + 1;
-          dispatch(
-            addToCart({ product, quantity: qty, price: product.sale_price })
-          );
+          dispatch(addToCart({ product, quantity: qty, price: product.price }));
         }}
         className="cursor-pointer"
       />

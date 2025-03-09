@@ -61,7 +61,7 @@ const ProductsContainer = ({
                       dispatch(
                         addToCart({
                           product,
-                          price: product?.sale_price,
+                          price: product?.price,
                           quantity: 1,
                         })
                       );
@@ -90,7 +90,7 @@ const ProductsContainer = ({
 
           products?.map((product) => {
             dispatch(
-              addToCart({ product, price: product?.sale_price, quantity: 1 })
+              addToCart({ product, price: product?.price, quantity: 1 })
             );
           });
 

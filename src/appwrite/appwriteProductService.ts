@@ -2,6 +2,7 @@ import { ID, Query } from "appwrite";
 import { databases } from "./appwriteConfig";
 import config from "@/config";
 import { SearchParams } from "@/app/(website)/(pages)/products/(all-products)/page";
+import { Models } from "node-appwrite";
 
 export class AppwriteProductService {
   async createProduct(data: any) {
@@ -145,7 +146,9 @@ export class AppwriteProductService {
         QueryArray
       );
 
-      return response;
+      const updatedProductResponse = await this.updateProductSalePriceByDiscount(response)
+
+      return updatedProductResponse;
     } catch (error) {
       throw error;
     }
@@ -174,7 +177,9 @@ export class AppwriteProductService {
         QueryArray
       );
 
-      return response;
+      const updatedProductResponse = await this.updateProductSalePriceByDiscount(response)
+
+      return updatedProductResponse;
     } catch (error) {
       throw error;
     }
@@ -193,7 +198,9 @@ export class AppwriteProductService {
         ]
       );
 
-      return response;
+      const updatedProductResponse = await this.updateProductSalePriceByDiscount(response)
+
+      return updatedProductResponse;
     } catch (error) {
       throw error;
     }
@@ -212,7 +219,9 @@ export class AppwriteProductService {
         ]
       );
 
-      return response;
+      const updatedProductResponse = await this.updateProductSalePriceByDiscount(response)
+
+      return updatedProductResponse;
     } catch (error) {
       throw error;
     }
@@ -230,11 +239,15 @@ export class AppwriteProductService {
         ]
       );
 
-      return response;
+      const updatedProductResponse = await this.updateProductSalePriceByDiscount(response)
+
+      return updatedProductResponse;
     } catch (error) {
       throw error;
     }
   }
+
+
 
   async getProductsByIds(productIDS: string[]) {
     try {
@@ -248,7 +261,9 @@ export class AppwriteProductService {
 
       const products = await Promise.all(productsPromise);
 
-      return products;
+      const updatedProductResponse = await appwriteProductService.updateProductSalePriceByDiscount({ documents: products, total: products.length })
+
+      return updatedProductResponse.documents;
     } catch (error) {
       throw error;
     }
@@ -294,6 +309,39 @@ export class AppwriteProductService {
       );
 
       return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
+  // Update Sale price by Discount
+  async updateProductSalePriceByDiscount(response: Models.DocumentList<Models.Document>) {
+    try {
+      const { discount_percentage } = await databases.getDocument(
+        config.appwriteDatabaseId,
+        config.appwriteUtils.collectionId,
+        config.appwriteUtils.documentId,
+        [Query.select(["discount_percentage"])]
+      );
+
+      if (discount_percentage <= 0) {
+        return response;
+      }
+
+      const updatedProducts = response?.documents?.map((product: any) => {
+        // modify sale_price
+        if (product?.parent_category !== "offer") {
+          const discountAmount = Math.floor((discount_percentage / 100) * product?.price)
+          const sale_price = product?.price - discountAmount;
+
+          product.sale_price = sale_price
+        }
+
+        return product
+      })
+
+      return { ...response, documents: updatedProducts }
     } catch (error) {
       throw error;
     }

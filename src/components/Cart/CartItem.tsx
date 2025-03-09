@@ -27,14 +27,14 @@ const CartItem = ({
   return (
     <div
       key={product.$id}
-      className="flex flex-col md:flex-row md:items-center gap-8 border overflow-hidden rounded-sm"
+      className="flex sm:gap-5 border overflow-hidden rounded-sm"
     >
       <Image
         src={product?.images[0]?.image_url}
         alt={product?.name}
         width={100}
         height={100}
-        className="w-full h-full max-w-[100px] max-h-[100px]"
+        className="w-full h-full max-w-[80px] max-h-[80px]"
       />
       <div className="flex-1 flex flex-col lg:flex-row lg:justify-between gap-5">
         <div>
@@ -44,7 +44,7 @@ const CartItem = ({
             <TableHeader>
               <TableRow>
                 <TableHead className="">Price</TableHead>
-                {product?.sale_price > 0 && (
+                {product?.price > 0 && (
                   <TableHead className="text-center">Quantity</TableHead>
                 )}
                 <TableHead className="">Total</TableHead>
@@ -55,12 +55,10 @@ const CartItem = ({
               <TableRow>
                 <TableCell className="font-medium ">
                   <ins className="no-underline text-brand_gray">
-                    <span className="">
-                      {formatCurrency(product?.sale_price)}
-                    </span>
+                    <span className="">{formatCurrency(product?.price)}</span>
                   </ins>
                 </TableCell>
-                {product?.sale_price > 0 && (
+                {product?.price > 0 && (
                   <TableCell className="">
                     <QuantityUpdater
                       quantity={prevQuantity}
@@ -72,7 +70,7 @@ const CartItem = ({
                 <TableCell className="">
                   <ins className="no-underline text-brand_gray">
                     <span className="">
-                      {formatCurrency(product?.sale_price * prevQuantity)}
+                      {formatCurrency(product?.price * prevQuantity)}
                     </span>
                   </ins>
                 </TableCell>

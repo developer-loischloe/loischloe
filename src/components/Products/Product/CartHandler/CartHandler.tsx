@@ -51,9 +51,7 @@ const CartHandler = ({ product }: { product: any }) => {
       <div className="flex gap-5">
         <Button
           onClick={() => {
-            dispatch(
-              addToCart({ product, price: product.sale_price, quantity })
-            );
+            dispatch(addToCart({ product, price: product.price, quantity }));
 
             router.push("/checkout");
           }}
@@ -64,9 +62,7 @@ const CartHandler = ({ product }: { product: any }) => {
           variant="outline"
           className="text-brand_primary border-brand_primary"
           onClick={() => {
-            dispatch(
-              addToCart({ product, price: product.sale_price, quantity })
-            );
+            dispatch(addToCart({ product, price: product.price, quantity }));
 
             dispatch(setShowCartSidebar({ show: true }));
           }}

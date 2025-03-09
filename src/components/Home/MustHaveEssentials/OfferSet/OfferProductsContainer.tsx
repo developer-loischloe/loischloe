@@ -72,21 +72,9 @@ const OfferProductsContainer = ({
         onClick={() => {
           dispatch(resetCart());
 
-          // const filteredProducts = products?.filter(
-          //   (product) => product.$id !== "66275729770e9b297af5"
-          // )[0];
-
-          // dispatch(
-          //   addToCart({
-          //     product: filteredProducts,
-          //     price: filteredProducts?.sale_price,
-          //     quantity: 1,
-          //   })
-          // );
-
           products?.map((product) => {
             dispatch(
-              addToCart({ product, price: product?.sale_price, quantity: 1 })
+              addToCart({ product, price: product?.price, quantity: 1 })
             );
           });
 
