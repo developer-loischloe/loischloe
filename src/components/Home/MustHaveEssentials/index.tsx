@@ -4,7 +4,7 @@ import LipStickSet from "./LipStickSet";
 import { unstable_noStore as noStore } from "next/cache";
 
 const MustHaveEssentials = async () => {
-  noStore();
+  // noStore();
 
   const { getProductsByIds } = appwriteProductService;
 

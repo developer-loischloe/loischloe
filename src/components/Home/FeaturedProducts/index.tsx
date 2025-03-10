@@ -5,7 +5,7 @@ import FeaturedProductsSlider from "./FeaturedProductsSlider";
 import { unstable_noStore as noStore } from "next/cache";
 
 const FeaturedProducts = async () => {
-  noStore();
+  // noStore();
 
   const products = await appwriteProductService.getFeaturedProducts();
 

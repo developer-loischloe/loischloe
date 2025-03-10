@@ -3,7 +3,7 @@ import HotProductsSlider from "./HotProductsSlider";
 import { unstable_noStore as noStore } from "next/cache";
 
 const HotProducts = async () => {
-  noStore();
+  // noStore();
 
   const products = await appwriteProductService.getHotProducts();
 
