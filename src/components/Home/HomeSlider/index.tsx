@@ -34,7 +34,7 @@ const sliderConstant = [
       mobile: Mobile_banner_1,
     },
     alt: "Banner",
-    link: "/products",
+    link: "/products/buy-3-get-1-free-gift",
   },
   {
     id: 2,
@@ -43,7 +43,7 @@ const sliderConstant = [
       mobile: Mobile_banner_2,
     },
     alt: "Banner",
-    link: "/products",
+    link: "/products/glow-combo",
   },
   {
     id: 3,
@@ -52,7 +52,7 @@ const sliderConstant = [
       mobile: Mobile_banner_3,
     },
     alt: "Banner",
-    link: "/products",
+    link: "/products/eid-special-bundle",
   },
 ];
 
