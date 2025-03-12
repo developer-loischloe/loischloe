@@ -1,65 +1,28 @@
-"use client";
+import appwriteProductService from "@/appwrite/appwriteProductService";
+import BestSellingSlider from "./BestSellingSlider";
+import { unstable_noStore as noStore } from "next/cache";
 
-import { Swiper, SwiperSlide } from "swiper/react";
+const BestSelling = async () => {
+  // noStore();
 
-// import required modules
-import { Autoplay, Navigation, Pagination } from "swiper/modules";
-import ProductCard from "@/components/Products/ProductCard";
+  const products = await appwriteProductService.getProductsByIds([
+    "66093353b2f6b8fc19a5",
+    "66092620ce4ec1fe55b1",
+    "66092ea953c9650c164c",
+    "66092bd0d811bde9b0d1",
+    "660935a1b5e23e61be9b",
+  ]);
 
-const BestSelling = () => {
+  if (!products?.length) return null;
+
   return (
     <section>
-      <h4 className="heading-1">Best Selling</h4>
+      <h5 className="text-center subHeading">Top Picks For You</h5>
+      <h4 className="heading-1 text-center">Best Selling Products</h4>
 
-      {/* products */}
-      {/* 
-      <Swiper
-        slidesPerView={1}
-        breakpoints={{
-          640: {
-            slidesPerView: 2,
-            spaceBetween: 20,
-          },
-          768: {
-            slidesPerView: 3,
-            spaceBetween: 30,
-          },
-          1024: {
-            slidesPerView: 4,
-            spaceBetween: 30,
-          },
-        }}
-        spaceBetween={30}
-        navigation={true}
-        pagination={{
-          clickable: true,
-        }}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: true,
-          pauseOnMouseEnter: true,
-        }}
-        modules={[Pagination, Navigation, Autoplay]}
-      >
-        <SwiperSlide>
-          <ProductCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductCard />
-        </SwiperSlide>
-        <SwiperSlide>
-          <ProductCard />
-        </SwiperSlide>
-      </Swiper> */}
+      <div>
+        <BestSellingSlider products={products} />
+      </div>
     </section>
   );
 };

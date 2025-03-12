@@ -16,8 +16,11 @@ import SliderProductListLoading from "@/components/Shared/loading/SliderProductL
 import JsonLd from "@/components/Shared/JsonLd ";
 import { globalMetaDataConstant } from "@/app/constant";
 import Loader from "@/components/Shared/loading/Loader";
+import BestSelling from "@/components/Home/BestSelling";
 import ComboDeals from "@/components/Home/ComboDeals";
 import PreBooking from "@/components/Home/PreBooking";
+import RecentComment from "@/components/dashboard/overView/RecentComment";
+import LipstickTabSlider from "@/components/Home/LipstickTabSlider";
 
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
   ssr: false,
@@ -53,15 +56,23 @@ export default function Home() {
       <TrendingCategories />
 
       <Suspense fallback={<SliderProductListLoading />}>
+        <BestSelling />
+      </Suspense>
+
+      <Suspense fallback={<SliderProductListLoading />}>
         <ComboDeals />
       </Suspense>
+
+      <Suspense fallback={<SliderProductListLoading />}>
+        <LipstickTabSlider />
+      </Suspense>
+
       <Suspense fallback={<SliderProductListLoading />}>
         <PreBooking />
       </Suspense>
       <Suspense fallback={<SliderProductListLoading />}>
         <FeaturedProducts />
       </Suspense>
-
       <Offer />
       <Suspense fallback={<SliderProductListLoading />}>
         <HotProducts />
@@ -73,6 +84,13 @@ export default function Home() {
       <WhyChooseUs />
       <BeautyAdvice />
       <Faq />
+
+      <section className="max-w-5xl mx-auto pb-0">
+        <h5 className="text-center subHeading">Customer Love ❤️</h5>
+        <h4 className="heading-1 text-center">Hear from our happy shoppers!</h4>
+        <RecentComment />
+      </section>
+
       <InstagramReels />
 
       {/*  */}

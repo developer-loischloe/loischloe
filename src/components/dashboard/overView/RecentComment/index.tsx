@@ -24,8 +24,8 @@ import {
 } from "@/components/ui/pagination";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import LoadingSpiner from "@/components/Shared/loading/LoadingSpiner";
 import DeleteReview from "./DeleteReview";
+import Loader from "@/components/Shared/loading/Loader";
 
 const myStyles = {
   itemShapes: Star,
@@ -33,7 +33,7 @@ const myStyles = {
   inactiveFillColor: "#727272",
 };
 
-const RecentComment = () => {
+const RecentComment = ({ adminView = false }: { adminView?: boolean }) => {
   const [page, setPage] = useState(1);
   const [reviews, setReviews] = useState<any[]>([]);
   const [totalReview, setTotalReview] = useState(0);
@@ -76,13 +76,17 @@ const RecentComment = () => {
   }, [page]);
 
   return (
-    <Card className="lg:col-span-2">
+    <Card className="lg:col-span-2 relative">
       <CardHeader>
         <CardTitle className="text-lg">Recent Comments</CardTitle>
       </CardHeader>
       <CardContent className="space-y-7">
         <ScrollArea className="h-[450px]">
-          {loading && <LoadingSpiner />}
+          {loading && (
+            <div className="absolute top-0 left-0 right-0 bottom-0 bg-black/0 flex justify-center items-center w-full space-y-10 z-[20]">
+              <Loader />
+            </div>
+          )}
           {!loading && error && (
             <div>
               <p>{error}</p>
@@ -149,14 +153,19 @@ const RecentComment = () => {
                   </Fancybox>
                 </div>
 
-                <div className="md:px-5">
-                  <DeleteReview reviewId={review.$id} fetchReview={fetchReview}>
-                    <Trash2
-                      size={18}
-                      className="text-red-500 invisible group-hover:visible cursor-pointer transition-all"
-                    />
-                  </DeleteReview>
-                </div>
+                {adminView && (
+                  <div className="md:px-5">
+                    <DeleteReview
+                      reviewId={review.$id}
+                      fetchReview={fetchReview}
+                    >
+                      <Trash2
+                        size={18}
+                        className="text-red-500 invisible group-hover:visible cursor-pointer transition-all"
+                      />
+                    </DeleteReview>
+                  </div>
+                )}
               </div>
             ))}
         </ScrollArea>

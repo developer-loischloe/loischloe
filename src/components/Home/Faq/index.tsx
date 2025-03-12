@@ -47,15 +47,15 @@ const faqConstant = [
 const Faq = () => {
   return (
     <div className="bg-gray-100 ">
-      <section className="pb-0">
+      <section className="pb-0 max-w-5xl">
         <div className="flex flex-col-reverse md:flex-row gap-10">
-          <div className="flex-1 relative">
+          {/* <div className="flex-1 relative">
             <Image
               src={womenThinking}
               alt="Women thinking"
               className="h-full md:max-h-[450px] lg:max-h-[600px] absolute bottom-0"
             />
-          </div>
+          </div> */}
           <div className="flex-1 md:mb-20">
             <h5 className="subHeading">#askanything</h5>
             <h4 className="heading-1">Frequently asked questions</h4>

@@ -4,7 +4,7 @@ import "./style.css";
 
 const InstagramReels = () => {
   return (
-    <section>
+    <section className="pb-0">
       <div>
         <h5 className="text-center subHeading">Find Out</h5>
         <h4 className="heading-1 text-center">What's Trendings On Instagram</h4>

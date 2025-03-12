@@ -5,7 +5,7 @@ import ProductCard from "@/components/Products/ProductCard";
 import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-const ComboDealsSlider = ({ products }: { products: any[] }) => {
+const BestSellingSlider = ({ products }: { products: any[] }) => {
   return (
     <Swiper
       slidesPerView={1}
@@ -19,7 +19,7 @@ const ComboDealsSlider = ({ products }: { products: any[] }) => {
           spaceBetween: 30,
         },
         1024: {
-          slidesPerView: 3,
+          slidesPerView: 4,
           spaceBetween: 30,
         },
       }}
@@ -44,4 +44,4 @@ const ComboDealsSlider = ({ products }: { products: any[] }) => {
   );
 };
 
-export default ComboDealsSlider;
+export default BestSellingSlider;

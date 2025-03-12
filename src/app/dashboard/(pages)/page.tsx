@@ -77,7 +77,7 @@ const OverViewPage = ({
 
       {/*  Bottom */}
       <div className="">
-        <RecentComment />
+        <RecentComment adminView={true} />
       </div>
     </div>
   );
