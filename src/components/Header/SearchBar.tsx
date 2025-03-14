@@ -1,27 +1,26 @@
 import { Search } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import {
+  Sheet,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import SearchSuggestion from "./SearchSuggestion";
 
 const SearchBar = ({
-  setShowPopOver,
   searchTearm,
   setSearchTerm,
 }: {
-  setShowPopOver: React.Dispatch<React.SetStateAction<boolean>>;
   searchTearm: string;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const searcParams = useSearchParams();
-  const pathname = usePathname();
   const router = useRouter();
 
   const category = searcParams.get("category");
-
-  const pathArr = pathname.slice(1).split("/");
-
-  useEffect(() => {
-    setShowPopOver(false);
-  }, [pathname]);
 
   const handleChange = (e: { target: { value: any } }) => {
     const keyword = e.target.value;
@@ -45,24 +44,39 @@ const SearchBar = ({
   };
 
   return (
-    <div className="flex-1">
-      <div className="flex-1 flex gap-2 items-center  bg-[#fff] px-3 py-7 sm:py-3 rounded-b sm:rounded-md ">
-        <Search color="#002D34CC" />
-        <form onSubmit={handleSubmit} className="w-full">
-          <input
-            type="search"
-            placeholder="Search for products"
-            className="text-sm border-none outline-none text-[#000] w-full"
-            value={searchTearm}
-            onChange={handleChange}
-            onFocus={() => {
-              setShowPopOver(
-                !(pathArr[0] === "products" && pathArr.length === 1)
-              );
-            }}
-          />
-        </form>
-      </div>
+    <div className="flex-1 max-w-3xl">
+      <Sheet>
+        <SheetTrigger asChild>
+          <div title="Search">
+            <Search className="hover:text-brand_primary transition-all  cursor-pointer" />
+          </div>
+        </SheetTrigger>
+        <SheetContent side={"right"}>
+          <SheetHeader className="max-w-3xl mx-auto ">
+            <SheetTitle className="text-center">
+              Find Your Perfect Match
+            </SheetTitle>
+
+            <div className="flex-1 flex gap-3 items-center  bg-[#fff] border border-brand_primary px-3 py-3 rounded-md ">
+              <Search color="#002D34CC" size={22} />
+              <form onSubmit={handleSubmit} className="w-full">
+                <input
+                  type="search"
+                  placeholder="Search for products"
+                  className="text-sm border-none outline-none text-[#000] w-full"
+                  value={searchTearm}
+                  onChange={handleChange}
+                />
+              </form>
+            </div>
+          </SheetHeader>
+          <SheetFooter>
+            <div className="w-full mt-5">
+              <SearchSuggestion searchTearm={searchTearm} />
+            </div>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };

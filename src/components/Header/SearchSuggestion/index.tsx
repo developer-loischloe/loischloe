@@ -1,7 +1,7 @@
 import appwriteProductService from "@/appwrite/appwriteProductService";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatCurrency } from "@/lib/utils";
 import { sendGTMEvent } from "@next/third-parties/google";
-import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -33,13 +33,7 @@ const trendingSearchSuggestion = [
     link: "/products?keyword=sunscree+cream",
   },
 ];
-const SearchSuggestion = ({
-  searchTearm,
-  setShowPopOver,
-}: {
-  searchTearm: string;
-  setShowPopOver: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const SearchSuggestion = ({ searchTearm }: { searchTearm: string }) => {
   const [searchProducts, setSearchProducts] = useState<null | any[]>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -83,14 +77,6 @@ const SearchSuggestion = ({
 
   return (
     <div className=" relativew-full flex flex-col md:flex-row gap-10 text-black ">
-      <div className="absolute top-5 right-5">
-        <X
-          onClick={() => setShowPopOver(false)}
-          className="cursor-pointer"
-          size={18}
-        />
-      </div>
-
       {/* =>>>>>>>>>>>>>>> */}
       {isLoading ? (
         <div className="mx-auto py-20 flex-1 flex justify-center">
@@ -106,37 +92,48 @@ const SearchSuggestion = ({
                     <div>
                       <p className="font-bold mb-5">Products</p>
                     </div>
-                    <div className="flex-1 flex justify-evenly">
-                      <div></div>
-                      <div>
-                        <Link href={`/products?keyword=${searchTearm}`}>
-                          All Products
-                        </Link>
-                      </div>
+
+                    <div>
+                      <Link
+                        href={`/products?keyword=${searchTearm}`}
+                        className="text-sm underline"
+                      >
+                        View All
+                      </Link>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-10">
-                    {searchProducts.map((product) => (
-                      <Link href={`/products/${product?.slug}`}>
-                        <div className="space-y-5 group">
-                          <div className="flex justify-center">
-                            <Image
-                              src={product?.images[0]?.image_url}
-                              alt=""
-                              width={100}
-                              height={100}
-                            />
+                  <ScrollArea className="h-[calc(100vh-12rem)] w-full">
+                    <div className="flex flex-col gap-5">
+                      {searchProducts.map((product) => (
+                        <Link href={`/products/${product?.slug}`}>
+                          <div className="space-y-5 group flex gap-5">
+                            <div className="flex justify-center">
+                              <Image
+                                src={product?.images[0]?.image_url}
+                                alt=""
+                                width={100}
+                                height={100}
+                                className="w-[100px] h-[100px] border rounded-md"
+                              />
+                            </div>
+                            <div className="flex flex-col gap-2">
+                              <h6 className="group-hover:underline font-[500] md:text-sm line-clamp-2">
+                                {product?.name}
+                              </h6>
+                              <p className="text-sm space-x-2">
+                                <span>
+                                  {formatCurrency(product?.sale_price)}
+                                </span>
+                                <span className="line-through text-gray-500">
+                                  {formatCurrency(product?.price)}
+                                </span>
+                              </p>
+                            </div>
                           </div>
-                          <div className="flex flex-col items-center gap-2">
-                            <h5 className="text-center group-hover:underline font-[500] md:text-lg line-clamp-2">
-                              {product?.name}
-                            </h5>
-                            <p>{formatCurrency(product?.sale_price)}</p>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </ScrollArea>
                 </div>
               ) : (
                 <div className="py-20 flex-1 flex justify-center">
@@ -145,13 +142,13 @@ const SearchSuggestion = ({
               )}
             </>
           ) : (
-            <div className="">
-              <p className="font-bold mb-5">Trending Searches</p>
+            <div className="w-full">
+              <p className="uppercase font-bold mb-3">Trending Searches</p>
               <ul>
                 {trendingSearchSuggestion.map((suggestion) => (
                   <li
                     key={suggestion.keyword}
-                    className="hover:underline hover:font-bold mb-3"
+                    className="hover:underline hover:font-semibold mb-3"
                   >
                     <Link href={suggestion.link}>{suggestion.keyword}</Link>
                   </li>

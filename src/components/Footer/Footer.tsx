@@ -18,6 +18,10 @@ const Footer = () => {
       text: "Products",
       link: "/products",
     },
+    {
+      text: "Blog",
+      link: "/blog",
+    },
   ];
 
   return (

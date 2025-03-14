@@ -1,14 +1,13 @@
 import Link from "next/link";
-import User from "@/assets/User";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { LogIn, LogOut, UserRoundPlus } from "lucide-react";
+import { LogIn, LogOut, User2, UserRoundPlus } from "lucide-react";
 import { useAuth } from "@/context/authContext";
-import { appwriteAuthService } from "@/appwrite/appwriteAuthService";
 import { toast } from "sonner";
+import { appwriteAuthService } from "@/appwrite/appwriteAuthService";
 
 const UserBtn = () => {
   const { user } = useAuth();
@@ -31,7 +30,7 @@ const UserBtn = () => {
   return (
     <Popover>
       <PopoverTrigger title="Account">
-        <User />
+        <User2 className="text-white hover:text-brand_primary transition-all" />
       </PopoverTrigger>
       <PopoverContent>
         <div className="space-y-4">
