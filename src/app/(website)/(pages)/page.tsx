@@ -21,6 +21,9 @@ import ComboDeals from "@/components/Home/ComboDeals";
 import PreBooking from "@/components/Home/PreBooking";
 import RecentComment from "@/components/dashboard/overView/RecentComment";
 import LipstickTabSlider from "@/components/Home/LipstickTabSlider";
+import Link from "next/link";
+import { NavList } from "@/components/Header/MegaMenu";
+import HomePageHorizontalMobileNav from "@/components/Home/HomePageHorizontalMobileNav";
 
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
   ssr: false,
@@ -51,9 +54,11 @@ export default function Home() {
 
   return (
     <div>
+      <HomePageHorizontalMobileNav />
+
       <HomeSlider />
       <ShipmentToDelivery />
-      <TrendingCategories />
+      {/* <TrendingCategories /> */}
 
       <Suspense fallback={<SliderProductListLoading />}>
         <BestSelling />
