@@ -107,7 +107,8 @@ const RecentComment = ({ adminView = false }: { adminView?: boolean }) => {
                 <div className="flex-1">
                   <div className="flex gap-2">
                     <address className="font-bold">{review?.name}</address>
-                    {review?.$createdAt && (
+
+                    {adminView && review?.$createdAt && (
                       <time className="text-brand_gray">
                         <span className="text-brand_primary"> {"-"}</span>{" "}
                         {dateFormat(review?.$createdAt, "dd-MM-yyyy")}
