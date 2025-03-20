@@ -23,8 +23,8 @@ export default CountDown;
 const CounterComponent = ({ title, time }: { title: string; time: number }) => {
   return (
     <div className="flex flex-col">
-      <span className="text-center">{title}</span>
-      <span className="text-center bg-brand_primary text-xl sm:text-5xl min-w-[20px] min-h-[20px] sm:min-w-[60px] sm:min-h-[60px] !rounded-md overflow-hidden">
+      <span className="text-center mb-1">{title}</span>
+      <span className="bg-brand_primary text-xl sm:text-5xl min-w-[45px] min-h-[30px] sm:min-w-[80px] sm:min-h-[65px] !rounded-md overflow-hidden flex items-center justify-center">
         {time}
       </span>
     </div>
