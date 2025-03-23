@@ -72,9 +72,19 @@ const ProductsContainer = ({
                     <ShoppingCart size={13} />
                   </Button>
 
-                  <span className="text-brand_primary">
-                    {formatCurrency(product?.sale_price)}
-                  </span>
+                  <div className="flex justify-end gap-2">
+                    <span className="text-brand_primary">
+                      {formatCurrency(product?.sale_price)}
+                    </span>
+                    <span
+                      className={cn(
+                        "text-brand_gray line-through text-xs",
+                        product?.price === product?.sale_price && "hidden"
+                      )}
+                    >
+                      {formatCurrency(product?.price)}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

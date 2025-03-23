@@ -77,6 +77,7 @@ const SingleProductDetails = async ({ slug }: { slug: string }) => {
   const products = await appwriteProductService.getProductDetails({ slug });
 
   // console.log(products?.documents?.[0]?.images[0]);
+  // console.log(products?.documents?.[0]?.$id);
 
   if (products?.total === 0) {
     return (

@@ -55,9 +55,17 @@ const OfferProductsContainer = ({
                   >
                     <h5 className="text-lg">{product?.name}</h5>
                   </Link>
-                  <div className="flex justify-end">
+                  <div className="flex justify-end gap-2">
                     <span className="text-brand_primary">
                       {formatCurrency(product?.sale_price)}
+                    </span>
+                    <span
+                      className={cn(
+                        "text-brand_gray line-through text-xs",
+                        product?.price === product?.sale_price && "hidden"
+                      )}
+                    >
+                      {formatCurrency(product?.price)}
                     </span>
                   </div>
                 </div>
