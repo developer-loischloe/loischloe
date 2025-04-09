@@ -17,14 +17,12 @@ import { Autoplay } from "swiper/modules";
 import "./styles.css";
 
 // desktop(2000 X 757)
-import Main_banner_1 from "../../../../public/home_slider/2000x757_px/1.png";
-import Main_banner_2 from "../../../../public/home_slider/2000x757_px/2.png";
-import Main_banner_3 from "../../../../public/home_slider/2000x757_px/3.png";
+import Main_banner_1 from "../../../../public/home_slider/2000x757_px/main_banner_1.png";
+import Main_banner_2 from "../../../../public/home_slider/2000x757_px/main_banner_2.png";
 
 // Mobile(1563 X 1458)
-import Mobile_banner_1 from "../../../../public/home_slider/1563x1458_px/1.png";
-import Mobile_banner_2 from "../../../../public/home_slider/1563x1458_px/2.png";
-import Mobile_banner_3 from "../../../../public/home_slider/1563x1458_px/3.png";
+import Mobile_banner_1 from "../../../../public/home_slider/1563x1458_px/mobile_banner_1.png";
+import Mobile_banner_2 from "../../../../public/home_slider/1563x1458_px/mobile_banner_2.png";
 
 const sliderConstant = [
   {
@@ -34,7 +32,7 @@ const sliderConstant = [
       mobile: Mobile_banner_1,
     },
     alt: "Banner",
-    link: "/products/buy-3-get-1-free-gift",
+    link: "/products",
   },
   {
     id: 2,
@@ -43,16 +41,7 @@ const sliderConstant = [
       mobile: Mobile_banner_2,
     },
     alt: "Banner",
-    link: "/products/glow-combo",
-  },
-  {
-    id: 3,
-    banner: {
-      main: Main_banner_3,
-      mobile: Mobile_banner_3,
-    },
-    alt: "Banner",
-    link: "/products/eid-special-bundle",
+    link: "/products",
   },
 ];
 

@@ -53,11 +53,11 @@ export default function Home() {
   return (
     <div>
       <HomePageHorizontalMobileNav />
-
       <HomeSlider />
       <ShipmentToDelivery />
+
       {/* <TrendingCategories /> */}
-      <OfferCountDown />
+      {/* <OfferCountDown /> */}
 
       <Suspense fallback={<SliderProductListLoading />}>
         <BestSelling />
