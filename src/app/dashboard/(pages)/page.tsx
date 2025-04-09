@@ -1,7 +1,5 @@
-import { Suspense } from "react";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { Skeleton } from "@/components/ui/skeleton";
 import { SelectDateRangePicker } from "@/components/inventory/SelectDateRangePicker";
 import OverView from "@/components/dashboard/overView";
 import RecentComment from "@/components/dashboard/overView/RecentComment";
@@ -59,26 +57,11 @@ const OverViewPage = ({
         />
       </div>
 
-      {/* Bottom */}
-      <Suspense
-        key={`${fromDate}-${toDate}-${Math.random() * 1000}`}
-        fallback={
-          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5">
-            {[1, 2, 3, 4].map((number) => (
-              <div key={number} className="w-full h-[300px] lg:h-[500px]">
-                <Skeleton className="w-full h-full bg-black/10" />
-              </div>
-            ))}
-          </div>
-        }
-      >
-        <OverView fromDate={fromDate} toDate={toDate} />
-      </Suspense>
+      {/* Top */}
+      <OverView fromDate={fromDate} toDate={toDate} />
 
-      {/*  Bottom */}
-      <div className="">
-        <RecentComment adminView={true} />
-      </div>
+      {/* Bottom */}
+      <RecentComment adminView={true} />
     </div>
   );
 };
