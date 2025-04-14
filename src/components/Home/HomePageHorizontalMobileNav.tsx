@@ -10,6 +10,7 @@ const HomePageHorizontalMobileNav = () => {
         <div className="max-w-7xl px-5 mx-auto overflow-x-auto whitespace-nowrap flex space-x-10 pb-2">
           {NavList.map((item) => (
             <Link
+              key={item.title}
               href={item.href}
               className="text-gray-500 font-semibold hover:underline"
             >

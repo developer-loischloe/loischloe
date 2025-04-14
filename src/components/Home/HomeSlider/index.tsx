@@ -11,37 +11,48 @@ import { AnimatePresence } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // import required modules
-import { Autoplay } from "swiper/modules";
+// import { Autoplay } from "swiper/modules";
 
 // Import Swiper styles
 import "./styles.css";
 
 // desktop(2000 X 757)
-import Main_banner_1 from "../../../../public/home_slider/2000x757_px/main_banner_1.png";
-import Main_banner_2 from "../../../../public/home_slider/2000x757_px/main_banner_2.png";
+// import Main_banner_1 from "../../../../public/home_slider/2000x757_px/main_banner_1.png";
+// import Main_banner_2 from "../../../../public/home_slider/2000x757_px/main_banner_2.png";
+import All_In_One_Bundle from "../../../../public/home_slider/2000x757_px/All_In_One_Bundle.png";
 
 // Mobile(1563 X 1458)
-import Mobile_banner_1 from "../../../../public/home_slider/1563x1458_px/mobile_banner_1.png";
-import Mobile_banner_2 from "../../../../public/home_slider/1563x1458_px/mobile_banner_2.png";
+// import Mobile_banner_1 from "../../../../public/home_slider/1563x1458_px/mobile_banner_1.png";
+// import Mobile_banner_2 from "../../../../public/home_slider/1563x1458_px/mobile_banner_2.png";
+import All_In_One_Bundle_Mobile from "../../../../public/home_slider/1563x1458_px/All_In_One_Bundle_mobile.png";
 
 const sliderConstant = [
+  // {
+  //   id: 1,
+  //   banner: {
+  //     main: Main_banner_1,
+  //     mobile: Mobile_banner_1,
+  //   },
+  //   alt: "Banner",
+  //   link: "/products",
+  // },
+  // {
+  //   id: 2,
+  //   banner: {
+  //     main: Main_banner_2,
+  //     mobile: Mobile_banner_2,
+  //   },
+  //   alt: "Banner",
+  //   link: "/products",
+  // },
   {
-    id: 1,
+    id: 3,
     banner: {
-      main: Main_banner_1,
-      mobile: Mobile_banner_1,
+      main: All_In_One_Bundle,
+      mobile: All_In_One_Bundle_Mobile,
     },
     alt: "Banner",
-    link: "/products",
-  },
-  {
-    id: 2,
-    banner: {
-      main: Main_banner_2,
-      mobile: Mobile_banner_2,
-    },
-    alt: "Banner",
-    link: "/products",
+    link: "/products/all-in-one-bundle",
   },
 ];
 
@@ -64,7 +75,7 @@ export default function App() {
   return (
     <Swiper
       speed={1000}
-      modules={[Autoplay]}
+      // modules={[Autoplay]}
       autoplay={{
         delay: 2000,
         pauseOnMouseEnter: true,

@@ -210,40 +210,40 @@ export function MegaMenu() {
               </Link>
             </NavigationMenuItem>
           ) : (
-            <>
+            <React.Fragment key={navItem.title}>
               {navItem.child?.left_image ? (
-                <>
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger>
-                      {navItem.title}
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                        <a
-                          className="row-span-3"
-                          href={navItem.child.left_image.href}
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>{navItem.title}</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                      <a
+                        className="row-span-3"
+                        href={navItem.child.left_image.href}
+                      >
+                        <NavigationMenuLink asChild>
+                          <div className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted  no-underline outline-none focus:shadow-md">
+                            <Image
+                              src={navItem.child.left_image.path}
+                              alt={navItem.title}
+                              width={500}
+                              height={500}
+                              className="w-[400px]"
+                            />
+                          </div>
+                        </NavigationMenuLink>
+                      </a>
+                      {navItem.child.menu.map((item) => (
+                        <ListItem
+                          key={item.title}
+                          href={item.href}
+                          title={item.title}
                         >
-                          <NavigationMenuLink asChild>
-                            <div className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted  no-underline outline-none focus:shadow-md">
-                              <Image
-                                src={navItem.child.left_image.path}
-                                alt={navItem.title}
-                                width={500}
-                                height={500}
-                                className="w-[400px]"
-                              />
-                            </div>
-                          </NavigationMenuLink>
-                        </a>
-                        {navItem.child.menu.map((item) => (
-                          <ListItem href={item.href} title={item.title}>
-                            {item?.description}
-                          </ListItem>
-                        ))}
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                </>
+                          {item?.description}
+                        </ListItem>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
               ) : (
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>{navItem.title}</NavigationMenuTrigger>
@@ -262,7 +262,7 @@ export function MegaMenu() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
               )}
-            </>
+            </React.Fragment>
           );
         })}
       </NavigationMenuList>
