@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,7 +30,7 @@ import { Input } from "@/components/ui/input";
 
 // custom components
 import InputList from "../../Shared/InputList";
-import RichTextEditor from "../../Shared/RichTextEditor";
+const RichTextEditor = dynamic(() => import("@/components/Shared/RichTextEditor"), {ssr:false});
 import ImageUploader from "@/components/Shared/ImageUploader";
 import config from "@/config";
 import appwriteProductService from "@/appwrite/appwriteProductService";
