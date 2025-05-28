@@ -23,7 +23,7 @@ const ProductList = async ({
   return (
     <>
       {products?.documents?.length ? (
-        <div className="space-y-10">
+        <div className="space-y-10 w-full mx-auto">
           <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {products?.documents?.map((product: any) => (
               <ProductCard product={product} key={product?.$id} />

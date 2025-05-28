@@ -186,8 +186,8 @@ export const NavList: NavItemProps[] = [
       },
       menu: [
         {
-          title: "Combo",
-          href: "/products?p_category=offer&c_category=combo",
+          title: "Combo Deals",
+          href: "/combo-deals",
           description:
             "Perfectly paired beauty essentials at unbeatable prices! ✨💖",
         },
