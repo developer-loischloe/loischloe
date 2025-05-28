@@ -17,42 +17,42 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "./styles.css";
 
 // desktop(2000 X 757)
-// import Main_banner_1 from "../../../../public/home_slider/2000x757_px/main_banner_1.png";
-// import Main_banner_2 from "../../../../public/home_slider/2000x757_px/main_banner_2.png";
-import All_In_One_Bundle from "../../../../public/home_slider/2000x757_px/All_In_One_Bundle.png";
+import Main_banner_1 from "../../../../public/home_slider/2000x757_px/1.png";
+import Main_banner_2 from "../../../../public/home_slider/2000x757_px/2.png";
+import Main_banner_3 from "../../../../public/home_slider/2000x757_px/3.png";
 
 // Mobile(1563 X 1458)
-// import Mobile_banner_1 from "../../../../public/home_slider/1563x1458_px/mobile_banner_1.png";
-// import Mobile_banner_2 from "../../../../public/home_slider/1563x1458_px/mobile_banner_2.png";
-import All_In_One_Bundle_Mobile from "../../../../public/home_slider/1563x1458_px/All_In_One_Bundle_mobile.png";
+import Mobile_banner_1 from "../../../../public/home_slider/1563x1458_px/1.png";
+import Mobile_banner_2 from "../../../../public/home_slider/1563x1458_px/2.png";
+import Mobile_banner_3 from "../../../../public/home_slider/1563x1458_px/3.png";
 
 const sliderConstant = [
-  // {
-  //   id: 1,
-  //   banner: {
-  //     main: Main_banner_1,
-  //     mobile: Mobile_banner_1,
-  //   },
-  //   alt: "Banner",
-  //   link: "/products",
-  // },
-  // {
-  //   id: 2,
-  //   banner: {
-  //     main: Main_banner_2,
-  //     mobile: Mobile_banner_2,
-  //   },
-  //   alt: "Banner",
-  //   link: "/products",
-  // },
+  {
+    id: 1,
+    banner: {
+      main: Main_banner_3,
+      mobile: Mobile_banner_3,
+    },
+    alt: "Banner",
+    link: "/products/eid-special-bundle",
+  },
+  {
+    id: 2,
+    banner: {
+      main: Main_banner_1,
+      mobile: Mobile_banner_1,
+    },
+    alt: "Banner",
+    link: "/products/buy-3-get-1-free-gift",
+  },
   {
     id: 3,
     banner: {
-      main: All_In_One_Bundle,
-      mobile: All_In_One_Bundle_Mobile,
+      main: Main_banner_2,
+      mobile: Mobile_banner_2,
     },
     alt: "Banner",
-    link: "/products/all-in-one-bundle",
+    link: "/products/glow-combo",
   },
 ];
 
