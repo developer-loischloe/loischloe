@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import appwriteCategoryService from "@/appwrite/appwriteCategoryService";
 import appwriteProductService from "@/appwrite/appwriteProductService";
 import AddProductForm from "@/components/dashboard/products/AddProductForm";
+import { ArrowUpRight } from "lucide-react";
 
 // Metadata
 export const metadata: Metadata = {
@@ -35,9 +36,15 @@ const EditProduct = async ({
 
   return (
     <div className="w-full  max-w-7xl mx-auto">
-      <h1 className="text-xl md:text-2xl mb-5 font-bold text-center">
-        Edit product
-      </h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl md:text-2xl mb-5 font-bold text-center">
+          Edit product
+        </h1>
+
+        <Link target="_blank" href={`/products/${slug}`} title="View Product">
+          <ArrowUpRight size={25} className="text-blue-500 cursor-pointer hover:scale-110" />
+        </Link>
+      </div>
 
       <div className="">
         <AddProductForm
