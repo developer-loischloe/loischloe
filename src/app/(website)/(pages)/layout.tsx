@@ -7,6 +7,7 @@ import ReduxProvider from "./ReduxProvider";
 import Whatsapp from "./Whatsapp";
 import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
 import FreeGift from "./FreeGift";
+import AiBeautyAssistant from "@/app/agents/ai-beauty-assistant/ui/AiBeautyAssistant";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -18,8 +19,9 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       <main>{children}</main>
       <Footer />
       <ReactScrollToTop />
-      <Whatsapp />
+      {/* <Whatsapp /> */}
       <FreeGift />
+      <AiBeautyAssistant />
     </ReduxProvider>
   );
 };
