@@ -52,7 +52,39 @@ const AiBeautyAssistant = () => {
   const [selectedChild, setSelectedChild] = useState<Category | null>(null);
   const [questionCount, setQuestionCount] = useState(0);
   const [hasRecommended, setHasRecommended] = useState(false);
-  // const [hasShownRoutine, setHasShownRoutine] = useState(false);
+  const [showMoreProducts, setShowMoreProducts] = useState(false);
+  const [availableFormulas, setAvailableFormulas] = useState<string[]>([]);
+  const [lastAssistantQuestion, setLastAssistantQuestion] = useState<
+    string | null
+  >(null);
+  const fallbackQuestionsByCategory: { [key: string]: string[] } = {
+    lips: [
+      "Do you prefer a matte, glossy, or satin finish for your lipstick?",
+      "Are you interested in long-lasting or hydrating lip products?",
+      "Would you like to see trending lip colors?",
+    ],
+    eyes: [
+      "Are you looking for waterproof or long-lasting eye products?",
+      "Do you prefer bold or natural eye looks?",
+      "Would you like to see our best-selling eye products?",
+    ],
+    foundation: [
+      "Do you have any specific skin concerns? (e.g., oily, dry, acne-prone, sensitive)",
+      "Are you looking for full coverage or a natural finish?",
+      "Would you like to see shade-matching tips?",
+    ],
+    face: [
+      "Do you have any specific skin concerns? (e.g., oily, dry, acne-prone, sensitive)",
+      "Are you looking for a matte or dewy finish?",
+      "Would you like to see our best-selling face products?",
+    ],
+    default: [
+      "Is there anything else you'd like to share about your preferences?",
+      "Would you like to see more product options?",
+      "Are you interested in learning about our latest arrivals?",
+    ],
+  };
+  let fallbackIndex = 0;
 
   useEffect(() => {
     messagesRef.current = messages;
@@ -84,8 +116,7 @@ const AiBeautyAssistant = () => {
     if (isOpen && messages.length === 0) {
       loadCategories();
       setTimeout(() => {
-        addMessage(
-          "assistant",
+        addAssistantMessage(
           "Hi there! 👋 I'm your AI Beauty Assistant. Let's start by choosing what area you're shopping for today:"
         );
         setCategoryStep("parent");
@@ -116,6 +147,7 @@ const AiBeautyAssistant = () => {
     setInputValue("");
     setQuestionCount(0);
     setHasRecommended(false);
+    setShowMoreProducts(false);
     // setHasShownRoutine(false);
   };
 
@@ -146,6 +178,12 @@ const AiBeautyAssistant = () => {
       messagesRef.current = updated;
       return updated;
     });
+  };
+
+  const addAssistantMessage = (content: string) => {
+    if (lastAssistantQuestion === content) return;
+    setLastAssistantQuestion(content);
+    addMessage("assistant", content);
   };
 
   const fetchLLMChatbotResponse = async (userInput?: string) => {
@@ -181,14 +219,16 @@ const AiBeautyAssistant = () => {
           lower.includes("anything else") ||
           lower.includes("other?")
         ) {
-          addMessage("assistant", getCategorySpecificFallback());
+          addAssistantMessage(
+            getCategorySpecificFallback() +
+              " Or would you like to see more product options?"
+          );
         } else {
-          addMessage("assistant", data.response);
+          addAssistantMessage(data.response);
         }
       }
     } catch (error) {
-      addMessage(
-        "assistant",
+      addAssistantMessage(
         "I'm here if you have more questions or want to explore more products!"
       );
     } finally {
@@ -246,22 +286,34 @@ const AiBeautyAssistant = () => {
         lower.includes("anything else") ||
         lower.includes("other?")
       ) {
-        addMessage("assistant", getCategorySpecificFallback());
+        addAssistantMessage(
+          getCategorySpecificFallback() +
+            " Or would you like to see more product options?"
+        );
       } else {
-        addMessage("assistant", data.response);
+        addAssistantMessage(data.response);
       }
     } catch (error) {
-      addMessage("assistant", getCategorySpecificFallback());
+      addAssistantMessage(
+        getCategorySpecificFallback() +
+          " Or would you like to see more product options?"
+      );
     } finally {
       setIsTyping(false);
     }
 
     if (conversationStep !== "category" && !categoryStep) {
-      // If not yet recommended and questionCount + 1 >= 2, recommend products instead of calling LLM
-      if (!hasRecommended && questionCount + 1 >= 2) {
+      // If not yet recommended and questionCount + 1 >= 1, recommend products instead of calling LLM
+      if (!hasRecommended && questionCount + 1 >= 1) {
         setQuestionCount(0);
         setHasRecommended(true);
         await fetchRecommendedProducts();
+        // After showing, ask for feedback or offer more
+        addAssistantMessage(
+          "Would you like to see more options, know how to use these products, or ask about something else?"
+        );
+        addAssistantMessage("Did you like these recommendations? 👍👎");
+        setShowMoreProducts(true); // Show the 'Show me more' button
         return;
       }
       // Otherwise, increment questionCount and call LLM for a question
@@ -297,17 +349,31 @@ const AiBeautyAssistant = () => {
           lower.includes("anything else") ||
           lower.includes("other?")
         ) {
-          addMessage("assistant", getCategorySpecificFallback());
+          addAssistantMessage(
+            getCategorySpecificFallback() +
+              " Or would you like to see more product options?"
+          );
         } else {
-          addMessage("assistant", data.response);
+          addAssistantMessage(data.response);
         }
       } catch (error) {
-        addMessage("assistant", getCategorySpecificFallback());
+        addAssistantMessage(
+          getCategorySpecificFallback() +
+            " Or would you like to see more product options?"
+        );
       } finally {
         setIsTyping(false);
       }
       return;
     }
+  };
+
+  const fetchAvailableFormulas = (products: Product[]) => {
+    const formulas = Array.from(
+      new Set(products.map((p) => p.formula).filter((f): f is string => !!f))
+    );
+    setAvailableFormulas(formulas);
+    return formulas;
   };
 
   const handleCategoryClick = async (
@@ -321,8 +387,7 @@ const AiBeautyAssistant = () => {
       addMessage("user", path, undefined, `cat-path-${cat.slug}`); // Unique id for deduplication
       if (cat.childCategories && cat.childCategories.length > 0) {
         setCategoryStep("child");
-        addMessage(
-          "assistant",
+        addAssistantMessage(
           `Great! Now, which type of ${cat.name} products are you interested in?`
         );
       } else {
@@ -333,7 +398,26 @@ const AiBeautyAssistant = () => {
         }));
         setCategoryStep(null);
         setConversationStep("skinType");
-        await fetchNextLLMQuestion();
+        // Fetch products for this category to extract formulas
+        const response = await fetch("/api/ai-recommendations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userPreferences: { ...userPreferences, category: cat.slug },
+            products: [],
+            question: "product_recommendations",
+          }),
+        });
+        const data = await response.json();
+        const formulas = fetchAvailableFormulas(data.products || []);
+        if (formulas.length === 1) {
+          addAssistantMessage(
+            `We have only ${formulas[0]} ${cat.name} products available. Would you like to see them or filter by color?`
+          );
+          setConversationStep("preferences");
+          return;
+        }
+        await fetchNextLLMQuestion(formulas);
       }
     } else if (level === "child") {
       setSelectedChild(cat);
@@ -346,8 +430,7 @@ const AiBeautyAssistant = () => {
       );
       if (cat.nestedChildCategories && cat.nestedChildCategories.length > 0) {
         setCategoryStep("nested");
-        addMessage(
-          "assistant",
+        addAssistantMessage(
           `Awesome! Please select a more specific category for ${cat.name}:`
         );
       } else {
@@ -359,7 +442,30 @@ const AiBeautyAssistant = () => {
         }));
         setCategoryStep(null);
         setConversationStep("skinType");
-        await fetchNextLLMQuestion();
+        // Fetch products for this child category to extract formulas
+        const response = await fetch("/api/ai-recommendations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userPreferences: {
+              ...userPreferences,
+              category: selectedParent?.slug,
+              childCategory: cat.slug,
+            },
+            products: [],
+            question: "product_recommendations",
+          }),
+        });
+        const data = await response.json();
+        const formulas = fetchAvailableFormulas(data.products || []);
+        if (formulas.length === 1) {
+          addAssistantMessage(
+            `We have only ${formulas[0]} ${cat.name} products available. Would you like to see them or filter by color?`
+          );
+          setConversationStep("preferences");
+          return;
+        }
+        await fetchNextLLMQuestion(formulas);
       }
     } else if (level === "nested") {
       path = `${selectedParent?.name} > ${selectedChild?.name} > ${cat.name}`;
@@ -378,7 +484,31 @@ const AiBeautyAssistant = () => {
       }));
       setCategoryStep(null);
       setConversationStep("skinType");
-      await fetchNextLLMQuestion();
+      // Fetch products for this nested child category to extract formulas
+      const response = await fetch("/api/ai-recommendations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userPreferences: {
+            ...userPreferences,
+            category: selectedParent?.slug,
+            childCategory: selectedChild?.slug,
+            nestedChildCategory: cat.slug,
+          },
+          products: [],
+          question: "product_recommendations",
+        }),
+      });
+      const data = await response.json();
+      const formulas = fetchAvailableFormulas(data.products || []);
+      if (formulas.length === 1) {
+        addAssistantMessage(
+          `We have only ${formulas[0]} ${cat.name} products available. Would you like to see them or filter by color?`
+        );
+        setConversationStep("preferences");
+        return;
+      }
+      await fetchNextLLMQuestion(formulas);
     }
   };
 
@@ -406,20 +536,21 @@ const AiBeautyAssistant = () => {
   // Category-specific fallback question
   function getCategorySpecificFallback() {
     const path = getCategoryPath().toLowerCase();
-    if (path.includes("lip")) {
-      return "Do you prefer a matte, glossy, or satin finish for your lipstick?";
-    }
-    if (path.includes("eye")) {
-      return "Are you looking for waterproof or long-lasting eye products?";
-    }
-    if (path.includes("foundation") || path.includes("face")) {
-      return "Do you have any specific skin concerns? (e.g., oily, dry, acne-prone, sensitive)";
-    }
-    return "Is there anything else you'd like to share about your preferences?";
+    let category = "default";
+    if (path.includes("lip")) category = "lips";
+    else if (path.includes("eye")) category = "eyes";
+    else if (path.includes("foundation")) category = "foundation";
+    else if (path.includes("face")) category = "face";
+    const questions =
+      fallbackQuestionsByCategory[category] ||
+      fallbackQuestionsByCategory["default"];
+    const question = questions[fallbackIndex % questions.length];
+    fallbackIndex++;
+    return question;
   }
 
-  // Improved fetchNextLLMQuestion
-  const fetchNextLLMQuestion = async () => {
+  // Updated fetchNextLLMQuestion to accept formulas
+  const fetchNextLLMQuestion = async (formulas?: string[]) => {
     setIsTyping(true);
     try {
       const response = await fetch("/api/ai-recommendations", {
@@ -430,32 +561,38 @@ const AiBeautyAssistant = () => {
           question: "next_question_for_category",
           categoryPath: getCategoryPath(),
           conversation: messagesRef.current,
+          availableFormulas: formulas || availableFormulas,
           instructions: `
             The user has already selected the category: ${getCategoryPath()}.
             Do NOT ask about category again. 
             Ask only the next relevant question for this category, such as preferences, finish, color, or other details.
             Never repeat the initial greeting or category question.
+            Only mention these available formulas: ${(
+              formulas || availableFormulas
+            ).join(", ")}. Do NOT mention formulas that are not available.
           `,
         }),
       });
       const data = await response.json();
-      if (data.success && data.response) {
-        const lower = (data.response || "").toLowerCase();
-        if (
-          lower.length < 10 ||
-          lower === "else?" ||
-          lower.includes("anything else") ||
-          lower.includes("other?")
-        ) {
-          addMessage("assistant", getCategorySpecificFallback());
-        } else {
-          addMessage("assistant", data.response);
-        }
+      const lower = (data.response || "").toLowerCase();
+      if (
+        lower.length < 10 ||
+        lower === "else?" ||
+        lower.includes("anything else") ||
+        lower.includes("other?")
+      ) {
+        addAssistantMessage(
+          getCategorySpecificFallback() +
+            " Or would you like to see more product options?"
+        );
       } else {
-        addMessage("assistant", getCategorySpecificFallback());
+        addAssistantMessage(data.response);
       }
     } catch (error) {
-      addMessage("assistant", getCategorySpecificFallback());
+      addAssistantMessage(
+        getCategorySpecificFallback() +
+          " Or would you like to see more product options?"
+      );
     } finally {
       setIsTyping(false);
     }
@@ -471,6 +608,12 @@ const AiBeautyAssistant = () => {
   // New: fetchRoutineGuide to get a usage guide from the LLM
   const fetchRoutineGuide = async (products: Product[]) => {
     try {
+      // Add a transition message
+      addAssistantMessage(
+        "Let me prepare a personalized usage guide for these products..."
+      );
+      setIsTyping(true);
+
       const response = await fetch("/api/ai-recommendations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -482,15 +625,15 @@ const AiBeautyAssistant = () => {
       });
       const data = await response.json();
       if (data.success && data.response) {
-        addMessage("assistant", data.response);
-        // setHasShownRoutine(true);
+        addAssistantMessage(data.response);
         setConversationStep("followup");
       }
     } catch (error) {
-      addMessage(
-        "assistant",
+      addAssistantMessage(
         "I'm here if you have more questions or want to explore more products!"
       );
+    } finally {
+      setIsTyping(false);
     }
   };
 
@@ -520,12 +663,18 @@ const AiBeautyAssistant = () => {
             "Here are some products you might like!",
           data.products.slice(0, 5)
         );
-        // Generate and show usage guide, then set to followup
-        await fetchRoutineGuide(data.products.slice(0, 3));
-        setConversationStep("followup");
+
+        // Add a delay before fetching the usage guide
+        setTimeout(() => {
+          fetchRoutineGuide(data.products.slice(0, 3));
+        }, 1000);
+
+        // Add these messages after recommendations but before usage guide
+        addAssistantMessage(
+          "Would you like to see more options, or shall I explain how to use these products?"
+        );
       } else {
-        addMessage(
-          "assistant",
+        addAssistantMessage(
           "Sorry, I couldn't find any products matching your preferences. Would you like to try a different category or preference?"
         );
         setConversationStep("followup");
@@ -533,8 +682,7 @@ const AiBeautyAssistant = () => {
     } catch (error) {
       setIsLoading(false);
       setRecommendedProducts([]);
-      addMessage(
-        "assistant",
+      addAssistantMessage(
         "Sorry, I couldn't find any products matching your preferences. Would you like to try a different category or preference?"
       );
       setConversationStep("followup");
@@ -667,6 +815,16 @@ const AiBeautyAssistant = () => {
                           <li>• Or anything else beauty-related!</li>
                         </ul>
                       </div>
+                      {showMoreProducts && (
+                        <div className="pt-2">
+                          <Button
+                            onClick={fetchRecommendedProducts}
+                            variant="outline"
+                          >
+                            Show me more products
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   );
                 }

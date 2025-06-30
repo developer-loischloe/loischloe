@@ -30,6 +30,7 @@ export interface Product {
   parent_category?: string;
   child_category?: string;
   nested_child_category?: string;
+  formula?: string;
 }
 
 export interface Category {
