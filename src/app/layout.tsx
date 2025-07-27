@@ -27,7 +27,7 @@ const Rootlayout = ({
 
       <body>
         <AuthProvider>
-         // {children}
+         
           <Toaster />
         </AuthProvider>
       </body>
