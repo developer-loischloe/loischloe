@@ -14,7 +14,6 @@ import "swiper/css/thumbs";
 import "./swipper.css";
 
 import { globalMetaDataConstant } from "../constant";
-import { notFound } from "next/navigation";
 
 // Fonts
 const belleza = Belleza({
@@ -93,7 +92,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  notFound();
   return (
     <>
       <GoogleTagManager gtmId={String(process.env.NEXT_PUBLIC_GTM_ID)} />
