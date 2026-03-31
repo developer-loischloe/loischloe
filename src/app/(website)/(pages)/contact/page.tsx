@@ -30,11 +30,11 @@ const ContactPage = () => {
             For quick enquiries and order support, message us on WhatsApp.
           </p>
           <Link
-            href="https://wa.me/8801XXXXXXXXX"
+            href="https://wa.me/8801840100578"
             target="_blank"
             className="inline-block text-brand_primary hover:underline font-medium"
           >
-            +880 1XXX-XXXXXX
+            +880 1840-100578
           </Link>
         </div>
 
@@ -45,10 +45,25 @@ const ContactPage = () => {
             Send us an email and we&apos;ll respond within 24 hours.
           </p>
           <Link
-            href="mailto:developer.loischloe@gmail.com"
+            href="mailto:hello@loischloe.com.bd"
             className="inline-block text-brand_primary hover:underline font-medium"
           >
-            developer.loischloe@gmail.com
+            hello@loischloe.com.bd
+          </Link>
+        </div>
+
+        {/* Instagram */}
+        <div className="border rounded-lg p-6 space-y-3">
+          <h2 className="text-xl font-semibold">Instagram</h2>
+          <p className="text-brand_gray">
+            Follow us on Instagram for beauty inspiration and product updates.
+          </p>
+          <Link
+            href="https://www.instagram.com/loischloe_bangladesh/"
+            target="_blank"
+            className="inline-block text-brand_primary hover:underline font-medium"
+          >
+            @loischloe_bangladesh
           </Link>
         </div>
 
@@ -79,6 +94,21 @@ const ContactPage = () => {
             className="inline-block text-brand_primary hover:underline font-medium"
           >
             @loischloe.bangladesh
+          </Link>
+        </div>
+
+        {/* YouTube */}
+        <div className="border rounded-lg p-6 space-y-3">
+          <h2 className="text-xl font-semibold">YouTube</h2>
+          <p className="text-brand_gray">
+            Watch our video content and tutorials on YouTube.
+          </p>
+          <Link
+            href="https://www.youtube.com/@loischloe"
+            target="_blank"
+            className="inline-block text-brand_primary hover:underline font-medium"
+          >
+            @loischloe
           </Link>
         </div>
       </div>
