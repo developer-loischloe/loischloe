@@ -34,6 +34,9 @@ export async function generateMetadata({
   return {
     title: product?.name,
     description: product?.short_description,
+    alternates: {
+      canonical: `/products/${product?.slug}`,
+    },
     openGraph: {
       type: "website",
       title: product?.name,
@@ -50,7 +53,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: product?.name,
       description: product?.short_description,
-      site: `${website_url}/products/${product?.slug}`,
+      site: "@loischloe",
       images: [
         {
           url: product?.images[0]?.image_url,

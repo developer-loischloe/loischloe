@@ -22,6 +22,10 @@ const Footer = () => {
       text: "Blog",
       link: "/blog",
     },
+    {
+      text: "Contact",
+      link: "/contact",
+    },
   ];
 
   return (
@@ -32,7 +36,7 @@ const Footer = () => {
             <Link href={"/"}>
               <Image
                 src={Logo}
-                alt="logo"
+                alt="LOIS CHLOE logo"
                 priority
                 className="min-w-[100px] max-w-[180px]"
               />
@@ -40,7 +44,7 @@ const Footer = () => {
           </div>
           <div>
             <p>
-              LOIS CHLOE, the cruelty-free luxury beauty brand. We presents a
+              LOIS CHLOE, the cruelty-free luxury beauty brand. We present a
               complete range of highly advanced beauty products with
               clinically-proven efficacy and safety: in two categories: makeup
               and skincare. We believe that the beauty is not luxurious

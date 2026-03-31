@@ -4,7 +4,6 @@ const nextConfig = {
         serverComponentsExternalPackages : ["node-appwrite"]
     },
     images: {
-        
         remotePatterns: [
             {
                 protocol: "https",
@@ -15,7 +14,32 @@ const nextConfig = {
                 hostname: "cloud.appwrite.io"
             }
         ]
-    }
+    },
+    async headers() {
+        return [
+            {
+                source: "/(.*)",
+                headers: [
+                    {
+                        key: "X-Content-Type-Options",
+                        value: "nosniff",
+                    },
+                    {
+                        key: "X-Frame-Options",
+                        value: "DENY",
+                    },
+                    {
+                        key: "Referrer-Policy",
+                        value: "strict-origin-when-cross-origin",
+                    },
+                    {
+                        key: "Permissions-Policy",
+                        value: "camera=(), microphone=(), geolocation=()",
+                    },
+                ],
+            },
+        ];
+    },
 };
 
 export default nextConfig;

@@ -1,5 +1,12 @@
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
 
 // Components
 import HomeSlider from "@/components/Home/HomeSlider/index";

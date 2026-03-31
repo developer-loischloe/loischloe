@@ -45,9 +45,6 @@ export const metadata: Metadata = {
   description: description,
   keywords: keywords,
   metadataBase: new URL(website_url),
-  alternates: {
-    canonical: "/",
-  },
   robots: {
     index: true,
     follow: true,
@@ -77,7 +74,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: title,
     description: description,
-    site: website_url,
+    site: "@loischloe",
     creator: "MD Shamim Hossain",
     images: [
       {

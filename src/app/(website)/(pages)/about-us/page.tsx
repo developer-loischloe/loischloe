@@ -8,15 +8,20 @@ import Banner from "@/assets/about/About_Cover-1.webp";
 // Metadata
 export const metadata: Metadata = {
   title: "About Us",
+  description:
+    "Learn about LOIS CHLOE — the cruelty-free, vegan luxury beauty brand from Australia, now available in Bangladesh. Discover our story, mission, and values.",
+  alternates: {
+    canonical: "/about-us",
+  },
 };
 
 const page = () => {
   return (
     <section className="space-y-10">
-      <Image src={Banner} alt="Banner" priority />
+      <Image src={Banner} alt="LOIS CHLOE About Us — luxury cruelty-free beauty brand" priority />
       <h1 className="heading-1 text-center">FIND OUT MORE ABOUT LOIS CHLOE</h1>
       <p className="text-brand_gray">
-        LOIS CHLOE, the cruelty-free luxury beauty brand. We presents a complete
+        LOIS CHLOE, the cruelty-free luxury beauty brand. We present a complete
         range of highly advanced beauty products with clinically-proven efficacy
         and safety: in two categories: makeup and skincare. We believe that the
         beauty is not luxurious imagination. The journey to true beauty starts

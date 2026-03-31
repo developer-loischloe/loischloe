@@ -12,7 +12,6 @@ export const globalMetaDataConstant = {
     "color cosmetics",
     "cruelty free",
     "chemical free",
-    "australian made",
     "BSTI approved",
     "lipstick",
     "face pallete",

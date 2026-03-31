@@ -3,10 +3,10 @@ import { globalMetaDataConstant } from "./constant";
 
 export default function manifest(): MetadataRoute.Manifest {
   // constants
-  const { website_name, title, description } = globalMetaDataConstant;
+  const { website_name, description } = globalMetaDataConstant;
 
   return {
-    name: title,
+    name: "LOIS CHLOE",
     short_name: website_name,
     description: description,
     start_url: "/",

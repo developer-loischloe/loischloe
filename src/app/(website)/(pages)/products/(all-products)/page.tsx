@@ -24,6 +24,11 @@ export interface SearchParams {
 // Metadata
 export const metadata: Metadata = {
   title: "Products",
+  description:
+    "Browse all LOIS CHLOE makeup products available in Bangladesh — face palettes, foundations, eyeliners, lipsticks, mascaras, and more. 100% vegan and cruelty-free.",
+  alternates: {
+    canonical: "/products",
+  },
 };
 
 const page = ({

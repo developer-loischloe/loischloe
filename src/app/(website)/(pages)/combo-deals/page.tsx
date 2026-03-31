@@ -14,7 +14,12 @@ const OfferCountDown = dynamic(
 );
 // Metadata
 export const metadata: Metadata = {
-  title: "Special Offer",
+  title: "Makeup Combo Deals & Bundle Offers",
+  description:
+    "Shop LOIS CHLOE makeup combo deals and bundle offers in Bangladesh. Save up to 43% on curated beauty sets — cruelty-free, vegan, and clinically proven.",
+  alternates: {
+    canonical: "/combo-deals",
+  },
 };
 
 const page = () => {
