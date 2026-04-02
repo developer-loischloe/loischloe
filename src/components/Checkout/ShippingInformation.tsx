@@ -45,7 +45,9 @@ import {
   updateCartCost,
 } from "@/redux/features/cart/cartSlice";
 import PhoneInput from "react-phone-number-input";
-import React from "react";
+import React, { useState } from "react";
+import { Gift, Gift as GiftIcon } from "lucide-react";
+import { Checkbox } from "../ui/checkbox";
 
 const CartSummary = dynamic(() => import("../Cart/CartSummary"), {
   ssr: false,
@@ -80,6 +82,8 @@ const formSchema = z.object({
 export default function ShippingInformation() {
   const dispatch = useDispatch();
   const router = useRouter();
+  const [isGiftWrap, setIsGiftWrap] = useState(false);
+  const [giftMessage, setGiftMessage] = useState("");
 
   const cartList = useSelector(selectCartList);
   const cartCost = useSelector(selectCartCost);
@@ -131,7 +135,11 @@ export default function ShippingInformation() {
     }
 
     const orderData = {
-      shippingInformation,
+      shippingInformation: {
+        ...shippingInformation,
+        ...(isGiftWrap && { gift_wrap: true }),
+        ...(isGiftWrap && giftMessage && { gift_message: giftMessage }),
+      },
       orderItems,
       paymentInformation: {
         payment_method: data.payment_method,
@@ -281,6 +289,43 @@ export default function ShippingInformation() {
                 </FormItem>
               )}
             />
+          </div>
+
+          {/* Gift Wrap Option */}
+          <div className="border border-brand_primary/30 rounded-xl p-4 bg-[#fdf8f3] space-y-3">
+            <div className="flex items-center gap-3">
+              <Checkbox
+                id="gift-wrap"
+                checked={isGiftWrap}
+                onCheckedChange={(v) => setIsGiftWrap(!!v)}
+                className="border-brand_primary data-[state=checked]:bg-brand_secondary"
+              />
+              <label
+                htmlFor="gift-wrap"
+                className="flex items-center gap-2 cursor-pointer font-medium text-brand_secondary"
+              >
+                <GiftIcon size={16} className="text-brand_primary" />
+                Add Gift Wrapping — FREE
+              </label>
+            </div>
+            {isGiftWrap && (
+              <div className="space-y-2 pl-7">
+                <p className="text-xs text-brand_gray">
+                  Your order will be beautifully wrapped in our signature Lois Chloe packaging.
+                </p>
+                <Textarea
+                  placeholder="Add a personal gift message (optional)"
+                  value={giftMessage}
+                  onChange={(e) => setGiftMessage(e.target.value)}
+                  rows={3}
+                  maxLength={200}
+                  className="text-sm resize-none"
+                />
+                <p className="text-xs text-brand_gray text-right">
+                  {giftMessage.length}/200
+                </p>
+              </div>
+            )}
           </div>
 
           <FormField

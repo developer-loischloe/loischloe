@@ -6,6 +6,12 @@ import { useSelector } from "react-redux";
 import { selectCartList } from "@/redux/features/cart/cartSlice";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import dynamic from "next/dynamic";
+
+const YouMayAlsoLike = dynamic(
+  () => import("@/components/Header/Cart/YouMayAlsoLike"),
+  { ssr: false }
+);
 
 const Cart = () => {
   const cartList = useSelector(selectCartList);
@@ -25,9 +31,18 @@ const Cart = () => {
     );
   }
   return (
-    <div className="flex flex-col items-center lg:flex-row lg:items-start gap-10">
-      <CartList cartList={cartList} />
-      <CartSummary title="Cart Summary" showBtn />
+    <div className="space-y-10">
+      <div className="flex flex-col items-center lg:flex-row lg:items-start gap-10">
+        <CartList cartList={cartList} />
+        <CartSummary title="Cart Summary" showBtn />
+      </div>
+      {/* Upselling: Complete Your Routine */}
+      <div className="border-t pt-8">
+        <h2 className="text-xl font-semibold text-brand_secondary mb-6">
+          Complete Your Routine
+        </h2>
+        <YouMayAlsoLike />
+      </div>
     </div>
   );
 };

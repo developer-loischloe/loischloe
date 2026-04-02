@@ -16,6 +16,10 @@ import { globalMetaDataConstant } from "@/app/constant";
 import { Button } from "@/components/ui/button";
 import appwriteProductService from "@/appwrite/appwriteProductService";
 import SingleProductloading from "./SingleProductloading";
+import IngredientChecker from "@/components/Products/Product/IngredientChecker";
+import LipTryOn from "@/components/Products/Product/LipTryOn";
+import SubscribeAndSave from "@/components/Products/Product/SubscribeAndSave";
+
 const ProductImageSlider = dynamic(
   () => import("@/components/Products/Product/ProductSlider"),
   { ssr: false }
@@ -68,7 +72,7 @@ const page = async ({ params: { slug } }: { params: { slug: string } }) => {
 
   return (
     <Suspense key={key} fallback={<SingleProductloading />}>
-      <SingleProductDetails slug={slug} />;
+      <SingleProductDetails slug={slug} />
     </Suspense>
   );
 };
@@ -78,9 +82,6 @@ export default page;
 // Product Details
 const SingleProductDetails = async ({ slug }: { slug: string }) => {
   const products = await appwriteProductService.getProductDetails({ slug });
-
-  // console.log(products?.documents?.[0]?.images[0]);
-  // console.log(products?.documents?.[0]?.$id);
 
   if (products?.total === 0) {
     return (
@@ -93,46 +94,74 @@ const SingleProductDetails = async ({ slug }: { slug: string }) => {
     );
   }
 
+  const product = products?.documents[0];
+
   return (
     <>
       <SendGTMEvent
-        params={{ event: "ViewContent", product: products.documents[0] }}
+        params={{ event: "ViewContent", product }}
       />
-      <BreadCrumb pathList={["products", products?.documents[0]?.name]} />
-      <SavedViewedProduct productId={products?.documents[0]?.$id} />
+      <BreadCrumb pathList={["products", product?.name]} />
+      <SavedViewedProduct productId={product?.$id} />
+
       <section className="space-y-10 py-5 md:py-10">
         <div className="flex flex-col md:flex-row gap-10">
+          {/* Product Images */}
           <div className="w-full md:max-w-[350px] lg:max-w-[500px]">
-            <ProductImageSlider images={products?.documents[0]?.images} />
+            <ProductImageSlider images={product?.images} />
           </div>
-          <ProductHandler product={products?.documents[0]} />
+
+          {/* Product Details */}
+          <div className="flex-1 space-y-5">
+            <ProductHandler product={product} />
+
+            {/* Subscribe & Save */}
+            {product?.stock === "in-stock" && !product?.pre_order && (
+              <SubscribeAndSave price={product?.sale_price} />
+            )}
+
+            {/* Lip Try-On */}
+            <LipTryOn product={product} />
+
+            {/* Ingredient Checker */}
+            <IngredientChecker product={product} />
+          </div>
         </div>
 
+        {/* Product Info Tabs */}
         <Tabs
           defaultValue="description"
           className="w-full mx-auto border rounded-sm"
         >
-          <TabsList className="w-full  space-x-5">
+          <TabsList className="w-full space-x-5">
             <TabsTrigger value="description">Description</TabsTrigger>
-            <TabsTrigger value="reviews">Reviews</TabsTrigger>
+            <TabsTrigger value="reviews">
+              Reviews{" "}
+              {product?.reviews?.length > 0 && (
+                <span className="ml-1.5 bg-brand_primary/20 text-brand_secondary text-xs font-bold px-1.5 py-0.5 rounded-full">
+                  {product.reviews.length}
+                </span>
+              )}
+            </TabsTrigger>
           </TabsList>
           <div className="p-5">
             <TabsContent value="description">
-              <Description product={products?.documents[0]} />
+              <Description product={product} />
             </TabsContent>
             <TabsContent value="reviews">
-              <Reviews product={products?.documents[0]} />
+              <Reviews product={product} />
             </TabsContent>
           </div>
         </Tabs>
 
         <Suspense fallback={<ProductListLoading />}>
           <RelatedProducts
-            child_category={products?.documents[0]?.child_category}
-            currentProductId={products?.documents[0]?.$id}
+            child_category={product?.child_category}
+            currentProductId={product?.$id}
           />
         </Suspense>
-        <RecentlyViewed currentProductId={products?.documents[0]?.$id} />
+
+        <RecentlyViewed currentProductId={product?.$id} />
       </section>
     </>
   );

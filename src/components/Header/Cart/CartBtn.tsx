@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import CartSummary from "@/components/Cart/CartSummary";
+import YouMayAlsoLike from "./YouMayAlsoLike";
 
 const CartBtn = () => {
   const showCartSidebar = useSelector(selectShowCartSidebar);
@@ -76,8 +77,9 @@ const CartBtn = () => {
           </div>
         ) : (
           <>
-            <div className="overflow-y-auto">
+            <div className="overflow-y-auto flex-1 px-1">
               <CartList />
+              <YouMayAlsoLike />
             </div>
 
             <SheetFooter>
