@@ -17,42 +17,31 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "./styles.css";
 
 // desktop(2000 X 757)
-import Main_banner_1 from "../../../../public/home_slider/2000x757_px/1.png";
-import Main_banner_2 from "../../../../public/home_slider/2000x757_px/2.png";
-import Main_banner_3 from "../../../../public/home_slider/2000x757_px/3.png";
+import Main_banner_first from "../../../../public/home_slider/2000x757_px/main_banner_1.png";
+import Main_banner_certifications from "../../../../public/home_slider/2000x757_px/main_banner_2.png";
 
 // Mobile(1563 X 1458)
-import Mobile_banner_1 from "../../../../public/home_slider/1563x1458_px/1.png";
-import Mobile_banner_2 from "../../../../public/home_slider/1563x1458_px/2.png";
-import Mobile_banner_3 from "../../../../public/home_slider/1563x1458_px/3.png";
+import Mobile_banner_first from "../../../../public/home_slider/1563x1458_px/mobile_banner_1.png";
+import Mobile_banner_certifications from "../../../../public/home_slider/1563x1458_px/mobile_banner_2.png";
 
 const sliderConstant = [
   {
     id: 1,
     banner: {
-      main: Main_banner_3,
-      mobile: Mobile_banner_3,
+      main: Main_banner_first,
+      mobile: Mobile_banner_first,
     },
-    alt: "Banner",
-    link: "/products/eid-special-bundle",
+    alt: "LOIS CHLOE - First and only vegan luxury brand in Bangladesh",
+    link: "/products",
   },
   {
     id: 2,
     banner: {
-      main: Main_banner_1,
-      mobile: Mobile_banner_1,
+      main: Main_banner_certifications,
+      mobile: Mobile_banner_certifications,
     },
-    alt: "Banner",
-    link: "/products/buy-3-get-1-free-gift",
-  },
-  {
-    id: 3,
-    banner: {
-      main: Main_banner_2,
-      mobile: Mobile_banner_2,
-    },
-    alt: "Banner",
-    link: "/products/glow-combo",
+    alt: "LOIS CHLOE - 100% Vegan, BSTI Approved, Made in Australia, Cruelty Free, Chemical Free",
+    link: "/about-us",
   },
 ];
 
