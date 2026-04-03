@@ -139,13 +139,13 @@ const SingleProductDetails = async ({ slug }: { slug: string }) => {
           <div className="flex-1 space-y-5">
             <ProductHandler product={product} />
 
-            {/* Subscribe & Save */}
-            {product?.stock === "in-stock" && !product?.pre_order && (
+            {/* Subscribe & Save — temporarily disabled */}
+            {/* {product?.stock === "in-stock" && !product?.pre_order && (
               <SubscribeAndSave price={product?.sale_price} />
-            )}
+            )} */}
 
-            {/* Lip Try-On */}
-            <LipTryOn product={product} />
+            {/* Lip Try-On — temporarily disabled */}
+            {/* <LipTryOn product={product} /> */}
 
             {/* Ingredient Checker */}
             <IngredientChecker product={product} />

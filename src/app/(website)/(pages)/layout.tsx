@@ -12,7 +12,7 @@ import AiBeautyAssistant from "@/app/agents/ai-beauty-assistant/ui/AiBeautyAssis
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <ReduxProvider>
-      <LoisChloeMarquee />
+      {/* <LoisChloeMarquee /> */}
       <Suspense>
         <Header />
       </Suspense>
