@@ -1,6 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { Toaster } from "@/components/ui/sonner";
+import { MetaPixel } from "@/components/MetaPixel";
 
 const AuthProvider = dynamic(() => import("@/context/authContext"), {
   ssr: false,
@@ -27,6 +28,7 @@ const Rootlayout = ({
 
       <body>
         <AuthProvider>
+          <MetaPixel />
           {children}
           <Toaster />
         </AuthProvider>
