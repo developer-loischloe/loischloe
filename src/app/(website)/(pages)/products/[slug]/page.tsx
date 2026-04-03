@@ -27,11 +27,21 @@ const ProductImageSlider = dynamic(
 
 const { website_url, website_name } = globalMetaDataConstant;
 
+const DISABLED_SLUGS = [
+  "buy-3-get-1-free-gift",
+  "glow-combo",
+  "eid-special-bundle",
+];
+
 export async function generateMetadata({
   params: { slug },
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
+  if (DISABLED_SLUGS.includes(slug)) {
+    return { title: "Offer Unavailable | LOIS CHLOE" };
+  }
+
   const products = await appwriteProductService.getProductDetails({ slug });
   const product = products?.documents[0];
 
@@ -68,6 +78,20 @@ export async function generateMetadata({
 }
 
 const page = async ({ params: { slug } }: { params: { slug: string } }) => {
+  if (DISABLED_SLUGS.includes(slug)) {
+    return (
+      <div className="flex flex-col gap-5 justify-center items-center py-[100px]">
+        <h1 className="text-2xl font-semibold text-[#2D3436]">
+          This offer is no longer available.
+        </h1>
+        <p className="text-[#636e72]">Check out our other products instead!</p>
+        <Link href={"/products"}>
+          <Button>See All Products</Button>
+        </Link>
+      </div>
+    );
+  }
+
   const key = `/products/${slug}/$${(Math.random() * 1000).toString()}`;
 
   return (
