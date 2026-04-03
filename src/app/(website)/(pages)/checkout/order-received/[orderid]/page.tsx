@@ -3,6 +3,7 @@ import Link from "next/link";
 import appwriteOrderService from "@/appwrite/appwriteOrderService";
 import ShippingInformation from "@/components/Order_received/ShippingInformation";
 import OrderDetails from "@/components/Order_received/OrderDetails";
+import PurchaseEventTracker from "@/components/PurchaseEventTracker";
 import { Button } from "@/components/ui/button";
 import { getBdDate, getBdtime } from "@/lib/utils";
 
@@ -16,6 +17,9 @@ const OrderReceived = async ({
   return (
     <div>
       <section className="space-y-5">
+        {/* Meta Pixel Purchase Event - fires once when this page loads */}
+        <PurchaseEventTracker order={order} />
+
         <div className="text-lg bg-green-100 p-3">
           Thank you. Your order has been received.
         </div>
