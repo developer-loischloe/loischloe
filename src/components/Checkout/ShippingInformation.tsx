@@ -111,11 +111,9 @@ export default function ShippingInformation() {
   const getOrderItems = (cartList: Item[]) => {
     return cartList.map((item) => {
       return {
-        ...item,
         product: item.product.$id,
-        ...(item.product.selectedShade && {
-          selectedShade: item.product.selectedShade,
-        }),
+        price: item.price,
+        quantity: item.quantity,
       };
     });
   };
