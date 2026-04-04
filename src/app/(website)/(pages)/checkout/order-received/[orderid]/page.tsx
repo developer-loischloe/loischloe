@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import appwriteOrderService from "@/appwrite/appwriteOrderService";
+import appwriteCouponService from "@/appwrite/appwriteCouponService";
 import ShippingInformation from "@/components/Order_received/ShippingInformation";
 import OrderDetails from "@/components/Order_received/OrderDetails";
 import PurchaseEventTracker from "@/components/PurchaseEventTracker";
@@ -20,6 +21,29 @@ const OrderReceived = async ({
   const hasCombo = order?.orderItems?.some((item: any) =>
     COMBO_SLUGS.includes(item?.product?.slug)
   );
+
+  // Generate unique coupon for combo buyers
+  let couponCode = "";
+  if (hasCombo) {
+    // Use last 4-6 chars of order ID for a shorter code
+    const shortId = orderid.slice(-6).toUpperCase();
+    couponCode = `500GIFT${shortId}`;
+
+    // Create the coupon in Appwrite (idempotent — if it already exists, skip)
+    try {
+      await appwriteCouponService.createCoupon({
+        code: couponCode,
+        discount: 500,
+        sourceOrderId: orderid,
+      });
+    } catch (error: any) {
+      // If coupon already exists (duplicate), ignore the error
+      if (!error?.message?.includes("Document with the requested ID already exists") &&
+          !error?.message?.includes("unique")) {
+        console.error("Error creating coupon:", error);
+      }
+    }
+  }
 
   return (
     <div>
@@ -70,7 +94,7 @@ const OrderReceived = async ({
                   Your Coupon Code
                 </p>
                 <p className="text-2xl font-bold tracking-widest text-brand_secondary">
-                  COMBO500
+                  {couponCode}
                 </p>
               </div>
               <div className="text-right">

@@ -7,9 +7,11 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   selectCartCost,
   selectAppliedCoupon,
-  applyCoupon,
+  selectCouponLoading,
+  validateCoupon,
   removeCoupon,
 } from "@/redux/features/cart/cartSlice";
+import type { AppDispatch } from "@/redux/store";
 import ShippingCost from "./ShippingCost";
 
 const CartSummary = ({
@@ -23,12 +25,13 @@ const CartSummary = ({
 }) => {
   const cartCost = useSelector(selectCartCost);
   const appliedCouponCode = useSelector(selectAppliedCoupon);
-  const dispatch = useDispatch();
+  const couponLoading = useSelector(selectCouponLoading);
+  const dispatch = useDispatch<AppDispatch>();
   const [couponInput, setCouponInput] = useState("");
 
   const handleApplyCoupon = () => {
     if (couponInput.trim()) {
-      dispatch(applyCoupon(couponInput));
+      dispatch(validateCoupon(couponInput));
       setCouponInput("");
     }
   };
@@ -112,8 +115,9 @@ const CartSummary = ({
                 size="sm"
                 onClick={handleApplyCoupon}
                 className="px-4"
+                disabled={couponLoading}
               >
-                Apply
+                {couponLoading ? "..." : "Apply"}
               </Button>
             </div>
           </div>

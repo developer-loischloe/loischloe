@@ -43,8 +43,10 @@ import {
   selectCartCost,
   selectCartList,
   selectAppliedCoupon,
+  selectCouponDocId,
   updateCartCost,
 } from "@/redux/features/cart/cartSlice";
+import appwriteCouponService from "@/appwrite/appwriteCouponService";
 import PhoneInput from "react-phone-number-input";
 import React, { useState } from "react";
 import { Gift, Gift as GiftIcon } from "lucide-react";
@@ -89,6 +91,7 @@ export default function ShippingInformation() {
   const cartList = useSelector(selectCartList);
   const cartCost = useSelector(selectCartCost);
   const appliedCouponCode = useSelector(selectAppliedCoupon);
+  const couponDocId = useSelector(selectCouponDocId);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -181,6 +184,15 @@ export default function ShippingInformation() {
       const response = await appwriteOrderService.createOrder(orderData);
       // Redirect to the order-received page and clear cart
       if (response) {
+        // Redeem coupon if one was applied
+        if (couponDocId) {
+          try {
+            await appwriteCouponService.redeemCoupon(couponDocId, response.$id);
+          } catch (error) {
+            console.error("Error redeeming coupon:", error);
+          }
+        }
+
         router.push(`/checkout/order-received/${response.$id}`);
         sendGTMEvent({
           event: "Purchase",

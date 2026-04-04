@@ -5,6 +5,7 @@ import { sendGTMEvent } from "@next/third-parties/google";
 import { shippingCostProvider } from "@/lib/utils";
 import { toast } from "sonner";
 import appwriteUtilsService from "@/appwrite/appwriteUtilsService";
+import appwriteCouponService from "@/appwrite/appwriteCouponService";
 
 // Types
 export interface Item {
@@ -95,11 +96,6 @@ const calculateDiscount = ({
   return discount
 };
 
-// Coupon config
-export const VALID_COUPONS: Record<string, number> = {
-  COMBO500: 500,
-};
-
 // Define a type for the slice state
 export interface CartState {
   utils: {
@@ -116,6 +112,8 @@ export interface CartState {
     total_cost: number;
   };
   appliedCoupon: string | null;
+  couponDocId: string | null;
+  couponLoading: boolean;
   showCartSidebar: boolean;
   isEligibleForFreeGift: boolean;
 }
@@ -136,6 +134,8 @@ const initialState: CartState = {
     total_cost: 0,
   },
   appliedCoupon: null,
+  couponDocId: null,
+  couponLoading: false,
   showCartSidebar: false,
   isEligibleForFreeGift: false,
 };
@@ -145,6 +145,18 @@ export const fetchUtils = createAsyncThunk("cartSlice/fetchUtils", async () => {
   const response = await appwriteUtilsService.getUtils();
   return response;
 });
+
+// Validate coupon code against Appwrite
+export const validateCoupon = createAsyncThunk(
+  "cartSlice/validateCoupon",
+  async (code: string, { rejectWithValue }) => {
+    const coupon = await appwriteCouponService.validateCoupon(code.toUpperCase().trim());
+    if (!coupon) {
+      return rejectWithValue("Invalid or already used coupon code");
+    }
+    return { code: coupon.code, discount: coupon.discount, docId: coupon.$id };
+  }
+);
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -254,6 +266,7 @@ export const cartSlice = createSlice({
     resetCart: (state) => {
       state.cartList = [];
       state.appliedCoupon = null;
+      state.couponDocId = null;
       state.cartCost.coupon_discount = 0;
       setLocalCartItems([]);
     },
@@ -279,23 +292,6 @@ export const cartSlice = createSlice({
         state.cartCost.coupon_discount;
       if (state.cartCost.total_cost < 0) state.cartCost.total_cost = 0;
     },
-    applyCoupon: (state, action: PayloadAction<string>) => {
-      const code = action.payload.toUpperCase().trim();
-      const couponValue = VALID_COUPONS[code];
-      if (couponValue) {
-        state.appliedCoupon = code;
-        state.cartCost.coupon_discount = couponValue;
-        state.cartCost.total_cost =
-          state.cartCost.product_price -
-          state.cartCost.discount -
-          couponValue +
-          state.cartCost.shipping_cost;
-        if (state.cartCost.total_cost < 0) state.cartCost.total_cost = 0;
-        toast.success(`Coupon "${code}" applied! ৳${couponValue} off`);
-      } else {
-        toast.error("Invalid coupon code");
-      }
-    },
     removeCoupon: (state) => {
       state.appliedCoupon = null;
       state.cartCost.coupon_discount = 0;
@@ -315,6 +311,31 @@ export const cartSlice = createSlice({
     },
   }),
   extraReducers: (builder) => {
+    // Coupon validation
+    builder.addCase(validateCoupon.pending, (state) => {
+      state.couponLoading = true;
+    });
+    builder.addCase(validateCoupon.fulfilled, (state, action) => {
+      state.couponLoading = false;
+      state.appliedCoupon = action.payload.code;
+      state.couponDocId = action.payload.docId;
+      state.cartCost.coupon_discount = action.payload.discount;
+      state.cartCost.total_cost =
+        state.cartCost.product_price -
+        state.cartCost.discount -
+        state.cartCost.coupon_discount +
+        state.cartCost.shipping_cost;
+      if (state.cartCost.total_cost < 0) state.cartCost.total_cost = 0;
+      toast.success(`Coupon applied! ৳${action.payload.discount} off`);
+    });
+    builder.addCase(validateCoupon.rejected, (state, action) => {
+      state.couponLoading = false;
+      state.appliedCoupon = null;
+      state.couponDocId = null;
+      state.cartCost.coupon_discount = 0;
+      toast.error((action.payload as string) || "Invalid coupon code");
+    });
+
     builder.addCase(fetchUtils.fulfilled, (state, action) => {
       // Update utils
       state.utils.discountPercentage =
@@ -350,7 +371,6 @@ export const {
   resetCart,
   updateCartCost,
   setShowCartSidebar,
-  applyCoupon,
   removeCoupon,
 } = cartSlice.actions;
 
@@ -364,5 +384,9 @@ export const selectIsEligibleForFreeGift = (state: RootState) =>
   state.cart.isEligibleForFreeGift;
 export const selectAppliedCoupon = (state: RootState) =>
   state.cart.appliedCoupon;
+export const selectCouponLoading = (state: RootState) =>
+  state.cart.couponLoading;
+export const selectCouponDocId = (state: RootState) =>
+  state.cart.couponDocId;
 
 export default cartSlice.reducer;
