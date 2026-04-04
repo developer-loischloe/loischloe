@@ -95,6 +95,11 @@ const calculateDiscount = ({
   return discount
 };
 
+// Coupon config
+export const VALID_COUPONS: Record<string, number> = {
+  COMBO500: 500,
+};
+
 // Define a type for the slice state
 export interface CartState {
   utils: {
@@ -107,8 +112,10 @@ export interface CartState {
     product_price: number;
     shipping_cost: number;
     discount: number;
+    coupon_discount: number;
     total_cost: number;
   };
+  appliedCoupon: string | null;
   showCartSidebar: boolean;
   isEligibleForFreeGift: boolean;
 }
@@ -125,8 +132,10 @@ const initialState: CartState = {
     product_price: 0,
     shipping_cost: 0,
     discount: 0,
+    coupon_discount: 0,
     total_cost: 0,
   },
+  appliedCoupon: null,
   showCartSidebar: false,
   isEligibleForFreeGift: false,
 };
@@ -190,8 +199,10 @@ export const cartSlice = createSlice({
       });
       state.cartCost.total_cost =
         state.cartCost.product_price -
-        state.cartCost.discount +
+        state.cartCost.discount -
+        state.cartCost.coupon_discount +
         state.cartCost.shipping_cost;
+      if (state.cartCost.total_cost < 0) state.cartCost.total_cost = 0;
     },
     removeFromCart: (state, action: PayloadAction<{ productId: string }>) => {
       // Check already item exist or not
@@ -234,12 +245,16 @@ export const cartSlice = createSlice({
         });
         state.cartCost.total_cost =
           state.cartCost.product_price -
-          state.cartCost.discount +
+          state.cartCost.discount -
+          state.cartCost.coupon_discount +
           state.cartCost.shipping_cost;
+        if (state.cartCost.total_cost < 0) state.cartCost.total_cost = 0;
       }
     },
     resetCart: (state) => {
       state.cartList = [];
+      state.appliedCoupon = null;
+      state.cartCost.coupon_discount = 0;
       setLocalCartItems([]);
     },
     updateCartCost: (
@@ -260,7 +275,35 @@ export const cartSlice = createSlice({
       state.cartCost.total_cost =
         state.cartCost.product_price +
         state.cartCost.shipping_cost -
-        state.cartCost.discount;
+        state.cartCost.discount -
+        state.cartCost.coupon_discount;
+      if (state.cartCost.total_cost < 0) state.cartCost.total_cost = 0;
+    },
+    applyCoupon: (state, action: PayloadAction<string>) => {
+      const code = action.payload.toUpperCase().trim();
+      const couponValue = VALID_COUPONS[code];
+      if (couponValue) {
+        state.appliedCoupon = code;
+        state.cartCost.coupon_discount = couponValue;
+        state.cartCost.total_cost =
+          state.cartCost.product_price -
+          state.cartCost.discount -
+          couponValue +
+          state.cartCost.shipping_cost;
+        if (state.cartCost.total_cost < 0) state.cartCost.total_cost = 0;
+        toast.success(`Coupon "${code}" applied! ৳${couponValue} off`);
+      } else {
+        toast.error("Invalid coupon code");
+      }
+    },
+    removeCoupon: (state) => {
+      state.appliedCoupon = null;
+      state.cartCost.coupon_discount = 0;
+      state.cartCost.total_cost =
+        state.cartCost.product_price -
+        state.cartCost.discount +
+        state.cartCost.shipping_cost;
+      toast("Coupon removed");
     },
     setShowCartSidebar: (
       state,
@@ -289,7 +332,8 @@ export const cartSlice = createSlice({
         }) || 0;
 
 
-      const total_cost = product_price - discount + shipping_cost;
+      const coupon_discount = state.cartCost.coupon_discount || 0;
+      const total_cost = Math.max(0, product_price - discount - coupon_discount + shipping_cost);
 
       // Update cartcost
       state.cartCost.product_price = product_price;
@@ -306,6 +350,8 @@ export const {
   resetCart,
   updateCartCost,
   setShowCartSidebar,
+  applyCoupon,
+  removeCoupon,
 } = cartSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
@@ -316,5 +362,7 @@ export const selectShowCartSidebar = (state: RootState) =>
   state.cart.showCartSidebar;
 export const selectIsEligibleForFreeGift = (state: RootState) =>
   state.cart.isEligibleForFreeGift;
+export const selectAppliedCoupon = (state: RootState) =>
+  state.cart.appliedCoupon;
 
 export default cartSlice.reducer;

@@ -42,6 +42,7 @@ import {
   resetCart,
   selectCartCost,
   selectCartList,
+  selectAppliedCoupon,
   updateCartCost,
 } from "@/redux/features/cart/cartSlice";
 import PhoneInput from "react-phone-number-input";
@@ -87,6 +88,7 @@ export default function ShippingInformation() {
 
   const cartList = useSelector(selectCartList);
   const cartCost = useSelector(selectCartCost);
+  const appliedCouponCode = useSelector(selectAppliedCoupon);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -148,6 +150,14 @@ export default function ShippingInformation() {
         : shadeNotes;
     }
 
+    // Append coupon info to order notes
+    if (appliedCouponCode) {
+      const couponNote = `Coupon: ${appliedCouponCode} (৳${cartCost.coupon_discount} off)`;
+      shippingInformation.order_notes = shippingInformation.order_notes
+        ? `${shippingInformation.order_notes} | ${couponNote}`
+        : couponNote;
+    }
+
     const orderData = {
       shippingInformation: {
         ...shippingInformation,
@@ -163,7 +173,7 @@ export default function ShippingInformation() {
         product_price: cartCost.product_price,
         shipping_cost: cartCost.shipping_cost,
         total_price: cartCost.total_cost,
-        discount: cartCost.discount,
+        discount: cartCost.discount + cartCost.coupon_discount,
       },
     };
 
