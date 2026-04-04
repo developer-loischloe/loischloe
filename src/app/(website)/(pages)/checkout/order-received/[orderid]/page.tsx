@@ -1,7 +1,9 @@
 import Link from "next/link";
 
 import appwriteOrderService from "@/appwrite/appwriteOrderService";
-import appwriteCouponService from "@/appwrite/appwriteCouponService";
+import { serverDatabases } from "@/appwrite/appwriteServerSDKConfig";
+import config from "@/config";
+import { ID, Query } from "node-appwrite";
 import ShippingInformation from "@/components/Order_received/ShippingInformation";
 import OrderDetails from "@/components/Order_received/OrderDetails";
 import PurchaseEventTracker from "@/components/PurchaseEventTracker";
@@ -29,19 +31,30 @@ const OrderReceived = async ({
     const shortId = orderid.slice(-6).toUpperCase();
     couponCode = `500GIFT${shortId}`;
 
-    // Create the coupon in Appwrite (idempotent — if it already exists, skip)
+    // Check if coupon already exists for this order (idempotent)
     try {
-      await appwriteCouponService.createCoupon({
-        code: couponCode,
-        discount: 500,
-        sourceOrderId: orderid,
-      });
-    } catch (error: any) {
-      // If coupon already exists (duplicate), ignore the error
-      if (!error?.message?.includes("Document with the requested ID already exists") &&
-          !error?.message?.includes("unique")) {
-        console.error("Error creating coupon:", error);
+      const existing = await serverDatabases.listDocuments(
+        config.appwriteDatabaseId,
+        "coupons",
+        [Query.equal("code", couponCode)]
+      );
+
+      if (existing.documents.length === 0) {
+        await serverDatabases.createDocument(
+          config.appwriteDatabaseId,
+          "coupons",
+          ID.unique(),
+          {
+            code: couponCode,
+            discount: 500,
+            used: false,
+            source_order_id: orderid,
+            redeemed_order_id: "",
+          }
+        );
       }
+    } catch (error: any) {
+      console.error("Error creating coupon:", error);
     }
   }
 
