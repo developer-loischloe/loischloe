@@ -277,6 +277,7 @@ export class AppwriteProductService {
         [
           Query.equal("Published", [true]),
           Query.search("parent_category", "offer"),
+          Query.orderDesc("$createdAt"),
         ]
       );
 
