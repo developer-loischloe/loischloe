@@ -22,18 +22,18 @@ const myStyles = {
 const FOUNDATION_SHADES: Shade[] = [
   {
     name: "Shade 3.0",
-    hex: "#C68642",
+    hex: "#d5a87f",
     desc: "Medium-deep warm tone",
   },
 ];
 
 const FOUNDATION_SHADES_ALL: { shade: Shade; disabled: boolean }[] = [
   {
-    shade: { name: "Shade 1.5", hex: "#F0D5B8", desc: "Light-medium tone" },
+    shade: { name: "Shade 1.5", hex: "#dab598", desc: "Light-medium tone" },
     disabled: true,
   },
   {
-    shade: { name: "Shade 3.0", hex: "#C68642", desc: "Medium-deep warm tone" },
+    shade: { name: "Shade 3.0", hex: "#d5a87f", desc: "Medium-deep warm tone" },
     disabled: false,
   },
 ];

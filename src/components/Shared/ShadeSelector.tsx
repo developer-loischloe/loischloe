@@ -15,19 +15,19 @@ export interface Shade {
 export const DEFAULT_SHADES: Shade[] = [
   {
     name: "Sizzling Brown",
-    hex: "#8B4513",
+    hex: "#94564f",
     desc: "Warm, earthy brown for a natural bold look",
     link: "/products/lois-chloe-sizzling-brown-matte-lipstick",
   },
   {
     name: "Rose Chloé",
-    hex: "#C4727F",
+    hex: "#c97f91",
     desc: "Elegant rosy pink with a timeless appeal",
     link: "/products/lois-chloe-rose-chloe-bullet-semi-matte-lipstick",
   },
   {
     name: "Nude Blush",
-    hex: "#DEB5A0",
+    hex: "#aa6d74",
     desc: "Soft nude pink for everyday elegance",
     link: "/products/lois-chloe-nude-blush-bullet-matte-lipstick",
   },
