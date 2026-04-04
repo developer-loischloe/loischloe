@@ -19,15 +19,50 @@ const myStyles = {
   inactiveFillColor: "#727272",
 };
 
-const COMBO_SLUGS = ["glam-on-the-go", "hydra-lip-duo"];
+const FOUNDATION_SHADES: Shade[] = [
+  {
+    name: "Shade 3.0",
+    hex: "#C68642",
+    desc: "Medium-deep warm tone",
+  },
+];
+
+const FOUNDATION_SHADES_ALL: { shade: Shade; disabled: boolean }[] = [
+  {
+    shade: { name: "Shade 1.5", hex: "#F0D5B8", desc: "Light-medium tone" },
+    disabled: true,
+  },
+  {
+    shade: { name: "Shade 3.0", hex: "#C68642", desc: "Medium-deep warm tone" },
+    disabled: false,
+  },
+];
 
 const ProductHandler = ({ product }: any) => {
-  const isCombo = COMBO_SLUGS.includes(product?.slug);
-  const [selectedShade, setSelectedShade] = useState<Shade>(DEFAULT_SHADES[0]);
+  const isGlam = product?.slug === "glam-on-the-go";
+  const isHydra = product?.slug === "hydra-lip-duo";
+  const isCombo = isGlam || isHydra;
 
-  // For combo products, attach the selected shade to the product object
+  const [selectedLipstick, setSelectedLipstick] = useState<Shade>(
+    DEFAULT_SHADES[0]
+  );
+  const [selectedFoundation, setSelectedFoundation] = useState<Shade>(
+    FOUNDATION_SHADES[0]
+  );
+
+  // Build shade string for order
+  const getShadeInfo = () => {
+    if (isGlam) {
+      return `Foundation: ${selectedFoundation.name}, Lipstick: ${selectedLipstick.name}`;
+    }
+    if (isHydra) {
+      return `Lipstick: ${selectedLipstick.name}`;
+    }
+    return undefined;
+  };
+
   const productWithShade = isCombo
-    ? { ...product, selectedShade: selectedShade.name }
+    ? { ...product, selectedShade: getShadeInfo() }
     : product;
 
   return (
@@ -64,13 +99,63 @@ const ProductHandler = ({ product }: any) => {
 
       <hr />
 
-      {/* Shade Selector for combo products */}
+      {/* Foundation Shade Selector — Glam On The Go only */}
+      {isGlam && (
+        <div className="bg-[#fafafa] rounded-xl p-4 border border-[#f0f0f0] space-y-3">
+          <p className="text-sm font-medium text-[#2D3436] tracking-wide uppercase">
+            Choose Foundation Shade
+          </p>
+          <div className="flex items-center gap-4">
+            {FOUNDATION_SHADES_ALL.map(({ shade, disabled }) => (
+              <button
+                key={shade.name}
+                disabled={disabled}
+                onClick={() => !disabled && setSelectedFoundation(shade)}
+                className={`flex flex-col items-center gap-2 min-w-[70px] p-2 rounded-lg transition-all ${
+                  disabled
+                    ? "opacity-40 cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+              >
+                <div
+                  className={`w-10 h-10 rounded-full shadow-md transition-all ${
+                    !disabled && selectedFoundation.name === shade.name
+                      ? "ring-2 ring-offset-2 ring-[#2D3436] scale-110"
+                      : ""
+                  }`}
+                  style={{ backgroundColor: shade.hex }}
+                />
+                <span className="text-xs text-center leading-tight">
+                  {shade.name}
+                  {disabled && (
+                    <span className="block text-[10px] text-red-400">
+                      Unavailable
+                    </span>
+                  )}
+                </span>
+              </button>
+            ))}
+          </div>
+          <div className="flex items-center gap-2 mt-1">
+            <div
+              className="w-3 h-3 rounded-full"
+              style={{ backgroundColor: selectedFoundation.hex }}
+            />
+            <p className="text-sm text-[#2D3436]">
+              <span className="font-semibold">Selected:</span>{" "}
+              {selectedFoundation.name}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Lipstick Shade Selector — both combos */}
       {isCombo && (
         <div className="bg-[#fafafa] rounded-xl p-4 border border-[#f0f0f0]">
           <ShadeSelector
             shades={DEFAULT_SHADES}
-            selectedShade={selectedShade}
-            onSelect={setSelectedShade}
+            selectedShade={selectedLipstick}
+            onSelect={setSelectedLipstick}
           />
         </div>
       )}
