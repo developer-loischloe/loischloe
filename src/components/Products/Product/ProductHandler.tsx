@@ -19,21 +19,24 @@ const myStyles = {
   inactiveFillColor: "#727272",
 };
 
+const FOUNDATION_LINK = "/products/lois-chloe-uv-waterful-cushion-foundation-spf-50";
+
 const FOUNDATION_SHADES: Shade[] = [
   {
     name: "Shade 3.0",
     hex: "#d5a87f",
     desc: "Medium-deep warm tone",
+    link: FOUNDATION_LINK,
   },
 ];
 
 const FOUNDATION_SHADES_ALL: { shade: Shade; disabled: boolean }[] = [
   {
-    shade: { name: "Shade 1.5", hex: "#dab598", desc: "Light-medium tone" },
+    shade: { name: "Shade 1.5", hex: "#dab598", desc: "Light-medium tone", link: FOUNDATION_LINK },
     disabled: true,
   },
   {
-    shade: { name: "Shade 3.0", hex: "#d5a87f", desc: "Medium-deep warm tone" },
+    shade: { name: "Shade 3.0", hex: "#d5a87f", desc: "Medium-deep warm tone", link: FOUNDATION_LINK },
     disabled: false,
   },
 ];
