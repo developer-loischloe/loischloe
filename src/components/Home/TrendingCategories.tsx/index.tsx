@@ -13,17 +13,17 @@ const TrendingCategories = () => {
     {
       icon: Lipstick,
       name: "Lipsticks",
-      link: "products?p_category=makeup&c_category=lips",
+      link: "/products?p_category=makeup&c_category=lips",
     },
     {
       icon: FacePallette,
       name: "Face palette",
-      link: "products?p_category=makeup&c_category=face",
+      link: "/products?p_category=makeup&c_category=face",
     },
     {
       icon: Mascara,
       name: "Eye makeup",
-      link: "products?p_category=makeup&c_category=eyes",
+      link: "/products?p_category=makeup&c_category=eyes",
     },
     {
       icon: mascara,

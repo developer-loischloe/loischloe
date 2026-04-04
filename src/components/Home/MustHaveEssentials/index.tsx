@@ -42,8 +42,8 @@ const MustHaveEssentials = async () => {
       <h4 className="heading-1 text-center">Must-Have Essentials</h4>
 
       <div className="space-y-10 md:space-y-16">
-        {offerSet.length && <OfferSet products={offerSet} />}
-        {offerSet.length && <LipStickSet products={lipstickSet} />}
+        {offerSet.length > 0 && <OfferSet products={offerSet} />}
+        {lipstickSet.length > 0 && <LipStickSet products={lipstickSet} />}
       </div>
     </section>
   );
