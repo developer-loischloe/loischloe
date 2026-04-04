@@ -204,7 +204,8 @@ export default function ShippingInformation() {
         dispatch(resetCart());
       }
     } catch (error) {
-      console.log(error);
+      console.error("Order placement error:", error);
+      toast.error("Something went wrong. Please try again.");
     }
   }
 
