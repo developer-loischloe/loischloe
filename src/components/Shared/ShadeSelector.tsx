@@ -58,7 +58,7 @@ const ShadeSelector: React.FC<ShadeSelectorProps> = ({
   return (
     <div className="w-full">
       <p className="text-sm font-medium text-[#2D3436] mb-3 tracking-wide uppercase">
-        Choose Your Shade
+        Choose Your Lipstick Shade
       </p>
       <div
         className="flex items-center gap-5 overflow-x-auto pb-2"
