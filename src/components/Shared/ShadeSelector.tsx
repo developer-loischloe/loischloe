@@ -2,11 +2,14 @@
 
 import React, { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 
 export interface Shade {
   name: string;
   hex: string;
   desc: string;
+  link?: string;
 }
 
 export const DEFAULT_SHADES: Shade[] = [
@@ -14,16 +17,19 @@ export const DEFAULT_SHADES: Shade[] = [
     name: "Sizzling Brown",
     hex: "#8B4513",
     desc: "Warm, earthy brown for a natural bold look",
+    link: "/products/lois-chloe-sizzling-brown-matte-lipstick",
   },
   {
     name: "Rose Chloé",
     hex: "#C4727F",
     desc: "Elegant rosy pink with a timeless appeal",
+    link: "/products/lois-chloe-rose-chloe-bullet-semi-matte-lipstick",
   },
   {
     name: "Nude Blush",
     hex: "#DEB5A0",
     desc: "Soft nude pink for everyday elegance",
+    link: "/products/lois-chloe-nude-blush-bullet-matte-lipstick",
   },
 ];
 
@@ -109,7 +115,7 @@ const ShadeSelector: React.FC<ShadeSelectorProps> = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.25 }}
-            className="mt-3 flex items-center gap-2"
+            className="mt-3 flex items-center gap-2 flex-wrap"
           >
             <div
               className="w-3 h-3 rounded-full"
@@ -120,6 +126,16 @@ const ShadeSelector: React.FC<ShadeSelectorProps> = ({
               <span>{selected.name}</span>
               <span className="text-[#636e72] ml-1">— {selected.desc}</span>
             </p>
+            {selected.link && (
+              <Link
+                href={selected.link}
+                target="_blank"
+                className="inline-flex items-center gap-1 text-xs text-brand_secondary hover:underline ml-1"
+              >
+                <ExternalLink size={12} />
+                View Product
+              </Link>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
