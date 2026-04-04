@@ -1,5 +1,8 @@
 import { Metadata } from "next";
 import HydraLipDuo from "@/components/ComboDeals/HydraLipDuo";
+import appwriteProductService from "@/appwrite/appwriteProductService";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Hydra Lip Duo — Matte Meets Moisture | LOIS CHLOE",
@@ -8,6 +11,11 @@ export const metadata: Metadata = {
   alternates: { canonical: "/combo-deals/hydra-lip-duo" },
 };
 
-export default function HydraLipDuoPage() {
-  return <HydraLipDuo />;
+export default async function HydraLipDuoPage() {
+  const products = await appwriteProductService.getProductDetails({
+    slug: "hydra-lip-duo",
+  });
+  const product = products?.documents?.[0] || null;
+
+  return <HydraLipDuo product={product} />;
 }

@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { addToCart, setShowCartSidebar } from "@/redux/features/cart/cartSlice";
+import { toast } from "sonner";
 import ShadeSelector, {
   DEFAULT_SHADES,
   Shade,
@@ -86,8 +90,48 @@ const reviews = [
   },
 ];
 
-const GlamOnTheGo = () => {
+const GlamOnTheGo = ({ product }: { product: any }) => {
   const [selectedShade, setSelectedShade] = useState<Shade>(DEFAULT_SHADES[0]);
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handleAddToCart = () => {
+    if (!product) {
+      toast.error("Product not available");
+      return;
+    }
+    const productWithShade = {
+      ...product,
+      selectedShade: selectedShade.name,
+    };
+    dispatch(
+      addToCart({
+        product: productWithShade,
+        price: product.price,
+        quantity: 1,
+      })
+    );
+    dispatch(setShowCartSidebar({ show: true }));
+  };
+
+  const handleBuyNow = () => {
+    if (!product) {
+      toast.error("Product not available");
+      return;
+    }
+    const productWithShade = {
+      ...product,
+      selectedShade: selectedShade.name,
+    };
+    dispatch(
+      addToCart({
+        product: productWithShade,
+        price: product.price,
+        quantity: 1,
+      })
+    );
+    router.push("/checkout");
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -176,7 +220,10 @@ const GlamOnTheGo = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <button className="w-full sm:w-auto px-8 py-4 bg-[#E84393] hover:bg-[#d63384] text-white font-semibold rounded-full text-lg transition-all duration-300 shadow-lg shadow-[#E84393]/30 hover:shadow-xl hover:shadow-[#E84393]/40 active:scale-95 flex items-center justify-center gap-2">
+                <button
+                  onClick={handleBuyNow}
+                  className="w-full sm:w-auto px-8 py-4 bg-[#E84393] hover:bg-[#d63384] text-white font-semibold rounded-full text-lg transition-all duration-300 shadow-lg shadow-[#E84393]/30 hover:shadow-xl hover:shadow-[#E84393]/40 active:scale-95 flex items-center justify-center gap-2"
+                >
                   Get the Glam Combo
                   <ChevronRight className="w-5 h-5" />
                 </button>
@@ -349,7 +396,10 @@ const GlamOnTheGo = () => {
 
       {/* Sticky Mobile CTA */}
       <div className="fixed bottom-0 left-0 right-0 md:hidden bg-white/95 backdrop-blur-md border-t border-gray-100 p-3 z-50">
-        <button className="w-full py-3.5 bg-[#E84393] hover:bg-[#d63384] text-white font-semibold rounded-full text-base shadow-lg shadow-[#E84393]/30 active:scale-95 transition-all">
+        <button
+          onClick={handleBuyNow}
+          className="w-full py-3.5 bg-[#E84393] hover:bg-[#d63384] text-white font-semibold rounded-full text-base shadow-lg shadow-[#E84393]/30 active:scale-95 transition-all"
+        >
           Get the Glam Combo
         </button>
       </div>
