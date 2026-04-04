@@ -36,6 +36,9 @@ const CartItem = ({
 
       <div className="flex-1 ">
         <h5 className="text-lg px-4 line-clamp-1">{product.name}</h5>
+        {product?.selectedShade && (
+          <p className="text-xs text-[#636e72] px-4">Shade: {product.selectedShade}</p>
+        )}
 
         <Table>
           <TableHeader>

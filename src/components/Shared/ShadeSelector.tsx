@@ -16,9 +16,9 @@ export const DEFAULT_SHADES: Shade[] = [
     desc: "Warm, earthy brown for a natural bold look",
   },
   {
-    name: "French Love",
-    hex: "#C41E3A",
-    desc: "Classic red with a romantic French vibe",
+    name: "Rose Chloé",
+    hex: "#C4727F",
+    desc: "Elegant rosy pink with a timeless appeal",
   },
   {
     name: "Nude Blush",

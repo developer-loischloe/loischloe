@@ -108,6 +108,9 @@ export default function ShippingInformation() {
       return {
         ...item,
         product: item.product.$id,
+        ...(item.product.selectedShade && {
+          selectedShade: item.product.selectedShade,
+        }),
       };
     });
   };
@@ -132,6 +135,17 @@ export default function ShippingInformation() {
         router.push("/products");
       }, 3000);
       return;
+    }
+
+    // Append selected shades to order notes for admin visibility
+    const shadeNotes = cartList
+      .filter((item: any) => item.product?.selectedShade)
+      .map((item: any) => `${item.product.name}: Shade — ${item.product.selectedShade}`)
+      .join("; ");
+    if (shadeNotes) {
+      shippingInformation.order_notes = shippingInformation.order_notes
+        ? `${shippingInformation.order_notes} | ${shadeNotes}`
+        : shadeNotes;
     }
 
     const orderData = {

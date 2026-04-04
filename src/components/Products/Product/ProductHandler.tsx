@@ -1,10 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { formatCurrency } from "@/lib/utils";
 import { Rating as ReactRating, Star } from "@smastrom/react-rating";
 import dynamic from "next/dynamic";
 import PreOrderButton from "../PreOrderButton";
 import { Button } from "@/components/ui/button";
+import ShadeSelector, {
+  DEFAULT_SHADES,
+  Shade,
+} from "@/components/Shared/ShadeSelector";
+
 const CartHandler = dynamic(() => import("./CartHandler/CartHandler"));
 
 const myStyles = {
@@ -13,8 +19,16 @@ const myStyles = {
   inactiveFillColor: "#727272",
 };
 
+const COMBO_SLUGS = ["glam-on-the-go", "hydra-lip-duo"];
+
 const ProductHandler = ({ product }: any) => {
-  // console.log(product);
+  const isCombo = COMBO_SLUGS.includes(product?.slug);
+  const [selectedShade, setSelectedShade] = useState<Shade>(DEFAULT_SHADES[0]);
+
+  // For combo products, attach the selected shade to the product object
+  const productWithShade = isCombo
+    ? { ...product, selectedShade: selectedShade.name }
+    : product;
 
   return (
     <div className="flex-1 space-y-5">
@@ -50,6 +64,17 @@ const ProductHandler = ({ product }: any) => {
 
       <hr />
 
+      {/* Shade Selector for combo products */}
+      {isCombo && (
+        <div className="bg-[#fafafa] rounded-xl p-4 border border-[#f0f0f0]">
+          <ShadeSelector
+            shades={DEFAULT_SHADES}
+            selectedShade={selectedShade}
+            onSelect={setSelectedShade}
+          />
+        </div>
+      )}
+
       {/* Price */}
       <div className="space-x-5 ">
         <ins className="text-2xl no-underline">
@@ -67,7 +92,7 @@ const ProductHandler = ({ product }: any) => {
         {product?.pre_order ? (
           <PreOrderButton product={product} className="!max-w-max px-10" />
         ) : product?.stock === "in-stock" ? (
-          <CartHandler product={product} />
+          <CartHandler product={productWithShade} />
         ) : (
           <Button disabled className="!max-w-max px-10">
             Out Of Stock
