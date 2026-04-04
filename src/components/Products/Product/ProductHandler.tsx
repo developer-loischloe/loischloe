@@ -6,6 +6,8 @@ import { Rating as ReactRating, Star } from "@smastrom/react-rating";
 import dynamic from "next/dynamic";
 import PreOrderButton from "../PreOrderButton";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ExternalLink } from "lucide-react";
 import ShadeSelector, {
   DEFAULT_SHADES,
   Shade,
@@ -139,7 +141,7 @@ const ProductHandler = ({ product }: any) => {
               </button>
             ))}
           </div>
-          <div className="flex items-center gap-2 mt-1">
+          <div className="flex items-center gap-2 mt-1 flex-wrap">
             <div
               className="w-3 h-3 rounded-full"
               style={{ backgroundColor: selectedFoundation.hex }}
@@ -147,7 +149,18 @@ const ProductHandler = ({ product }: any) => {
             <p className="text-sm text-[#2D3436]">
               <span className="font-semibold">Selected:</span>{" "}
               {selectedFoundation.name}
+              <span className="text-[#636e72] ml-1">— {selectedFoundation.desc}</span>
             </p>
+            {selectedFoundation.link && (
+              <Link
+                href={selectedFoundation.link}
+                target="_blank"
+                className="inline-flex items-center gap-1 text-xs text-brand_secondary hover:underline ml-1"
+              >
+                <ExternalLink size={12} />
+                View Product
+              </Link>
+            )}
           </div>
         </div>
       )}
