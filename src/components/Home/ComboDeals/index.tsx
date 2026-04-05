@@ -5,7 +5,7 @@ import ComboDealsSlider from "./ComboDealsSlider";
 import { unstable_noStore as noStore } from "next/cache";
 
 const ComboDeals = async () => {
-  // noStore();
+  noStore();
 
   const products = await appwriteProductService.getOfferProducts();
 
