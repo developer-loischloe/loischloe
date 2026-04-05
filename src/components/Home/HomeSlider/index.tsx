@@ -36,7 +36,7 @@ const sliderConstant = [
       mobile: Mobile_banner_glam,
     },
     alt: "Glam On The Go - Cushion Foundation, Lipstick & Mascara Combo",
-    link: "/combo-deals/glam-on-the-go",
+    link: "/products/glam-on-the-go",
   },
   {
     id: 2,
@@ -45,7 +45,7 @@ const sliderConstant = [
       mobile: Mobile_banner_hydra,
     },
     alt: "Hydra Lip Duo - Lipstick & Lip Gloss Combo",
-    link: "/combo-deals/hydra-lip-duo",
+    link: "/products/hydra-lip-duo",
   },
   {
     id: 3,
