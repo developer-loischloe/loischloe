@@ -11,7 +11,7 @@ import { AnimatePresence } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // import required modules
-// import { Autoplay } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 
 // Import Swiper styles
 import "./styles.css";
@@ -86,17 +86,17 @@ export default function App() {
   return (
     <Swiper
       speed={1000}
-      // modules={[Autoplay]}
+      modules={[Autoplay]}
       autoplay={{
         delay: 2000,
         pauseOnMouseEnter: true,
       }}
-      // loop={true}
+      loop={true}
       onAutoplayTimeLeft={onAutoplayTimeLeft}
       className="homeSliderSwiper relative overflow-hidden"
     >
       <AnimatePresence>
-        {[...sliderConstant, ...sliderConstant].map((slider, index) => (
+        {sliderConstant.map((slider, index) => (
           <SwiperSlide
             key={slider.id + index}
             className="overflow-hidden w-full h-full"
