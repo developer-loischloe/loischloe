@@ -1,13 +1,12 @@
 /**
  * Meta Pixel Helper Library for loischloe.com.bd
- * Pixel ID: 1148015303657843
+ * Pixel ID: 873149687270309
  *
  * This module provides type-safe helpers for firing Meta Pixel events
  * directly from Next.js code — no GTM dependency required.
  */
 
-export const META_PIXEL_ID = "1148015303657843";
-
+export const META_PIXEL_ID = "873149687270309";
 // Extend Window to include fbq
 declare global {
   interface Window {
