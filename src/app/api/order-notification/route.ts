@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
 
     const { data, error } = await resend.emails.send({
       from: "LOIS CHLOE Orders <onboarding@resend.dev>",
-      to: ["jobyersiam4@gmail.com"],
+      to: ["developer.loischloe@gmail.com"],
       subject: `New Order #${orderId || "N/A"} - ${shipping.name || "Customer"} (৳${payment.total_price || 0})`,
       html,
     });
