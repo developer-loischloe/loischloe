@@ -89,7 +89,7 @@ const ProductHandler = ({ product }: any) => {
       {/* Badge */}
       <div className="bg-brand_primary px-5 py-1 max-w-max text-sm">
         {product?.pre_order ? (
-          <span>Coming Soon – Pre-Order Now!</span>
+          <span>Coming Soon \u2013 Pre-Order Now!</span>
         ) : (
           <span className="">
             {product?.stock.split("-").join(" ").toUpperCase()}
@@ -118,7 +118,7 @@ const ProductHandler = ({ product }: any) => {
 
       <hr />
 
-      {/* Foundation Shade Selector — Glam On The Go only */}
+      {/* Foundation Shade Selector \u2014 Glam On The Go only */}
       {isGlam && (
         <div className="bg-[#fafafa] rounded-xl p-4 border border-[#f0f0f0] space-y-3">
           <p className="text-sm font-medium text-[#2D3436] tracking-wide uppercase">
@@ -163,7 +163,7 @@ const ProductHandler = ({ product }: any) => {
             <p className="text-sm text-[#2D3436]">
               <span className="font-semibold">Selected:</span>{" "}
               {selectedFoundation.name}
-              <span className="text-[#636e72] ml-1">— {selectedFoundation.desc}</span>
+              <span className="text-[#636e72] ml-1">\u2014 {selectedFoundation.desc}</span>
             </p>
             {selectedFoundation.link && (
               <Link
@@ -179,7 +179,7 @@ const ProductHandler = ({ product }: any) => {
         </div>
       )}
 
-      {/* Lipstick Shade Selector — both combos */}
+      {/* Lipstick Shade Selector \u2014 both combos */}
       {isCombo && (
         <div className="bg-[#fafafa] rounded-xl p-4 border border-[#f0f0f0]">
           <ShadeSelector
