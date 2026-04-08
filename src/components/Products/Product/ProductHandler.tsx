@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formatCurrency } from "@/lib/utils";
 import { Rating as ReactRating, Star } from "@smastrom/react-rating";
 import dynamic from "next/dynamic";
@@ -12,6 +12,7 @@ import ShadeSelector, {
   DEFAULT_SHADES,
   Shade,
 } from "@/components/Shared/ShadeSelector";
+import { trackViewContent } from "@/lib/meta-pixel";
 
 const CartHandler = dynamic(() => import("./CartHandler/CartHandler"));
 
@@ -54,6 +55,19 @@ const ProductHandler = ({ product }: any) => {
   const [selectedFoundation, setSelectedFoundation] = useState<Shade>(
     FOUNDATION_SHADES[0]
   );
+
+  // Fire ViewContent event for Meta Pixel
+  useEffect(() => {
+    if (product?.$id) {
+      trackViewContent({
+        content_ids: [product.$id],
+        content_name: product.name,
+        content_type: "product",
+        currency: "BDT",
+        value: product.sale_price || product.price,
+      });
+    }
+  }, [product?.$id]);
 
   // Build shade string for order
   const getShadeInfo = () => {
