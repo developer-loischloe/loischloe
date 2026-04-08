@@ -1,6 +1,7 @@
 "use client";
 import "./style.css";
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -191,6 +192,21 @@ export default function ShippingInformation() {
           }
         }
 
+        // Send order notification email (fire-and-forget)
+        fetch("/api/order-notification", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...orderData,
+            orderId: response.$id,
+            orderItems: cartList.map((item: any) => ({
+              productName: item.product?.name || "Product",
+              price: item.price,
+              quantity: item.quantity,
+            })),
+          }),
+        }).catch((err) => console.error("Email notification failed:", err));
+
         router.push(`/checkout/order-received/${response.$id}`);
         sendGTMEvent({
           event: "Purchase",
@@ -209,15 +225,17 @@ export default function ShippingInformation() {
 
   // Update cartcost based on District
   const district = form.watch("district");
-  if (district === "Dhaka") {
-    dispatch(
-      updateCartCost({ shipping_cost: shippingCostProvider.inside_dhaka })
-    );
-  } else {
-    dispatch(
-      updateCartCost({ shipping_cost: shippingCostProvider.outside_dhaka })
-    );
-  }
+  useEffect(() => {
+    if (district === "Dhaka") {
+      dispatch(
+        updateCartCost({ shipping_cost: shippingCostProvider.inside_dhaka })
+      );
+    } else {
+      dispatch(
+        updateCartCost({ shipping_cost: shippingCostProvider.outside_dhaka })
+      );
+    }
+  }, [district, dispatch]);
 
   return (
     <div>
@@ -281,7 +299,7 @@ export default function ShippingInformation() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>District</FormLabel>
-                  <Select onValueChange={field.onChange}>
+                  <Select value={field.value} onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger className="">
                         <SelectValue placeholder="Select your district" />
