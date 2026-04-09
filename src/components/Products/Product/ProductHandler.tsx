@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import PreOrderButton from "../PreOrderButton";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Leaf, Heart, Truck, BadgeCheck } from "lucide-react";
 import ShadeSelector, {
   DEFAULT_SHADES,
   Shade,
@@ -214,6 +214,48 @@ const ProductHandler = ({ product }: any) => {
           </Button>
         )}
       </div>
+
+      {/* Trust Badges */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+        <div className="flex items-center gap-2 bg-[#fdf8f3] border border-brand_primary/30 rounded-lg px-3 py-2">
+          <Leaf size={18} className="text-brand_secondary shrink-0" />
+          <span className="text-xs font-medium text-brand_secondary leading-tight">100% Vegan</span>
+        </div>
+        <div className="flex items-center gap-2 bg-[#fdf8f3] border border-brand_primary/30 rounded-lg px-3 py-2">
+          <Heart size={18} className="text-brand_secondary shrink-0" />
+          <span className="text-xs font-medium text-brand_secondary leading-tight">Cruelty-Free</span>
+        </div>
+        <div className="flex items-center gap-2 bg-[#fdf8f3] border border-brand_primary/30 rounded-lg px-3 py-2">
+          <BadgeCheck size={18} className="text-brand_secondary shrink-0" />
+          <span className="text-xs font-medium text-brand_secondary leading-tight">Cash on Delivery</span>
+        </div>
+        <div className="flex items-center gap-2 bg-[#fdf8f3] border border-brand_primary/30 rounded-lg px-3 py-2">
+          <Truck size={18} className="text-brand_secondary shrink-0" />
+          <span className="text-xs font-medium text-brand_secondary leading-tight">Made for BD Skin</span>
+        </div>
+      </div>
+
+      {/* Sticky Mobile Add-to-Cart Bar */}
+      {!product?.pre_order && product?.stock === "in-stock" && (
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 shadow-[0_-4px_12px_rgba(0,0,0,0.08)] px-4 py-3 flex items-center gap-3">
+          <div className="flex-1 min-w-0">
+            <p className="text-xs text-brand_gray truncate">{product?.name}</p>
+            <div className="flex items-baseline gap-2">
+              <span className="text-base font-semibold text-brand_secondary">
+                {formatCurrency(product?.sale_price)}
+              </span>
+              {product?.price > product?.sale_price && (
+                <del className="text-xs text-brand_gray">
+                  {formatCurrency(product?.price)}
+                </del>
+              )}
+            </div>
+          </div>
+          <div className="shrink-0">
+            <CartHandler product={productWithShade} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
