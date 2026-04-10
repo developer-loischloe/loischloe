@@ -38,7 +38,7 @@ const sliderConstant = [
       mobile: Mobile_banner_boishakhi,
     },
     alt: "Boishakhi Bundle - 7 Vegan Products, 28% Off | Pohela Boishakh Special",
-    link: "/combo-deals/boishakhi-bundle",
+    link: "/products/boishakhi-bundle",
   },
   {
     id: 2,
