@@ -47,7 +47,8 @@ const FOUNDATION_SHADES_ALL: { shade: Shade; disabled: boolean }[] = [
 const ProductHandler = ({ product }: any) => {
   const isGlam = product?.slug === "glam-on-the-go";
   const isHydra = product?.slug === "hydra-lip-duo";
-  const isCombo = isGlam || isHydra;
+  const isBoishakhi = product?.slug === "boishakhi-bundle";
+  const isCombo = isGlam || isHydra || isBoishakhi;
 
   const [selectedLipstick, setSelectedLipstick] = useState<Shade>(
     DEFAULT_SHADES[0]
@@ -73,6 +74,9 @@ const ProductHandler = ({ product }: any) => {
   const getShadeInfo = () => {
     if (isGlam) {
       return `Foundation: ${selectedFoundation.name}, Lipstick: ${selectedLipstick.name}`;
+    }
+    if (isBoishakhi) {
+      return `Foundation & Concealer: ${selectedFoundation.name}, Lipstick: ${selectedLipstick.name}`;
     }
     if (isHydra) {
       return `Lipstick: ${selectedLipstick.name}`;
@@ -118,11 +122,11 @@ const ProductHandler = ({ product }: any) => {
 
       <hr />
 
-      {/* Foundation Shade Selector \u2014 Glam On The Go only */}
-      {isGlam && (
+      {/* Foundation Shade Selector — Glam On The Go & Boishakhi Bundle */}
+      {(isGlam || isBoishakhi) && (
         <div className="bg-[#fafafa] rounded-xl p-4 border border-[#f0f0f0] space-y-3">
           <p className="text-sm font-medium text-[#2D3436] tracking-wide uppercase">
-            Choose Foundation Shade
+            {isBoishakhi ? "Choose Foundation & Concealer Shade" : "Choose Foundation Shade"}
           </p>
           <div className="flex items-center gap-4">
             {FOUNDATION_SHADES_ALL.map(({ shade, disabled }) => (

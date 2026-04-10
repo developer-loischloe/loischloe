@@ -10,7 +10,7 @@ import PurchaseEventTracker from "@/components/PurchaseEventTracker";
 import { Button } from "@/components/ui/button";
 import { getBdDate, getBdtime } from "@/lib/utils";
 
-const COMBO_SLUGS = ["glam-on-the-go", "hydra-lip-duo"];
+const COMBO_SLUGS = ["glam-on-the-go", "hydra-lip-duo", "boishakhi-bundle"];
 
 const OrderReceived = async ({
   params: { orderid },

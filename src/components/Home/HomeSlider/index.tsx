@@ -21,16 +21,27 @@ import Main_banner_first from "../../../../public/home_slider/2000x757_px/main_b
 import Main_banner_certifications from "../../../../public/home_slider/2000x757_px/main_banner_2.png";
 import Main_banner_glam from "../../../../public/home_slider/2000x757_px/glam_on_the_go.jpeg";
 import Main_banner_hydra from "../../../../public/home_slider/2000x757_px/hydra_lip_duo.jpeg";
+import Main_banner_boishakhi from "../../../../public/home_slider/2000x757_px/boishakhi_bundle.jpg";
 
 // Mobile(1563 X 1458)
 import Mobile_banner_first from "../../../../public/home_slider/1563x1458_px/mobile_banner_1.png";
 import Mobile_banner_certifications from "../../../../public/home_slider/1563x1458_px/mobile_banner_2.png";
 import Mobile_banner_glam from "../../../../public/home_slider/1563x1458_px/glam_on_the_go_mobile.jpeg";
 import Mobile_banner_hydra from "../../../../public/home_slider/1563x1458_px/hydra_lip_duo_mobile.jpeg";
+import Mobile_banner_boishakhi from "../../../../public/home_slider/1563x1458_px/boishakhi_bundle_mobile.jpg";
 
 const sliderConstant = [
   {
     id: 1,
+    banner: {
+      main: Main_banner_boishakhi,
+      mobile: Mobile_banner_boishakhi,
+    },
+    alt: "Boishakhi Bundle - 7 Vegan Products, 28% Off | Pohela Boishakh Special",
+    link: "/combo-deals/boishakhi-bundle",
+  },
+  {
+    id: 2,
     banner: {
       main: Main_banner_glam,
       mobile: Mobile_banner_glam,
@@ -39,7 +50,7 @@ const sliderConstant = [
     link: "/products/glam-on-the-go",
   },
   {
-    id: 2,
+    id: 3,
     banner: {
       main: Main_banner_hydra,
       mobile: Mobile_banner_hydra,
@@ -48,7 +59,7 @@ const sliderConstant = [
     link: "/products/hydra-lip-duo",
   },
   {
-    id: 3,
+    id: 4,
     banner: {
       main: Main_banner_first,
       mobile: Mobile_banner_first,
@@ -57,7 +68,7 @@ const sliderConstant = [
     link: "/products",
   },
   {
-    id: 4,
+    id: 5,
     banner: {
       main: Main_banner_certifications,
       mobile: Mobile_banner_certifications,
