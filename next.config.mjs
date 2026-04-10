@@ -63,6 +63,17 @@ const nextConfig = {
                 ],
             },
             {
+                // CDN-cache the homepage for 5 minutes, serve stale while revalidating
+                // This avoids page-level ISR which fails when Appwrite is down during build
+                source: "/",
+                headers: [
+                    {
+                        key: "Cache-Control",
+                        value: "public, s-maxage=300, stale-while-revalidate=600",
+                    },
+                ],
+            },
+            {
                 source: "/feed/products.xml",
                 headers: [
                     {

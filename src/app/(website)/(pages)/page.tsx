@@ -2,8 +2,10 @@ import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import { Metadata } from "next";
 
-// Cache the homepage for 5 minutes, serve stale while revalidating
-export const revalidate = 300;
+// Homepage is dynamic (renders on each request) with CDN caching
+// configured via next.config.mjs headers for fast subsequent loads.
+// We avoid page-level ISR (revalidate) because Appwrite API flakiness
+// during build-time prerendering causes deployment failures.
 
 export const metadata: Metadata = {
   alternates: {
