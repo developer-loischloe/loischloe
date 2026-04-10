@@ -46,23 +46,29 @@ const CartHandler = ({ product }: { product: any }) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row gap-10 select-none">
-      <div className="flex items-center gap-10 border max-w-max px-2 py-2 rounded-sm">
-        <Minus
-          size={20}
+    <div className="flex flex-col lg:flex-row gap-4 lg:gap-10 select-none">
+      <div className="flex items-center gap-6 border max-w-max px-2 py-1 rounded-sm">
+        <button
+          type="button"
+          aria-label="Decrease quantity"
           onClick={() => {
             setQuantity((prev) => (prev >= 2 ? prev - 1 : prev));
           }}
-          className="cursor-pointer"
-        />
-        <span>{quantity}</span>
-        <Plus
-          size={20}
+          className="cursor-pointer p-2 -m-1 active:bg-gray-100 rounded transition-colors"
+        >
+          <Minus size={20} />
+        </button>
+        <span className="min-w-[20px] text-center">{quantity}</span>
+        <button
+          type="button"
+          aria-label="Increase quantity"
           onClick={() => {
             setQuantity((prev) => prev + 1);
           }}
-          className="cursor-pointer"
-        />
+          className="cursor-pointer p-2 -m-1 active:bg-gray-100 rounded transition-colors"
+        >
+          <Plus size={20} />
+        </button>
       </div>
       <div className="flex gap-5">
         <Button

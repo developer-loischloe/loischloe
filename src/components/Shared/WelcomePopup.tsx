@@ -88,7 +88,7 @@ export default function WelcomePopup() {
 
       {/* Modal */}
       <div
-        className={`relative bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden transition-all duration-300 ${
+        className={`relative bg-white rounded-2xl shadow-2xl max-w-[calc(100vw-32px)] sm:max-w-md w-full overflow-hidden transition-all duration-300 ${
           visible
             ? "opacity-100 scale-100 translate-y-0"
             : "opacity-0 scale-95 translate-y-4"
@@ -96,14 +96,14 @@ export default function WelcomePopup() {
       >
         <button
           onClick={handleClose}
-          className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-white/80 hover:bg-white text-brand_secondary transition-colors"
+          className="absolute top-2 right-2 z-10 p-2 rounded-full bg-white/80 hover:bg-white text-brand_secondary transition-colors"
           aria-label="Close popup"
         >
           <X size={20} />
         </button>
 
         {/* Header */}
-        <div className="bg-gradient-to-br from-brand_primary/30 to-[#fdf8f3] px-6 py-8 text-center">
+        <div className="bg-gradient-to-br from-brand_primary/30 to-[#fdf8f3] px-4 py-6 sm:px-6 sm:py-8 text-center">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-brand_secondary text-brand_primary mb-3">
             <Gift size={28} />
           </div>
@@ -116,7 +116,7 @@ export default function WelcomePopup() {
         </div>
 
         {/* Body */}
-        <div className="px-6 py-6 text-center space-y-4">
+        <div className="px-4 py-5 sm:px-6 sm:py-6 text-center space-y-4">
           <p className="text-base text-[#2D3436]">
             Get <span className="font-bold text-brand_secondary text-lg">10% OFF</span>{" "}
             your first order

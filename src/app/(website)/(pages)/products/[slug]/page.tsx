@@ -128,7 +128,7 @@ const SingleProductDetails = async ({ slug }: { slug: string }) => {
       <BreadCrumb pathList={["products", product?.name]} />
       <SavedViewedProduct productId={product?.$id} />
 
-      <section className="space-y-10 py-5 md:py-10">
+      <section className="space-y-10 py-5 md:py-10 pb-20 md:pb-10">
         <div className="flex flex-col md:flex-row gap-10">
           {/* Product Images */}
           <div className="w-full md:max-w-[350px] lg:max-w-[500px]">

@@ -7,12 +7,14 @@ import dynamic from "next/dynamic";
 import PreOrderButton from "../PreOrderButton";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ExternalLink, Leaf, Heart, Truck, BadgeCheck } from "lucide-react";
+import { ExternalLink, Leaf, Heart, Truck, BadgeCheck, ShoppingCart } from "lucide-react";
 import ShadeSelector, {
   DEFAULT_SHADES,
   Shade,
 } from "@/components/Shared/ShadeSelector";
-import { trackViewContent } from "@/lib/meta-pixel";
+import { trackViewContent, trackAddToCart } from "@/lib/meta-pixel";
+import { useDispatch } from "react-redux";
+import { addToCart, setShowCartSidebar } from "@/redux/features/cart/cartSlice";
 
 const CartHandler = dynamic(() => import("./CartHandler/CartHandler"));
 
@@ -45,6 +47,7 @@ const FOUNDATION_SHADES_ALL: { shade: Shade; disabled: boolean }[] = [
 ];
 
 const ProductHandler = ({ product }: any) => {
+  const dispatch = useDispatch();
   const isGlam = product?.slug === "glam-on-the-go";
   const isHydra = product?.slug === "hydra-lip-duo";
   const isBoishakhi = product?.slug === "boishakhi-bundle";
@@ -255,9 +258,27 @@ const ProductHandler = ({ product }: any) => {
               )}
             </div>
           </div>
-          <div className="shrink-0">
-            <CartHandler product={productWithShade} />
-          </div>
+          <Button
+            className="shrink-0 flex items-center gap-2 px-5 py-3 h-auto"
+            onClick={() => {
+              dispatch(
+                addToCart({ product: productWithShade, price: product.price, quantity: 1 })
+              );
+              trackAddToCart({
+                content_ids: [product.$id],
+                content_name: product.name,
+                content_type: "product",
+                contents: [{ id: product.$id, quantity: 1, item_price: product.sale_price || product.price }],
+                currency: "BDT",
+                value: product.sale_price || product.price,
+                num_items: 1,
+              });
+              dispatch(setShowCartSidebar({ show: true }));
+            }}
+          >
+            <ShoppingCart size={16} />
+            Add to Cart
+          </Button>
         </div>
       )}
     </div>
