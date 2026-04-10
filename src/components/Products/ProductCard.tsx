@@ -22,7 +22,7 @@ const myStyles = {
   inactiveFillColor: "#727272",
 };
 
-const ProductCard = React.memo(({ product }: { product: any }) => {
+const ProductCard = React.memo(({ product, index = 99 }: { product: any; index?: number }) => {
   const discount = calculateDiscountPercentage(
     product?.price,
     product?.sale_price
@@ -58,8 +58,9 @@ const ProductCard = React.memo(({ product }: { product: any }) => {
                 src={product?.images[0]?.image_url || "/placeholder.svg"}
                 alt={product?.name}
                 fill
-                loading="lazy"
+                loading={index < 4 ? "eager" : "lazy"}
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                quality={70}
                 className="object-cover"
               />
             </motion.div>
@@ -78,6 +79,7 @@ const ProductCard = React.memo(({ product }: { product: any }) => {
                   fill
                   loading="lazy"
                   sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                  quality={70}
                   className="object-cover"
                 />
               </motion.div>

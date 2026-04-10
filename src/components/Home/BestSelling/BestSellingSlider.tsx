@@ -35,9 +35,9 @@ const BestSellingSlider = ({ products }: { products: any[] }) => {
       modules={[Navigation, Autoplay]}
       className="FeaturedProductSwiper"
     >
-      {products?.map((product: any) => (
+      {products?.map((product: any, index: number) => (
         <SwiperSlide key={product.$id}>
-          <ProductCard product={product} key={product?.$id} />
+          <ProductCard product={product} index={index} key={product?.$id} />
         </SwiperSlide>
       ))}
     </Swiper>

@@ -125,18 +125,20 @@ export default function App() {
                       src={slider.banner.main}
                       alt={slider.alt}
                       className="hidden md:flex w-full"
-                      priority={index === 0}
-                      loading={index === 0 ? "eager" : "lazy"}
+                      priority={index <= 1}
+                      loading={index <= 1 ? "eager" : "lazy"}
                       sizes="100vw"
+                      quality={80}
                       placeholder="blur"
                     />
                     <Image
                       src={slider.banner.mobile}
                       alt={slider.alt}
                       className="md:hidden w-full"
-                      priority={index === 0}
-                      loading={index === 0 ? "eager" : "lazy"}
+                      priority={index <= 1}
+                      loading={index <= 1 ? "eager" : "lazy"}
                       sizes="100vw"
+                      quality={80}
                       placeholder="blur"
                     />
                   </Link>
