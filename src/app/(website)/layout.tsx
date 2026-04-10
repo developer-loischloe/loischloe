@@ -20,12 +20,14 @@ const belleza = Belleza({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-belleza",
+  display: "swap",
 });
 
 const ooh_baby = Oooh_Baby({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-ooh_baby",
+  display: "swap",
 });
 
 const { title, description, keywords, website_name, website_url } =
@@ -52,7 +54,7 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      noimageindex: true,
+      noimageindex: false,
       "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,

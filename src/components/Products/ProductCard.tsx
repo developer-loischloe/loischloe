@@ -22,7 +22,7 @@ const myStyles = {
   inactiveFillColor: "#727272",
 };
 
-const ProductCard = ({ product }: { product: any }) => {
+const ProductCard = React.memo(({ product }: { product: any }) => {
   const discount = calculateDiscountPercentage(
     product?.price,
     product?.sale_price
@@ -58,7 +58,8 @@ const ProductCard = ({ product }: { product: any }) => {
                 src={product?.images[0]?.image_url || "/placeholder.svg"}
                 alt={product?.name}
                 fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                loading="lazy"
+                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                 className="object-cover"
               />
             </motion.div>
@@ -75,7 +76,8 @@ const ProductCard = ({ product }: { product: any }) => {
                   src={product?.images[1]?.image_url || "/placeholder.svg"}
                   alt={`${product?.name} - alternate view`}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  loading="lazy"
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                   className="object-cover"
                 />
               </motion.div>
@@ -150,6 +152,8 @@ const ProductCard = ({ product }: { product: any }) => {
       </div>
     </div>
   );
-};
+});
+
+ProductCard.displayName = "ProductCard";
 
 export default ProductCard;

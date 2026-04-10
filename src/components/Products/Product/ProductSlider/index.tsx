@@ -63,7 +63,9 @@ export default function TestSlider({ images }: { images: Image[] }) {
                         alt={c_image.alt}
                         width={500}
                         height={500}
-                        priority
+                        priority={p_index === 0}
+                        loading={p_index === 0 ? "eager" : "lazy"}
+                        sizes="(max-width: 768px) 100vw, 500px"
                         className="mx-auto max-h-[500px]"
                       />
                     </a>
@@ -90,6 +92,8 @@ export default function TestSlider({ images }: { images: Image[] }) {
                 alt={image.alt}
                 width={150}
                 height={150}
+                loading="lazy"
+                sizes="150px"
               />
             </SwiperSlide>
           ))}

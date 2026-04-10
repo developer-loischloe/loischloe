@@ -167,7 +167,7 @@ const ProductHandler = ({ product }: any) => {
             <p className="text-sm text-[#2D3436]">
               <span className="font-semibold">Selected:</span>{" "}
               {selectedFoundation.name}
-              <span className="text-[#636e72] ml-1">\u2014 {selectedFoundation.desc}</span>
+              <span className="text-[#636e72] ml-1">{"\u2014"} {selectedFoundation.desc}</span>
             </p>
             {selectedFoundation.link && (
               <Link

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /checkout/
+Disallow: /cart/
+
+Sitemap: https://www.loischloe.com.bd/sitemap.xml

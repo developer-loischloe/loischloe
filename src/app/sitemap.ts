@@ -22,8 +22,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ({ slug, $updatedAt }) => ({
       url: `${config.next_app_base_url}/products/${slug}`,
       lastModified: new Date($updatedAt),
-      changeFrequency: "monthly",
-      priority: 0.5,
+      changeFrequency: "weekly",
+      priority: 0.8,
     })
   );
 
@@ -32,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${config.next_app_base_url}/blog/${slug}`,
       lastModified: new Date($updatedAt),
       changeFrequency: "monthly",
-      priority: 0.4,
+      priority: 0.6,
     })
   );
 
@@ -40,33 +40,39 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: `${config.next_app_base_url}`,
       lastModified: new Date(),
-      changeFrequency: "yearly",
+      changeFrequency: "daily",
       priority: 1,
     },
     {
-      url: `${config.next_app_base_url}/about`,
+      url: `${config.next_app_base_url}/about-us`,
       lastModified: new Date(),
       changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${config.next_app_base_url}/products`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${config.next_app_base_url}/combo-deals`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
+      changeFrequency: "weekly",
+      priority: 0.8,
     },
     {
-      url: `${config.next_app_base_url}/products`,
+      url: `${config.next_app_base_url}/contact`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
+      changeFrequency: "yearly",
+      priority: 0.5,
     },
     ...productRoutes,
     {
       url: `${config.next_app_base_url}/blog`,
       lastModified: new Date(),
       changeFrequency: "weekly",
-      priority: 0.6,
+      priority: 0.7,
     },
     ...blogRoutes,
   ];

@@ -1,0 +1,29 @@
+{
+  "name": "LOIS CHLOE - Vegan Luxury Beauty",
+  "short_name": "LOIS CHLOE",
+  "description": "Bangladesh's first and only vegan luxury beauty brand. 100% Vegan, Cruelty-Free, BSTI Approved.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2D3436",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["beauty", "shopping"]
+}

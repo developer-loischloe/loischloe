@@ -125,13 +125,19 @@ export default function App() {
                       src={slider.banner.main}
                       alt={slider.alt}
                       className="hidden md:flex w-full"
-                      priority
+                      priority={index === 0}
+                      loading={index === 0 ? "eager" : "lazy"}
+                      sizes="100vw"
+                      placeholder="blur"
                     />
                     <Image
                       src={slider.banner.mobile}
                       alt={slider.alt}
                       className="md:hidden w-full"
-                      priority
+                      priority={index === 0}
+                      loading={index === 0 ? "eager" : "lazy"}
+                      sizes="100vw"
+                      placeholder="blur"
                     />
                   </Link>
                 </MotionDiv>

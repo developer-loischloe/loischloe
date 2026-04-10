@@ -34,6 +34,8 @@ const CartItem = ({
         alt={product?.name}
         width={100}
         height={100}
+        loading="lazy"
+        sizes="80px"
         className="w-full h-full max-w-[80px] max-h-[80px]"
       />
       <div className="flex-1 flex flex-col lg:flex-row lg:justify-between gap-5">

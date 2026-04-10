@@ -63,6 +63,7 @@ const SearchBar = ({
                 <input
                   type="search"
                   placeholder="Search for products"
+                  aria-label="Search for products"
                   className="text-sm border-none outline-none text-[#000] w-full"
                   value={searchTearm}
                   onChange={handleChange}

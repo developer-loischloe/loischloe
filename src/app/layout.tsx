@@ -1,4 +1,5 @@
 import React from "react";
+import type { Viewport } from "next";
 import dynamic from "next/dynamic";
 import { Toaster } from "@/components/ui/sonner";
 import { MetaPixel } from "@/components/MetaPixel";
@@ -12,6 +13,13 @@ import "./globals.css";
 import "@smastrom/react-rating/style.css";
 import "react-phone-number-input/style.css";
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#2D3436",
+};
+
 const Rootlayout = ({
   children,
 }: Readonly<{
@@ -24,6 +32,9 @@ const Rootlayout = ({
           name="google-site-verification"
           content="tItO_atbw0P1IaSATXuSK_6L09tFfeUDSsqVgumT_KI"
         />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/icon-192x192.png" />
+        <link rel="manifest" href="/manifest.json" />
       </head>
 
       <body>
