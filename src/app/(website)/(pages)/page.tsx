@@ -2,6 +2,9 @@ import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import { Metadata } from "next";
 
+// Cache the homepage for 5 minutes, serve stale while revalidating
+export const revalidate = 300;
+
 export const metadata: Metadata = {
   alternates: {
     canonical: "/",

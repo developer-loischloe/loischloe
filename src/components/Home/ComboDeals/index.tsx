@@ -5,7 +5,7 @@ import ComboDealsSlider from "./ComboDealsSlider";
 import { unstable_noStore as noStore } from "next/cache";
 
 const ComboDeals = async () => {
-  noStore();
+  // noStore(); — disabled to allow ISR caching for faster page loads
 
   const products = await appwriteProductService.getOfferProducts();
 
