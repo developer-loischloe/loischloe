@@ -11,18 +11,27 @@ const InstagramReels = () => {
     const el = containerRef.current;
     if (!el) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "200px" } // Start loading 200px before visible
-    );
+    // Use requestAnimationFrame to ensure layout is stable before observing
+    const rafId = requestAnimationFrame(() => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+          }
+        },
+        { rootMargin: "200px" } // Start loading 200px before visible
+      );
 
-    observer.observe(el);
-    return () => observer.disconnect();
+      observer.observe(el);
+      (el as any).__observer = observer;
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      const observer = (el as any).__observer;
+      if (observer) observer.disconnect();
+    };
   }, []);
 
   useEffect(() => {
