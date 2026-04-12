@@ -36,25 +36,27 @@ const { title, description, keywords, website_name, website_url } =
 // Metadata
 export const metadata: Metadata = {
   generator: "Next.js",
-  applicationName: "LOISCHLOE",
+  applicationName: "LOIS CHLOE",
   referrer: "origin-when-cross-origin",
-  authors: [{ name: "loischloe admin" }],
-  creator: "Md Shamim Hossain",
+  authors: [{ name: "LOIS CHLOE" }],
+  creator: "LOIS CHLOE",
+  publisher: "LOIS CHLOE Bangladesh",
   title: {
-    template: `%s | LOISCHLOE`,
-    default: `${title} | LOISCHLOE`,
+    template: `%s | LOIS CHLOE Bangladesh`,
+    default: title,
   },
   description: description,
   keywords: keywords,
   metadataBase: new URL(website_url),
+  alternates: {
+    canonical: "/",
+  },
   robots: {
     index: true,
     follow: true,
-    nocache: true,
     googleBot: {
       index: true,
       follow: true,
-      noimageindex: false,
       "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,
@@ -62,8 +64,9 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    title: title,
-    description: description,
+    title: "LOIS CHLOE \u2014 Cruelty-Free Vegan Makeup from Australia",
+    description:
+      "Shop LOIS CHLOE\u2019s 100% vegan, cruelty-free makeup. Australian quality, delivered in Bangladesh.",
     url: website_url,
     siteName: website_name,
     images: [
@@ -74,10 +77,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: title,
-    description: description,
+    title: "LOIS CHLOE \u2014 Cruelty-Free Vegan Makeup from Australia",
+    description:
+      "Shop LOIS CHLOE\u2019s 100% vegan, cruelty-free makeup. Australian quality, delivered in Bangladesh.",
     site: "@loischloe",
-    creator: "MD Shamim Hossain",
+    creator: "@loischloe",
     images: [
       {
         url: website_url + "/og_image.png",

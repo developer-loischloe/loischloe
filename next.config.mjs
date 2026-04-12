@@ -21,6 +21,16 @@ const nextConfig = {
             },
         ],
     },
+    async redirects() {
+        return [
+            {
+                source: "/",
+                has: [{ type: "query", key: "a" }],
+                destination: "/",
+                permanent: true,
+            },
+        ];
+    },
     async headers() {
         return [
             {

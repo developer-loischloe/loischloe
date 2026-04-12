@@ -1,22 +1,21 @@
 import config from "@/config";
 
 export const globalMetaDataConstant = {
-  title: "Find the Best Deals on Makeup Products in Bangladesh",
+  title: "LOIS CHLOE Bangladesh | Cruelty-Free Vegan Makeup",
   description:
-    "Buy makeup products from Lois Chloe at the best prices online. Explore our range of Face Palettes, Foundations, Eyeliners, and more. Shop now for unbeatable deals!",
+    "Shop LOIS CHLOE's 100% vegan, cruelty-free makeup collection. Australian-made lipsticks, palettes & skincare delivered across Bangladesh. BSTI approved.",
   keywords: [
-    "loischloe",
-    "100% vegan",
-    "makeup",
-    "beauty",
-    "color cosmetics",
-    "cruelty free",
-    "chemical free",
-    "BSTI approved",
+    "LOIS CHLOE",
+    "vegan makeup Bangladesh",
+    "cruelty-free cosmetics BD",
+    "Australian makeup",
+    "BSTI approved cosmetics",
     "lipstick",
-    "face pallete",
+    "face palette",
+    "foundation",
     "eye makeup",
+    "color cosmetics",
   ],
-  website_name: "LOISCHLOE Bangladesh",
+  website_name: "LOIS CHLOE Bangladesh",
   website_url: config.next_app_base_url,
 };

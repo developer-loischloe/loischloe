@@ -26,6 +26,7 @@ import MustHaveEssentials from "@/components/Home/MustHaveEssentials";
 import HotProducts from "@/components/Home/HotProducts";
 import SliderProductListLoading from "@/components/Shared/loading/SliderProductListLoading";
 import JsonLd from "@/components/Shared/JsonLd ";
+import OrganizationJsonLd from "@/components/Shared/OrganizationJsonLd";
 import { globalMetaDataConstant } from "@/app/constant";
 import Loader from "@/components/Shared/loading/Loader";
 import BestSelling from "@/components/Home/BestSelling";
@@ -64,6 +65,7 @@ export default function Home() {
 
   return (
     <div>
+      <h1 className="sr-only">LOIS CHLOE — Cruelty-Free Vegan Makeup in Bangladesh</h1>
       <HomePageHorizontalMobileNav />
       <HomeSlider />
       <ShipmentToDelivery />
@@ -109,8 +111,8 @@ export default function Home() {
 
       <InstagramReels />
 
-      {/*  */}
       <JsonLd data={jsonLd} />
+      <OrganizationJsonLd />
     </div>
   );
 }

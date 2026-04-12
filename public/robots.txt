@@ -1,8 +1,17 @@
+# robots.txt for loischloe.com.bd
 User-agent: *
 Allow: /
-Disallow: /dashboard/
+
+# Block spam URL patterns
+Disallow: /*?a=
+Disallow: /*?a=*
+
+# Block internal paths
 Disallow: /api/
+Disallow: /_next/
+Disallow: /dashboard/
 Disallow: /checkout/
 Disallow: /cart/
 
+# Sitemap
 Sitemap: https://www.loischloe.com.bd/sitemap.xml

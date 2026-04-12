@@ -19,6 +19,7 @@ import SingleProductloading from "./SingleProductloading";
 import IngredientChecker from "@/components/Products/Product/IngredientChecker";
 import LipTryOn from "@/components/Products/Product/LipTryOn";
 import SubscribeAndSave from "@/components/Products/Product/SubscribeAndSave";
+import ProductJsonLd from "@/components/Products/Product/ProductJsonLd";
 
 const ProductImageSlider = dynamic(
   () => import("@/components/Products/Product/ProductSlider"),
@@ -45,16 +46,24 @@ export async function generateMetadata({
   const products = await appwriteProductService.getProductDetails({ slug });
   const product = products?.documents[0];
 
+  // Truncate description to 155 chars for SEO
+  const shortDesc = product?.short_description
+    ? product.short_description
+        .replace(/<[^>]*>/g, "")
+        .substring(0, 155)
+        .trim() + (product.short_description.length > 155 ? "..." : "")
+    : `Shop ${product?.name} by LOIS CHLOE. Cruelty-free, vegan makeup made in Australia. Free delivery in Bangladesh.`;
+
   return {
-    title: product?.name,
-    description: product?.short_description,
+    title: `${product?.name} | LOIS CHLOE Bangladesh`,
+    description: shortDesc,
     alternates: {
       canonical: `/products/${product?.slug}`,
     },
     openGraph: {
       type: "website",
       title: product?.name,
-      description: product?.short_description,
+      description: shortDesc,
       url: `${website_url}/products/${product?.slug}`,
       siteName: website_name,
       images: [
@@ -66,7 +75,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: product?.name,
-      description: product?.short_description,
+      description: shortDesc,
       site: "@loischloe",
       images: [
         {
@@ -122,6 +131,7 @@ const SingleProductDetails = async ({ slug }: { slug: string }) => {
 
   return (
     <>
+      <ProductJsonLd product={product} />
       <SendGTMEvent
         params={{ event: "ViewContent", product }}
       />
