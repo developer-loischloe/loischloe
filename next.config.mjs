@@ -19,6 +19,14 @@ const nextConfig = {
                 protocol: "https",
                 hostname: "cloud.appwrite.io",
             },
+            {
+                protocol: "https",
+                hostname: "*.cdninstagram.com",
+            },
+            {
+                protocol: "https",
+                hostname: "scontent*.cdninstagram.com",
+            },
         ],
     },
     async redirects() {

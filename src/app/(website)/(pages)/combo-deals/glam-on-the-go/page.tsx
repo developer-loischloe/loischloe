@@ -5,7 +5,7 @@ import appwriteProductService from "@/appwrite/appwriteProductService";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Glam on the Go — 3 Products, 5 Minutes, Full Glam | LOIS CHLOE",
+  title: "Glam on the Go — 5-Minute Full Glam Kit",
   description:
     "SPF Cushion Foundation + Perfect Last Mascara + Precious Love Lipstick. Your 5-minute full glam routine. Vegan, cruelty-free. Shop at LOIS CHLOE Bangladesh.",
   alternates: { canonical: "/combo-deals/glam-on-the-go" },

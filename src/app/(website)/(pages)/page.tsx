@@ -39,12 +39,7 @@ import HomePageHorizontalMobileNav from "@/components/Home/HomePageHorizontalMob
 const BeautyAdvice = dynamic(() => import("@/components/Home/BeautyAdvice"), {
   ssr: false,
 });
-const InstagramReels = dynamic(
-  () => import("@/components/Home/InstagramReels"),
-  {
-    ssr: false,
-  }
-);
+import InstagramFeed from "@/components/Home/InstagramFeed";
 const OfferCountDown = dynamic(
   () => import("@/components/Shared/countDown/OfferCountDown"),
   { ssr: false }
@@ -109,7 +104,9 @@ export default function Home() {
         <RecentComment />
       </section>
 
-      <InstagramReels />
+      <Suspense fallback={<div className="min-h-[300px]" />}>
+        <InstagramFeed />
+      </Suspense>
 
       <JsonLd data={jsonLd} />
       <OrganizationJsonLd />

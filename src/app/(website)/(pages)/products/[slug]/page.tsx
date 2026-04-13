@@ -40,7 +40,7 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   if (DISABLED_SLUGS.includes(slug)) {
-    return { title: "Offer Unavailable | LOIS CHLOE" };
+    return { title: "Offer Unavailable" };
   }
 
   const products = await appwriteProductService.getProductDetails({ slug });
@@ -55,7 +55,7 @@ export async function generateMetadata({
     : `Shop ${product?.name} by LOIS CHLOE. Cruelty-free, vegan makeup made in Australia. Free delivery in Bangladesh.`;
 
   return {
-    title: `${product?.name} | LOIS CHLOE Bangladesh`,
+    title: product?.name,
     description: shortDesc,
     alternates: {
       canonical: `/products/${product?.slug}`,
