@@ -8,7 +8,7 @@ import Whatsapp from "./Whatsapp";
 import LoisChloeMarquee from "@/components/Shared/LoisChloeMarquee";
 import FreeGift from "./FreeGift";
 import AiBeautyAssistant from "@/app/agents/ai-beauty-assistant/ui/AiBeautyAssistant";
-import WelcomePopup from "@/components/Shared/WelcomePopup";
+// import WelcomePopup from "@/components/Shared/WelcomePopup";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -23,7 +23,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       {/* <Whatsapp /> */}
       <FreeGift />
       <AiBeautyAssistant />
-      <WelcomePopup />
+      {/* <WelcomePopup /> */}
     </ReduxProvider>
   );
 };
