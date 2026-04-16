@@ -23,6 +23,11 @@ const config = {
         brand_primary: "var(--brand-primary)",
         brand_secondary: "var(--brand-secondary)",
         brand_gray: "var(--brand-gray)",
+        // Redesign palette (editorial cream base)
+        cream: "var(--cream)",
+        "cream-dark": "var(--cream-dark)",
+        "warm-black": "var(--warm-black)",
+        gold: "var(--gold)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -61,6 +66,8 @@ const config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        "2xl": "calc(var(--radius) + 8px)",
+        "3xl": "calc(var(--radius) + 12px)",
       },
       keyframes: {
         "accordion-down": {
@@ -72,31 +79,45 @@ const config = {
           to: { height: "0" },
         },
         scale_up_down: {
-          "0%": {
-            transform: "scale(1)",
-          },
-          "50%": {
-            transform: "scale(1.07)",
-          },
-          "100%": {
-            transform: "scale(1)",
-          },
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.07)" },
+          "100%": { transform: "scale(1)" },
+        },
+        "fade-in-up": {
+          from: { opacity: "0", transform: "translateY(20px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        "slow-zoom": {
+          from: { transform: "scale(1.05)" },
+          to: { transform: "scale(1)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         scale_up_down: "scale_up_down 1.5s ease-in-out infinite",
+        "fade-in-up": "fade-in-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both",
+        "fade-in": "fade-in 0.6s ease-out both",
+        "slow-zoom": "slow-zoom 1.5s ease-out both",
       },
       fontFamily: {
         ooh_baby: "var(--font-ooh_baby)",
         belleza: "var(--font-belleza)",
+        display: "var(--font-display)",
+        sans: "var(--font-sans)",
+      },
+      letterSpacing: {
+        tightest: "-0.02em",
+        widest: "0.3em",
       },
     },
   },
   plugins: [
     require("tailwindcss-animate"),
-    // require("@tailwindcss/aspect-ratio"),
   ],
 } satisfies Config;
 

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Belleza, Oooh_Baby } from "next/font/google";
+import { Belleza, Oooh_Baby, Cormorant_Garamond, DM_Sans } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
 
 // Import Swiper CSS
@@ -27,6 +27,22 @@ const ooh_baby = Oooh_Baby({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-ooh_baby",
+  display: "swap",
+});
+
+// Redesign fonts — editorial serif + geometric sans
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-sans",
   display: "swap",
 });
 
@@ -99,7 +115,9 @@ export default function RootLayout({
     <>
       <GoogleTagManager gtmId={String(process.env.NEXT_PUBLIC_GTM_ID)} />
 
-      <div className={`${belleza.variable} ${ooh_baby.variable}`}>
+      <div
+        className={`${belleza.variable} ${ooh_baby.variable} ${cormorant.variable} ${dmSans.variable}`}
+      >
         {children}
       </div>
     </>
