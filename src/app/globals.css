@@ -4,48 +4,52 @@
 
 @layer base {
   :root {
-    /* Existing LOIS CHLOE brand (preserved) */
+    /* Existing LOIS CHLOE brand vars kept available for legacy components */
     --default-color: #414042;
     --brand-primary: #ffb562;
     --brand-secondary: #002d34;
     --brand-gray: #727272;
 
-    /* Redesign — editorial cream base palette */
-    --cream: #faf7f1;
-    --cream-dark: #ede6d8;
-    --warm-black: #1a1a1a;
-    --gold: #c99a5b;
+    /* Redesign palette — identical to animated-banners (OKLCH source of truth).
+       Expressed as raw OKLCH vars that can be used directly by rd-* utilities,
+       plus HSL equivalents that power the shadcn / Tailwind token system. */
+    --cream: oklch(0.97 0.01 80);
+    --cream-dark: oklch(0.93 0.015 75);
+    --warm-black: oklch(0.15 0.02 50);
+    --olive: oklch(0.45 0.06 140);
+    --olive-light: oklch(0.55 0.05 140);
+    --gold: oklch(0.75 0.12 80);
 
-    /* Surfaces — HSL for shadcn compatibility */
-    --background: 40 33% 97%;        /* cream */
-    --foreground: 30 10% 12%;        /* warm-black */
+    /* HSL mirror (for shadcn/Tailwind tokens that expect hsl() wrapping) */
+    --background: 40 20% 97%;          /* ≈ oklch(0.98 0.005 80) */
+    --foreground: 35 15% 15%;          /* ≈ oklch(0.15 0.02 50) warm-black */
 
     --card: 0 0% 100%;
-    --card-foreground: 30 10% 12%;
+    --card-foreground: 35 15% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 30 10% 12%;
+    --popover-foreground: 35 15% 15%;
 
-    --primary: 188 100% 10%;         /* brand teal #002d34 */
-    --primary-foreground: 40 33% 97%;
+    --primary: 35 15% 15%;             /* warm-black, NOT teal */
+    --primary-foreground: 40 20% 97%;
 
-    --secondary: 36 28% 92%;         /* cream-dark */
-    --secondary-foreground: 30 10% 12%;
+    --secondary: 35 15% 94%;
+    --secondary-foreground: 35 15% 15%;
 
-    --muted: 36 28% 94%;
-    --muted-foreground: 0 0% 45%;    /* brand_gray */
+    --muted: 35 15% 95%;
+    --muted-foreground: 35 10% 45%;
 
-    --accent: 30 100% 70%;           /* brand peach #ffb562 */
-    --accent-foreground: 188 100% 10%;
+    --accent: 35 15% 94%;
+    --accent-foreground: 35 15% 15%;
 
-    --destructive: 0 70% 50%;
-    --destructive-foreground: 40 33% 97%;
+    --destructive: 22 85% 50%;
+    --destructive-foreground: 40 20% 97%;
 
-    --border: 36 15% 86%;
-    --input: 36 15% 86%;
-    --ring: 188 100% 10%;
+    --border: 35 15% 88%;
+    --input: 35 15% 88%;
+    --ring: 35 10% 45%;
 
-    --radius: 0.75rem;
+    --radius: 0.625rem;
 
     /* chart (unchanged) */
     --chart-1: 12 76% 61%;
@@ -67,14 +71,13 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display tracking-tightest;
+    @apply font-display;
   }
 
   ul {
     @apply list-inside;
   }
 
-  /* Focus ring — visible + respects motion preferences */
   :focus-visible {
     @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
   }
@@ -90,7 +93,7 @@
 }
 
 @layer utilities {
-  /* Legacy utilities — kept for preserved pages */
+  /* Legacy utilities — preserved so not-yet-redesigned pages keep working */
   .heading-1 {
     @apply text-3xl md:text-4xl lg:text-5xl font-bold mb-10 md:mb-16;
   }
@@ -104,15 +107,18 @@
     grid-column: span 1.5 / span 1.5;
   }
 
-  /* Redesign — editorial display type */
+  /* Redesign — editorial display utilities */
   .rd-display {
-    @apply font-display font-bold leading-[1.05] tracking-tightest;
+    @apply font-display font-bold leading-[1.05];
+    letter-spacing: -0.02em;
   }
   .rd-eyebrow {
-    @apply text-[10px] sm:text-xs font-medium uppercase tracking-widest text-muted-foreground;
+    @apply text-[10px] sm:text-xs font-medium uppercase text-muted-foreground;
+    letter-spacing: 0.3em;
   }
   .rd-pill {
-    @apply inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-cream-dark/60 text-foreground text-[10px] sm:text-xs font-medium uppercase tracking-wider;
+    @apply inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-foreground text-[10px] sm:text-xs font-medium uppercase tracking-wider;
+    background-color: color-mix(in oklch, var(--cream-dark) 60%, transparent);
   }
   .rd-btn-dark {
     @apply inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-foreground text-background text-xs sm:text-sm font-semibold uppercase tracking-wider hover:opacity-90 transition-opacity;
@@ -124,10 +130,8 @@
     @apply rounded-2xl sm:rounded-3xl overflow-hidden;
   }
 
-  /* Product description */
-  .product_description_container {
-    @apply text-brand_gray;
-  }
+  /* Product description preserved */
+  .product_description_container { @apply text-brand_gray; }
   .product_description_container ul { @apply list-disc list-inside; }
   .product_description_container ol { @apply list-decimal list-inside; }
   .product_description_container h5 { @apply text-brand_secondary text-xl; }
@@ -151,9 +155,7 @@
 }
 .error-container > span { display: inline-block; position: relative; }
 .error-container > span.four {
-  width: 136px;
-  height: 43px;
-  border-radius: 999px;
+  width: 136px; height: 43px; border-radius: 999px;
   background: linear-gradient(140deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.07) 43%, transparent 44%, transparent 100%),
               linear-gradient(105deg, transparent 0%, transparent 40%, rgba(0,0,0,0.06) 41%, rgba(0,0,0,0.07) 76%, transparent 77%, transparent 100%),
               linear-gradient(to right, #002d34, #002d34c2);
@@ -171,12 +173,10 @@
   background: linear-gradient(to right, #002d34, #002d34e7, #002d34d0, #002d34c0);
 }
 .error-container > span.zero {
-  vertical-align: text-top;
-  width: 156px; height: 156px; border-radius: 999px;
+  vertical-align: text-top; width: 156px; height: 156px; border-radius: 999px;
   background: linear-gradient(-45deg, transparent 0%, rgba(0,0,0,0.06) 50%, transparent 51%, transparent 100%),
               linear-gradient(to top right, #002d34, #002d34e7, #002d34d0, #002d34c0);
-  overflow: hidden;
-  animation: bgshadow 5s infinite;
+  overflow: hidden; animation: bgshadow 5s infinite;
 }
 .error-container > span.zero:before {
   content: ""; display: block; position: absolute; transform: rotate(45deg);
@@ -199,15 +199,11 @@
   100% { box-shadow: inset 160px -160px 0px 5px rgba(0,0,0,0.4); }
 }
 
-/* React Hotspot */
 .react-hotspots__hotspots__hotspot__content__container {
   @apply rounded-md overflow-hidden -ml-16 !z-[500];
 }
-.react-hotspots__image img {
-  @apply rounded-2xl;
-}
+.react-hotspots__image img { @apply rounded-2xl; }
 
-/* Froala watermark hide */
 a[id="fr-logo"] { display: none !important; }
 p[data-f-id="pbf"] { display: none !important; }
 a[href*="www.froala.com"] { display: none !important; }
