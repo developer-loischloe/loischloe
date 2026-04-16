@@ -28,7 +28,7 @@
 
 import { useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { META_PIXEL_ID, initPixel, trackPageView } from "@/lib/meta-pixel";
+import { META_PIXEL_ID, META_CATALOG_PIXEL_ID, initPixel, trackPageView } from "@/lib/meta-pixel";
 
 export function MetaPixel() {
   const pathname = usePathname();
@@ -53,6 +53,13 @@ export function MetaPixel() {
           width="1"
           style={{ display: "none" }}
           src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
+          alt=""
+        />
+        <img
+          height="1"
+          width="1"
+          style={{ display: "none" }}
+          src={`https://www.facebook.com/tr?id=${META_CATALOG_PIXEL_ID}&ev=PageView&noscript=1`}
           alt=""
         />
       </noscript>
