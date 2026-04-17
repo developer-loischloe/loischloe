@@ -35,6 +35,7 @@ import { Textarea } from "../ui/textarea";
 import { useDispatch, useSelector } from "react-redux";
 import appwriteOrderService from "@/appwrite/appwriteOrderService";
 import { sendGTMEvent } from "@next/third-parties/google";
+import { trackInitiateCheckout } from "@/lib/meta-pixel";
 import { toast } from "sonner";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Button } from "../ui/button";
@@ -222,6 +223,26 @@ export default function ShippingInformation() {
       toast.error("Something went wrong. Please try again.");
     }
   }
+
+  // Fire Meta Pixel InitiateCheckout event when checkout page loads
+  useEffect(() => {
+    if (cartList.length > 0) {
+      const totalValue = cartList.reduce(
+        (sum: number, item: Item) => sum + item.price * item.quantity, 0
+      );
+      trackInitiateCheckout({
+        content_ids: cartList.map((item: Item) => item.product.$id),
+        contents: cartList.map((item: Item) => ({
+          id: item.product.$id,
+          quantity: item.quantity,
+          item_price: item.price,
+        })),
+        currency: "BDT",
+        value: totalValue,
+        num_items: cartList.reduce((sum: number, item: Item) => sum + item.quantity, 0),
+      });
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Update cartcost based on District
   const district = form.watch("district");

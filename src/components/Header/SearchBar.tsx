@@ -1,5 +1,6 @@
 import { Search } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { trackSearch } from "@/lib/meta-pixel";
 import {
   Sheet,
   SheetContent,
@@ -37,6 +38,7 @@ const SearchBar = ({
     }
     if (searchTearm) {
       urlSearchParams.set("keyword", searchTearm);
+      trackSearch(searchTearm);
     }
 
     const query = urlSearchParams.toString();

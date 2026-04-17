@@ -1,17 +1,13 @@
 /**
  * Meta Conversions API (CAPI) Route Handler
  *
- * This API route sends events directly to Meta's servers,
- * bypassing browser-based tracking entirely. This:
- *  - Improves Event Match Quality (currently 6.1/10)
- *  - Provides reliable Purchase event tracking
- *  - Works even when ad blockers prevent the browser pixel
+ * Sends events server-side to Meta with event_id for deduplication
+ * against browser pixel events. This ensures Meta counts each
+ * conversion exactly once even though both client + server fire.
  *
  * SETUP REQUIRED:
  * 1. Generate an access token in Events Manager > Settings > Generate access token
- * 2. Add it to your .env.local file as META_CAPI_ACCESS_TOKEN
- *
- * Add to .env.local:
+ * 2. Add to .env.local:
  *   META_PIXEL_ID=1148015303657843
  *   META_CAPI_ACCESS_TOKEN=your_access_token_here
  */
@@ -44,6 +40,7 @@ export async function POST(request: NextRequest) {
 
     const {
       eventName,
+      eventId,
       eventTime,
       sourceUrl,
       // User data
@@ -54,9 +51,13 @@ export async function POST(request: NextRequest) {
       city,
       // Event data
       content_ids,
+      content_name,
       currency,
       value,
       order_id,
+      num_items,
+      search_string,
+      contents,
     } = body;
 
     // Build user_data with hashed PII
@@ -68,14 +69,14 @@ export async function POST(request: NextRequest) {
       client_user_agent: request.headers.get("user-agent") || "",
     };
 
-    // Get fbp and fbc cookies for deduplication
+    // Get fbp and fbc cookies for matching
     const cookies = request.cookies;
     const fbp = cookies.get("_fbp")?.value;
     const fbc = cookies.get("_fbc")?.value;
     if (fbp) userData.fbp = fbp;
     if (fbc) userData.fbc = fbc;
 
-    // Hash and add user PII if provided
+    // Hash and add user PII if provided (improves Event Match Quality)
     if (email) userData.em = [hashValue(email)];
     if (phone) userData.ph = [hashValue(phone.replace(/[^0-9]/g, ""))];
     if (firstName) userData.fn = [hashValue(firstName)];
@@ -87,18 +88,24 @@ export async function POST(request: NextRequest) {
     const eventData: Record<string, any> = {
       event_name: eventName,
       event_time: eventTime || Math.floor(Date.now() / 1000),
+      event_id: eventId, // CRITICAL: must match the browser pixel eventID for dedup
       action_source: "website",
       event_source_url: sourceUrl,
       user_data: userData,
     };
 
     // Add custom_data for e-commerce events
-    if (content_ids || value || currency) {
+    if (content_ids || value || currency || search_string) {
       eventData.custom_data = {};
       if (content_ids) eventData.custom_data.content_ids = content_ids;
+      if (content_ids) eventData.custom_data.content_type = "product";
+      if (content_name) eventData.custom_data.content_name = content_name;
       if (currency) eventData.custom_data.currency = currency;
       if (value) eventData.custom_data.value = value;
       if (order_id) eventData.custom_data.order_id = order_id;
+      if (num_items) eventData.custom_data.num_items = num_items;
+      if (search_string) eventData.custom_data.search_string = search_string;
+      if (contents) eventData.custom_data.contents = contents;
     }
 
     // Send to Meta Conversions API

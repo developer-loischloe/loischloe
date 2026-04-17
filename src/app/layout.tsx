@@ -32,6 +32,10 @@ const Rootlayout = ({
           name="google-site-verification"
           content="tItO_atbw0P1IaSATXuSK_6L09tFfeUDSsqVgumT_KI"
         />
+        <meta
+          name="facebook-domain-verification"
+          content="rteyu9fb0qubnvlzlec9f0j0h6x61i"
+        />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
         <link rel="manifest" href="/manifest.json" />
