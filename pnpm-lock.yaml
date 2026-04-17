@@ -191,9 +191,6 @@ importers:
       sonner:
         specifier: ^1.4.41
         version: 1.4.41(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      sslcommerz-lts:
-        specifier: ^1.1.0
-        version: 1.1.0
       swiper:
         specifier: ^11.0.7
         version: 11.0.7
@@ -2200,10 +2197,6 @@ packages:
     resolution: {integrity: sha512-TMKDUnIte6bfb5nWv7V/caI169OHgvwjb7V4WkeUvbQQdjr5rWKqHFiKWb/fcOwB+CzBT+qbWjvj+DVwRskpIg==}
     engines: {node: '>=14'}
 
-  form-data@2.5.0:
-    resolution: {integrity: sha512-WXieX3G/8side6VIqx44ablyULoGruSde5PNTxoUyo5CeyAMX6nVWUd0rgist/EuX655cjhUhTo1Fo3tRYqbcA==}
-    engines: {node: '>= 0.12'}
-
   form-data@2.5.1:
     resolution: {integrity: sha512-m21N3WOmEEURgk6B9GLOE4RuWOFf28Lhh9qGYeNlGq4VDXUlJy2th2slBNU8Gp8EzloYZOibZJ7t5ecIrFSjVA==}
     engines: {node: '>= 0.12'}
@@ -2657,10 +2650,6 @@ packages:
 
   node-appwrite@12.0.0:
     resolution: {integrity: sha512-tvfwxpabSrX+6+vNQbjqkdZI2G4c/Yg7Dx3gEGhsYmO00876IbhH0TVR7DaW+4uqgVuBaavbEBf9oinAWS8oeQ==}
-
-  node-fetch@2.6.1:
-    resolution: {integrity: sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==}
-    engines: {node: 4.x || >=6.0.0}
 
   node-fetch@2.6.7:
     resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
@@ -3140,9 +3129,6 @@ packages:
   source-map-js@1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
     engines: {node: '>=0.10.0'}
-
-  sslcommerz-lts@1.1.0:
-    resolution: {integrity: sha512-17NOGDzdCQ/Uub2gAnaZ20Cc3n97d1KuP2Bl1ki2cLm1e0WPBj7cESeD/Y9bQE6/Tlq64iXdkOtgwBA/5FHuJg==}
 
   standardwebhooks@1.0.0:
     resolution: {integrity: sha512-BbHGOQK9olHPMvQNHWul6MYlrRTAOKn03rOe4A8O3CLWhNf4YHBqq2HJKKC+sfqpxiBY52pNeesD6jIiLDz8jg==}
@@ -5462,12 +5448,6 @@ snapshots:
       cross-spawn: 7.0.3
       signal-exit: 4.1.0
 
-  form-data@2.5.0:
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
-
   form-data@2.5.1:
     dependencies:
       asynckit: 0.4.0
@@ -5901,8 +5881,6 @@ snapshots:
   node-appwrite@12.0.0:
     dependencies:
       undici: 5.28.3
-
-  node-fetch@2.6.1: {}
 
   node-fetch@2.6.7:
     dependencies:
@@ -6402,11 +6380,6 @@ snapshots:
       react-dom: 18.2.0(react@18.2.0)
 
   source-map-js@1.0.2: {}
-
-  sslcommerz-lts@1.1.0:
-    dependencies:
-      form-data: 2.5.0
-      node-fetch: 2.6.1
 
   standardwebhooks@1.0.0:
     dependencies:

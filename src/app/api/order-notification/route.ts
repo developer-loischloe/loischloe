@@ -3,8 +3,23 @@ import { Resend } from "resend";
 
 export const dynamic = "force-dynamic";
 
+// Hard-coded Resend sandbox sender only works for the Resend account owner,
+// so every other recipient silently drops. Require a verified sender via env
+// and fall back to the sandbox only when nothing is configured.
+const FROM =
+  process.env.RESEND_FROM || "LOIS CHLOE Orders <onboarding@resend.dev>";
+const ADMIN_TO =
+  process.env.ORDER_NOTIFICATION_TO || "developer.loischloe@gmail.com";
+
 export async function POST(req: NextRequest) {
   try {
+    if (!process.env.RESEND_API_KEY) {
+      console.error("RESEND_API_KEY not configured");
+      return NextResponse.json(
+        { error: "Email service not configured" },
+        { status: 503 }
+      );
+    }
     const resend = new Resend(process.env.RESEND_API_KEY);
     const body = await req.json();
     const { shippingInformation, orderItems, paymentInformation, orderId } =
@@ -77,9 +92,16 @@ export async function POST(req: NextRequest) {
       </div>
     `;
 
+    const recipients: string[] = [ADMIN_TO];
+    const customerEmail =
+      typeof shipping.email === "string" && shipping.email.includes("@")
+        ? shipping.email.trim()
+        : null;
+    if (customerEmail) recipients.push(customerEmail);
+
     const { data, error } = await resend.emails.send({
-      from: "LOIS CHLOE Orders <onboarding@resend.dev>",
-      to: ["developer.loischloe@gmail.com"],
+      from: FROM,
+      to: recipients,
       subject: `New Order #${orderId || "N/A"} - ${shipping.name || "Customer"} (৳${payment.total_price || 0})`,
       html,
     });

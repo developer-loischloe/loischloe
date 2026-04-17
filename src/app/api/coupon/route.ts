@@ -5,7 +5,7 @@ import { Query } from "node-appwrite";
 
 const COUPON_COLLECTION_ID = "coupons";
 
-// POST /api/coupon — validate a coupon code
+// POST /api/coupon — validate a coupon code (does NOT mark as used)
 export async function POST(request: NextRequest) {
   try {
     const { code } = await request.json();
@@ -48,7 +48,12 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// PATCH /api/coupon — redeem a coupon
+// PATCH /api/coupon — redeem (reserve or finalize) a coupon.
+// Checkout calls this twice: once with redeemedOrderId="PENDING" to reserve
+// before order creation, and again with the real order id after the order
+// saves. The initial reservation performs a conditional update by first
+// re-reading the doc — if it has already been marked used the request 409s
+// so the client can abort instead of silently double-redeeming.
 export async function PATCH(request: NextRequest) {
   try {
     const { couponDocId, redeemedOrderId } = await request.json();
@@ -58,6 +63,22 @@ export async function PATCH(request: NextRequest) {
         { error: "Missing couponDocId or redeemedOrderId" },
         { status: 400 }
       );
+    }
+
+    if (redeemedOrderId === "PENDING") {
+      // Reservation path — fail fast if another checkout got here first.
+      const current = (await serverDatabases.getDocument(
+        config.appwriteDatabaseId,
+        COUPON_COLLECTION_ID,
+        couponDocId
+      )) as any;
+
+      if (current?.used) {
+        return NextResponse.json(
+          { error: "Coupon already used" },
+          { status: 409 }
+        );
+      }
     }
 
     await serverDatabases.updateDocument(
@@ -71,10 +92,46 @@ export async function PATCH(request: NextRequest) {
     );
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Coupon redemption error:", error);
     return NextResponse.json(
-      { error: "Something went wrong" },
+      { error: error?.message || "Something went wrong" },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE /api/coupon — release a reserved coupon back to the pool so a
+// customer whose order creation failed can retry with the same code.
+export async function DELETE(request: NextRequest) {
+  try {
+    const { couponDocId } = await request.json();
+
+    if (!couponDocId) {
+      return NextResponse.json(
+        { error: "Missing couponDocId" },
+        { status: 400 }
+      );
+    }
+
+    // Only flip `used` back to false. We intentionally leave
+    // `redeemed_order_id` unchanged — nulling a string attribute rejects
+    // in Appwrite when the field isn't declared nullable, which would
+    // bounce a legitimate release attempt.
+    await serverDatabases.updateDocument(
+      config.appwriteDatabaseId,
+      COUPON_COLLECTION_ID,
+      couponDocId,
+      {
+        used: false,
+      }
+    );
+
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    console.error("Coupon release error:", error);
+    return NextResponse.json(
+      { error: error?.message || "Something went wrong" },
       { status: 500 }
     );
   }

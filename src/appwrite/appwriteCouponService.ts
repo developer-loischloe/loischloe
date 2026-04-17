@@ -24,24 +24,43 @@ class AppwriteCouponService {
     }
   }
 
-  // Mark coupon as used via server API
+  // Mark coupon as used via server API. Pass "PENDING" as redeemedOrderId
+  // to reserve the coupon before order creation; call again with the real
+  // order id once the order document is saved.
   async redeemCoupon(couponDocId: string, redeemedOrderId: string) {
-    try {
-      const response = await fetch("/api/coupon", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ couponDocId, redeemedOrderId }),
-      });
+    const response = await fetch("/api/coupon", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ couponDocId, redeemedOrderId }),
+    });
 
-      if (!response.ok) {
-        throw new Error("Failed to redeem coupon");
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error("Error redeeming coupon:", error);
-      throw error;
+    if (!response.ok) {
+      const text = await response.text().catch(() => "");
+      throw new Error(
+        `Failed to redeem coupon (${response.status}): ${text || "no body"}`
+      );
     }
+
+    return response.json();
+  }
+
+  // Release a previously reserved coupon so a failed order does not
+  // consume the user's discount code.
+  async releaseCoupon(couponDocId: string) {
+    const response = await fetch("/api/coupon", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ couponDocId }),
+    });
+
+    if (!response.ok) {
+      const text = await response.text().catch(() => "");
+      throw new Error(
+        `Failed to release coupon (${response.status}): ${text || "no body"}`
+      );
+    }
+
+    return response.json();
   }
 }
 
