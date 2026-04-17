@@ -12,7 +12,7 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { META_PIXEL_ID, initPixel, trackPageView } from "@/lib/meta-pixel";
+import { META_PIXEL_ID, initPixel, trackPageView, setUserData, clearUserData } from "@/lib/meta-pixel";
 import { useAuth } from "@/context/authContext";
 
 export function MetaPixel() {
@@ -36,8 +36,18 @@ export function MetaPixel() {
         country: "bd",
         external_id: user.$id || undefined,
       });
+      // Store user data at module level so ALL CAPI events include PII
+      // This is the key EMQ improvement — every event gets user matching data
+      setUserData({
+        email: user.email || undefined,
+        phone: user.phone || undefined,
+        firstName: nameParts[0] || undefined,
+        lastName: nameParts.slice(1).join(" ") || undefined,
+        external_id: user.$id || undefined,
+      });
     } else {
       initPixel();
+      clearUserData();
     }
   }, [user]);
 

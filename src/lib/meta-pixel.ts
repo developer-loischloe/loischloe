@@ -26,6 +26,59 @@ function generateEventId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
 }
 
+// ----- User Data Store (for CAPI enrichment) -----
+// Stored at module level so every sendServerEvent call can include user PII.
+// This dramatically improves Event Match Quality (EMQ) from ~6 to 8-9/10.
+
+let storedUserData: {
+  email?: string;
+  phone?: string;
+  firstName?: string;
+  lastName?: string;
+  city?: string;
+  external_id?: string;
+} = {};
+
+/**
+ * Store user data for CAPI enrichment. Call this whenever user info becomes
+ * available (login, checkout form, etc.). All subsequent CAPI events will
+ * include this data for better matching.
+ */
+export function setUserData(data: {
+  email?: string;
+  phone?: string;
+  firstName?: string;
+  lastName?: string;
+  city?: string;
+  external_id?: string;
+}) {
+  storedUserData = { ...storedUserData, ...data };
+}
+
+/**
+ * Clear stored user data (call on logout).
+ */
+export function clearUserData() {
+  storedUserData = {};
+}
+
+/**
+ * Read Meta cookies (_fbp, _fbc) from the browser.
+ * Sending these client-side as a backup ensures CAPI always gets them,
+ * even if server-side cookie reading fails (e.g. on Vercel Edge).
+ */
+function getMetaCookies(): { fbp?: string; fbc?: string } {
+  if (typeof document === "undefined") return {};
+  const cookies: Record<string, string> = {};
+  document.cookie.split(";").forEach((c) => {
+    const [key, val] = c.trim().split("=");
+    if (key === "_fbp" || key === "_fbc") {
+      cookies[key.slice(1)] = val; // strip leading underscore
+    }
+  });
+  return cookies;
+}
+
 // ----- Pixel Initialization -----
 
 export interface UserData {
@@ -288,6 +341,9 @@ export async function sendServerEvent(
   eventId?: string
 ) {
   try {
+    // Include stored user data + Meta cookies for better EMQ
+    const metaCookies = getMetaCookies();
+
     await fetch("/api/meta-capi", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -296,6 +352,17 @@ export async function sendServerEvent(
         eventId: eventId || generateEventId(),
         eventTime: Math.floor(Date.now() / 1000),
         sourceUrl: window.location.href,
+        // User PII — sent with EVERY event for better matching
+        email: params.email || storedUserData.email,
+        phone: params.phone || storedUserData.phone,
+        firstName: params.firstName || storedUserData.firstName,
+        lastName: params.lastName || storedUserData.lastName,
+        city: params.city || storedUserData.city,
+        external_id: params.external_id || storedUserData.external_id,
+        // Meta cookies — client-side backup in case server can't read them
+        fbp: metaCookies.fbp,
+        fbc: metaCookies.fbc,
+        // Event-specific params
         ...params,
       }),
     });

@@ -35,7 +35,7 @@ import { Textarea } from "../ui/textarea";
 import { useDispatch, useSelector } from "react-redux";
 import appwriteOrderService from "@/appwrite/appwriteOrderService";
 import { sendGTMEvent } from "@next/third-parties/google";
-import { trackInitiateCheckout } from "@/lib/meta-pixel";
+import { trackInitiateCheckout, setUserData } from "@/lib/meta-pixel";
 import { toast } from "sonner";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Button } from "../ui/button";
@@ -243,6 +243,24 @@ export default function ShippingInformation() {
       });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Capture checkout form data for Meta CAPI (improves EMQ for guest users)
+  const watchedName = form.watch("name");
+  const watchedPhone = form.watch("phone");
+  const watchedEmail = form.watch("email");
+  const watchedDistrict = form.watch("district");
+  useEffect(() => {
+    if (watchedName || watchedPhone || watchedEmail) {
+      const nameParts = (watchedName || "").split(" ");
+      setUserData({
+        firstName: nameParts[0] || undefined,
+        lastName: nameParts.slice(1).join(" ") || undefined,
+        phone: watchedPhone || undefined,
+        email: watchedEmail || undefined,
+        city: watchedDistrict || undefined,
+      });
+    }
+  }, [watchedName, watchedPhone, watchedEmail, watchedDistrict]);
 
   // Update cartcost based on District
   const district = form.watch("district");

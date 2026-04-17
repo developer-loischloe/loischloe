@@ -49,6 +49,10 @@ export async function POST(request: NextRequest) {
       firstName,
       lastName,
       city,
+      external_id,
+      // Client-side Meta cookies (backup if server can't read them)
+      fbp: clientFbp,
+      fbc: clientFbc,
       // Event data
       content_ids,
       content_name,
@@ -69,19 +73,21 @@ export async function POST(request: NextRequest) {
       client_user_agent: request.headers.get("user-agent") || "",
     };
 
-    // Get fbp and fbc cookies for matching
+    // Get fbp and fbc cookies — try server-side first, fall back to client-side values
     const cookies = request.cookies;
-    const fbp = cookies.get("_fbp")?.value;
-    const fbc = cookies.get("_fbc")?.value;
+    const fbp = cookies.get("_fbp")?.value || clientFbp;
+    const fbc = cookies.get("_fbc")?.value || clientFbc;
     if (fbp) userData.fbp = fbp;
     if (fbc) userData.fbc = fbc;
 
     // Hash and add user PII if provided (improves Event Match Quality)
+    // These are now sent with EVERY event, not just Purchase, for much better EMQ
     if (email) userData.em = [hashValue(email)];
     if (phone) userData.ph = [hashValue(phone.replace(/[^0-9]/g, ""))];
     if (firstName) userData.fn = [hashValue(firstName)];
     if (lastName) userData.ln = [hashValue(lastName)];
     if (city) userData.ct = [hashValue(city)];
+    if (external_id) userData.external_id = [hashValue(external_id)];
     userData.country = [hashValue("bd")]; // Bangladesh
 
     // Build the event payload
