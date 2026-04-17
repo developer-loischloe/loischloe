@@ -116,7 +116,9 @@ export default page;
 const SingleProductDetails = async ({ slug }: { slug: string }) => {
   const products = await appwriteProductService.getProductDetails({ slug });
 
-  if (products?.total === 0) {
+  const product = products?.documents?.[0];
+
+  if (!product || products?.total === 0) {
     return (
       <div className="flex flex-col gap-5 justify-center items-center py-[100px]">
         <h1 className="text-2xl">Oops! Product not found.</h1>
@@ -126,8 +128,6 @@ const SingleProductDetails = async ({ slug }: { slug: string }) => {
       </div>
     );
   }
-
-  const product = products?.documents[0];
 
   return (
     <>

@@ -111,16 +111,21 @@ export default function ShippingInformation() {
   const { isDirty, isSubmitting } = form.formState;
 
   const getOrderItems = (cartList: Item[]) => {
-    return cartList.map((item) => {
-      return {
+    return (cartList || [])
+      .filter((item) => item?.product?.$id && item?.price != null && item?.quantity)
+      .map((item) => ({
         product: item.product.$id,
-        price: item.price,
-        quantity: item.quantity,
-      };
-    });
+        price: Number(item.price) || 0,
+        quantity: Number(item.quantity) || 0,
+      }));
   };
 
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+
   async function onSubmit(data: z.infer<typeof formSchema>) {
+    // Defense in depth: prevent double submission even if isSubmitting lags.
+    if (isPlacingOrder) return;
+    setIsPlacingOrder(true);
     const shippingInformation = {
       ...(data.name && { name: data.name }),
       ...(data.phone && { phone: data.phone }),
@@ -136,9 +141,21 @@ export default function ShippingInformation() {
 
     if (!orderItems.length) {
       toast.warning("Please add products before proceeding to checkout.");
+      setIsPlacingOrder(false);
       setTimeout(() => {
         router.push("/products");
       }, 3000);
+      return;
+    }
+
+    // Reject NaN totals (can happen when Appwrite product docs are missing
+    // fields or stale cart items slipped past hydration filter).
+    const totalCost = Number(cartCost?.total_cost);
+    if (!Number.isFinite(totalCost) || totalCost < 0) {
+      toast.error(
+        "Your cart has invalid pricing. Please refresh and try again."
+      );
+      setIsPlacingOrder(false);
       return;
     }
 
@@ -180,21 +197,45 @@ export default function ShippingInformation() {
       },
     };
 
+    // Reserve the coupon before creating the order so we fail early if someone
+    // else redeemed it between apply and checkout. If order creation fails
+    // afterwards, we release the reservation in the catch block below.
+    let couponReserved = false;
+    if (couponDocId) {
+      try {
+        await appwriteCouponService.redeemCoupon(couponDocId, "PENDING");
+        couponReserved = true;
+      } catch (error) {
+        console.error("Coupon reservation failed:", error);
+        toast.error(
+          "The applied coupon is no longer available. Please remove it and try again."
+        );
+        setIsPlacingOrder(false);
+        return;
+      }
+    }
+
     try {
       const response = await appwriteOrderService.createOrder(orderData);
-      // Redirect to the order-received page and clear cart
-      if (response) {
-        // Redeem coupon if one was applied
-        if (couponDocId) {
-          try {
-            await appwriteCouponService.redeemCoupon(couponDocId, response.$id);
-          } catch (error) {
-            console.error("Error redeeming coupon:", error);
-          }
-        }
+      if (!response) {
+        throw new Error("Order creation returned no response");
+      }
 
-        // Send order notification email (fire-and-forget)
-        fetch("/api/order-notification", {
+      // Patch the coupon's redeemed_order_id now that we have a real order id.
+      if (couponReserved && couponDocId) {
+        try {
+          await appwriteCouponService.redeemCoupon(couponDocId, response.$id);
+        } catch (error) {
+          // Coupon is already marked used — log and continue so the customer
+          // sees their order confirmation.
+          console.error("Coupon order-id update failed:", error);
+        }
+      }
+
+      // Order notification email — awaited so a failure is logged, but does
+      // not block the redirect because the order itself is already saved.
+      try {
+        const emailRes = await fetch("/api/order-notification", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -206,21 +247,43 @@ export default function ShippingInformation() {
               quantity: item.quantity,
             })),
           }),
-        }).catch((err) => console.error("Email notification failed:", err));
-
-        router.push(`/checkout/order-received/${response.$id}`);
-        sendGTMEvent({
-          event: "Purchase",
-          cartList,
-          cartCost,
-          shippingInformation,
         });
-
-        dispatch(resetCart());
+        if (!emailRes.ok) {
+          console.error(
+            "Email notification non-ok:",
+            emailRes.status,
+            await emailRes.text().catch(() => "")
+          );
+        }
+      } catch (err) {
+        console.error("Email notification failed:", err);
       }
+
+      sendGTMEvent({
+        event: "Purchase",
+        cartList,
+        cartCost,
+        shippingInformation,
+      });
+
+      dispatch(resetCart());
+      router.push(`/checkout/order-received/${response.$id}`);
     } catch (error) {
       console.error("Order placement error:", error);
-      toast.error("Something went wrong. Please try again.");
+
+      // Release the coupon reservation so the customer can retry.
+      if (couponReserved && couponDocId) {
+        try {
+          await appwriteCouponService.releaseCoupon(couponDocId);
+        } catch (releaseErr) {
+          console.error("Coupon release failed:", releaseErr);
+        }
+      }
+
+      toast.error(
+        "We couldn't place your order. Please check your details and try again."
+      );
+      setIsPlacingOrder(false);
     }
   }
 
@@ -478,8 +541,11 @@ export default function ShippingInformation() {
                 />
               </div>
 
-              <Button type="submit" disabled={!isDirty || isSubmitting}>
-                Place Order
+              <Button
+                type="submit"
+                disabled={!isDirty || isSubmitting || isPlacingOrder}
+              >
+                {isPlacingOrder ? "Placing Order…" : "Place Order"}
               </Button>
             </div>
           </div>

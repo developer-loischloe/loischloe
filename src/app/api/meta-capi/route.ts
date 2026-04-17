@@ -30,9 +30,15 @@ function hashValue(value: string): string {
 export async function POST(request: NextRequest) {
   try {
     if (!ACCESS_TOKEN) {
+      // Return 503 (not 500) so Vercel runtime dashboards don't flag the
+      // site as broken while we wait for the token to be configured. The
+      // client helper in src/lib/meta-pixel.ts already swallows this.
       return NextResponse.json(
-        { error: "META_CAPI_ACCESS_TOKEN not configured" },
-        { status: 500 }
+        {
+          error: "META_CAPI_ACCESS_TOKEN not configured",
+          hint: "Set META_CAPI_ACCESS_TOKEN in Vercel project environment variables",
+        },
+        { status: 503 }
       );
     }
 

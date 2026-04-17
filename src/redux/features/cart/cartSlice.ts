@@ -15,13 +15,30 @@ export interface Item {
 }
 
 // Utility function
-export const getLocalCartItems = () => {
+export const getLocalCartItems = (): Item[] => {
   let localCartItems = "[]";
   if (typeof window !== "undefined") {
     localCartItems = sessionStorage.getItem("cart") || "[]";
   }
 
-  return JSON.parse(localCartItems);
+  try {
+    const parsed = JSON.parse(localCartItems);
+    if (!Array.isArray(parsed)) return [];
+    // Drop any item whose product reference is missing or has no $id.
+    // Stale sessionStorage entries referencing deleted Appwrite docs otherwise
+    // crash the checkout with "Cannot read properties of undefined".
+    return parsed.filter(
+      (it: any) =>
+        it &&
+        typeof it === "object" &&
+        it.product &&
+        typeof it.product.$id === "string" &&
+        typeof it.price === "number" &&
+        typeof it.quantity === "number"
+    );
+  } catch {
+    return [];
+  }
 };
 
 export const setLocalCartItems = (items: Item[]) => {
@@ -35,12 +52,12 @@ export const calculateProductPrice = (
   }[]
 ) => {
   const product_price = cartList?.reduce((acc, items) => {
-    const current_product_price = items?.product?.price * items?.quantity;
-
-    return acc + current_product_price;
+    const price = Number(items?.product?.price) || 0;
+    const qty = Number(items?.quantity) || 0;
+    return acc + price * qty;
   }, 0);
 
-  return product_price;
+  return product_price || 0;
 };
 
 export const checkItemExistOrNot = ({
@@ -54,20 +71,20 @@ export const checkItemExistOrNot = ({
 };
 
 const checkIsEligibleForFreeGift = (cartList: Item[]) => {
-  const filteredItems = cartList?.filter((item: Item) => {
-    return item.product.parent_category !== "offer";
+  const filteredItems = (cartList || []).filter((item: Item) => {
+    return item?.product?.parent_category !== "offer";
   });
 
   const filteredItemsTotalPrice = filteredItems.reduce((acc, curr) => {
-    return acc + curr.quantity * curr.price;
+    return acc + (Number(curr?.quantity) || 0) * (Number(curr?.price) || 0);
   }, 0);
 
   return filteredItemsTotalPrice >= 2500;
 };
 
 const checkIsAlreadyGiftClaimed = (cartList: Item[]) => {
-  const filteredItems = cartList?.filter((item: Item) => {
-    return item.product.sale_price === 0;
+  const filteredItems = (cartList || []).filter((item: Item) => {
+    return Number(item?.product?.sale_price) === 0;
   });
 
   return filteredItems.length > 0;
@@ -78,22 +95,26 @@ const calculateDiscount = ({
 }: {
   cartList: Item[];
 }) => {
+  const { total_price, sale_price } = (cartList || []).reduce(
+    (acc, curr) => {
+      const qty = Number(curr?.quantity) || 0;
+      const price = Number(curr?.product?.price) || 0;
+      // If sale_price is missing, fall back to price so discount is 0
+      // (prevents NaN propagating into total_cost and breaking checkout).
+      const sp =
+        curr?.product?.sale_price == null
+          ? price
+          : Number(curr.product.sale_price) || 0;
+      return {
+        total_price: acc.total_price + qty * price,
+        sale_price: acc.sale_price + qty * sp,
+      };
+    },
+    { total_price: 0, sale_price: 0 }
+  );
 
-  const { total_price, sale_price } = cartList?.reduce((acc, curr) => {
-
-    return {
-      ...acc,
-      total_price: acc.total_price + curr.quantity * curr.product.price,
-      sale_price: acc.sale_price + curr.quantity * curr.product.sale_price,
-    }
-  }, {
-    total_price: 0,
-    sale_price: 0,
-  });
-
-
-  const discount = total_price - sale_price
-  return discount
+  const discount = total_price - sale_price;
+  return discount > 0 ? discount : 0;
 };
 
 // Define a type for the slice state

@@ -1,5 +1,27 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Required environment variables
+
+Missing values cause silent feature failures (CAPI, order emails, AI
+assistant). Configure these in Vercel → Project Settings → Environment
+Variables for every environment that needs them.
+
+| Variable | Used by | Notes |
+|---|---|---|
+| `NEXT_PUBLIC_APP_BASE_URL` | Shared config | Public site URL |
+| `NEXT_PUBLIC_APPWRITE_URL` | Appwrite client/server | Appwrite endpoint |
+| `NEXT_PUBLIC_APPWRITE_PROJECT_ID` | Appwrite client/server | |
+| `NEXT_PUBLIC_APPWRITE_DATABASE_ID` | All collections | |
+| `NEXT_APPWRITE_API_KEY` | Server SDK (coupons, server ops) | Server-only |
+| `NEXT_PUBLIC_APPWRITE_COLLECTION_ID_*` | Product, order, category, blog, etc. | Many — see `src/config/index.ts` |
+| `META_PIXEL_ID` | Meta Pixel + CAPI | Defaults to `1148015303657843` |
+| `META_CAPI_ACCESS_TOKEN` | Server CAPI route | **Required** for server-side Meta events (Events Manager → Settings → Generate access token) |
+| `RESEND_API_KEY` | Order notification email | Required |
+| `RESEND_FROM` | Order notification email | e.g. `LOIS CHLOE Orders <orders@loischloe.com.bd>`. Domain must be verified in Resend or emails silently drop. |
+| `ORDER_NOTIFICATION_TO` | Order notification email | Admin recipient; defaults to `developer.loischloe@gmail.com` |
+| `GEMINI_API_KEY` | AI beauty assistant, ingredient checker | Optional; feature disabled when unset |
+| `INSTAGRAM_ACCESS_TOKEN` | Instagram feed component | Optional; falls back to static content |
+
 ## Getting Started
 
 First, run the development server:
