@@ -1,26 +1,44 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
 
 export const dynamic = "force-dynamic";
+// Nodemailer uses TCP sockets which do not work on the Edge runtime. Keep the
+// route pinned to the Node runtime.
+export const runtime = "nodejs";
 
-// Hard-coded Resend sandbox sender only works for the Resend account owner,
-// so every other recipient silently drops. Require a verified sender via env
-// and fall back to the sandbox only when nothing is configured.
-const FROM =
-  process.env.RESEND_FROM || "LOIS CHLOE Orders <onboarding@resend.dev>";
+// SMTP provider config (Zoho Mail Free by default). Override via env if you
+// change provider.
+// - Zoho (global):  smtp.zoho.com
+// - Zoho (India):   smtp.zoho.in
+// - Zoho (EU):      smtp.zoho.eu
+const SMTP_HOST = process.env.SMTP_HOST || "smtp.zoho.in";
+const SMTP_PORT = Number(process.env.SMTP_PORT || 465);
+const SMTP_USER = process.env.SMTP_USER || "";
+const SMTP_PASS = process.env.SMTP_PASS || "";
+
+const FROM = process.env.MAIL_FROM || "LOIS CHLOE Orders <order@loischloe.com.bd>";
 const ADMIN_TO =
   process.env.ORDER_NOTIFICATION_TO || "developer.loischloe@gmail.com";
 
+function buildTransport() {
+  return nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: SMTP_PORT,
+    secure: SMTP_PORT === 465, // SSL on 465, STARTTLS on 587
+    auth: { user: SMTP_USER, pass: SMTP_PASS },
+  });
+}
+
 export async function POST(req: NextRequest) {
   try {
-    if (!process.env.RESEND_API_KEY) {
-      console.error("RESEND_API_KEY not configured");
+    if (!SMTP_USER || !SMTP_PASS) {
+      console.error("SMTP credentials not configured");
       return NextResponse.json(
         { error: "Email service not configured" },
         { status: 503 }
       );
     }
-    const resend = new Resend(process.env.RESEND_API_KEY);
+
     const body = await req.json();
     const { shippingInformation, orderItems, paymentInformation, orderId } =
       body;
@@ -92,30 +110,27 @@ export async function POST(req: NextRequest) {
       </div>
     `;
 
-    const recipients: string[] = [ADMIN_TO];
     const customerEmail =
       typeof shipping.email === "string" && shipping.email.includes("@")
         ? shipping.email.trim()
         : null;
-    if (customerEmail) recipients.push(customerEmail);
 
-    const { data, error } = await resend.emails.send({
+    const transporter = buildTransport();
+
+    const info = await transporter.sendMail({
       from: FROM,
-      to: recipients,
+      to: ADMIN_TO,
+      // Send a copy to the customer when they provided a valid email.
+      cc: customerEmail || undefined,
       subject: `New Order #${orderId || "N/A"} - ${shipping.name || "Customer"} (৳${payment.total_price || 0})`,
       html,
     });
 
-    if (error) {
-      console.error("Resend error:", error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    return NextResponse.json({ success: true, id: data?.id });
-  } catch (error) {
+    return NextResponse.json({ success: true, id: info.messageId });
+  } catch (error: any) {
     console.error("Order notification error:", error);
     return NextResponse.json(
-      { error: "Failed to send notification" },
+      { error: error?.message || "Failed to send notification" },
       { status: 500 }
     );
   }

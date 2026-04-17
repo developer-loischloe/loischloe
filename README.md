@@ -16,8 +16,11 @@ Variables for every environment that needs them.
 | `NEXT_PUBLIC_APPWRITE_COLLECTION_ID_*` | Product, order, category, blog, etc. | Many — see `src/config/index.ts` |
 | `META_PIXEL_ID` | Meta Pixel + CAPI | Defaults to `1148015303657843` |
 | `META_CAPI_ACCESS_TOKEN` | Server CAPI route | **Required** for server-side Meta events (Events Manager → Settings → Generate access token) |
-| `RESEND_API_KEY` | Order notification email | Required |
-| `RESEND_FROM` | Order notification email | e.g. `LOIS CHLOE Orders <orders@loischloe.com.bd>`. Domain must be verified in Resend or emails silently drop. |
+| `SMTP_HOST` | Order notification email | SMTP host. Zoho India: `smtp.zoho.in`. Global: `smtp.zoho.com`. |
+| `SMTP_PORT` | Order notification email | `465` (SSL, default) or `587` (STARTTLS) |
+| `SMTP_USER` | Order notification email | Full mailbox address, e.g. `order@loischloe.com.bd` |
+| `SMTP_PASS` | Order notification email | Zoho app-specific password — NOT the account login password |
+| `MAIL_FROM` | Order notification email | e.g. `LOIS CHLOE Orders <order@loischloe.com.bd>`. Must match `SMTP_USER`'s domain. |
 | `ORDER_NOTIFICATION_TO` | Order notification email | Admin recipient; defaults to `developer.loischloe@gmail.com` |
 | `GEMINI_API_KEY` | AI beauty assistant, ingredient checker | Optional; feature disabled when unset |
 | `INSTAGRAM_ACCESS_TOKEN` | Instagram feed component | Optional; falls back to static content |
